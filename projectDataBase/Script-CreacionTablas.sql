@@ -151,12 +151,12 @@ ALTER TABLE TipoTratamientoObraSocial ADD CONSTRAINT PK_TipoTratamientoObraSocia
 ;
 
 
-ALTER TABLE ObraSocial ADD CONSTRAINT PK_Obra Social 
+ALTER TABLE ObraSocial ADD CONSTRAINT PK_Obra_Social 
 	PRIMARY KEY (id)
 ;
 
 
-ALTER TABLE TipoDeTratamiento ADD CONSTRAINT PK_Tipo de Tratamiento 
+ALTER TABLE TipoDeTratamiento ADD CONSTRAINT PK_Tipo_de_Tratamiento 
 	PRIMARY KEY (id)
 ;
 
@@ -210,19 +210,19 @@ ALTER TABLE TipoDeTratamiento ADD CONSTRAINT FK_TipoDeTratamiento_Especialidad
 	FOREIGN KEY (especialidadId) REFERENCES Especialidad (id)
 ;
 
-ALTER TABLE OrdenMedica ADD CONSTRAINT FK_Orden Medica_Tratamiento 
+ALTER TABLE OrdenMedica ADD CONSTRAINT FK_Orden_Medica_Tratamiento 
 	FOREIGN KEY (tratamientoId) REFERENCES Tratamiento (id)
 ;
 
-ALTER TABLE OrdenMedica ADD CONSTRAINT FK_Orden Medica_Obra Social 
+ALTER TABLE OrdenMedica ADD CONSTRAINT FK_Orden_Medica_Obra_Social 
 	FOREIGN KEY (obraSocialId) REFERENCES ObraSocial (id)
 ;
 
-ALTER TABLE Paciente ADD CONSTRAINT FK_Pacientes_Obras Sociales 
+ALTER TABLE Paciente ADD CONSTRAINT FK_Pacientes_Obras_Sociales 
 	FOREIGN KEY (obraSocialId) REFERENCES ObraSocial (id)
 ;
 
-ALTER TABLE Tratamiento ADD CONSTRAINT FK_Tratamientos_Tipos de Tratamiento 
+ALTER TABLE Tratamiento ADD CONSTRAINT FK_Tratamientos_Tipos_de_Tratamiento 
 	FOREIGN KEY (tipoDeTratamientoId) REFERENCES TipoDeTratamiento (id)
 ;
 
