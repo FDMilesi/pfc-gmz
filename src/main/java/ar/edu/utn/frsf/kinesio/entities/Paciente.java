@@ -7,7 +7,9 @@ package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,12 +19,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -44,6 +48,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Paciente.findByNroafiliadoos", query = "SELECT p FROM Paciente p WHERE p.nroafiliadoos = :nroafiliadoos"),
     @NamedQuery(name = "Paciente.findByFechaalta", query = "SELECT p FROM Paciente p WHERE p.fechaalta = :fechaalta")})
 public class Paciente implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteid")
+    private List<Tratamiento> tratamientoList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,7 +93,7 @@ public class Paciente implements Serializable {
     private Date fechaalta;
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id")
     @ManyToOne
-    private Obrasocial obrasocialid;
+    private ObraSocial obrasocialid;
 
     public Paciente() {
     }
@@ -184,11 +190,11 @@ public class Paciente implements Serializable {
         this.fechaalta = fechaalta;
     }
 
-    public Obrasocial getObrasocialid() {
+    public ObraSocial getObrasocialid() {
         return obrasocialid;
     }
 
-    public void setObrasocialid(Obrasocial obrasocialid) {
+    public void setObrasocialid(ObraSocial obrasocialid) {
         this.obrasocialid = obrasocialid;
     }
 
@@ -215,6 +221,15 @@ public class Paciente implements Serializable {
     @Override
     public String toString() {
         return "ar.edu.utn.frsf.kinesio.entities.Paciente[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Tratamiento> getTratamientoList() {
+        return tratamientoList;
+    }
+
+    public void setTratamientoList(List<Tratamiento> tratamientoList) {
+        this.tratamientoList = tratamientoList;
     }
     
 }
