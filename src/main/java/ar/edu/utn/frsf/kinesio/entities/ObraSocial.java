@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "obrasocial")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Obrasocial.findAll", query = "SELECT o FROM Obrasocial o"),
-    @NamedQuery(name = "Obrasocial.findById", query = "SELECT o FROM Obrasocial o WHERE o.id = :id"),
-    @NamedQuery(name = "Obrasocial.findByNombre", query = "SELECT o FROM Obrasocial o WHERE o.nombre = :nombre"),
-    @NamedQuery(name = "Obrasocial.findByLinkautorizacion", query = "SELECT o FROM Obrasocial o WHERE o.linkautorizacion = :linkautorizacion")})
+    @NamedQuery(name = "ObraSocial.findAll", query = "SELECT o FROM ObraSocial o"),
+    @NamedQuery(name = "ObraSocial.findById", query = "SELECT o FROM ObraSocial o WHERE o.id = :id"),
+    @NamedQuery(name = "ObraSocial.findByNombre", query = "SELECT o FROM ObraSocial o WHERE o.nombre = :nombre"),
+    @NamedQuery(name = "ObraSocial.findByLinkautorizacion", query = "SELECT o FROM ObraSocial o WHERE o.linkautorizacion = :linkautorizacion")})
 public class ObraSocial implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -106,7 +106,7 @@ public class ObraSocial implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.edu.utn.frsf.kinesio.entities.Obrasocial[ id=" + id + " ]";
+        return "ar.edu.utn.frsf.kinesio.entities.ObraSocial[ id=" + id + " ]";
     }
     
 }
