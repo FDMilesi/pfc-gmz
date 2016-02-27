@@ -21,4 +21,32 @@
     <welcome-file-list>
         <welcome-file>faces/index.xhtml</welcome-file>
     </welcome-file-list>
+    <security-constraint>
+        <display-name>Acceso</display-name>
+        <web-resource-collection>
+            <web-resource-name>Paginas protegidas</web-resource-name>
+            <description/>
+            <url-pattern>/faces/protected/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Los kinesiologos del consultorio</description>
+            <role-name>manager</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>file</realm-name>
+        <form-login-config>
+            <form-login-page>/faces/login/login.xhtml</form-login-page>
+            <form-error-page>/faces/login/loginError.xhtml</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <description>kinesiologos que utilicen el sistema</description>
+        <role-name>manager</role-name>
+    </security-role>
+    <security-role>
+        <description>administradores del sistema</description>
+        <role-name>admin</role-name>
+    </security-role>
 </web-app>
