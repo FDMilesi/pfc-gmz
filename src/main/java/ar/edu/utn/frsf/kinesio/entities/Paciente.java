@@ -29,8 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
- * @author Nacho Gómez
+ * Entidad del modelo que representa un paciente del consultorio.
  */
 @Entity
 @Table(name = "paciente")
@@ -40,37 +39,37 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Paciente.findById", query = "SELECT p FROM Paciente p WHERE p.id = :id"),
     @NamedQuery(name = "Paciente.findByApellido", query = "SELECT p FROM Paciente p WHERE p.apellido = :apellido"),
     @NamedQuery(name = "Paciente.findByNombre", query = "SELECT p FROM Paciente p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Paciente.findByDni", query = "SELECT p FROM Paciente p WHERE p.dni = :dni"),
-    @NamedQuery(name = "Paciente.findByDomicilio", query = "SELECT p FROM Paciente p WHERE p.domicilio = :domicilio"),
-    @NamedQuery(name = "Paciente.findByTelefono", query = "SELECT p FROM Paciente p WHERE p.telefono = :telefono"),
-    @NamedQuery(name = "Paciente.findByCelular", query = "SELECT p FROM Paciente p WHERE p.celular = :celular"),
-    @NamedQuery(name = "Paciente.findByFechadenacimiento", query = "SELECT p FROM Paciente p WHERE p.fechadenacimiento = :fechadenacimiento"),
-    @NamedQuery(name = "Paciente.findByNroafiliadoos", query = "SELECT p FROM Paciente p WHERE p.nroafiliadoos = :nroafiliadoos"),
-    @NamedQuery(name = "Paciente.findByFechaalta", query = "SELECT p FROM Paciente p WHERE p.fechaalta = :fechaalta")})
+    @NamedQuery(name = "Paciente.findByDni", query = "SELECT p FROM Paciente p WHERE p.dni = :dni")})
 public class Paciente implements Serializable {
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteid")
-    private List<Tratamiento> tratamientoList;
+
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteid")
+    private List<Tratamiento> tratamientoList;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "apellido")
     private String apellido;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "nombre")
     private String nombre;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "dni")
     private String dni;
+
     @Size(max = 50)
     @Column(name = "domicilio")
     private String domicilio;
@@ -220,7 +219,7 @@ public class Paciente implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.edu.utn.frsf.kinesio.entities.Paciente[ id=" + id + " ]";
+        return apellido + ", " + nombre;
     }
 
     @XmlTransient
@@ -231,5 +230,5 @@ public class Paciente implements Serializable {
     public void setTratamientoList(List<Tratamiento> tratamientoList) {
         this.tratamientoList = tratamientoList;
     }
-    
+
 }
