@@ -7,7 +7,8 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <p:fieldset legend="Iniciar Sesión" style="font-size: 9pt;">
+        <!--TODO: Incorporar textos al Bundle. También en la loginError -->
+        <p:fieldset legend="Bienvenido a #{bundle.AppName}">
             <h:form onsubmit="this.action = 'j_security_check'" prependId="false">
                 <h:panelGrid columns="3">
                     <p:outputLabel for="j_username" value="Usuario"/>

@@ -26,7 +26,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  * Entidad del modelo que representa un paciente del consultorio.
@@ -44,13 +43,21 @@ public class Paciente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    public Paciente() {}
+
+    public Paciente(String apellido, String nombre, String dni) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.dni = dni;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteid")
-    private List<Tratamiento> tratamientoList;
+    private List<Tratamiento> tratamientos;
 
     @Basic(optional = false)
     @NotNull
@@ -79,35 +86,24 @@ public class Paciente implements Serializable {
     @Size(max = 20)
     @Column(name = "celular")
     private String celular;
+
     @Column(name = "fechadenacimiento")
     @Temporal(TemporalType.DATE)
-    private Date fechadenacimiento;
+    private Date fechaDeNacimiento;
+
     @Size(max = 10)
     @Column(name = "nroafiliadoos")
-    private String nroafiliadoos;
+    private String nroAfiliadoOS;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "fechaalta")
     @Temporal(TemporalType.DATE)
-    private Date fechaalta;
+    private Date fechaAlta;
+
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id")
     @ManyToOne
-    private ObraSocial obrasocialid;
-
-    public Paciente() {
-    }
-
-    public Paciente(Integer id) {
-        this.id = id;
-    }
-
-    public Paciente(Integer id, String apellido, String nombre, String dni, Date fechaalta) {
-        this.id = id;
-        this.apellido = apellido;
-        this.nombre = nombre;
-        this.dni = dni;
-        this.fechaalta = fechaalta;
-    }
+    private ObraSocial obraSocial;
 
     public Integer getId() {
         return id;
@@ -165,36 +161,44 @@ public class Paciente implements Serializable {
         this.celular = celular;
     }
 
-    public Date getFechadenacimiento() {
-        return fechadenacimiento;
+    public Date getFechaDeNacimiento() {
+        return fechaDeNacimiento;
     }
 
-    public void setFechadenacimiento(Date fechadenacimiento) {
-        this.fechadenacimiento = fechadenacimiento;
+    public void setFechaDeNacimiento(Date fechaDeNacimiento) {
+        this.fechaDeNacimiento = fechaDeNacimiento;
     }
 
-    public String getNroafiliadoos() {
-        return nroafiliadoos;
+    public String getNroAfiliadoOS() {
+        return nroAfiliadoOS;
     }
 
-    public void setNroafiliadoos(String nroafiliadoos) {
-        this.nroafiliadoos = nroafiliadoos;
+    public void setNroAfiliadoOS(String nroAfiliadoOS) {
+        this.nroAfiliadoOS = nroAfiliadoOS;
     }
 
-    public Date getFechaalta() {
-        return fechaalta;
+    public Date getFechaAlta() {
+        return fechaAlta;
     }
 
-    public void setFechaalta(Date fechaalta) {
-        this.fechaalta = fechaalta;
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
     }
 
-    public ObraSocial getObrasocialid() {
-        return obrasocialid;
+    public ObraSocial getObraSocial() {
+        return obraSocial;
     }
 
-    public void setObrasocialid(ObraSocial obrasocialid) {
-        this.obrasocialid = obrasocialid;
+    public void setObraSocial(ObraSocial obraSocial) {
+        this.obraSocial = obraSocial;
+    }
+
+    public List<Tratamiento> getTratamientos() {
+        return tratamientos;
+    }
+
+    public void setTratamientos(List<Tratamiento> tratamientos) {
+        this.tratamientos = tratamientos;
     }
 
     @Override
@@ -220,15 +224,6 @@ public class Paciente implements Serializable {
     @Override
     public String toString() {
         return apellido + ", " + nombre;
-    }
-
-    @XmlTransient
-    public List<Tratamiento> getTratamientoList() {
-        return tratamientoList;
-    }
-
-    public void setTratamientoList(List<Tratamiento> tratamientoList) {
-        this.tratamientoList = tratamientoList;
     }
 
 }

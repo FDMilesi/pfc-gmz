@@ -7,9 +7,7 @@
         <title>Facelet Title</title>
     </h:head>
     <h:body>
-        <p:outputLabel value="Error al iniciar sesion. Intente nuevamente."/>
-        <br></br>
-        <p:fieldset legend="Iniciar Sesión" style="font-size: 9pt;">
+        <p:fieldset legend="Bienvenido a #{bundle.AppName}">
             <h:form onsubmit="this.action = 'j_security_check'" prependId="false">
                 <h:panelGrid columns="3">
                     <p:outputLabel for="j_username" value="Usuario"/>
@@ -21,6 +19,8 @@
                     <h:panelGroup />
                     <p:commandButton id="submit" value="Iniciar Sesión" ajax="false"/>
                 </h:panelGrid>
+                <br></br>
+                <p:outputLabel value="Error al iniciar sesión. Intente nuevamente."/>
             </h:form>
         </p:fieldset>
     </h:body>
