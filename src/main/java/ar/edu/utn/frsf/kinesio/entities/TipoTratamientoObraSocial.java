@@ -36,9 +36,9 @@ public class TipoTratamientoObraSocial implements Serializable {
     protected TipoTratamientoObraSocialPK tipoTratamientoObraSocialPK;
     @Size(max = 20)
     @Column(name = "codigodeprestacion")
-    private String codigodeprestacion;
+    private String codigoDePrestacion;
     @Column(name = "topesesionesa\u00f1o")
-    private Short topesesionesaño;
+    private Short topeSesionesAño;
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ObraSocial obraSocial;
@@ -65,20 +65,20 @@ public class TipoTratamientoObraSocial implements Serializable {
         this.tipoTratamientoObraSocialPK = tipoTratamientoObraSocialPK;
     }
 
-    public String getCodigodeprestacion() {
-        return codigodeprestacion;
+    public String getCodigoDePrestacion() {
+        return codigoDePrestacion;
     }
 
-    public void setCodigodeprestacion(String codigodeprestacion) {
-        this.codigodeprestacion = codigodeprestacion;
+    public void setCodigoDePrestacion(String codigoDePrestacion) {
+        this.codigoDePrestacion = codigoDePrestacion;
     }
 
-    public Short getTopesesionesaño() {
-        return topesesionesaño;
+    public Short getTopeSesionesAño() {
+        return topeSesionesAño;
     }
 
-    public void setTopesesionesaño(Short topesesionesaño) {
-        this.topesesionesaño = topesesionesaño;
+    public void setTopeSesionesAño(Short topeSesionesAño) {
+        this.topeSesionesAño = topeSesionesAño;
     }
 
     public ObraSocial getObraSocial() {

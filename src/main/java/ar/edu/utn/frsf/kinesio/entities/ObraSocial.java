@@ -36,7 +36,6 @@ public class ObraSocial implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Short id;
     @Basic(optional = false)
@@ -46,7 +45,7 @@ public class ObraSocial implements Serializable {
     private String nombre;
     @Size(max = 256)
     @Column(name = "linkautorizacion")
-    private String linkautorizacion;
+    private String linkAutorizacion;
 
     public ObraSocial() {
     }
@@ -76,12 +75,12 @@ public class ObraSocial implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getLinkautorizacion() {
-        return linkautorizacion;
+    public String getLinkAutorizacion() {
+        return linkAutorizacion;
     }
 
-    public void setLinkautorizacion(String linkautorizacion) {
-        this.linkautorizacion = linkautorizacion;
+    public void setLinkAutorizacion(String linkAutorizacion) {
+        this.linkAutorizacion = linkAutorizacion;
     }
 
     @Override

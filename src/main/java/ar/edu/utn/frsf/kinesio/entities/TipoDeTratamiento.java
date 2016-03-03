@@ -42,7 +42,6 @@ public class TipoDeTratamiento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Short id;
     @Basic(optional = false)
@@ -54,17 +53,18 @@ public class TipoDeTratamiento implements Serializable {
     @NotNull
     @Column(name = "duracion")
     private short duracion;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "cubiertoporobrasocial")
-    private boolean cubiertoporobrasocial;
+    private boolean cubiertoPorObraSocial;
+    
     @JoinColumn(name = "especialidadid", referencedColumnName = "id")
     @ManyToOne
     private Especialidad especialidadid;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoDeTratamiento")
     private List<TipoTratamientoObraSocial> tipoTratamientoObraSocialList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipodetratamientoid")
-    private List<Tratamiento> tratamientoList;
 
     public TipoDeTratamiento() {
     }
@@ -77,7 +77,7 @@ public class TipoDeTratamiento implements Serializable {
         this.id = id;
         this.nombre = nombre;
         this.duracion = duracion;
-        this.cubiertoporobrasocial = cubiertoporobrasocial;
+        this.cubiertoPorObraSocial = cubiertoporobrasocial;
     }
 
     public Short getId() {
@@ -104,12 +104,12 @@ public class TipoDeTratamiento implements Serializable {
         this.duracion = duracion;
     }
 
-    public boolean getCubiertoporobrasocial() {
-        return cubiertoporobrasocial;
+    public boolean isCubiertoPorObraSocial() {
+        return cubiertoPorObraSocial;
     }
 
-    public void setCubiertoporobrasocial(boolean cubiertoporobrasocial) {
-        this.cubiertoporobrasocial = cubiertoporobrasocial;
+    public void setCubiertoPorObraSocial(boolean cubiertoPorObraSocial) {
+        this.cubiertoPorObraSocial = cubiertoPorObraSocial;
     }
 
     public Especialidad getEspecialidadid() {
@@ -127,15 +127,6 @@ public class TipoDeTratamiento implements Serializable {
 
     public void setTipoTratamientoObraSocialList(List<TipoTratamientoObraSocial> tipoTratamientoObraSocialList) {
         this.tipoTratamientoObraSocialList = tipoTratamientoObraSocialList;
-    }
-
-    @XmlTransient
-    public List<Tratamiento> getTratamientoList() {
-        return tratamientoList;
-    }
-
-    public void setTratamientoList(List<Tratamiento> tratamientoList) {
-        this.tratamientoList = tratamientoList;
     }
 
     @Override

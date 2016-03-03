@@ -38,58 +38,61 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tratamiento.findAll", query = "SELECT t FROM Tratamiento t"),
     @NamedQuery(name = "Tratamiento.findById", query = "SELECT t FROM Tratamiento t WHERE t.id = :id"),
     @NamedQuery(name = "Tratamiento.findByCantidaddesesiones", query = "SELECT t FROM Tratamiento t WHERE t.cantidaddesesiones = :cantidaddesesiones"),
-    @NamedQuery(name = "Tratamiento.findByDiagnostico", query = "SELECT t FROM Tratamiento t WHERE t.diagnostico = :diagnostico"),
     @NamedQuery(name = "Tratamiento.findByParticular", query = "SELECT t FROM Tratamiento t WHERE t.particular = :particular"),
     @NamedQuery(name = "Tratamiento.findByFinalizado", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = :finalizado"),
-    @NamedQuery(name = "Tratamiento.findByObservaciones", query = "SELECT t FROM Tratamiento t WHERE t.observaciones = :observaciones"),
-    @NamedQuery(name = "Tratamiento.findByFechacreacion", query = "SELECT t FROM Tratamiento t WHERE t.fechacreacion = :fechacreacion"),
-    @NamedQuery(name = "Tratamiento.findBySesionesafavor", query = "SELECT t FROM Tratamiento t WHERE t.sesionesafavor = :sesionesafavor"),
-    @NamedQuery(name = "Tratamiento.findBySesionesafavorusadas", query = "SELECT t FROM Tratamiento t WHERE t.sesionesafavorusadas = :sesionesafavorusadas"),
-    @NamedQuery(name = "Tratamiento.findByFechaultimaautorizacion", query = "SELECT t FROM Tratamiento t WHERE t.fechaultimaautorizacion = :fechaultimaautorizacion")})
+    @NamedQuery(name = "Tratamiento.findBySesionesafavor", query = "SELECT t FROM Tratamiento t WHERE t.sesionesafavor = :sesionesafavor")})
 public class Tratamiento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidaddesesiones")
-    private short cantidaddesesiones;
+    private short cantidadDeSesiones;
+    
     @Size(max = 100)
     @Column(name = "diagnostico")
     private String diagnostico;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "particular")
     private boolean particular;
+    
     @Column(name = "finalizado")
     private Boolean finalizado;
+    
     @Size(max = 2147483647)
     @Column(name = "observaciones")
     private String observaciones;
+    
     @Column(name = "fechacreacion")
     @Temporal(TemporalType.DATE)
-    private Date fechacreacion;
+    private Date fechaCreacion;
+    
     @Column(name = "sesionesafavor")
-    private Short sesionesafavor;
+    private Short sesionesAFavor;
+    
     @Column(name = "sesionesafavorusadas")
-    private Boolean sesionesafavorusadas;
+    private Boolean sesionesAFavorUsadas;
+    
     @Column(name = "fechaultimaautorizacion")
     @Temporal(TemporalType.DATE)
-    private Date fechaultimaautorizacion;
+    private Date fechaUltimaAutorizacion;
+    
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Paciente pacienteid;
+    private Paciente paciente;
+    
     @JoinColumn(name = "tipodetratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TipoDeTratamiento tipodetratamientoid;
+    private TipoDeTratamiento tipoDeTratamiento;
+    
     @OneToMany(mappedBy = "tratamientoasociadoid")
-    private List<Tratamiento> tratamientoList;
-    @JoinColumn(name = "tratamientoasociadoid", referencedColumnName = "id")
-    @ManyToOne
-    private Tratamiento tratamientoasociadoid;
+    private List<Tratamiento> tratamientoAsociado;
 
     public Tratamiento() {
     }
@@ -100,7 +103,7 @@ public class Tratamiento implements Serializable {
 
     public Tratamiento(Integer id, short cantidaddesesiones, boolean particular) {
         this.id = id;
-        this.cantidaddesesiones = cantidaddesesiones;
+        this.cantidadDeSesiones = cantidaddesesiones;
         this.particular = particular;
     }
 
@@ -110,14 +113,6 @@ public class Tratamiento implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public short getCantidaddesesiones() {
-        return cantidaddesesiones;
-    }
-
-    public void setCantidaddesesiones(short cantidaddesesiones) {
-        this.cantidaddesesiones = cantidaddesesiones;
     }
 
     public String getDiagnostico() {
@@ -152,70 +147,70 @@ public class Tratamiento implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public Date getFechacreacion() {
-        return fechacreacion;
+    public short getCantidadDeSesiones() {
+        return cantidadDeSesiones;
     }
 
-    public void setFechacreacion(Date fechacreacion) {
-        this.fechacreacion = fechacreacion;
+    public void setCantidadDeSesiones(short cantidadDeSesiones) {
+        this.cantidadDeSesiones = cantidadDeSesiones;
     }
 
-    public Short getSesionesafavor() {
-        return sesionesafavor;
+    public Date getFechaCreacion() {
+        return fechaCreacion;
     }
 
-    public void setSesionesafavor(Short sesionesafavor) {
-        this.sesionesafavor = sesionesafavor;
+    public void setFechaCreacion(Date fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 
-    public Boolean getSesionesafavorusadas() {
-        return sesionesafavorusadas;
+    public Short getSesionesAFavor() {
+        return sesionesAFavor;
     }
 
-    public void setSesionesafavorusadas(Boolean sesionesafavorusadas) {
-        this.sesionesafavorusadas = sesionesafavorusadas;
+    public void setSesionesAFavor(Short sesionesAFavor) {
+        this.sesionesAFavor = sesionesAFavor;
     }
 
-    public Date getFechaultimaautorizacion() {
-        return fechaultimaautorizacion;
+    public Boolean getSesionesAFavorUsadas() {
+        return sesionesAFavorUsadas;
     }
 
-    public void setFechaultimaautorizacion(Date fechaultimaautorizacion) {
-        this.fechaultimaautorizacion = fechaultimaautorizacion;
+    public void setSesionesAFavorUsadas(Boolean sesionesAFavorUsadas) {
+        this.sesionesAFavorUsadas = sesionesAFavorUsadas;
     }
 
-    public Paciente getPacienteid() {
-        return pacienteid;
+    public Date getFechaUltimaAutorizacion() {
+        return fechaUltimaAutorizacion;
     }
 
-    public void setPacienteid(Paciente pacienteid) {
-        this.pacienteid = pacienteid;
+    public void setFechaUltimaAutorizacion(Date fechaUltimaAutorizacion) {
+        this.fechaUltimaAutorizacion = fechaUltimaAutorizacion;
     }
 
-    public TipoDeTratamiento getTipodetratamientoid() {
-        return tipodetratamientoid;
+    public Paciente getPaciente() {
+        return paciente;
     }
 
-    public void setTipodetratamientoid(TipoDeTratamiento tipodetratamientoid) {
-        this.tipodetratamientoid = tipodetratamientoid;
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
     }
 
-    @XmlTransient
-    public List<Tratamiento> getTratamientoList() {
-        return tratamientoList;
+    public TipoDeTratamiento getTipoDeTratamiento() {
+        return tipoDeTratamiento;
     }
 
-    public void setTratamientoList(List<Tratamiento> tratamientoList) {
-        this.tratamientoList = tratamientoList;
+    public void setTipoDeTratamiento(TipoDeTratamiento tipoDeTratamiento) {
+        this.tipoDeTratamiento = tipoDeTratamiento;
     }
 
-    public Tratamiento getTratamientoasociadoid() {
-        return tratamientoasociadoid;
+    public List<Tratamiento> getTratamientoAsociado() {
+        return tratamientoAsociado;
     }
 
-    public void setTratamientoasociadoid(Tratamiento tratamientoasociadoid) {
-        this.tratamientoasociadoid = tratamientoasociadoid;
+    public void setTratamientoAsociado(List<Tratamiento> tratamientoAsociado) {
+        this.tratamientoAsociado = tratamientoAsociado;
     }
+    
 
     @Override
     public int hashCode() {
