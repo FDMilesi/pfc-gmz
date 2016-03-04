@@ -26,7 +26,7 @@ public class PacienteController implements Serializable {
     @EJB
     private ar.edu.utn.frsf.kinesio.gestores.PacienteFacade ejbFacade;
     private List<Paciente> items = null;
-    private Paciente selected;    
+    private Paciente selected;
     private List<Paciente> pacientesFiltrados;
 
     public PacienteController() {
@@ -35,6 +35,10 @@ public class PacienteController implements Serializable {
     public String mostrarTratamientos() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("paciente", selected);
         return "/protected/tratamiento/List.xhtml?faces-redirect-true";
+    }
+
+    public void cancel() {
+        selected = null;
     }
 
     public Paciente getSelected() {
