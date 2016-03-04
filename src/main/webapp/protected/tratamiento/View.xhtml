@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
                         <h:outputText value="#{bundle.ViewTratamientoLabel_tipoDeTratamiento}"/>
-                        <h:outputText value="#{tratamientoController.selected.tipoDeTratamiento}" title="#{bundle.ViewTratamientoTitle_tipoDeTratamiento}"/>
+                        <h:outputText value="#{tratamientoController.selected.tipoDeTratamiento.toString()}" title="#{bundle.ViewTratamientoTitle_tipoDeTratamiento}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_cantidadDeSesiones}"/>
                         <h:outputText value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.ViewTratamientoTitle_cantidadDeSesiones}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_diagnostico}"/>
@@ -31,7 +31,7 @@
                         <h:outputText value="#{bundle.ViewTratamientoLabel_sesionesAFavor}"/>
                         <h:outputText value="#{tratamientoController.selected.sesionesAFavor}" title="#{bundle.ViewTratamientoTitle_sesionesAFavor}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
-                        <h:outputText value="#{tratamientoController.selected.paciente}" title="#{bundle.ViewTratamientoTitle_paciente}"/>
+                        <h:outputText value="#{tratamientoController.selected.paciente.toString()}" title="#{bundle.ViewTratamientoTitle_paciente}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="TratamientoViewDialog.hide()"/>
                 </h:panelGroup>

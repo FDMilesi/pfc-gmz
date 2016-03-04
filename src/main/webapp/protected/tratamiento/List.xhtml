@@ -37,7 +37,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTratamientoTitle_tipoDeTratamiento}"/>
                             </f:facet>
-                            <h:outputText value="#{item.tipoDeTratamiento}"/>
+                            <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -87,7 +87,7 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTratamientoTitle_paciente}"/>
                             </f:facet>
-                            <h:outputText value="#{item.paciente}"/>
+                            <h:outputText value="#{item.paciente.toString()}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tratamientoController.prepareCreate}" update=":TratamientoCreateForm" oncomplete="PF('TratamientoCreateDialog').show()"/>
