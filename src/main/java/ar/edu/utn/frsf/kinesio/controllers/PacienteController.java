@@ -26,7 +26,8 @@ public class PacienteController implements Serializable {
     @EJB
     private ar.edu.utn.frsf.kinesio.gestores.PacienteFacade ejbFacade;
     private List<Paciente> items = null;
-    private Paciente selected;
+    private Paciente selected;    
+    private List<Paciente> pacientesFiltrados;
 
     public PacienteController() {
     }
@@ -42,6 +43,14 @@ public class PacienteController implements Serializable {
 
     public void setSelected(Paciente selected) {
         this.selected = selected;
+    }
+
+    public List<Paciente> getPacientesFiltrados() {
+        return pacientesFiltrados;
+    }
+
+    public void setPacientesFiltrados(List<Paciente> pacientesFiltrados) {
+        this.pacientesFiltrados = pacientesFiltrados;
     }
 
     private PacienteFacade getFacade() {

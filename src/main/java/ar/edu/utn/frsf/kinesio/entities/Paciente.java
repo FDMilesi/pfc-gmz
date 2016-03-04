@@ -6,6 +6,9 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
@@ -43,7 +46,8 @@ public class Paciente implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Paciente() {}
+    public Paciente() {
+    }
 
     public Paciente(String apellido, String nombre, String dni) {
         this.apellido = apellido;
@@ -213,6 +217,16 @@ public class Paciente implements Serializable {
     @Override
     public String toString() {
         return apellido + ", " + nombre;
+    }
+
+    public String getEdad() {
+        if (fechaDeNacimiento != null) {
+            LocalDate today = LocalDate.now();
+            Period p = Period.between(fechaDeNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), today);
+            return String.valueOf(p.getYears());
+        }
+        else 
+            return "-";
     }
 
 }
