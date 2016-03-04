@@ -43,6 +43,14 @@ public class TratamientoController implements Serializable {
     public TratamientoController() {
     }
 
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+    
     public Tratamiento getSelected() {
         return selected;
     }

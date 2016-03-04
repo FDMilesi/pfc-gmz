@@ -16,7 +16,7 @@
         <p:growl id="growl" life="3000" />
 
         <p:layout fullPage="true">
-            <p:layoutUnit position="north" header="#{bundle.AppName}">
+            <p:layoutUnit position="north">
                 <h:form>
                     <h:outputText value="Usuario: #{sessionController.usuarioLogueado} "/>
                     <p:commandButton type="submit" action="#{sessionController.logout}" value="Cerrar Sesión"/>
@@ -26,8 +26,7 @@
                 <h:form id="menuForm">
 
                     <p:menu>
-                        <p:menuitem value="#{bundle.Home}" outcome="/index" icon="ui-icon-home"/>
-                        <p:menuitem value="Paciente" outcome="/protected/paciente/List.xhtml" />
+                        <p:menuitem value="Listado de pacientes" outcome="/protected/paciente/List.xhtml" />
                     </p:menu>
                 </h:form>
             </p:layoutUnit>
