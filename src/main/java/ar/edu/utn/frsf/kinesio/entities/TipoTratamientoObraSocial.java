@@ -28,8 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "TipoTratamientoObraSocial.findAll", query = "SELECT t FROM TipoTratamientoObraSocial t"),
     @NamedQuery(name = "TipoTratamientoObraSocial.findByTipotratamientoid", query = "SELECT t FROM TipoTratamientoObraSocial t WHERE t.tipoTratamientoObraSocialPK.tipotratamientoid = :tipotratamientoid"),
     @NamedQuery(name = "TipoTratamientoObraSocial.findByObrasocialid", query = "SELECT t FROM TipoTratamientoObraSocial t WHERE t.tipoTratamientoObraSocialPK.obrasocialid = :obrasocialid"),
-    @NamedQuery(name = "TipoTratamientoObraSocial.findByCodigodeprestacion", query = "SELECT t FROM TipoTratamientoObraSocial t WHERE t.codigodeprestacion = :codigodeprestacion"),
-    @NamedQuery(name = "TipoTratamientoObraSocial.findByTopesesionesa\u00f1o", query = "SELECT t FROM TipoTratamientoObraSocial t WHERE t.topesesionesa\u00f1o = :topesesionesa\u00f1o")})
+    @NamedQuery(name = "TipoTratamientoObraSocial.findByCodigodeprestacion", query = "SELECT t FROM TipoTratamientoObraSocial t WHERE t.codigoDePrestacion = :codigoDePrestacion")})
 public class TipoTratamientoObraSocial implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId

@@ -30,8 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "ObraSocial.findAll", query = "SELECT o FROM ObraSocial o"),
     @NamedQuery(name = "ObraSocial.findById", query = "SELECT o FROM ObraSocial o WHERE o.id = :id"),
-    @NamedQuery(name = "ObraSocial.findByNombre", query = "SELECT o FROM ObraSocial o WHERE o.nombre = :nombre"),
-    @NamedQuery(name = "ObraSocial.findByLinkautorizacion", query = "SELECT o FROM ObraSocial o WHERE o.linkautorizacion = :linkautorizacion")})
+    @NamedQuery(name = "ObraSocial.findByNombre", query = "SELECT o FROM ObraSocial o WHERE o.nombre = :nombre")})
 public class ObraSocial implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

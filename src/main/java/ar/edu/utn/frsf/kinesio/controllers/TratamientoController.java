@@ -1,15 +1,17 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.entities.Paciente;
+import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
-import ar.edu.utn.frsf.kinesio.gestores.PacienteFacade;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
+import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -19,62 +21,67 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 
-@Named("pacienteController")
+@Named("tratamientoController")
 @ViewScoped
-public class PacienteController implements Serializable {
+public class TratamientoController implements Serializable {
 
     @EJB
-    private ar.edu.utn.frsf.kinesio.gestores.PacienteFacade ejbFacade;
-    private List<Paciente> items = null;
-    private Paciente selected;
+    private TratamientoFacade ejbFacade;
+    private List<Tratamiento> items = null;
+    private Tratamiento selected;
+    private Paciente paciente;
 
-    public PacienteController() {
+    @PostConstruct
+    protected void init() {
+        paciente = (Paciente) FacesContext.getCurrentInstance()
+                .getExternalContext()
+                .getSessionMap()
+                .get("paciente");
+        items = getFacade().getTratamientosByPaciente(paciente);
     }
 
-    public String mostrarTratamientos() {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("paciente", selected);
-        return "/protected/tratamiento/List.xhtml?faces-redirect-true";
+    public TratamientoController() {
     }
 
-    public Paciente getSelected() {
+    public Tratamiento getSelected() {
         return selected;
     }
 
-    public void setSelected(Paciente selected) {
+    public void setSelected(Tratamiento selected) {
         this.selected = selected;
     }
 
-    private PacienteFacade getFacade() {
+    private TratamientoFacade getFacade() {
         return ejbFacade;
     }
 
-    public Paciente prepareCreate() {
-        selected = getFacade().initPaciente();
+    public Tratamiento prepareCreate() {
+        selected = getFacade().initTratamiento(paciente);
         return selected;
     }
 
     public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PacienteCreated"));
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("PacienteUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoUpdated"));
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("PacienteDeleted"));
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TratamientoDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
     }
 
-    public List<Paciente> getItems() {
+    public List<Tratamiento> getItems() {
         if (items == null) {
-            items = getFacade().findAll();
+            items = getFacade().getTratamientosByPaciente(paciente);
         }
         return items;
     }
@@ -106,29 +113,29 @@ public class PacienteController implements Serializable {
         }
     }
 
-    public Paciente getPaciente(java.lang.Integer id) {
+    public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
     }
 
-    public List<Paciente> getItemsAvailableSelectMany() {
+    public List<Tratamiento> getItemsAvailableSelectMany() {
         return getFacade().findAll();
     }
 
-    public List<Paciente> getItemsAvailableSelectOne() {
+    public List<Tratamiento> getItemsAvailableSelectOne() {
         return getFacade().findAll();
     }
 
-    @FacesConverter(forClass = Paciente.class)
-    public static class PacienteControllerConverter implements Converter {
+    @FacesConverter(forClass = Tratamiento.class)
+    public static class TratamientoControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            PacienteController controller = (PacienteController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "pacienteController");
-            return controller.getPaciente(getKey(value));
+            TratamientoController controller = (TratamientoController) facesContext.getApplication().getELResolver().
+                    getValue(facesContext.getELContext(), null, "tratamientoController");
+            return controller.getTratamiento(getKey(value));
         }
 
         java.lang.Integer getKey(String value) {
@@ -148,11 +155,11 @@ public class PacienteController implements Serializable {
             if (object == null) {
                 return null;
             }
-            if (object instanceof Paciente) {
-                Paciente o = (Paciente) object;
+            if (object instanceof Tratamiento) {
+                Tratamiento o = (Tratamiento) object;
                 return getStringKey(o.getId());
             } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Paciente.class.getName()});
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tratamiento.class.getName()});
                 return null;
             }
         }

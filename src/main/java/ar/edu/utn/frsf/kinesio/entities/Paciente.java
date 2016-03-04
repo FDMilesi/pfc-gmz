@@ -56,9 +56,6 @@ public class Paciente implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pacienteid")
-    private List<Tratamiento> tratamientos;
-
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -191,14 +188,6 @@ public class Paciente implements Serializable {
 
     public void setObraSocial(ObraSocial obraSocial) {
         this.obraSocial = obraSocial;
-    }
-
-    public List<Tratamiento> getTratamientos() {
-        return tratamientos;
-    }
-
-    public void setTratamientos(List<Tratamiento> tratamientos) {
-        this.tratamientos = tratamientos;
     }
 
     @Override

@@ -25,8 +25,8 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton tratamientosButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton tratamientosButton"/>
 
                         <p:column>
                             <f:facet name="header">
@@ -95,6 +95,7 @@
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":PacienteViewForm" oncomplete="PF('PacienteViewDialog').show()" disabled="#{empty pacienteController.selected}"/>
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":PacienteEditForm" oncomplete="PF('PacienteEditDialog').show()" disabled="#{empty pacienteController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{pacienteController.destroy}" update=":growl,datalist" disabled="#{empty pacienteController.selected}"/>
+                            <p:button id="tratamientosButton" icon="ui-icon-document" value="Tratamientos" outcome="#{pacienteController.mostrarTratamientos()}" disabled="#{empty pacienteController.selected}"/>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>

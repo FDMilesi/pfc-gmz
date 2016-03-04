@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TratamientoEditDlg" widgetVar="TratamientoEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditTratamientoTitle}">
+            <h:form id="TratamientoEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
+                        <p:selectOneMenu id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
+                                           var="tipoDeTratamientoItem"
+                                           itemValue="#{tipoDeTratamientoItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                        <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.EditTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"/>
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
+                        <p:selectBooleanCheckbox id="particular" value="#{tratamientoController.selected.particular}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}"/>
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_diagnostico}" for="diagnostico" />
+                        <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
+                        <p:inputText id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
+                        <p:selectBooleanCheckbox id="finalizado" value="#{tratamientoController.selected.finalizado}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tratamientoController.update}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TratamientoEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="TratamientoEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

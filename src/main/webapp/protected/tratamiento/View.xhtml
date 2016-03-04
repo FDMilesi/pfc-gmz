@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TratamientoViewDlg" widgetVar="TratamientoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTratamientoTitle}">
+            <h:form id="TratamientoViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_tipoDeTratamiento}"/>
+                        <h:outputText value="#{tratamientoController.selected.tipoDeTratamiento}" title="#{bundle.ViewTratamientoTitle_tipoDeTratamiento}"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_cantidadDeSesiones}"/>
+                        <h:outputText value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.ViewTratamientoTitle_cantidadDeSesiones}"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_diagnostico}"/>
+                        <h:outputText value="#{tratamientoController.selected.diagnostico}" title="#{bundle.ViewTratamientoTitle_diagnostico}"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_particular}"/>
+                        <p:selectBooleanCheckbox value="#{tratamientoController.selected.particular}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_finalizado}"/>
+                        <p:selectBooleanCheckbox value="#{tratamientoController.selected.finalizado}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_observaciones}"/>
+                        <h:outputText value="#{tratamientoController.selected.observaciones}" title="#{bundle.ViewTratamientoTitle_observaciones}"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_fechaCreacion}"/>
+                        <h:outputText value="#{tratamientoController.selected.fechaCreacion}" title="#{bundle.ViewTratamientoTitle_fechaCreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_sesionesAFavor}"/>
+                        <h:outputText value="#{tratamientoController.selected.sesionesAFavor}" title="#{bundle.ViewTratamientoTitle_sesionesAFavor}"/>
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
+                        <h:outputText value="#{tratamientoController.selected.paciente}" title="#{bundle.ViewTratamientoTitle_paciente}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="TratamientoViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

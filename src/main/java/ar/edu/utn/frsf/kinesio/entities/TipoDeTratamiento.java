@@ -36,8 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoDeTratamiento.findAll", query = "SELECT t FROM TipoDeTratamiento t"),
     @NamedQuery(name = "TipoDeTratamiento.findById", query = "SELECT t FROM TipoDeTratamiento t WHERE t.id = :id"),
     @NamedQuery(name = "TipoDeTratamiento.findByNombre", query = "SELECT t FROM TipoDeTratamiento t WHERE t.nombre = :nombre"),
-    @NamedQuery(name = "TipoDeTratamiento.findByDuracion", query = "SELECT t FROM TipoDeTratamiento t WHERE t.duracion = :duracion"),
-    @NamedQuery(name = "TipoDeTratamiento.findByCubiertoporobrasocial", query = "SELECT t FROM TipoDeTratamiento t WHERE t.cubiertoporobrasocial = :cubiertoporobrasocial")})
+    @NamedQuery(name = "TipoDeTratamiento.findByDuracion", query = "SELECT t FROM TipoDeTratamiento t WHERE t.duracion = :duracion")})
 public class TipoDeTratamiento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -151,7 +150,7 @@ public class TipoDeTratamiento implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento[ id=" + id + " ]";
+        return nombre;
     }
     
 }

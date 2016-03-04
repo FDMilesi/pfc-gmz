@@ -7,7 +7,6 @@ package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,14 +17,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,74 +34,74 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Tratamiento.findAll", query = "SELECT t FROM Tratamiento t"),
     @NamedQuery(name = "Tratamiento.findById", query = "SELECT t FROM Tratamiento t WHERE t.id = :id"),
-    @NamedQuery(name = "Tratamiento.findByCantidaddesesiones", query = "SELECT t FROM Tratamiento t WHERE t.cantidaddesesiones = :cantidaddesesiones"),
     @NamedQuery(name = "Tratamiento.findByParticular", query = "SELECT t FROM Tratamiento t WHERE t.particular = :particular"),
     @NamedQuery(name = "Tratamiento.findByFinalizado", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = :finalizado"),
-    @NamedQuery(name = "Tratamiento.findBySesionesafavor", query = "SELECT t FROM Tratamiento t WHERE t.sesionesafavor = :sesionesafavor")})
+    @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente")})
 public class Tratamiento implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidaddesesiones")
     private short cantidadDeSesiones;
-    
+
     @Size(max = 100)
     @Column(name = "diagnostico")
     private String diagnostico;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "particular")
     private boolean particular;
-    
+
     @Column(name = "finalizado")
     private Boolean finalizado;
-    
+
     @Size(max = 2147483647)
     @Column(name = "observaciones")
     private String observaciones;
-    
+
     @Column(name = "fechacreacion")
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
-    
+
     @Column(name = "sesionesafavor")
     private Short sesionesAFavor;
-    
+
     @Column(name = "sesionesafavorusadas")
     private Boolean sesionesAFavorUsadas;
-    
+
     @Column(name = "fechaultimaautorizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaUltimaAutorizacion;
-    
+
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Paciente paciente;
-    
+
     @JoinColumn(name = "tipodetratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoDeTratamiento tipoDeTratamiento;
-    
-    @OneToMany(mappedBy = "tratamientoasociadoid")
-    private List<Tratamiento> tratamientoAsociado;
+
+//    @OneToMany(mappedBy = "tratamientoasociadoid")
+//    private List<Tratamiento> tratamientoAsociado;
 
     public Tratamiento() {
-    }
-
-    public Tratamiento(Integer id) {
-        this.id = id;
     }
 
     public Tratamiento(Integer id, short cantidaddesesiones, boolean particular) {
         this.id = id;
         this.cantidadDeSesiones = cantidaddesesiones;
         this.particular = particular;
+    }
+
+    public Tratamiento(Paciente paciente) {
+        this.paciente = paciente;
     }
 
     public Integer getId() {
@@ -203,14 +200,13 @@ public class Tratamiento implements Serializable {
         this.tipoDeTratamiento = tipoDeTratamiento;
     }
 
-    public List<Tratamiento> getTratamientoAsociado() {
-        return tratamientoAsociado;
-    }
-
-    public void setTratamientoAsociado(List<Tratamiento> tratamientoAsociado) {
-        this.tratamientoAsociado = tratamientoAsociado;
-    }
-    
+//    public List<Tratamiento> getTratamientoAsociado() {
+//        return tratamientoAsociado;
+//    }
+//
+//    public void setTratamientoAsociado(List<Tratamiento> tratamientoAsociado) {
+//        this.tratamientoAsociado = tratamientoAsociado;
+//    }
 
     @Override
     public int hashCode() {
@@ -236,5 +232,5 @@ public class Tratamiento implements Serializable {
     public String toString() {
         return "ar.edu.utn.frsf.kinesio.entities.Tratamiento[ id=" + id + " ]";
     }
-    
+
 }
