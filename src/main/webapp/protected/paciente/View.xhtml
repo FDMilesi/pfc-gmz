@@ -31,7 +31,7 @@
                         <h:outputText value="#{bundle.ViewPacienteLabel_nroAfiliadoOS}"/>
                         <h:outputText value="#{pacienteController.selected.nroAfiliadoOS}" title="#{bundle.ViewPacienteTitle_nroAfiliadoOS}"/>
                         <h:outputText value="#{bundle.ViewPacienteLabel_obraSocial}"/>
-                        <h:outputText value="#{pacienteController.selected.obraSocial}" title="#{bundle.ViewPacienteTitle_obraSocial}"/>
+                        <h:outputText value="#{pacienteController.selected.obraSocial.toString()}" title="#{bundle.ViewPacienteTitle_obraSocial}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="PacienteViewDialog.hide()"/>
                 </h:panelGroup>

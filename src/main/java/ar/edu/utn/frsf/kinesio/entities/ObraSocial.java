@@ -104,7 +104,7 @@ public class ObraSocial implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.edu.utn.frsf.kinesio.entities.ObraSocial[ id=" + id + " ]";
+        return nombre;
     }
     
 }
