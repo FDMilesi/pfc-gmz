@@ -22,11 +22,18 @@
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                         <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.CreateTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.CreateTratamientoRequiredMessage_cantidadDeSesiones}"/>
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_particular}" for="particular" />
-                        <p:selectBooleanCheckbox id="particular" value="#{tratamientoController.selected.particular}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}"/>
+                        <p:selectOneRadio
+                            id="particular" 
+                            value="#{tratamientoController.selected.particular}" 
+                            required="true" 
+                            requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}">
+                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
+                        </p:selectOneRadio>
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_diagnostico}" for="diagnostico" />
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.CreateTratamientoTitle_diagnostico}" />
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_observaciones}" for="observaciones" />
-                        <p:inputText id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
+                        <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tratamientoController.create}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TratamientoCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TratamientoCreateDialog.hide()"/>

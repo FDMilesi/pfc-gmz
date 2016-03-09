@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
-                        <p:selectOneMenu id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
+                        <p:selectOneMenu disabled="true" id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
                             <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
                                            var="tipoDeTratamientoItem"
@@ -22,11 +22,19 @@
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                         <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.EditTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"/>
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
-                        <p:selectBooleanCheckbox id="particular" value="#{tratamientoController.selected.particular}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}"/>
+                        <p:selectOneRadio 
+                            disabled="true"
+                            id="particular" 
+                            value="#{tratamientoController.selected.particular}" 
+                            required="true" 
+                            requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}">
+                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
+                        </p:selectOneRadio>
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_diagnostico}" for="diagnostico" />
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
-                        <p:inputText id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
+                        <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
                         <p:selectBooleanCheckbox id="finalizado" value="#{tratamientoController.selected.finalizado}" />
                     </p:panelGrid>

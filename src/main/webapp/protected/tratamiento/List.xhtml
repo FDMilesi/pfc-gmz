@@ -25,28 +25,18 @@
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
+                                 sortBy="#{item.fechaCreacion}"
+                                 sortOrder="descending"
                                  >
 
                         <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
+                        
                         <p:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTratamientoTitle_tipoDeTratamiento}"/>
                             </f:facet>
                             <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_cantidadDeSesiones}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cantidadDeSesiones}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -56,21 +46,30 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
+                                <h:outputText value="#{bundle.ListTratamientoTitle_cantidadDeSesiones}"/>
+                            </f:facet>
+                            <h:outputText value="0/#{item.cantidadDeSesiones}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
                                 <h:outputText value="#{bundle.ListTratamientoTitle_particular}"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.particular}" disabled="true"/>
+                            <h:outputText value="#{item.particular?'Si':'No'}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_finalizado}"/>
+                                <h:outputText value="#{bundle.ListTratamientoTitle_estado}"/>
                             </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.finalizado}" disabled="true"/>
+                            <h:outputText 
+                                value="#{item.finalizado
+                                         ? bundle.ListTratamientoEstado_finalizado
+                                         : bundle.ListTratamientoEstado_enCurso}"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_observaciones}"/>
+                                <h:outputText value="#{bundle.ListTratamientoTitle_ordenes}"/>
                             </f:facet>
-                            <h:outputText value="#{item.observaciones}"/>
+                            <h:outputText value="-"/>
                         </p:column>
                         <p:column>
                             <f:facet name="header">
@@ -88,9 +87,9 @@
                         </p:column>
                         <p:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_paciente}"/>
+                                <h:outputText value="#{bundle.ListTratamientoTitle_medico}"/>
                             </f:facet>
-                            <h:outputText value="#{item.paciente.toString()}"/>
+                            <h:outputText value="-"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tratamientoController.prepareCreate}" update=":TratamientoCreateForm" oncomplete="PF('TratamientoCreateDialog').show()"/>

@@ -19,11 +19,13 @@
                         <h:outputText value="#{bundle.ViewTratamientoLabel_diagnostico}"/>
                         <h:outputText value="#{tratamientoController.selected.diagnostico}" title="#{bundle.ViewTratamientoTitle_diagnostico}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_particular}"/>
-                        <p:selectBooleanCheckbox value="#{tratamientoController.selected.particular}" disabled="true"/>
+                        <h:outputText value="#{tratamientoController.selected.particular?'Si':'No'}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_finalizado}"/>
-                        <p:selectBooleanCheckbox value="#{tratamientoController.selected.finalizado}" disabled="true"/>
+                        <h:outputText value="#{tratamientoController.selected.finalizado
+                                         ? bundle.ListTratamientoEstado_finalizado
+                                         : bundle.ListTratamientoEstado_enCurso}"/>
                         <h:outputText value="#{bundle.ViewTratamientoLabel_observaciones}"/>
-                        <h:outputText value="#{tratamientoController.selected.observaciones}" title="#{bundle.ViewTratamientoTitle_observaciones}"/>
+                        <p:inputTextarea disabled="true" cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.ViewTratamientoTitle_observaciones}" />
                         <h:outputText value="#{bundle.ViewTratamientoLabel_fechaCreacion}"/>
                         <h:outputText value="#{tratamientoController.selected.fechaCreacion}" title="#{bundle.ViewTratamientoTitle_fechaCreacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
