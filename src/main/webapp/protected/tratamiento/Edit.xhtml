@@ -12,6 +12,7 @@
             <h:form id="TratamientoEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
+                        <!--      TIPO DE TRATAMIENTO         -->
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
                         <p:selectOneMenu disabled="true" id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
@@ -19,8 +20,20 @@
                                            var="tipoDeTratamientoItem"
                                            itemValue="#{tipoDeTratamientoItem}"/>
                         </p:selectOneMenu>
+                        <!--      CANTIDAD DE SESIONES         -->
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
-                        <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.EditTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"/>
+                        <p:inputText id="cantidadDeSesiones" 
+                                     validatorMessage="#{bundle.CreateTratamientoRangoCantidadDeSesiones}" 
+                                     value="#{tratamientoController.selected.cantidadDeSesiones}" 
+                                     title="#{bundle.EditTratamientoTitle_cantidadDeSesiones}" 
+                                     required="true" 
+                                     requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}">
+                            <f:validateLongRange minimum="1" maximum="99" for="cantidadDeSesiones"/>
+                        </p:inputText>
+                        <!--      FINALIZADO          -->
+                        <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
+                        <p:selectBooleanCheckbox id="finalizado" value="#{tratamientoController.selected.finalizado}" />
+                        <!--      PARTICULAR U OBRA SOCIAL          -->
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
                         <p:selectOneRadio 
                             disabled="true"
@@ -31,12 +44,12 @@
                             <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
                             <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
                         </p:selectOneRadio>
+                        <!--      DIAGNOSTICO         -->
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_diagnostico}" for="diagnostico" />
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
+                        <!--      OBSERVACIONES         -->
                         <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
                         <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
-                        <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
-                        <p:selectBooleanCheckbox id="finalizado" value="#{tratamientoController.selected.finalizado}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tratamientoController.update}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args, 'TratamientoEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="TratamientoEditDialog.hide()"/>

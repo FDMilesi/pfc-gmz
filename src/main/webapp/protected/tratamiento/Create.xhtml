@@ -12,6 +12,7 @@
             <h:form id="TratamientoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
+                        <!--      TIPO DE TRATAMIENTO         -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
                         <p:selectOneMenu id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
                             <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
@@ -19,8 +20,17 @@
                                            itemValue="#{tipoDeTratamientoItem}"
                                            />
                         </p:selectOneMenu>
+                        <!--      CANTIDAD DE SESIONES         -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
-                        <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.CreateTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.CreateTratamientoRequiredMessage_cantidadDeSesiones}"/>
+                        <p:inputText id="cantidadDeSesiones" 
+                                     validatorMessage="#{bundle.CreateTratamientoRangoCantidadDeSesiones}" 
+                                     value="#{tratamientoController.selected.cantidadDeSesiones}" 
+                                     title="#{bundle.CreateTratamientoTitle_cantidadDeSesiones}" 
+                                     required="true" 
+                                     requiredMessage="#{bundle.CreateTratamientoRequiredMessage_cantidadDeSesiones}">
+                            <f:validateLongRange minimum="1" maximum="99" for="cantidadDeSesiones"/>
+                        </p:inputText>
+                        <!--      PARTICULAR U OBRA SOCIAL          -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_particular}" for="particular" />
                         <p:selectOneRadio
                             id="particular" 
@@ -30,8 +40,10 @@
                             <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
                             <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
                         </p:selectOneRadio>
+                        <!--      DIAGNOSTICO         -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_diagnostico}" for="diagnostico" />
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.CreateTratamientoTitle_diagnostico}" />
+                        <!--      OBSERVACIONES         -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_observaciones}" for="observaciones" />
                         <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
                     </p:panelGrid>
