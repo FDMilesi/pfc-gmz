@@ -25,7 +25,14 @@
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_celular}" for="celular" />
                         <p:inputText id="celular" value="#{pacienteController.selected.celular}" title="#{bundle.CreatePacienteTitle_celular}" />
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_fechaDeNacimiento}" for="fechaDeNacimiento" />
-                        <p:calendar id="fechaDeNacimiento" pattern="MM/dd/yyyy" value="#{pacienteController.selected.fechaDeNacimiento}" title="#{bundle.EditPacienteTitle_fechaDeNacimiento}"  showOn="button"/>
+                        <p:calendar id="fechaDeNacimiento" 
+                                    pattern="MM/dd/yyyy" 
+                                    value="#{pacienteController.selected.fechaDeNacimiento}" 
+                                    title="#{bundle.EditPacienteTitle_fechaDeNacimiento}"  
+                                    showOn="button" 
+                                    locale="es"
+                                    navigator="true"
+                                    yearRange="c-90:c+10"/>
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
                         <p:inputText id="nroAfiliadoOS" value="#{pacienteController.selected.nroAfiliadoOS}" title="#{bundle.CreatePacienteTitle_nroAfiliadoOS}" />
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_obraSocial}" for="obraSocial" />
