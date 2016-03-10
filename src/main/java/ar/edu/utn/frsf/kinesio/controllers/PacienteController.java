@@ -66,11 +66,12 @@ public class PacienteController implements Serializable {
         return selected;
     }
 
-    public void create() {
+    public String create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PacienteCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        return mostrarTratamientos();
     }
 
     public void update() {

@@ -42,7 +42,9 @@
                                            itemValue="#{obraSocialItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{pacienteController.create}" value="#{bundle.Save}" update="display,:PacienteListForm:datalist,:growl" oncomplete="handleSubmit(args,'PacienteCreateDialog');"/>
+                      <p:commandButton  action="#{pacienteController.create}" 
+                                        value="#{bundle.Save}"
+                                        ajax="false"/>
                     <p:commandButton immediate="true" actionListener="#{pacienteController.cancel}" value="#{bundle.Cancel}" onclick="PacienteCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
