@@ -42,8 +42,16 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     public Tratamiento initTratamiento(Paciente paciente) {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());
+        tratamiento.setParticular(false);
         return tratamiento;
     }
     
+    @Override
+    public void edit(Tratamiento tratamiento){
+        if(!tratamiento.getTipoDeTratamiento().isCubiertoPorObraSocial()){
+            tratamiento.setParticular(true);
+        }
+        super.edit(tratamiento);
+    }
     
 }
