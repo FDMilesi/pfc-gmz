@@ -13,7 +13,13 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
-                        <p:selectOneMenu id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
+                        <p:selectOneMenu id="tipoDeTratamiento"
+                                         value="#{tratamientoController.selected.tipoDeTratamiento}" 
+                                         required="true" 
+                                         requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}"
+                                         >
+                            <p:ajax update="particular" event="change"/>
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
                                            var="tipoDeTratamientoItem"
                                            itemValue="#{tipoDeTratamientoItem}"
@@ -23,6 +29,7 @@
                         <p:inputText id="cantidadDeSesiones" value="#{tratamientoController.selected.cantidadDeSesiones}" title="#{bundle.CreateTratamientoTitle_cantidadDeSesiones}" required="true" requiredMessage="#{bundle.CreateTratamientoRequiredMessage_cantidadDeSesiones}"/>
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_particular}" for="particular" />
                         <p:selectOneRadio
+                            disabled="#{!tratamientoController.selected.tipoDeTratamiento.cubiertoPorObraSocial}"
                             id="particular" 
                             value="#{tratamientoController.selected.particular}" 
                             required="true" 

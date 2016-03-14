@@ -37,6 +37,7 @@
                         <p:inputText id="nroAfiliadoOS" value="#{pacienteController.selected.nroAfiliadoOS}" title="#{bundle.CreatePacienteTitle_nroAfiliadoOS}" />
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_obraSocial}" for="obraSocial" />
                         <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}"
                                            var="obraSocialItem"
                                            itemValue="#{obraSocialItem}"/>
