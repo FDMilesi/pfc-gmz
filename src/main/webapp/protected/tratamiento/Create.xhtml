@@ -14,7 +14,13 @@
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
                         <!--      TIPO DE TRATAMIENTO         -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
-                        <p:selectOneMenu id="tipoDeTratamiento" value="#{tratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
+                        <p:selectOneMenu id="tipoDeTratamiento"
+                                         value="#{tratamientoController.selected.tipoDeTratamiento}" 
+                                         required="true" 
+                                         requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}"
+                                         >
+                            <p:ajax update="particular" event="change"/>
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
                                            var="tipoDeTratamientoItem"
                                            itemValue="#{tipoDeTratamientoItem}"
@@ -33,6 +39,7 @@
                         <!--      PARTICULAR U OBRA SOCIAL          -->
                         <p:outputLabel value="#{bundle.CreateTratamientoLabel_particular}" for="particular" />
                         <p:selectOneRadio
+                            disabled="#{!tratamientoController.selected.tipoDeTratamiento.cubiertoPorObraSocial}"
                             id="particular" 
                             value="#{tratamientoController.selected.particular}" 
                             required="true" 
