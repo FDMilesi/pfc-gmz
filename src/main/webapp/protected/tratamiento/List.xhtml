@@ -18,87 +18,96 @@
                     <p:menuitem value="Pacientes" url="../paciente/List.xhtml"  />
                     <p:menuitem value="Tratamientos de #{tratamientoController.paciente.toString()}" disabled="true"/>
                 </p:breadCrumb>
-                <p:panel>
-                    <p:dataTable id="datalist" value="#{tratamientoController.items}" var="item"
-                                 selectionMode="single" selection="#{tratamientoController.selected}"
-                                 paginator="true"
-                                 rowKey="#{item.id}"
-                                 rows="10"
-                                 rowsPerPageTemplate="10,20,30,40,50"
-                                 sortBy="#{item.fechaCreacion}"
-                                 sortOrder="descending"
-                                 >
+                <p:commandButton id="createButton" 
+                                 icon="ui-icon-plus"   
+                                 value="#{bundle.ListTratamientoCreate}" 
+                                 actionListener="#{tratamientoController.prepareCreate}" 
+                                 update=":TratamientoCreateForm" 
+                                 oncomplete="PF('TratamientoCreateDialog').show()"
+                                 class="ui-button-create"
+                                 />    
+                <!--<p:panel>-->
+                <p:dataTable id="datalist" value="#{tratamientoController.items}" var="item"
+                             selectionMode="single" selection="#{tratamientoController.selected}"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             sortBy="#{item.fechaCreacion}"
+                             sortOrder="descending"
+                             >
 
-                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
-                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
-                        
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_tipoDeTratamiento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_diagnostico}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.diagnostico}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_cantidadDeSesiones}"/>
-                            </f:facet>
-                            <h:outputText value="0/#{item.cantidadDeSesiones}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_particular}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.particular?'Si':'No'}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_estado}"/>
-                            </f:facet>
-                            <h:outputText 
-                                value="#{item.finalizado
-                                         ? bundle.ListTratamientoEstado_finalizado
-                                         : bundle.ListTratamientoEstado_enCurso}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_ordenes}"/>
-                            </f:facet>
-                            <h:outputText value="-"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_fechaCreacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.fechaCreacion}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_sesionesAFavor}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.sesionesAFavor}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListTratamientoTitle_medico}"/>
-                            </f:facet>
-                            <h:outputText value="-"/>
-                        </p:column>
-                        <f:facet name="footer">
-                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{tratamientoController.prepareCreate}" update=":TratamientoCreateForm" oncomplete="PF('TratamientoCreateDialog').show()"/>
-                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TratamientoViewForm" oncomplete="PF('TratamientoViewDialog').show()" disabled="#{empty tratamientoController.selected}"/>
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TratamientoEditForm" oncomplete="PF('TratamientoEditDialog').show()" disabled="#{empty tratamientoController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tratamientoController.destroy}" update=":growl,datalist" disabled="#{empty tratamientoController.selected}"/>
+                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="viewButton editButton deleteButton"/>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_tipoDeTratamiento}"/>
                         </f:facet>
-                    </p:dataTable>
-                </p:panel>
+                        <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_diagnostico}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.diagnostico}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_cantidadDeSesiones}"/>
+                        </f:facet>
+                        <h:outputText value="0/#{item.cantidadDeSesiones}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_particular}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.particular?'Si':'No'}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_estado}"/>
+                        </f:facet>
+                        <h:outputText 
+                            value="#{item.finalizado
+                                     ? bundle.ListTratamientoEstado_finalizado
+                                     : bundle.ListTratamientoEstado_enCurso}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_ordenes}"/>
+                        </f:facet>
+                        <h:outputText value="-"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_fechaCreacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaCreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_sesionesAFavor}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.sesionesAFavor}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{bundle.ListTratamientoTitle_medico}"/>
+                        </f:facet>
+                        <h:outputText value="-"/>
+                    </p:column>
+                    <f:facet name="footer">
+
+                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TratamientoViewForm" oncomplete="PF('TratamientoViewDialog').show()" disabled="#{empty tratamientoController.selected}"/>
+                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TratamientoEditForm" oncomplete="PF('TratamientoEditDialog').show()" disabled="#{empty tratamientoController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tratamientoController.destroy}" update=":growl,datalist" disabled="#{empty tratamientoController.selected}"/>
+                    </f:facet>
+                </p:dataTable>
+                <!--</p:panel>-->
             </h:form>
 
             <ui:include src="Create.xhtml"/>

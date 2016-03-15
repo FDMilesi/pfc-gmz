@@ -12,6 +12,7 @@
 .ui-widget-header {
     text-align: center;
 }
-/*.ui-button {
+.ui-button-create {
     margin-top: 5px !important;
-}*/
+    margin-bottom: 5px;
+}
