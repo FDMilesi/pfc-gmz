@@ -94,7 +94,7 @@
                         </f:facet>
                         <h:outputText value="#{item.getEdad()}"/>                                
                     </p:column>
-                    <p:column sortBy="#{item.obraSocial}">
+                    <p:column sortBy="#{item.obraSocial.toString()}">
                         <f:facet name="header">
                             <h:outputText value="#{bundle.ListPacienteTitle_obraSocial}"/>
                         </f:facet>
