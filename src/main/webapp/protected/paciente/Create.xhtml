@@ -19,7 +19,7 @@
                                      required="true" 
                                      requiredMessage="#{bundle.CreatePacienteRequiredMessage_apellido}"
                                      validatorMessage="#{bundle.SurnameValidator}">
-                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
+                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[ ][a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
                         </p:inputText>
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" 
@@ -28,7 +28,7 @@
                                      required="true" 
                                      requiredMessage="#{bundle.CreatePacienteRequiredMessage_nombre}"
                                      validatorMessage="#{bundle.NameValidator}">
-                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
+                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[ ][a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
                         </p:inputText>
                         <p:outputLabel value="#{bundle.CreatePacienteLabel_dni}" for="dni" />
                         <p:inputText id="dni" 
