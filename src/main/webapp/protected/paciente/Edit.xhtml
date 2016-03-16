@@ -13,17 +13,32 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
                         <p:outputLabel value="#{bundle.EditPacienteLabel_apellido}" for="apellido" />
-                        <p:inputText id="apellido" value="#{pacienteController.selected.apellido}" title="#{bundle.EditPacienteTitle_apellido}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_apellido}"/>
+                        <p:inputText id="apellido"
+                                     value="#{pacienteController.selected.apellido}" 
+                                     title="#{bundle.EditPacienteTitle_apellido}" 
+                                     required="true" 
+                                     requiredMessage="#{bundle.EditPacienteRequiredMessage_apellido}"
+                                     validatorMessage="#{bundle.SurnameValidator}">
+                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
+                        </p:inputText>
                         <p:outputLabel value="#{bundle.EditPacienteLabel_nombre}" for="nombre" />
-                        <p:inputText id="nombre" value="#{pacienteController.selected.nombre}" title="#{bundle.EditPacienteTitle_nombre}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_nombre}"/>
+                        <p:inputText id="nombre" value="#{pacienteController.selected.nombre}" title="#{bundle.EditPacienteTitle_nombre}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_nombre}" validatorMessage="#{bundle.NameValidator}">
+                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+"/>
+                        </p:inputText>
                         <p:outputLabel value="#{bundle.EditPacienteLabel_dni}" for="dni" />
-                        <p:inputText id="dni" value="#{pacienteController.selected.dni}" title="#{bundle.EditPacienteTitle_dni}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_dni}"/>
+                        <p:inputText id="dni" value="#{pacienteController.selected.dni}" title="#{bundle.EditPacienteTitle_dni}" required="true" requiredMessage="#{bundle.EditPacienteRequiredMessage_dni}" validatorMessage="#{bundle.DniValidator}">
+                            <f:validateRegex pattern="\d{7,8}+"/>
+                        </p:inputText> 
                         <p:outputLabel value="#{bundle.EditPacienteLabel_domicilio}" for="domicilio" />
                         <p:inputText id="domicilio" value="#{pacienteController.selected.domicilio}" title="#{bundle.EditPacienteTitle_domicilio}" />
                         <p:outputLabel value="#{bundle.EditPacienteLabel_telefono}" for="telefono" />
-                        <p:inputText id="telefono" value="#{pacienteController.selected.telefono}" title="#{bundle.EditPacienteTitle_telefono}" />
+                        <p:inputText id="telefono" value="#{pacienteController.selected.telefono}" title="#{bundle.EditPacienteTitle_telefono}" validatorMessage="#{bundle.TelValidator}">
+                            <f:validateRegex pattern="\d*"/>
+                        </p:inputText>
                         <p:outputLabel value="#{bundle.EditPacienteLabel_celular}" for="celular" />
-                        <p:inputText id="celular" value="#{pacienteController.selected.celular}" title="#{bundle.EditPacienteTitle_celular}" />
+                        <p:inputText id="celular" value="#{pacienteController.selected.celular}" title="#{bundle.EditPacienteTitle_celular}" validatorMessage="#{bundle.CelValidator}">
+                            <f:validateRegex pattern="\d*"/>
+                        </p:inputText>
                         <p:outputLabel value="#{bundle.EditPacienteLabel_fechaDeNacimiento}" for="fechaDeNacimiento" />
                         <p:calendar id="fechaDeNacimiento" 
                                     pattern="MM/dd/yyyy"
