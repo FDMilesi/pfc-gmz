@@ -14,6 +14,13 @@
 
     <h:body>
         <p:growl id="growl" life="3000" />
+        <!--Cuadro de confirmación-->
+        <h:form>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
 
         <p:layout fullPage="true">
             <p:layoutUnit position="north">
