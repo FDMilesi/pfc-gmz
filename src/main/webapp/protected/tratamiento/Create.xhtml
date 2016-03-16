@@ -55,7 +55,7 @@
                         <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tratamientoController.create}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TratamientoCreateDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="TratamientoCreateDialog.hide()"/>
+                    <p:commandButton immediate="true" actionListener="#{tratamientoController.cancel}" value="#{bundle.Cancel}" onclick="TratamientoCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
