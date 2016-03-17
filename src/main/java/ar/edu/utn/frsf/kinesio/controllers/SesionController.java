@@ -153,7 +153,7 @@ public class SesionController implements Serializable {
             }
             if (object instanceof Sesion) {
                 Sesion o = (Sesion) object;
-                return getStringKey(o.getId());
+                return getStringKey(o.getIdSesion());
             } else {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Sesion.class.getName()});
                 return null;

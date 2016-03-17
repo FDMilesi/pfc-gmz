@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import org.primefaces.model.ScheduleEvent;
 
 /**
  *
@@ -30,20 +31,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sesion.findAll", query = "SELECT s FROM Sesion s"),
-    @NamedQuery(name = "Sesion.findById", query = "SELECT s FROM Sesion s WHERE s.id = :id"),
+    @NamedQuery(name = "Sesion.findById", query = "SELECT s FROM Sesion s WHERE s.idSesion = :id"),
     @NamedQuery(name = "Sesion.findByNumeroDeSesion", query = "SELECT s FROM Sesion s WHERE s.numeroDeSesion = :numeroDeSesion"),
     @NamedQuery(name = "Sesion.findByFechaHoraInicio", query = "SELECT s FROM Sesion s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
     @NamedQuery(name = "Sesion.findByDuracion", query = "SELECT s FROM Sesion s WHERE s.duracion = :duracion"),
     @NamedQuery(name = "Sesion.findByTranscurrida", query = "SELECT s FROM Sesion s WHERE s.transcurrida = :transcurrida"),
     @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta")})
 
-public class Sesion implements Serializable {
+public class Sesion implements Serializable, ScheduleEvent {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer id;
+    private Integer idSesion;
     
     @Column(name = "numerodesesion")
     private Short numeroDeSesion;
@@ -72,18 +73,14 @@ public class Sesion implements Serializable {
     public Sesion() {
     }
 
-    public Sesion(Integer id) {
-        this.id = id;
+    public Integer getIdSesion() {
+        return idSesion;
     }
 
-    public Integer getId() {
-        return id;
+    public void setIdSesion(Integer idSesion) {
+        this.idSesion = idSesion;
     }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
+    
     public Short getDuracion() {
         return duracion;
     }
@@ -143,7 +140,7 @@ public class Sesion implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (idSesion != null ? idSesion.hashCode() : 0);
         return hash;
     }
 
@@ -154,7 +151,7 @@ public class Sesion implements Serializable {
             return false;
         }
         Sesion other = (Sesion) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.idSesion == null && other.idSesion != null) || (this.idSesion != null && !this.idSesion.equals(other.idSesion))) {
             return false;
         }
         return true;
@@ -162,7 +159,57 @@ public class Sesion implements Serializable {
 
     @Override
     public String toString() {
-        return "Sesion[ id=" + id + " ]";
+        return "Sesion[ id=" + idSesion + " ]";
+    }
+
+    @Override
+    public void setId(String string) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Object getData() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getTitle() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Date getStartDate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Date getEndDate() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAllDay() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getStyleClass() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isEditable() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getDescription() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getId() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

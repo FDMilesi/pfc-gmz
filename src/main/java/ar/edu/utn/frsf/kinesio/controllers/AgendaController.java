@@ -9,6 +9,8 @@ import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,9 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import org.primefaces.model.DefaultScheduleEvent;
+import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleModel;
 
 /**
  *
@@ -31,12 +36,12 @@ public class AgendaController implements Serializable {
     @EJB
     AgendaFacade ejbFacade;
     List<Agenda> items;
+    ScheduleModel agenda;
 
     @PostConstruct
     protected void init() {
-        items = getFacade().findAll();
+        agenda = new Agenda();
     }
-
     /**
      * Creates a new instance of AgendaController
      */
@@ -53,6 +58,14 @@ public class AgendaController implements Serializable {
 
     public Agenda getAgenda(java.lang.Short id) {
         return getFacade().find(id);
+    }
+
+    public ScheduleModel getAgenda() {
+        return agenda;
+    }
+
+    public void setAgenda(ScheduleModel agenda) {
+        this.agenda = agenda;
     }
 
     @FacesConverter(forClass = Agenda.class)
