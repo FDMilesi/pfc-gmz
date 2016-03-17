@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SesionViewDlg" widgetVar="SesionViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewSesionTitle}">
+            <h:form id="SesionViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
+                        <h:outputText value="#{bundle.ViewSesionLabel_id}"/>
+                        <h:outputText value="#{sesionController.selected.id}" title="#{bundle.ViewSesionTitle_id}"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_duracion}"/>
+                        <h:outputText value="#{sesionController.selected.duracion}" title="#{bundle.ViewSesionTitle_duracion}"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_transcurrida}"/>
+                        <p:selectBooleanCheckbox value="#{sesionController.selected.transcurrida}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_cuenta}"/>
+                        <p:selectBooleanCheckbox value="#{sesionController.selected.cuenta}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_numeroDeSesion}"/>
+                        <h:outputText value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.ViewSesionTitle_numeroDeSesion}"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_fechaHoraInicio}"/>
+                        <h:outputText value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.ViewSesionTitle_fechaHoraInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewSesionLabel_agenda}"/>
+                        <h:outputText value="#{sesionController.selected.agenda}" title="#{bundle.ViewSesionTitle_agenda}"/>
+                        <h:outputText value="#{bundle.ViewSesionLabel_tratamiento}"/>
+                        <h:outputText value="#{sesionController.selected.tratamiento}" title="#{bundle.ViewSesionTitle_tratamiento}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="SesionViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

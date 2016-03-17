@@ -25,15 +25,15 @@
         <p:layout fullPage="true">
             <p:layoutUnit position="north">
                 <h:form>
-                    <h:outputText value="Usuario: #{sessionController.usuarioLogueado} "/>
-                    <p:commandButton type="submit" action="#{sessionController.logout}" value="Cerrar Sesión"/>
+                    <h:outputText value="Usuario: #{httpSessionController.usuarioLogueado} "/>
+                    <p:commandButton type="submit" action="#{httpSessionController.logout}" value="Cerrar Sesión"/>
                 </h:form>
             </p:layoutUnit>
             <p:layoutUnit position="west">
                 <h:form id="menuForm">
-
                     <p:menu>
-                        <p:menuitem value="Listado de pacientes" outcome="/protected/paciente/List.xhtml" />
+                        <p:menuitem value="Agenda" outcome="/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Listado de pacientes" outcome="/protected/paciente/List.xhtml" />                        
                     </p:menu>
                 </h:form>
             </p:layoutUnit>

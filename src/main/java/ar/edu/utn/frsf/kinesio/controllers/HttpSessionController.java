@@ -11,14 +11,14 @@ import javax.faces.context.FacesContext;
  * Permite invalidar la sesión y obtener información acerca del usuario.
  * Cada instancia de este controlador sólo tiene acceso a la sesión que lo creó.
  */
-@Named(value = "sessionController")
+@Named(value = "httpSessionController")
 @SessionScoped
-public class SessionController implements Serializable {
+public class HttpSessionController implements Serializable {
 
     /**
      * Creates a new instance of SessionController
      */
-    public SessionController() {
+    public HttpSessionController() {
     }
     
     /**
