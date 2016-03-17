@@ -7,32 +7,35 @@ package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author Fran
  */
 @Entity
-@Table(name = "especialidad")
+@Table(name = "agenda")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Especialidad.findAll", query = "SELECT e FROM Especialidad e"),
-    @NamedQuery(name = "Especialidad.findById", query = "SELECT e FROM Especialidad e WHERE e.id = :id"),
-    @NamedQuery(name = "Especialidad.findByNombre", query = "SELECT e FROM Especialidad e WHERE e.nombre = :nombre")})
+    @NamedQuery(name = "Agenda.findAll", query = "SELECT a FROM Agenda a"),
+    @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id"),
+    @NamedQuery(name = "Agenda.findByProfesional", query = "SELECT a FROM Agenda a WHERE a.profesional = :profesional")})
 
-public class Especialidad implements Serializable {
+public class Agenda implements Serializable {
+
     private static final long serialVersionUID = 1L;
     
     @Id
@@ -40,20 +43,21 @@ public class Especialidad implements Serializable {
     @Column(name = "id")
     private Short id;
     
-    @Size(max = 30)
-    @Column(name = "nombre")
-    private String nombre;
+    @Size(max = 50)
+    @Column(name = "profesional")
+    private String profesional;
     
-    @OneToMany(mappedBy = "especialidadid")
-    private List<TipoDeTratamiento> tiposDeTratamiento;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "agenda")
+    private List<Sesion> sesiones;
     
-    @OneToMany(mappedBy = "especialidad")
-    private List<Agenda> agendas;    
+    @JoinColumn(name = "especialidadid", referencedColumnName = "id")
+    @ManyToOne
+    private Especialidad especialidad;
 
-    public Especialidad() {
+    public Agenda() {
     }
 
-    public Especialidad(Short id) {
+    public Agenda(Short id) {
         this.id = id;
     }
 
@@ -65,28 +69,28 @@ public class Especialidad implements Serializable {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getProfesional() {
+        return profesional;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setProfesional(String profesional) {
+        this.profesional = profesional;
     }
 
-    public List<Agenda> getAgendas() {
-        return agendas;
+    public List<Sesion> getSesiones() {
+        return sesiones;
     }
 
-    public void setAgendas(List<Agenda> agendas) {
-        this.agendas = agendas;
+    public void setSesiones(List<Sesion> sesiones) {
+        this.sesiones = sesiones;
     }
 
-    public List<TipoDeTratamiento> getTiposDeTratamiento() {
-        return tiposDeTratamiento;
+    public Especialidad getEspecialidad() {
+        return especialidad;
     }
 
-    public void setTiposDeTratamiento(List<TipoDeTratamiento> tiposDeTratamiento) {
-        this.tiposDeTratamiento = tiposDeTratamiento;
+    public void setEspecialidad(Especialidad especialidad) {
+        this.especialidad = especialidad;
     }
 
     @Override
@@ -99,10 +103,10 @@ public class Especialidad implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Especialidad)) {
+        if (!(object instanceof Agenda)) {
             return false;
         }
-        Especialidad other = (Especialidad) object;
+        Agenda other = (Agenda) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -111,7 +115,7 @@ public class Especialidad implements Serializable {
 
     @Override
     public String toString() {
-        return "Especialidad[ id=" + id + " ]";
+        return "Agenda[ id=" + id + " ]";
     }
     
 }
