@@ -94,7 +94,8 @@ public class AgendaController implements Serializable {
     }
     
     public void mostrarSesion(SelectEvent selectEvent){
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", (ScheduleEvent) selectEvent.getObject());
+        Sesion sesion = (Sesion) agenda.getEvent(((ScheduleEvent) selectEvent.getObject()).getId());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
         verSesionEvento.fire(new VerSesionEvento());
     }
 
