@@ -8,6 +8,7 @@ package ar.edu.utn.frsf.kinesio.controllers;
 import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
+import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
@@ -33,6 +34,7 @@ import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.DefaultScheduleEvent;
 import org.primefaces.model.DefaultScheduleModel;
+import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
 /**
@@ -51,6 +53,9 @@ public class AgendaController implements Serializable {
     @Inject
     @SesionInicializada
     Event<CreacionSesionEvento> sesionInicializadaEvento;
+    
+    @Inject
+    Event<VerSesionEvento> verSesionEvento;
     
     @PostConstruct
     protected void init() {
@@ -86,6 +91,11 @@ public class AgendaController implements Serializable {
     public void prepareCreateSesion(SelectEvent selectEvent) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", agenda);
         sesionInicializadaEvento.fire(new CreacionSesionEvento((Date) selectEvent.getObject()));
+    }
+    
+    public void mostrarSesion(SelectEvent selectEvent){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", (ScheduleEvent) selectEvent.getObject());
+        verSesionEvento.fire(new VerSesionEvento());
     }
 
     public void agregarSesion(@Observes @SesionCreada CreacionSesionEvento evento) {

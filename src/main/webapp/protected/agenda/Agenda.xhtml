@@ -23,16 +23,21 @@
                                 listener="#{agendaController.prepareCreateSesion}"
                                 update=":SesionCreateForm"
                                 oncomplete="PF('SesionCreateDialog').show();" />
+                        <p:ajax event="eventSelect"
+                                listener="#{agendaController.mostrarSesion}"
+                                update=":SesionViewForm" 
+                                oncomplete="PF('SesionViewDialog').show();" />
                     </p:schedule>                    
                 </h:form>
 
-<!--                <p:dialog widgetVar="eventDialog" header="Event Details">
-                    <h:panelGrid id="eventDetails" columns="2">
-                        <h:outputText value="puto el que lee"/>
-                        <h:outputText value="puto el que lee"/>
-                    </h:panelGrid>
-                </p:dialog> -->
-                <ui:include src="Create.xhtml"/>                
+                <!--                <p:dialog widgetVar="eventDialog" header="Event Details">
+                                    <h:panelGrid id="eventDetails" columns="2">
+                                        <h:outputText value="puto el que lee"/>
+                                        <h:outputText value="puto el que lee"/>
+                                    </h:panelGrid>
+                                </p:dialog> -->
+                <ui:include src="Create.xhtml"/>
+                <ui:include src="View.xhtml"/>                  
             </ui:define>
 
         </ui:composition>

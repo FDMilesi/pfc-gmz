@@ -6,6 +6,7 @@ import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
+import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
@@ -45,6 +46,10 @@ public class SesionController implements Serializable {
     public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
         Agenda agenda = (Agenda) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agenda");
         selected = getFacade().initSesion(evento.getDate(), agenda);
+    }
+    
+    public void verSesion(@Observes VerSesionEvento evento) {
+        selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");        
     }
 
     public SesionController() {
