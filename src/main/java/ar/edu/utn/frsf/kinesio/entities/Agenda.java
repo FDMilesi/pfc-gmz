@@ -6,6 +6,7 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -123,17 +124,17 @@ public class Agenda implements Serializable, ScheduleModel {
 
     @Override
     public void addEvent(ScheduleEvent se) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        sesiones.add((Sesion) se);
     }
 
     @Override
     public boolean deleteEvent(ScheduleEvent se) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return sesiones.remove((Sesion) se);
     }
 
     @Override
     public List<ScheduleEvent> getEvents() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new ArrayList<ScheduleEvent>(sesiones);
     }
 
     @Override

@@ -23,5 +23,5 @@ public class AgendaFacade extends AbstractFacade<Agenda> {
     public AgendaFacade() {
         super(Agenda.class);
     }
-    
+
 }

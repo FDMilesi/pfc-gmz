@@ -19,9 +19,20 @@
                                 value="#{agendaController.agenda}" 
                                 widgetVar="agenda" 
                                 timeZone="GMT-3">
-
-                    </p:schedule>
+                        <p:ajax event="dateSelect" 
+                                listener="#{agendaController.prepareCreateSesion}"
+                                update=":SesionCreateForm"
+                                oncomplete="PF('SesionCreateDialog').show();" />
+                    </p:schedule>                    
                 </h:form>
+
+<!--                <p:dialog widgetVar="eventDialog" header="Event Details">
+                    <h:panelGrid id="eventDetails" columns="2">
+                        <h:outputText value="puto el que lee"/>
+                        <h:outputText value="puto el que lee"/>
+                    </h:panelGrid>
+                </p:dialog> -->
+                <ui:include src="Create.xhtml"/>                
             </ui:define>
 
         </ui:composition>

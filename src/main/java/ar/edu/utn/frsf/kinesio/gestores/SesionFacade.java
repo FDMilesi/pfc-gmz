@@ -5,7 +5,9 @@
  */
 package ar.edu.utn.frsf.kinesio.gestores;
 
+import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,19 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     public SesionFacade() {
         super(Sesion.class);
     }
+    
+    public Sesion initSesion(Date date, Agenda agenda){
+        Sesion sesion = new Sesion();
+        sesion.setAgenda(agenda);
+        sesion.setFechaHoraInicio(date);
+        return sesion;
+    }
+
+    @Override
+    public void edit(Sesion entity) {
+        super.edit(entity);
+        getEntityManager().flush();
+    }
+    
     
 }

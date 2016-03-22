@@ -45,27 +45,27 @@ public class Sesion implements Serializable, ScheduleEvent {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer idSesion;
-    
+
     @Column(name = "numerodesesion")
     private Short numeroDeSesion;
-    
+
     @Column(name = "fechahorainicio")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHoraInicio;
-    
+
     @Column(name = "duracion")
     private Short duracion;
-    
+
     @Column(name = "transcurrida")
     private Boolean transcurrida;
-    
+
     @Column(name = "cuenta")
     private Boolean cuenta;
-    
+
     @JoinColumn(name = "agendaid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Agenda agenda;
-    
+
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne
     private Tratamiento tratamiento;
@@ -80,7 +80,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     public void setIdSesion(Integer idSesion) {
         this.idSesion = idSesion;
     }
-    
+
     public Short getDuracion() {
         return duracion;
     }
@@ -164,52 +164,52 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public void setId(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public Object getData() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return null;
     }
 
     @Override
     public String getTitle() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Sesion prueba";
     }
 
     @Override
     public Date getStartDate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return fechaHoraInicio;
     }
 
     @Override
     public Date getEndDate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Long t = fechaHoraInicio.getTime();
+        return new Date(t + (45 * 60000));
     }
 
     @Override
     public boolean isAllDay() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override
     public String getStyleClass() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "merca";
     }
 
     @Override
     public boolean isEditable() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public String getDescription() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "merca";
     }
 
     @Override
     public String getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return String.valueOf(idSesion);
     }
-    
+
 }
