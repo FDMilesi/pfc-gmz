@@ -38,11 +38,8 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return sesion;
     }
 
-    @Override
-    public void edit(Sesion entity) {
-        super.edit(entity);
-        getEntityManager().flush();
+    public Sesion editAndReturn(Sesion entity) {
+        return getEntityManager().merge(entity);
     }
-    
-    
+
 }

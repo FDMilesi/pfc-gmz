@@ -32,6 +32,7 @@
                         <h:outputText value="#{sesionController.selected.tratamiento}" title="#{bundle.ViewSesionTitle_tratamiento}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" onclick="SesionViewDialog.hide()"/>
+                    <p:commandButton icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

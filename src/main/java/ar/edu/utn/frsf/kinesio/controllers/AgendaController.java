@@ -6,6 +6,7 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
+import ar.edu.utn.frsf.kinesio.controllers.util.EliminarSesionEvento;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
 import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
@@ -14,15 +15,12 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -32,8 +30,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
-import org.primefaces.model.DefaultScheduleEvent;
-import org.primefaces.model.DefaultScheduleModel;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
@@ -53,10 +49,10 @@ public class AgendaController implements Serializable {
     @Inject
     @SesionInicializada
     Event<CreacionSesionEvento> sesionInicializadaEvento;
-    
+
     @Inject
     Event<VerSesionEvento> verSesionEvento;
-    
+
     @PostConstruct
     protected void init() {
         agenda = getFacade().find(new Short("1"));
@@ -88,20 +84,24 @@ public class AgendaController implements Serializable {
         this.agenda = agenda;
     }
 
-    public void prepareCreateSesion(SelectEvent selectEvent) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", agenda);
-        sesionInicializadaEvento.fire(new CreacionSesionEvento((Date) selectEvent.getObject()));
-    }
-    
-    public void mostrarSesion(SelectEvent selectEvent){
+    public void mostrarSesion(SelectEvent selectEvent) {
         Sesion sesion = (Sesion) agenda.getEvent(((ScheduleEvent) selectEvent.getObject()).getId());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
         verSesionEvento.fire(new VerSesionEvento());
     }
 
+    public void prepareCreateSesion(SelectEvent selectEvent) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", agenda);
+        sesionInicializadaEvento.fire(new CreacionSesionEvento((Date) selectEvent.getObject()));
+    }
+
     public void agregarSesion(@Observes @SesionCreada CreacionSesionEvento evento) {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         agenda.addEvent(sesion);
+    }
+
+    public void eliminarSesion(@Observes EliminarSesionEvento evento) {
+        agenda.deleteEvent(agenda.getEvent(evento.getIdSesionEliminada()));
     }
 
     @FacesConverter(forClass = Agenda.class)

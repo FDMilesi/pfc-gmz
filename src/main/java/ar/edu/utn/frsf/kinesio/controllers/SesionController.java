@@ -1,6 +1,7 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
+import ar.edu.utn.frsf.kinesio.controllers.util.EliminarSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
@@ -15,12 +16,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.faces.component.UIComponent;
@@ -38,19 +36,12 @@ public class SesionController implements Serializable {
     private ar.edu.utn.frsf.kinesio.gestores.SesionFacade ejbFacade;
     private List<Sesion> items = null;
     private Sesion selected;
-    
+
     @Inject
     @SesionCreada
     Event<CreacionSesionEvento> sesionCreadaEvento;
-
-    public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
-        Agenda agenda = (Agenda) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agenda");
-        selected = getFacade().initSesion(evento.getDate(), agenda);
-    }
-    
-    public void verSesion(@Observes VerSesionEvento evento) {
-        selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");        
-    }
+    @Inject
+    Event<EliminarSesionEvento> eliminarSesionEvento;
 
     public SesionController() {
     }
@@ -73,6 +64,15 @@ public class SesionController implements Serializable {
         return ejbFacade;
     }
 
+    public void verSesion(@Observes VerSesionEvento evento) {
+        selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
+    }
+
+    public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
+        Agenda agenda = (Agenda) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agenda");
+        selected = getFacade().initSesion(evento.getDate(), agenda);
+    }
+
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -88,10 +88,12 @@ public class SesionController implements Serializable {
 
     public void destroy() {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
+        String sesionId = selected.getId();
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
+        eliminarSesionEvento.fire(new EliminarSesionEvento(sesionId));
     }
 
     public List<Sesion> getItems() {
@@ -106,7 +108,7 @@ public class SesionController implements Serializable {
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
-                    getFacade().edit(selected);
+                    selected = getFacade().editAndReturn(selected);
                 } else {
                     getFacade().remove(selected);
                 }

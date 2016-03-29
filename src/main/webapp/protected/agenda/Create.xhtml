@@ -29,7 +29,7 @@
                                            itemValue="#{tratamientoItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sesionController.create}" value="#{bundle.Save}" oncomplete="PF('SesionCreateDialog').hide();PF('agenda').update()"/>
+                    <p:commandButton actionListener="#{sesionController.create}" value="#{bundle.Save}" update=":growl" oncomplete="PF('SesionCreateDialog').hide();PF('agenda').update()"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SesionCreateDialog.hide()"/>
                 </h:panelGroup>
             </h:form>
