@@ -10,9 +10,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,10 +20,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -106,6 +104,9 @@ public class Paciente implements Serializable {
     @ManyToOne
     private ObraSocial obraSocial;
 
+    @Transient
+    private String edad;
+    
     public Integer getId() {
         return id;
     }
@@ -168,6 +169,7 @@ public class Paciente implements Serializable {
 
     public void setFechaDeNacimiento(Date fechaDeNacimiento) {
         this.fechaDeNacimiento = fechaDeNacimiento;
+        this.setEdad(null);
     }
 
     public String getNroAfiliadoOS() {
@@ -194,6 +196,27 @@ public class Paciente implements Serializable {
         this.obraSocial = obraSocial;
     }
 
+    public String getEdad() {
+        if (edad == null){
+            this.calcularEdadPaciente();
+        }
+        return edad;
+    }
+
+    public void setEdad(String edad) {
+        this.edad = edad;
+    }
+
+    private void calcularEdadPaciente() {
+        if (fechaDeNacimiento != null) {
+            LocalDate today = LocalDate.now();
+            Period p = Period.between(fechaDeNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), today);
+            this.setEdad(String.valueOf(p.getYears()));
+        } else {
+            this.setEdad("-");
+        }
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -218,15 +241,4 @@ public class Paciente implements Serializable {
     public String toString() {
         return apellido + ", " + nombre;
     }
-
-    public String getEdad() {
-        if (fechaDeNacimiento != null) {
-            LocalDate today = LocalDate.now();
-            Period p = Period.between(fechaDeNacimiento.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), today);
-            return String.valueOf(p.getYears());
-        }
-        else 
-            return "-";
-    }
-
 }
