@@ -241,7 +241,7 @@ public class Tratamiento implements Serializable {
 
     @Override
     public String toString() {
-        return "ar.edu.utn.frsf.kinesio.entities.Tratamiento[ id=" + id + " ]";
+        return tipoDeTratamiento + "-" + diagnostico;
     }
 
 }
