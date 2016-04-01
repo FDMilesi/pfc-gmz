@@ -19,6 +19,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.primefaces.model.ScheduleEvent;
 
@@ -69,6 +70,9 @@ public class Sesion implements Serializable, ScheduleEvent {
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne
     private Tratamiento tratamiento;
+
+    @Transient
+    private Date endDate;
 
     public Sesion() {
     }
@@ -173,7 +177,7 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public String getTitle() {
-        return "Sesion prueba";
+        return tratamiento.getPaciente().toString();
     }
 
     @Override
@@ -183,8 +187,11 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public Date getEndDate() {
-        Long t = fechaHoraInicio.getTime();
-        return new Date(t + (45 * 60000));
+        if (endDate == null) {
+            Long t = fechaHoraInicio.getTime();
+            endDate = new Date(t + (duracion * 60000));
+        }
+        return endDate;
     }
 
     @Override
