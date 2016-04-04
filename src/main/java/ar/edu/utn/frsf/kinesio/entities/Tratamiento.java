@@ -7,7 +7,6 @@ package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -90,8 +89,8 @@ public class Tratamiento implements Serializable {
     @ManyToOne(optional = false)
     private TipoDeTratamiento tipoDeTratamiento;
     
-    @OneToMany(mappedBy = "tratamiento")
-    private List<Sesion> sesiones;
+    @OneToOne(mappedBy = "tratamientoasociadoid")
+    private Tratamiento tratamientoAsociado;
 
     public Tratamiento() {
     }
@@ -202,22 +201,13 @@ public class Tratamiento implements Serializable {
         this.tipoDeTratamiento = tipoDeTratamiento;
     }
 
-    public List<Sesion> getSesiones() {
-        return sesiones;
+    public Tratamiento getTratamientoAsociado() {
+        return tratamientoAsociado;
     }
 
-    public void setSesiones(List<Sesion> sesiones) {
-        this.sesiones = sesiones;
+    public void setTratamientoAsociado(Tratamiento tratamientoAsociado) {
+        this.tratamientoAsociado = tratamientoAsociado;
     }
-    
-
-//    public List<Tratamiento> getTratamientoAsociado() {
-//        return tratamientoAsociado;
-//    }
-//
-//    public void setTratamientoAsociado(List<Tratamiento> tratamientoAsociado) {
-//        this.tratamientoAsociado = tratamientoAsociado;
-//    }
 
     @Override
     public int hashCode() {
