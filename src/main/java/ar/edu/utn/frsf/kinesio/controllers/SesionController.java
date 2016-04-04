@@ -9,6 +9,7 @@ import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
 import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
+import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
@@ -33,10 +34,12 @@ import javax.inject.Inject;
 public class SesionController implements Serializable {
 
     @EJB
-    private ar.edu.utn.frsf.kinesio.gestores.SesionFacade ejbFacade;
+    private SesionFacade ejbFacade;
     private List<Sesion> items = null;
     private Sesion selected;
+    private Tratamiento tratamiento;
 
+    /* Eventos para comunicar controladores */
     @Inject
     @SesionCreada
     Event<CreacionSesionEvento> sesionCreadaEvento;
@@ -52,12 +55,6 @@ public class SesionController implements Serializable {
 
     public void setSelected(Sesion selected) {
         this.selected = selected;
-    }
-
-    protected void setEmbeddableKeys() {
-    }
-
-    protected void initializeEmbeddableKey() {
     }
 
     private SesionFacade getFacade() {
@@ -77,7 +74,7 @@ public class SesionController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
-        }        
+        }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionCreadaEvento.fire(new CreacionSesionEvento());
     }
@@ -97,15 +94,21 @@ public class SesionController implements Serializable {
     }
 
     public List<Sesion> getItems() {
+        if (tratamiento == null) {
+            tratamiento = (Tratamiento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tratamiento");
+        }
         if (items == null) {
-            items = getFacade().findAll();
+            items = getFacade().getSesionesByTratamiento(tratamiento);
         }
         return items;
     }
 
+    public Sesion getSesion(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
-            setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
                     selected = getFacade().editAndReturn(selected);
@@ -129,18 +132,6 @@ public class SesionController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
-    }
-
-    public Sesion getSesion(java.lang.Integer id) {
-        return getFacade().find(id);
-    }
-
-    public List<Sesion> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Sesion> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
     }
 
     @FacesConverter(forClass = Sesion.class)

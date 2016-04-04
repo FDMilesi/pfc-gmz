@@ -103,7 +103,7 @@
                     <f:facet name="footer">
 
                         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TratamientoViewForm" oncomplete="PF('TratamientoViewDialog').show()" disabled="#{empty tratamientoController.selected}"/>
-                        <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":TratamientoEditForm" oncomplete="PF('TratamientoEditDialog').show()" disabled="#{empty tratamientoController.selected}"/>
+                        <p:button id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" outcome="#{tratamientoController.mostrarSesiones()}" disabled="#{empty tratamientoController.selected}"/>
                         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tratamientoController.destroy}" update=":growl,datalist" disabled="#{empty tratamientoController.selected}">
                             <p:confirm header="#{bundle.ListTratamientoConfirmationHeader}" message="#{bundle.ListTratamientoConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>

@@ -13,6 +13,7 @@ import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
@@ -43,19 +44,24 @@ public class AgendaController implements Serializable {
 
     @EJB
     AgendaFacade ejbFacade;
+    @EJB
+    SesionFacade sesionFacade;
+    
     List<Agenda> items;
+    
     Agenda agenda;
 
+    /* Eventos para comunicar controladores */
     @Inject
     @SesionInicializada
     Event<CreacionSesionEvento> sesionInicializadaEvento;
-
     @Inject
     Event<VerSesionEvento> verSesionEvento;
 
     @PostConstruct
     protected void init() {
         agenda = getFacade().find(new Short("1"));
+        agenda.setSesiones(sesionFacade.getSesionesByAgenda(agenda));
     }
 
     /**

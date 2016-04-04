@@ -89,7 +89,8 @@ public class Tratamiento implements Serializable {
     @ManyToOne(optional = false)
     private TipoDeTratamiento tipoDeTratamiento;
     
-    @OneToOne(mappedBy = "tratamientoasociadoid")
+    @OneToOne
+    @JoinColumn(name = "tratamientoasociadoid")
     private Tratamiento tratamientoAsociado;
 
     public Tratamiento() {
