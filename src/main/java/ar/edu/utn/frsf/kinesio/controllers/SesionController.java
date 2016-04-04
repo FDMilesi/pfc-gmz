@@ -77,7 +77,7 @@ public class SesionController implements Serializable {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
-        }
+        }        
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionCreadaEvento.fire(new CreacionSesionEvento());
     }

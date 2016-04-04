@@ -38,8 +38,9 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return sesion;
     }
 
-    public Sesion editAndReturn(Sesion entity) {
-        return getEntityManager().merge(entity);
+    public Sesion editAndReturn(Sesion sesion) {
+        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());        
+        return getEntityManager().merge(sesion);
     }
 
 }
