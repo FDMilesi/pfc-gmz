@@ -26,6 +26,10 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
         return em;
     }
 
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
     public PacienteFacade() {
         super(Paciente.class);
     }
@@ -34,17 +38,5 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
         Paciente paciente = new Paciente();
         paciente.setFechaAlta(new Date());
         return paciente;
-    }
-    
-    /**
-     * Crea un paciente. Luego de la creación del paciente realizo un 
-     * {@code flush()} para que el paciente adquiera el {@code Id}, de modo que
-     * los futuros usos del paciente puedan hacer correctamente el {@code merge}
-     * @param paciente 
-     */
-    @Override
-    public void create(Paciente paciente){
-        super.create(paciente);
-        getEntityManager().flush();
     }
 }
