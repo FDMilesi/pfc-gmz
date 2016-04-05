@@ -22,18 +22,24 @@
                         <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.CreateSesionTitle_numeroDeSesion}" />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.EditSesionTitle_fechaHoraInicio}"  showOn="button"/>
-                        
+
                         <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" >                            
                             <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
                                            var="pacienteItem"
                                            itemValue="#{pacienteItem}"/>
                             <p:ajax update="tratamientoSeleccion" event="change"/>                            
                         </p:selectOneMenu>
-                        
+
                         <p:selectOneMenu id="tratamientoSeleccion" value="#{sesionController.selected.tratamiento}" >
                             <f:selectItems value="#{tratamientoController.items}"
                                            var="tratamientoItem"
                                            itemValue="#{tratamientoItem}"/>
+                        </p:selectOneMenu>
+
+                        <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}" required="true" requiredMessage="#{bundle.ViewSesionRequiredMessage_agenda}">
+                            <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"
+                                           var="agendaItem"
+                                           itemValue="#{agendaItem}"/>
                         </p:selectOneMenu>
 
                     </p:panelGrid>

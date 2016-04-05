@@ -35,7 +35,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public Sesion initSesion(Date date, Agenda agenda) {
         Sesion sesion = new Sesion();
-        sesion.setAgenda(agenda);
         sesion.setFechaHoraInicio(date);
         return sesion;
     }

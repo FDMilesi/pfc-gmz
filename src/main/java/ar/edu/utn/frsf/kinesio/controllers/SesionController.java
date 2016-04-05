@@ -8,7 +8,6 @@ import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
 import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
-import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -39,6 +39,11 @@ public class SesionController implements Serializable {
     private Sesion selected;
     private Tratamiento tratamiento;
 
+    @PostConstruct
+    public void init(){
+        tratamiento = (Tratamiento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tratamiento");
+    }
+    
     /* Eventos para comunicar controladores */
     @Inject
     @SesionCreada
@@ -66,8 +71,7 @@ public class SesionController implements Serializable {
     }
 
     public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
-        Agenda agenda = (Agenda) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agenda");
-        selected = getFacade().initSesion(evento.getDate(), agenda);
+        selected = getFacade().initSesion(evento.getDate(), null);
     }
 
     public void create() {
@@ -94,16 +98,13 @@ public class SesionController implements Serializable {
     }
 
     public List<Sesion> getItems() {
-        if (tratamiento == null) {
-            tratamiento = (Tratamiento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tratamiento");
-        }
         if (items == null) {
             items = getFacade().getSesionesByTratamiento(tratamiento);
         }
         return items;
     }
 
-    public Sesion getSesion(java.lang.Integer id) {
+    public Sesion getSesion(Integer id) {
         return getFacade().find(id);
     }
 

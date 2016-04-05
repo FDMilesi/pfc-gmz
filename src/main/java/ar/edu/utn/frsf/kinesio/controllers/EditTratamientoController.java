@@ -3,11 +3,9 @@ package ar.edu.utn.frsf.kinesio.controllers;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
-import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,44 +19,23 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 
-@Named("tratamientoController")
+@Named("editTratamientoController")
 @ViewScoped
-public class TratamientoController implements Serializable {
+public class EditTratamientoController implements Serializable {
 
     @EJB
     private TratamientoFacade ejbFacade;
-    private List<Tratamiento> items = null;
     private Tratamiento selected;
-    private Paciente paciente;
 
     @PostConstruct
     protected void init() {
-        paciente = (Paciente) FacesContext.getCurrentInstance()
+        selected = (Tratamiento) FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getSessionMap()
-                .get("paciente");
-        items = getFacade().getTratamientosByPaciente(paciente);
+                .get("tratamiento");
     }
 
-    public TratamientoController() {
-    }
-
-    public String mostrarSesiones(){//renombrar como MostrarDetallesTratamiento?
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamiento", selected);
-        return "/protected/sesion/List.xhtml?faces-redirect-true";
-    }
-    
-    public Paciente getPaciente() {
-        return paciente;
-    }
-
-    public void cancel() {
-        selected = null;
-    }
-
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
-        items = null;
+    public EditTratamientoController() {
     }
 
     public Tratamiento getSelected() {
@@ -73,18 +50,6 @@ public class TratamientoController implements Serializable {
         return ejbFacade;
     }
 
-    public Tratamiento prepareCreate() {
-        selected = getFacade().initTratamiento(paciente);
-        return selected;
-    }
-
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoUpdated"));
     }
@@ -93,15 +58,7 @@ public class TratamientoController implements Serializable {
         persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TratamientoDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<Tratamiento> getItems() {
-        if (items == null) {
-            items = getFacade().getTratamientosByPaciente(paciente);
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -135,14 +92,6 @@ public class TratamientoController implements Serializable {
         return getFacade().find(id);
     }
 
-    public List<Tratamiento> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Tratamiento> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
     @FacesConverter(forClass = Tratamiento.class)
     public static class TratamientoControllerConverter implements Converter {
 
@@ -151,7 +100,7 @@ public class TratamientoController implements Serializable {
             if (value == null || value.length() == 0) {
                 return null;
             }
-            TratamientoController controller = (TratamientoController) facesContext.getApplication().getELResolver().
+            EditTratamientoController controller = (EditTratamientoController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "tratamientoController");
             return controller.getTratamiento(getKey(value));
         }

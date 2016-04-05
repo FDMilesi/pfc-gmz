@@ -13,7 +13,6 @@ import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
-import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
@@ -22,13 +21,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.ScheduleEvent;
@@ -39,13 +38,11 @@ import org.primefaces.model.ScheduleModel;
  * @author fer_0
  */
 @Named(value = "agendaController")
-@SessionScoped
+@ViewScoped
 public class AgendaController implements Serializable {
 
     @EJB
     AgendaFacade ejbFacade;
-    @EJB
-    SesionFacade sesionFacade;
     
     List<Agenda> items;
     
@@ -60,8 +57,8 @@ public class AgendaController implements Serializable {
 
     @PostConstruct
     protected void init() {
-        agenda = getFacade().find(new Short("1"));
-        agenda.setSesiones(sesionFacade.getSesionesByAgenda(agenda));
+        items = getFacade().findAll();//Todas las agendas
+        agenda = getFacade().getAgenda();//Obtengo la única agenda que hay por ahora
     }
 
     /**
@@ -78,7 +75,7 @@ public class AgendaController implements Serializable {
         return items;
     }
 
-    public Agenda getAgenda(java.lang.Short id) {
+    public Agenda getAgenda(Short id) {
         return getFacade().find(id);
     }
 
@@ -97,7 +94,6 @@ public class AgendaController implements Serializable {
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", agenda);
         sesionInicializadaEvento.fire(new CreacionSesionEvento((Date) selectEvent.getObject()));
     }
 
