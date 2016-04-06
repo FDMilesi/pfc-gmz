@@ -43,9 +43,9 @@ public class TratamientoController implements Serializable {
     public TratamientoController() {
     }
 
-    public String mostrarSesiones(){//renombrar como MostrarDetallesTratamiento?
+    public String mostrarSesiones(){
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamiento", selected);
-        return "/protected/sesion/List.xhtml?faces-redirect-true";
+        return "/protected/tratamiento/Edit.xhtml?faces-redirect-true";
     }
     
     public Paciente getPaciente() {
