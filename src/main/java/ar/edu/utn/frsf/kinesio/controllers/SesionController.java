@@ -73,6 +73,11 @@ public class SesionController implements Serializable {
     public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
         selected = getFacade().initSesion(evento.getDate(), null);
     }
+    
+    public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {
+        selected = getFacade().initSesionFromTratamiento(tratamiento);
+        return selected;
+    }
 
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));

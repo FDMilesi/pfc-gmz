@@ -12,10 +12,6 @@
             <h:form id="SesionCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{sesionController.selected.id}" title="#{bundle.CreateSesionTitle_id}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_duracion}" for="duracion" />
-                        <p:inputText id="duracion" value="#{sesionController.selected.duracion}" title="#{bundle.CreateSesionTitle_duracion}" />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_transcurrida}" for="transcurrida" />
                         <p:selectBooleanCheckbox id="transcurrida" value="#{sesionController.selected.transcurrida}" />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_cuenta}" for="cuenta" />

@@ -38,6 +38,12 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         sesion.setFechaHoraInicio(date);
         return sesion;
     }
+    
+    public Sesion initSesionFromTratamiento(Tratamiento tratamiento) {
+        Sesion sesion = new Sesion();
+        sesion.setTratamiento(tratamiento);
+        return sesion;
+    }
 
     public Sesion editAndReturn(Sesion sesion) {
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
