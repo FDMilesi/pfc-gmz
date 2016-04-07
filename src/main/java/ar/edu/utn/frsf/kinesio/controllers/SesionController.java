@@ -75,7 +75,7 @@ public class SesionController implements Serializable {
     }
     
     public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {
-        selected = getFacade().initSesionFromTratamiento(tratamiento);
+        selected = getFacade().initSesionFromTratamiento(tratamiento, this.getNumeroUltimaSesion());
         return selected;
     }
 
@@ -111,6 +111,12 @@ public class SesionController implements Serializable {
 
     public Sesion getSesion(Integer id) {
         return getFacade().find(id);
+    }
+    
+    public Short getNumeroUltimaSesion(){
+        if(items.isEmpty())
+            return new Short("0");
+        return items.get(items.size()-1).getNumeroDeSesion();
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

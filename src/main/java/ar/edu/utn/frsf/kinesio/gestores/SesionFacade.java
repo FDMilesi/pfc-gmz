@@ -5,6 +5,7 @@
  */
 package ar.edu.utn.frsf.kinesio.gestores;
 
+import ar.edu.utn.frsf.kinesio.controllers.SesionController;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
@@ -39,12 +40,17 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return sesion;
     }
     
-    public Sesion initSesionFromTratamiento(Tratamiento tratamiento) {
+    public Sesion initSesionFromTratamiento(Tratamiento tratamiento, Short numeroSesion) {
         Sesion sesion = new Sesion();
         sesion.setTratamiento(tratamiento);
+        sesion.setNumeroDeSesion(this.calcularNumeroDeSesion(numeroSesion));
         return sesion;
     }
 
+    private Short calcularNumeroDeSesion(Short numeroSesionAnterior){        
+        return new Short(new Integer(numeroSesionAnterior.shortValue()+1).shortValue());
+    }
+    
     public Sesion editAndReturn(Sesion sesion) {
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
         return getEntityManager().merge(sesion);
