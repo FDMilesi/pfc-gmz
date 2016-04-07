@@ -13,6 +13,14 @@
 
         <ui:define name="body">
             <h:form id="TratamientoEditForm">
+                
+                <p:breadCrumb>
+                    <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                    <p:menuitem value="Pacientes" url="../paciente/List.xhtml"  />
+                    <p:menuitem value="Tratamientos de #{editTratamientoController.selected.paciente.toString()}" url="List.xhtml"/>
+                    <p:menuitem value="Editar tratamiento" disabled="true"/>
+                </p:breadCrumb>
+                
                 <p:panel header="#{bundle.EditTratamientoTitle}">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{editTratamientoController.selected != null}">

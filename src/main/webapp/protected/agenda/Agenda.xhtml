@@ -15,6 +15,14 @@
 
             <ui:define name="body">
                 <h:form>
+                    
+                    <p:breadCrumb >
+                        <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Agenda" disabled="true"/>
+                    </p:breadCrumb>
+                    
+                    <br/>
+                    
                     <p:schedule id="schedule"
                                 value="#{agendaController.agenda}" 
                                 widgetVar="agenda" 
