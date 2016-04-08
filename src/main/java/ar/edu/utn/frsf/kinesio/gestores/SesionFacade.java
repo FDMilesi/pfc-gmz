@@ -39,18 +39,27 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         sesion.setFechaHoraInicio(date);
         return sesion;
     }
-    
-    public Sesion initSesionFromTratamiento(Tratamiento tratamiento, Short numeroSesion) {
+
+    public Sesion initSesionFromTratamiento(Tratamiento tratamiento) {
         Sesion sesion = new Sesion();
         sesion.setTratamiento(tratamiento);
-        sesion.setNumeroDeSesion(this.calcularNumeroDeSesion(numeroSesion));
+        sesion.setNumeroDeSesion(this.calcularNumeroDeSesion(sesion));
         return sesion;
     }
 
-    private Short calcularNumeroDeSesion(Short numeroSesionAnterior){        
-        return new Short(new Integer(numeroSesionAnterior.shortValue()+1).shortValue());
+    public Short calcularNumeroDeSesion(Sesion sesion) {
+        List<Sesion> sesiones = this.getSesionesByTratamiento(sesion.getTratamiento());
+        Short numeroUltimaSesion;
+        if (sesiones.isEmpty()) {
+            numeroUltimaSesion = new Short("0");
+        } else {
+            numeroUltimaSesion = sesiones.get(sesiones.size() - 1).getNumeroDeSesion();
+        }
+        
+        Short nuevo = (short) (numeroUltimaSesion + 1);
+        return nuevo;
     }
-    
+
     public Sesion editAndReturn(Sesion sesion) {
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
         return getEntityManager().merge(sesion);

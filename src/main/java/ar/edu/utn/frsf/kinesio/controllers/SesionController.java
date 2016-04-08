@@ -28,6 +28,7 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.context.RequestContext;
 
 @Named("sesionController")
 @ViewScoped
@@ -40,10 +41,10 @@ public class SesionController implements Serializable {
     private Tratamiento tratamiento;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         tratamiento = (Tratamiento) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("tratamiento");
     }
-    
+
     /* Eventos para comunicar controladores */
     @Inject
     @SesionCreada
@@ -73,9 +74,9 @@ public class SesionController implements Serializable {
     public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
         selected = getFacade().initSesion(evento.getDate(), null);
     }
-    
+
     public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {
-        selected = getFacade().initSesionFromTratamiento(tratamiento, this.getNumeroUltimaSesion());
+        selected = getFacade().initSesionFromTratamiento(tratamiento);
         return selected;
     }
 
@@ -112,11 +113,9 @@ public class SesionController implements Serializable {
     public Sesion getSesion(Integer id) {
         return getFacade().find(id);
     }
-    
-    public Short getNumeroUltimaSesion(){
-        if(items.isEmpty())
-            return new Short("0");
-        return items.get(items.size()-1).getNumeroDeSesion();
+
+    public void calcularNumeroSesion() {
+        selected.setNumeroDeSesion(this.getFacade().calcularNumeroDeSesion(selected));
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
