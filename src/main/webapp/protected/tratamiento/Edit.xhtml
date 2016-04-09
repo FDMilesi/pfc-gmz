@@ -39,8 +39,8 @@
                                          value="#{editTratamientoController.selected.cantidadDeSesiones}" 
                                          title="#{bundle.EditTratamientoTitle_cantidadDeSesiones}" 
                                          required="true" 
-                                         requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}">
-                                <f:validateLongRange minimum="1" maximum="99" for="cantidadDeSesiones"/>
+                                         requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"
+                                         validator="#{editTratamientoController.validarCantidadDeSesiones}">
                             </p:inputText>
                             <!--FINALIZADO-->          
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />

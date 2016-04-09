@@ -12,11 +12,10 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.inject.Named;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 
 @Named("editTratamientoController")
@@ -36,6 +35,16 @@ public class EditTratamientoController implements Serializable {
     }
 
     public EditTratamientoController() {
+    }
+
+    public void validarCantidadDeSesiones(FacesContext facesContext,
+            UIComponent componente,
+            Object valor) {
+        Short cantidadDeSesiones = (Short) valor;
+        if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateTratamientoRangoCantidadDeSesiones"));
+        }
     }
 
     public Tratamiento getSelected() {
