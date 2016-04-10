@@ -12,11 +12,10 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.inject.Named;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.inject.Named;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 
 @Named("editTratamientoController")
@@ -32,10 +31,20 @@ public class EditTratamientoController implements Serializable {
         selected = (Tratamiento) FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getSessionMap()
-                .get("tratamiento");
+                .get("tratamientoEdicion");
     }
 
     public EditTratamientoController() {
+    }
+
+    public void validarCantidadDeSesiones(FacesContext facesContext,
+            UIComponent componente,
+            Object valor) {
+        Short cantidadDeSesiones = (Short) valor;
+        if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateTratamientoRangoCantidadDeSesiones"));
+        }
     }
 
     public Tratamiento getSelected() {
@@ -90,47 +99,6 @@ public class EditTratamientoController implements Serializable {
 
     public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
-    }
-
-    @FacesConverter(forClass = Tratamiento.class)
-    public static class TratamientoControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            EditTratamientoController controller = (EditTratamientoController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "tratamientoController");
-            return controller.getTratamiento(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Tratamiento) {
-                Tratamiento o = (Tratamiento) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Tratamiento.class.getName()});
-                return null;
-            }
-        }
-
     }
 
 }

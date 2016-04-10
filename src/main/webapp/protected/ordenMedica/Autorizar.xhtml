@@ -43,7 +43,7 @@
                     </p:panelGrid>
                     
                     <br/>
-                    <p:commandButton actionListener="#{ordenMedicaController.update()}" value="#{bundle.Save}" update="display,:TratamientoDetailsForm:ordenMedicasTratamientoList,:growl" oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"/>
+                    <p:commandButton actionListener="#{ordenMedicaController.update()}" value="#{bundle.Save}" update="display,:OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="OrdenMedicaAutorizarDialog.hide()"/>
                 </h:panelGroup>
             </h:form>

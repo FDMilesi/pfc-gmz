@@ -9,6 +9,7 @@ import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,9 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     @PersistenceContext(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
+    @EJB
+    private SesionFacade sesionFacade;
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -44,6 +48,10 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         tratamiento.setFechaCreacion(new Date());
         tratamiento.setParticular(false);
         return tratamiento;
+    }
+    
+    public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones){
+        return sesionFacade.getSesionesByTratamiento(tratamiento).size() <= cantidadDeSesiones.intValue();
     }
     
     @Override

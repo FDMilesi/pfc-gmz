@@ -27,13 +27,16 @@
                             <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
                                            var="pacienteItem"
                                            itemValue="#{pacienteItem}"/>
-                            <p:ajax update="tratamientoSeleccion" event="change"/>                            
+                            <p:ajax update="tratamientoSeleccion" event="change"/>
+                            <p:ajax update="numeroDeSesion" listener="#{sesionController.calcularNumeroSesion()}" event="change"/>                            
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id="tratamientoSeleccion" value="#{sesionController.selected.tratamiento}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tratamientoController.items}"
                                            var="tratamientoItem"
                                            itemValue="#{tratamientoItem}"/>
+                            <p:ajax update="numeroDeSesion" listener="#{sesionController.calcularNumeroSesion()}" event="change"/> 
                         </p:selectOneMenu>
 
                         <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}" required="true" requiredMessage="#{bundle.ViewSesionRequiredMessage_agenda}">
