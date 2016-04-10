@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ordenMedicaCreateDlg" widgetVar="OrdenMedicaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOrdenMedicaTitle}">
+            <h:form id="ordenMedicaCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ordenMedicaController.selected != null}">
+                        
+                        <p:outputLabel value="#{bundle.CreateOrdenMedicaLabel_cantidadDeSesiones}" />
+                        <p:inputText id="cantidadDeSesiones" value="#{ordenMedicaController.selected.cantidadDeSesiones}" title="#{bundle.CreateOrdenMedicaDropDownNoOptionSelected}" />
+                                                
+                    </p:panelGrid>
+<!--                    <p:commandButton  action="#{ordenMedicaController.create()}" 
+                                      value="#{bundle.Save}"
+                                      update="display,:ordenMedicaListForm:ordenMedicaDatalist,:growl" 
+                                      oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>-->
+                    
+                    <p:commandButton  action="#{ordenMedicaController.create()}" 
+                                      value="#{bundle.Save}"
+                                      update="display" 
+                                      oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>
+                    
+                    <p:commandButton immediate="true" actionListener="#{ordenMedicaController.cancel()}" value="#{bundle.Cancel}" onclick="OrdenMedicaCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
