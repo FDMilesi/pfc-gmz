@@ -15,18 +15,18 @@
 
             <ui:define name="body">
                 <h:form>
-                    
+
                     <p:breadCrumb >
                         <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                         <p:menuitem value="Agenda" disabled="true"/>
                     </p:breadCrumb>
-                    
+
                     <br/>
-                    
-                    <p:schedule id="schedule"
-                                value="#{agendaController.agenda}" 
-                                widgetVar="agenda" 
-                                timeZone="GMT-3">
+
+                    <p:schedule id="schedule" locale="es" value="#{agendaController.agenda}" 
+                                widgetVar="agenda" timeZone="GMT-3" view="agendaWeek" 
+                                allDaySlot="false" slotMinutes="15" firstHour="8"
+                                showWeekends="FALSE" minTime="7am" maxTime="21pm" resizable="false">
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
                                 update=":SesionCreateForm"
