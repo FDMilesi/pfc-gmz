@@ -83,6 +83,14 @@ public class OrdenMedicaController implements Serializable {
         this.itemsTratamiento = itemsTratamiento;
     }
 
+    public Tratamiento getTratamiento() {
+        return tratamiento;
+    }
+
+    public void setTratamiento(Tratamiento tratamiento) {
+        this.tratamiento = tratamiento;
+    }
+
     public OrdenMedica prepareCreate() {
         selected = getFacade().initOrden();//pasar el tratamiento al facade y finalizar la inicializacion alli
         if (tratamiento != null) {

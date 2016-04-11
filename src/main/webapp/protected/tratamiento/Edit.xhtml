@@ -64,9 +64,8 @@
                 </p:panel>
             </h:form>
             <br/>
-            <h:form id="OrdenTratamientoListForm">
+            <h:form id="OrdenTratamientoListForm" rendered="#{!ordenMedicaController.tratamiento.particular}">
                 <p:panel header="#{bundle.ListOrdenTitle}">
-
                     <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                                  var="orderItem"
                                  selectionMode="single"
@@ -119,7 +118,7 @@
                                              oncomplete="PF('OrdenMedicaCreateDialog').show()"
                                              class="ui-button-create"
                                              />
-                            <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenTratamientoListForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
+                            <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
                             <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
                                 <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>
