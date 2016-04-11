@@ -16,15 +16,10 @@
                         <p:outputLabel value="#{bundle.CreateOrdenMedicaLabel_cantidadDeSesiones}" />
                         <p:inputText id="cantidadDeSesiones" value="#{ordenMedicaController.selected.cantidadDeSesiones}" title="#{bundle.CreateOrdenMedicaDropDownNoOptionSelected}" />
                                                 
-                    </p:panelGrid>
-<!--                    <p:commandButton  action="#{ordenMedicaController.create()}" 
-                                      value="#{bundle.Save}"
-                                      update="display,:ordenMedicaListForm:ordenMedicaDatalist,:growl" 
-                                      oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>-->
-                    
+                    </p:panelGrid>                    
                     <p:commandButton  action="#{ordenMedicaController.create()}" 
                                       value="#{bundle.Save}"
-                                      update="display" 
+                                      update="display,:OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" 
                                       oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>
                     
                     <p:commandButton immediate="true" actionListener="#{ordenMedicaController.cancel()}" value="#{bundle.Cancel}" onclick="OrdenMedicaCreateDialog.hide()"/>

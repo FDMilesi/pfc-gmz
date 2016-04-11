@@ -18,7 +18,6 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -48,7 +47,7 @@ public class OrdenMedicaListViewController implements Serializable {
     @PostConstruct
     public void init(){
         items = getFacade().findAll();
-        itemsFiltrados = getFacade().findAll();
+        itemsFiltrados = getFacade().findAll();//creo q no hace falta
     }
     
     private OrdenMedicaFacade getFacade() {

@@ -43,7 +43,7 @@ public class EditTratamientoController implements Serializable {
         Short cantidadDeSesiones = (Short) valor;
         if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
             ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateTratamientoRangoCantidadDeSesiones"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
         }
     }
 

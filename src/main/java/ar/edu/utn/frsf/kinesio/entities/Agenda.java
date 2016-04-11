@@ -117,7 +117,7 @@ public class Agenda implements Serializable, ScheduleModel {
 
     @Override
     public String toString() {
-        return "Agenda[ id=" + id + " ]";
+        return this.profesional;
     }
 
     @Override

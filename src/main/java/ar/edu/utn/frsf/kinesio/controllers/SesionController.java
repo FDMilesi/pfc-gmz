@@ -28,7 +28,6 @@ import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.primefaces.context.RequestContext;
 
 @Named("sesionController")
 @ViewScoped

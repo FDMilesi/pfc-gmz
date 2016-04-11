@@ -13,7 +13,7 @@
 
         <ui:define name="body">
             <h:form id="TratamientoEditForm">
-                
+
                 <p:breadCrumb>
                     <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                     <p:menuitem value="Pacientes" url="../paciente/List.xhtml"  />
@@ -25,13 +25,8 @@
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{editTratamientoController.selected != null}">
                             <!--TIPO DE TRATAMIENTO-->         
-                            <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
-                            <p:selectOneMenu disabled="true" id="tipoDeTratamiento" value="#{editTratamientoController.selected.tipoDeTratamiento}" required="true" requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}">
-                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                                <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
-                                               var="tipoDeTratamientoItem"
-                                               itemValue="#{tipoDeTratamientoItem}"/>
-                            </p:selectOneMenu>
+                            <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" />
+                            <p:outputLabel value="#{editTratamientoController.selected.tipoDeTratamiento.toString()}" />
                             <!--CANTIDAD DE SESIONES-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                             <p:inputText id="cantidadDeSesiones" 
@@ -74,7 +69,6 @@
 
                     <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                                  var="orderItem"
-                                 widgetVar="tablaOrdenesmedicas"
                                  selectionMode="single"
                                  selection="#{ordenMedicaController.selected}"
                                  paginator="true"
@@ -119,19 +113,19 @@
 
                         <f:facet name="footer">
                             <p:commandButton id="ordenMedicaCreateButton" icon="ui-icon-plus"
-                                value="#{bundle.Create}" 
-                                actionListener="#{ordenMedicaController.prepareCreate()}"
-                                update=":ordenMedicaCreateForm" 
-                                oncomplete="PF('OrdenMedicaCreateDialog').show()"
-                                class="ui-button-create"
-                                />
-                            <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
+                                             value="#{bundle.Create}" 
+                                             actionListener="#{ordenMedicaController.prepareCreate()}"
+                                             update=":ordenMedicaCreateForm" 
+                                             oncomplete="PF('OrdenMedicaCreateDialog').show()"
+                                             class="ui-button-create"
+                                             />
+                            <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenTratamientoListForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
                             <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
                                 <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>
                         </f:facet>
                     </p:dataTable>
-                    
+
                 </p:panel>
             </h:form>
             <br/>
@@ -148,56 +142,25 @@
                         <!-- volver a poner los viewButton en los update-->
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                         <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_id}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.id}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_duracion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.duracion}"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_transcurrida}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.transcurrida}" disabled="true"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_cuenta}"/>
-                            </f:facet>
-                            <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
-                        </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_numeroDeSesion}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListSesionTitle_numeroDeSesion}">
                             <h:outputText value="#{item.numeroDeSesion}"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_fechaHoraInicio}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListSesionTitle_duracion}">
+                            <h:outputText value="#{item.duracion}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListSesionTitle_fechaHoraInicio}">
                             <h:outputText value="#{item.fechaHoraInicio}">
-                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
                             </h:outputText>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_agenda}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.agenda}"/>
+                        <p:column headerText="#{bundle.ListSesionTitle_transcurrida}">
+                            <p:selectBooleanCheckbox value="#{item.transcurrida}" disabled="true"/>
                         </p:column>
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListSesionTitle_tratamiento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tratamiento}"/>
+                        <p:column headerText="#{bundle.ListSesionTitle_cuenta}">
+                            <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListSesionTitle_agenda}">
+                            <h:outputText value="#{item.agenda.toString()}"/>
                         </p:column>
                         <f:facet name="footer">
                             <p:commandButton id="createButton" 

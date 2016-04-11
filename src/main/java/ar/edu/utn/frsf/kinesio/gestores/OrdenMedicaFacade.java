@@ -41,12 +41,6 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         return orden;
     }
     
-    @Override
-    public void create(OrdenMedica orden){
-        super.create(orden);
-        getEntityManager().flush();
-    }
-    
     public List<OrdenMedica> getOrdenesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager()
                 .createNamedQuery("OrdenMedica.findByTratamiento")

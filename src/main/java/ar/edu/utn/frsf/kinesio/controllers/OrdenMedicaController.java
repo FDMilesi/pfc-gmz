@@ -29,45 +29,29 @@ import javax.inject.Named;
 @ViewScoped
 public class OrdenMedicaController implements Serializable {
 
+    @EJB
+    private OrdenMedicaFacade ejbFacade;
+    private List<OrdenMedica> itemsTratamiento = null;
+    private OrdenMedica selected;
+    private Tratamiento tratamiento;
+
     public OrdenMedicaController() {
 
     }
-    
-    @EJB
-    private OrdenMedicaFacade ejbFacade;
-    private List<OrdenMedica> items = null;
-    private List<OrdenMedica> itemsFiltrados = null;
-    private List<OrdenMedica> itemsTratamiento = null;
-    private OrdenMedica selected;
-
-    public List<OrdenMedica> getItemsTratamiento() {
-        return itemsTratamiento;
-    }
-
-    public void setItemsTratamiento(List<OrdenMedica> itemsTratamiento) {
-        this.itemsTratamiento = itemsTratamiento;
-    }
-    private Tratamiento tratamiento;
-    
-//    @Resource
-//    private UserTransaction utx = null;
-//    @PersistenceUnit(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
-//    private EntityManagerFactory emf = null;
 
     @PostConstruct
-    public void init(){
-        items = getFacade().findAll();
+    public void init() {
         tratamiento = (Tratamiento) FacesContext.getCurrentInstance()
                 .getExternalContext()
                 .getSessionMap()
                 .get("tratamientoEdicion");
         itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
     }
-    
+
     private OrdenMedicaFacade getFacade() {
         return ejbFacade;
     }
-    
+
     public void cancel() {
         selected = null;
     }
@@ -76,10 +60,10 @@ public class OrdenMedicaController implements Serializable {
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            itemsTratamiento = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     public OrdenMedica getSelected() {
         return selected;
     }
@@ -88,29 +72,20 @@ public class OrdenMedicaController implements Serializable {
         this.selected = selected;
     }
 
-    public List<OrdenMedica> getOrdenes() {
-        return items;
+    public List<OrdenMedica> getItemsTratamiento() {
+        if (itemsTratamiento == null){
+            itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
+        }
+        return itemsTratamiento;
     }
-    
-    public void setOrdenes(List<OrdenMedica> ordenes) {
-        this.items = ordenes;
+
+    public void setItemsTratamiento(List<OrdenMedica> itemsTratamiento) {
+        this.itemsTratamiento = itemsTratamiento;
     }
-    
-    public void filtrarItemsByAutorizacion(){
-        
-    }
-    
-    public List<OrdenMedica> getItemsFiltrados() {
-        return itemsFiltrados;
-    }
-    
-    public void setItemsFiltrados(List<OrdenMedica> ordenesFiltradas) {
-        this.itemsFiltrados = ordenesFiltradas;
-    }
-    
+
     public OrdenMedica prepareCreate() {
-        selected = getFacade().initOrden();
-        if(tratamiento!=null){
+        selected = getFacade().initOrden();//pasar el tratamiento al facade y finalizar la inicializacion alli
+        if (tratamiento != null) {
             selected.setTratamiento(tratamiento);
             selected.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
             selected.setObraSocial(tratamiento.getPaciente().getObraSocial());
@@ -121,18 +96,18 @@ public class OrdenMedicaController implements Serializable {
     public void create() {
         persist(JsfUtil.PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            itemsTratamiento = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
     public void update() {
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
     }
-    
+
     public OrdenMedica getOrdenMedica(java.lang.Integer id) {
         return getFacade().find(id);
     }
-    
+
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {
@@ -165,5 +140,5 @@ public class OrdenMedicaController implements Serializable {
             }
         }
     }
-    
+
 }
