@@ -20,6 +20,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -55,6 +57,8 @@ public class OrdenMedica implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidaddesesiones")
+    @Min(1)
+    @Max(99)
     private short cantidadDeSesiones;
     
     @Size(max = 50)

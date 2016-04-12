@@ -14,7 +14,13 @@
                     <p:panelGrid columns="2" rendered="#{ordenMedicaController.selected != null}">
                         
                         <p:outputLabel value="#{bundle.CreateOrdenMedicaLabel_cantidadDeSesiones}" />
-                        <p:inputText id="cantidadDeSesiones" value="#{ordenMedicaController.selected.cantidadDeSesiones}" title="#{bundle.CreateOrdenMedicaDropDownNoOptionSelected}" />
+                        <p:inputText id="cantidadDeSesiones" 
+                                     value="#{ordenMedicaController.selected.cantidadDeSesiones}" 
+                                     title="#{bundle.CreateOrdenMedicaDropDownNoOptionSelected}" 
+                                     validator="#{ordenMedicaController.validarCantidadDeSesiones}"
+                                     validatorMessage="#{bundle.CreateOrdenMedica_RangoCantidadDeSesiones}"
+                                     required="true"
+                                     requiredMessage="#{bundle.CreateOrdenMedicaRequiredMessage_cantidadDeSesiones}"/>
                                                 
                     </p:panelGrid>                    
                     <p:commandButton  action="#{ordenMedicaController.create()}" 

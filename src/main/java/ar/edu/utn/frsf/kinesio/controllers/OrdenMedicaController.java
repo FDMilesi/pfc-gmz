@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
@@ -61,6 +63,16 @@ public class OrdenMedicaController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
             itemsTratamiento = null;    // Invalidate list of items to trigger re-query.
+        }
+    }
+    
+    public void validarCantidadDeSesiones(FacesContext facesContext,
+            UIComponent componente,
+            Object valor) {
+        Short cantidadDeSesiones = (Short) valor;
+        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(tratamiento, itemsTratamiento,cantidadDeSesiones)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrdenMedica_CantidadDeSesionesValidacion"));
         }
     }
 
