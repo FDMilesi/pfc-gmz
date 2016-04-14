@@ -5,7 +5,6 @@
  */
 package ar.edu.utn.frsf.kinesio.gestores;
 
-import ar.edu.utn.frsf.kinesio.controllers.SesionController;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
@@ -34,30 +33,41 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         super(Sesion.class);
     }
 
-    public Sesion initSesion(Date date, Agenda agenda) {
+    public Sesion initSesionFromAgenda(Date date, Agenda agenda) {
         Sesion sesion = new Sesion();
         sesion.setFechaHoraInicio(date);
+        sesion.setTranscurrida(false);
+        sesion.setCuenta(true);
         return sesion;
     }
 
     public Sesion initSesionFromTratamiento(Tratamiento tratamiento) {
         Sesion sesion = new Sesion();
         sesion.setTratamiento(tratamiento);
+        sesion.setTranscurrida(false);
+        sesion.setCuenta(true);
         sesion.setNumeroDeSesion(this.calcularNumeroDeSesion(sesion));
         return sesion;
     }
 
+    /**
+     * Dada una sesión, calcula el número de sesión que le corresponde según 
+     * el tratamiento al que pertenezca. Para ello busca la última sesión 
+     * del tratamiento al que pertenece la sesión recibida, se le 
+     * extrae el número de sesión, y se lo incrementa en 1 (uno).
+     * @param sesion: Sesión sin número de sesión, a la cual se le calculará dicho número.
+     * @return: El número de sesión que le corresponde a la sesión recibida como parámetro.
+     */
     public Short calcularNumeroDeSesion(Sesion sesion) {
         List<Sesion> sesiones = this.getSesionesByTratamiento(sesion.getTratamiento());
         Short numeroUltimaSesion;
         if (sesiones.isEmpty()) {
-            numeroUltimaSesion = new Short("0");
+            numeroUltimaSesion = (short) 0;
         } else {
             numeroUltimaSesion = sesiones.get(sesiones.size() - 1).getNumeroDeSesion();
         }
-        
-        Short nuevo = (short) (numeroUltimaSesion + 1);
-        return nuevo;
+
+        return (short) (numeroUltimaSesion + 1);
     }
 
     public Sesion editAndReturn(Sesion sesion) {

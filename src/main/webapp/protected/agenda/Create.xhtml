@@ -9,20 +9,14 @@
     <ui:composition>
 
         <p:dialog id="SesionCreateDlg" widgetVar="SesionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSesionTitle}">
-            <h:form id="SesionCreateForm">
+            <h:form id="SesionCreateForm">                    
+                <p:outputLabel id="numeroDeSesion" value="#{bundle.CreateSesionLabel_numeroDeSesion} #{sesionController.selected.numeroDeSesion}" />
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_duracion}" for="duracion" />
-                        <p:inputText id="duracion" value="#{sesionController.selected.duracion}" title="#{bundle.CreateSesionTitle_duracion}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_transcurrida}" for="transcurrida" />
-                        <p:selectBooleanCheckbox id="transcurrida" value="#{sesionController.selected.transcurrida}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_cuenta}" for="cuenta" />
-                        <p:selectBooleanCheckbox id="cuenta" value="#{sesionController.selected.cuenta}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
-                        <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.CreateSesionTitle_numeroDeSesion}" />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.EditSesionTitle_fechaHoraInicio}"  showOn="button"/>
 
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_paciente}" for="paciente" />
                         <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" >                            
                             <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
                                            var="pacienteItem"
@@ -31,6 +25,7 @@
                             <p:ajax update="numeroDeSesion" listener="#{sesionController.calcularNumeroSesion()}" event="change"/>                            
                         </p:selectOneMenu>
 
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_tratamiento}" for="tratamientoSeleccion" />
                         <p:selectOneMenu id="tratamientoSeleccion" value="#{sesionController.selected.tratamiento}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tratamientoController.items}"
@@ -39,7 +34,8 @@
                             <p:ajax update="numeroDeSesion" listener="#{sesionController.calcularNumeroSesion()}" event="change"/> 
                         </p:selectOneMenu>
 
-                        <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}" required="true" requiredMessage="#{bundle.ViewSesionRequiredMessage_agenda}">
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_agenda}" for="agenda" />
+                        <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}">
                             <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"
                                            var="agendaItem"
                                            itemValue="#{agendaItem}"/>

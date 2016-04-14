@@ -10,14 +10,9 @@
 
         <p:dialog id="SesionCreateDlg" widgetVar="SesionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSesionTitle}">
             <h:form id="SesionCreateForm">
+                <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion} #{sesionController.selected.numeroDeSesion}" />
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_transcurrida}" for="transcurrida" />
-                        <p:selectBooleanCheckbox id="transcurrida" value="#{sesionController.selected.transcurrida}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_cuenta}" for="cuenta" />
-                        <p:selectBooleanCheckbox id="cuenta" value="#{sesionController.selected.cuenta}" />
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
-                        <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.CreateSesionTitle_numeroDeSesion}" />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.EditSesionTitle_fechaHoraInicio}"  showOn="button" required="true" requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"/>
                         <p:outputLabel value="#{bundle.CreateSesionLabel_agenda}" for="agenda" />
@@ -25,12 +20,6 @@
                             <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"
                                            var="agendaItem"
                                            itemValue="#{agendaItem}"/>
-                        </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_tratamiento}" for="tratamiento" />
-                        <p:selectOneMenu id="tratamiento" value="#{sesionController.selected.tratamiento}" >
-                            <f:selectItems value="#{tratamientoController.itemsAvailableSelectOne}"
-                                           var="tratamientoItem"
-                                           itemValue="#{tratamientoItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sesionController.create}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args,'SesionCreateDialog');"/>

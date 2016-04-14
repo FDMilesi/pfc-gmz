@@ -5,11 +5,13 @@
  */
 package ar.edu.utn.frsf.kinesio.entities;
 
+import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,6 +23,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -32,6 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Fran
  */
 @Entity
+@EntityListeners(TratamientoFacade.class)
 @Table(name = "tratamiento")
 @XmlRootElement
 @NamedQueries({
@@ -92,10 +96,19 @@ public class Tratamiento implements Serializable {
     @JoinColumn(name = "tipodetratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoDeTratamiento tipoDeTratamiento;
-    
+
     @OneToOne
     @JoinColumn(name = "tratamientoasociadoid")
     private Tratamiento tratamientoAsociado;
+
+    /**
+     * Representa el número de sesiones que fueron marcadas como Transcurridas=true, es decir, 
+     * la cantidad de sesiones a las que el paciente asistió. El valor es calculado luego de 
+     * que la entidad es cargada desde la base de datos, mediante un interceptor del evento
+     * PostLoad. Ver los listeners de esta entidad.
+     */
+    @Transient
+    private int sesionesRealizadas;
 
     public Tratamiento() {
     }
@@ -212,6 +225,14 @@ public class Tratamiento implements Serializable {
 
     public void setTratamientoAsociado(Tratamiento tratamientoAsociado) {
         this.tratamientoAsociado = tratamientoAsociado;
+    }
+
+    public int getSesionesRealizadas() {
+        return sesionesRealizadas;
+    }
+
+    public void setSesionesRealizadas(int sesionesRealizadas) {
+        this.sesionesRealizadas = sesionesRealizadas;
     }
 
     @Override

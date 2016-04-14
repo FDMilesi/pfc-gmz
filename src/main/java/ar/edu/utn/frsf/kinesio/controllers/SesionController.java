@@ -71,7 +71,7 @@ public class SesionController implements Serializable {
     }
 
     public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
-        selected = getFacade().initSesion(evento.getDate(), null);
+        selected = getFacade().initSesionFromAgenda(evento.getDate(), null);
     }
 
     public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {

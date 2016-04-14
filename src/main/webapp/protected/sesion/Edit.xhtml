@@ -31,13 +31,6 @@
                                            var="agendaItem"
                                            itemValue="#{agendaItem}"/>
                         </p:selectOneMenu>
-                        <p:outputLabel value="#{bundle.EditSesionLabel_tratamiento}" for="tratamiento" />
-                        <p:selectOneMenu id="tratamiento" value="#{sesionController.selected.tratamiento}" >
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
-                            <f:selectItems value="#{tratamientoController.itemsAvailableSelectOne}"
-                                           var="tratamientoItem"
-                                           itemValue="#{tratamientoItem}"/>
-                        </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sesionController.update}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SesionEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="SesionEditDialog.hide()"/>

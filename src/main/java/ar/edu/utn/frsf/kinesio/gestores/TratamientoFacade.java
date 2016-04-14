@@ -6,6 +6,7 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
+import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PostLoad;
 
 /**
  *
@@ -50,6 +52,13 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return tratamiento;
     }
     
+    /**
+     * Dado un valor cantidadDeSesiones, verifica que sea un valor válido para el tratamiento
+     * recibido como parámetro. Para ello lo contrasta con la cantidad de sesiones del tratamiento.
+     * @param tratamiento: tratamiento para el cual se chequea que la cantidadDeSesiones sea válida
+     * @param cantidadDeSesiones: valor cuya validez es chequeada
+     * @return: true en caso de ser válido el valor cantidadDeSesiones. Falso caso contrario.
+     */
     public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones){
         return sesionFacade.getSesionesByTratamiento(tratamiento).size() <= cantidadDeSesiones.intValue();
     }
@@ -60,6 +69,23 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
             tratamiento.setParticular(true);
         }
         super.edit(tratamiento);
+    }
+    
+    /**
+     * Método que escucha el evento PostLoad del ciclo de vida de la entidad Tratamiento.
+     * @param tratamiento 
+     */
+    @PostLoad
+    void onPostLoad(Tratamiento tratamiento){
+        //Calculo el atributo sesionesRealizadas del tratamiento que se esta cargando.
+        List<Sesion> sesiones = this.sesionFacade.getSesionesByTratamiento(tratamiento);
+        int sesionesRealizadas = 0;
+        for (Sesion s : sesiones) {
+            if (s.getTranscurrida()){
+                sesionesRealizadas ++;
+            }
+        }
+        tratamiento.setSesionesRealizadas(sesionesRealizadas);
     }
     
 }
