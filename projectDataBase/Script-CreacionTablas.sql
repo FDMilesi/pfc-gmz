@@ -111,7 +111,8 @@ CREATE TABLE Tratamiento (
 	fechaCreacion date,
 	sesionesAFavor smallint,
 	sesionesAFavorUsadas boolean,
-	fechaUltimaAutorizacion date
+	fechaUltimaAutorizacion date,
+	medicoderivante character varying(100)
 )
 ;
 

@@ -88,6 +88,10 @@ public class Tratamiento implements Serializable {
     @Column(name = "fechaultimaautorizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaUltimaAutorizacion;
+    
+    @Size(max = 100)
+    @Column(name = "medicoderivante")
+    private String medicoDerivante;
 
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -233,6 +237,14 @@ public class Tratamiento implements Serializable {
 
     public void setSesionesRealizadas(int sesionesRealizadas) {
         this.sesionesRealizadas = sesionesRealizadas;
+    }
+    
+    public String getMedicoDerivante() {
+        return medicoDerivante;
+    }
+
+    public void setMedicoDerivante(String medicoDerivante) {
+        this.medicoDerivante = medicoDerivante;
     }
 
     @Override

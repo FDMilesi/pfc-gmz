@@ -1,6 +1,9 @@
 # pfc-gmz
 Notas:
 
+ALTER TABLE public.tratamiento
+   ADD COLUMN medicoderivante character varying(100);
+
 Glassfish
  - ¿Qué config tocar? La server-config (no la default-config)
  - Configurar seguridad: 
