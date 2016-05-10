@@ -15,10 +15,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 
 /**
  *
- * @author fer_0
  */
 @Stateless
 public class TratamientoFacade extends AbstractFacade<Tratamiento> {
@@ -28,7 +28,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
 
     @EJB
     private SesionFacade sesionFacade;
-    
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -41,8 +41,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     public List<Tratamiento> getTratamientosByPaciente(Paciente paciente) {
         return getEntityManager()
                 .createNamedQuery("Tratamiento.findByPaciente")
-                .setParameter("paciente", paciente)
-                .getResultList();
+                .setParameter("paciente", paciente).getResultList();
     }
 
     public Tratamiento initTratamiento(Paciente paciente) {
@@ -51,41 +50,46 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         tratamiento.setParticular(false);
         return tratamiento;
     }
-    
+
     /**
-     * Dado un valor cantidadDeSesiones, verifica que sea un valor válido para el tratamiento
-     * recibido como parámetro. Para ello lo contrasta con la cantidad de sesiones del tratamiento.
-     * @param tratamiento: tratamiento para el cual se chequea que la cantidadDeSesiones sea válida
-     * @param cantidadDeSesiones: valor cuya validez es chequeada
-     * @return: true en caso de ser válido el valor cantidadDeSesiones. Falso caso contrario.
+     * Dada una entidad Tratamiento y un valor cantidadDeSesiones, verifica que
+     * la cantidadDeSesiones sea un valor válido para dicho tratamiento,
+     * comparando el valor con la cantidad de sesiones del tratamiento.
+     * @param tratamiento
+     * @param cantidadDeSesiones
+     * @return 
      */
-    public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones){
+    public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones) {
         return sesionFacade.getSesionesByTratamiento(tratamiento).size() <= cantidadDeSesiones.intValue();
     }
-    
-    @Override
-    public void edit(Tratamiento tratamiento){
-        if(!tratamiento.getTipoDeTratamiento().isCubiertoPorObraSocial()){
-            tratamiento.setParticular(true);
-        }
-        super.edit(tratamiento);
-    }
-    
+
     /**
-     * Método que escucha el evento PostLoad del ciclo de vida de la entidad Tratamiento.
+     * Método ejecutado antes de que un tratamiento sea persistido
      * @param tratamiento 
      */
+    @PrePersist
+    void onPrePersist(Tratamiento tratamiento) {
+        if (!tratamiento.getTipoDeTratamiento().isCubiertoPorObraSocial()) {
+            tratamiento.setParticular(true);
+        }
+    }
+
+    /**
+     * Método ejecutado luego de obtener un tratamiento desde la base de datos
+     * Tratamiento.
+     * @param tratamiento
+     */
     @PostLoad
-    void onPostLoad(Tratamiento tratamiento){
+    void onPostLoad(Tratamiento tratamiento) {
         //Calculo el atributo sesionesRealizadas del tratamiento que se esta cargando.
         List<Sesion> sesiones = this.sesionFacade.getSesionesByTratamiento(tratamiento);
         int sesionesRealizadas = 0;
         for (Sesion s : sesiones) {
-            if (s.getTranscurrida()){
-                sesionesRealizadas ++;
+            if (s.getTranscurrida()) {
+                sesionesRealizadas++;
             }
         }
         tratamiento.setSesionesRealizadas(sesionesRealizadas);
     }
-    
+
 }
