@@ -33,10 +33,7 @@ public class TratamientoController implements Serializable {
 
     @PostConstruct
     protected void init() {
-        paciente = (Paciente) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("paciente");
+        paciente = (Paciente) JsfUtil.getObjectFromRequestParameter("paciente", new PacienteController.PacienteControllerConverter(), null);
         items = getFacade().getTratamientosByPaciente(paciente);
     }
 
@@ -44,7 +41,6 @@ public class TratamientoController implements Serializable {
     }
 
     public String prepararEditTratamiento(){
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoEdicion", selected);
         return "/protected/tratamiento/Edit.xhtml?faces-redirect-true";
     }
     

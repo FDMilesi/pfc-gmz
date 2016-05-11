@@ -28,10 +28,7 @@ public class EditTratamientoController implements Serializable {
 
     @PostConstruct
     protected void init() {
-        selected = (Tratamiento) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("tratamientoEdicion");
+        selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
     }
 
     public EditTratamientoController() {

@@ -43,10 +43,7 @@ public class OrdenMedicaController implements Serializable {
 
     @PostConstruct
     public void init() {
-        tratamiento = (Tratamiento) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("tratamientoEdicion");
+        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
         itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
     }
 

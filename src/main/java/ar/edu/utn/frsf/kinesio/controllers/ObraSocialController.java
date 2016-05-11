@@ -56,7 +56,7 @@ public class ObraSocialController {
     }
 
     @FacesConverter(forClass = ObraSocial.class)
-    public static class TratamientoControllerConverter implements Converter {
+    public static class ObraSocialControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {

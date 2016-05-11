@@ -70,7 +70,7 @@ public class TipoDeTratamientoController implements Serializable {
     }
     
     @FacesConverter(forClass = TipoDeTratamiento.class)
-    public static class TratamientoControllerConverter implements Converter {
+    public static class TipoDeTratamientoControllerConverter implements Converter {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {

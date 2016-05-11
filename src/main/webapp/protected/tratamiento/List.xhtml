@@ -25,6 +25,7 @@
                                  update=":TratamientoCreateForm" 
                                  oncomplete="PF('TratamientoCreateDialog').show()"
                                  class="ui-button-create"
+                                 disabled="#{empty tratamientoController.paciente}"
                                  />    
                 <p:dataTable id="datalist" value="#{tratamientoController.items}" var="item"
                              selectionMode="single" selection="#{tratamientoController.selected}"
@@ -75,7 +76,9 @@
                     <f:facet name="footer">
 
                         <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TratamientoViewForm" oncomplete="PF('TratamientoViewDialog').show()" disabled="#{empty tratamientoController.selected}"/>
-                        <p:button id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" outcome="#{tratamientoController.prepararEditTratamiento()}" disabled="#{empty tratamientoController.selected}"/>                    
+                        <p:button id="editButton" includeViewParams="true" icon="ui-icon-pencil" value="#{bundle.Edit}" outcome="#{tratamientoController.prepararEditTratamiento()}" disabled="#{empty tratamientoController.selected}">
+                            <f:param name="tratamiento" value="#{tratamientoController.selected.id}" />
+                        </p:button>                    
                         <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tratamientoController.destroy}" update=":growl,datalist" disabled="#{empty tratamientoController.selected}">
                             <p:confirm header="#{bundle.ListTratamientoConfirmationHeader}" message="#{bundle.ListTratamientoConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>

@@ -17,17 +17,16 @@
                 <p:breadCrumb>
                     <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                     <p:menuitem value="Pacientes" url="../paciente/List.xhtml"  />
-                    <p:menuitem value="Tratamientos de #{editTratamientoController.selected.paciente.toString()}" url="List.xhtml"/>
+                    <p:menuitem value="Tratamientos de #{editTratamientoController.selected.paciente.toString()}" 
+                                url="List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}"/>
                     <p:menuitem value="Editar tratamiento" disabled="true"/>
                 </p:breadCrumb>
                 <br/>
                 <p:panel header="#{bundle.EditTratamientoTitle}">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="4" rendered="#{editTratamientoController.selected != null}">
-                            <!--TIPO DE TRATAMIENTO-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" />
                             <p:outputLabel value="#{editTratamientoController.selected.tipoDeTratamiento.toString()}" />
-                            <!--CANTIDAD DE SESIONES-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                             <p:inputText id="cantidadDeSesiones" 
                                          validatorMessage="#{bundle.CreateTratamientoRangoCantidadDeSesiones}" 
@@ -37,10 +36,8 @@
                                          requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"
                                          validator="#{editTratamientoController.validarCantidadDeSesiones}">
                             </p:inputText>
-                            <!--FINALIZADO-->          
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
                             <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" />
-                            <!--PARTICULAR U OBRA SOCIAL-->          
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
                             <p:selectOneRadio 
                                 disabled="true"
@@ -51,10 +48,8 @@
                                 <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
                                 <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
                             </p:selectOneRadio>
-                            <!--DIAGNOSTICO-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_diagnostico}" for="diagnostico" />
                             <p:inputText id="diagnostico" value="#{editTratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
-                            <!--OBSERVACIONES-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
                             <p:inputTextarea cols="22" rows="4" id="observaciones" value="#{editTratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
                         </p:panelGrid>
