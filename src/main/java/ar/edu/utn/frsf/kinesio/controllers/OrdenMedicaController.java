@@ -51,10 +51,6 @@ public class OrdenMedicaController implements Serializable {
         return ejbFacade;
     }
 
-    public void cancel() {
-        selected = null;
-    }
-
     public void destroy() {
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
         if (!JsfUtil.isValidationFailed()) {

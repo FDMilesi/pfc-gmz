@@ -36,10 +36,6 @@ public class PacienteController implements Serializable {
         return "/protected/tratamiento/List.xhtml?faces-redirect-true";
     }
 
-    public void cancel() {
-        selected = null;
-    }
-
     public Paciente getSelected() {
         return selected;
     }

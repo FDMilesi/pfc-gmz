@@ -8,7 +8,14 @@
 
     <ui:composition>
 
-        <p:dialog id="SesionEditDlg" widgetVar="SesionEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditSesionTitle}">
+        <p:dialog id="SesionEditDlg" 
+                  widgetVar="SesionEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.EditSesionTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="SesionEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
@@ -33,7 +40,7 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sesionController.update}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SesionEditDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="SesionEditDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('SesionEditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

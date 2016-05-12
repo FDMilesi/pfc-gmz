@@ -28,7 +28,7 @@
                                       update="display,:OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" 
                                       oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>
                     
-                    <p:commandButton immediate="true" actionListener="#{ordenMedicaController.cancel()}" value="#{bundle.Cancel}" onclick="OrdenMedicaCreateDialog.hide()"/>
+                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('OrdenMedicaCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

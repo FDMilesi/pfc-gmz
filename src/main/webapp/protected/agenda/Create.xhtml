@@ -8,7 +8,14 @@
 
     <ui:composition>
 
-        <p:dialog id="SesionCreateDlg" widgetVar="SesionCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateSesionTitle}">
+        <p:dialog id="SesionCreateDlg" 
+                  widgetVar="SesionCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateSesionTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="SesionCreateForm">                    
                 <p:outputLabel id="numeroDeSesion" value="#{bundle.CreateSesionLabel_numeroDeSesion} #{sesionController.selected.numeroDeSesion}" />
                 <h:panelGroup id="display">
@@ -49,7 +56,7 @@
                                      value="#{bundle.Save}"
                                      oncomplete="handleSubmit(args,'SesionCreateDialog');"
                                      update="display,:AgendaForm,:growl"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('SesionCreateDialog').hide()"/>
+                    <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('SesionCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

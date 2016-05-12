@@ -8,7 +8,13 @@
 
     <ui:composition>
 
-        <p:dialog id="PacienteCreateDlg" widgetVar="PacienteCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreatePacienteTitle}">
+        <p:dialog id="PacienteCreateDlg" 
+                  widgetVar="PacienteCreateDialog" 
+                  modal="true" 
+                  resizable="false" appendTo="@(body)" 
+                  header="#{bundle.CreatePacienteTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="PacienteCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
@@ -78,7 +84,7 @@
                                       value="#{bundle.Save}"
                                       update="display,:PacienteListForm:datalist,:growl" 
                                       oncomplete="handleSubmit(args,'PacienteCreateDialog');"/>
-                    <p:commandButton immediate="true" actionListener="#{pacienteController.cancel}" value="#{bundle.Cancel}" onclick="PacienteCreateDialog.hide()"/>
+                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('PacienteCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

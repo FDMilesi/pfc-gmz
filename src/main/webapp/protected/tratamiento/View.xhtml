@@ -8,7 +8,14 @@
 
     <ui:composition>
 
-        <p:dialog id="TratamientoViewDlg" widgetVar="TratamientoViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewTratamientoTitle}">
+        <p:dialog id="TratamientoViewDlg" 
+                  widgetVar="TratamientoViewDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.ViewTratamientoTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="TratamientoViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
@@ -37,7 +44,7 @@
                         <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
                         <h:outputText value="#{tratamientoController.selected.paciente.toString()}" title="#{bundle.ViewTratamientoTitle_paciente}"/>
                     </p:panelGrid>
-                    <p:commandButton value="#{bundle.Close}" onclick="TratamientoViewDialog.hide()"/>
+                    <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('TratamientoViewDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

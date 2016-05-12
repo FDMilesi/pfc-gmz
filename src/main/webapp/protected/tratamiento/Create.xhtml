@@ -8,7 +8,14 @@
 
     <ui:composition>
 
-        <p:dialog id="TratamientoCreateDlg" widgetVar="TratamientoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateTratamientoTitle}">
+        <p:dialog id="TratamientoCreateDlg" 
+                  widgetVar="TratamientoCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateTratamientoTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="TratamientoCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
@@ -54,7 +61,7 @@
                         <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tratamientoController.create}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TratamientoCreateDialog');"/>
-                    <p:commandButton immediate="true" actionListener="#{tratamientoController.cancel}" value="#{bundle.Cancel}" onclick="TratamientoCreateDialog.hide()"/>
+                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('TratamientoCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

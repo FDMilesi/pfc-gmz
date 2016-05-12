@@ -24,7 +24,7 @@
                 <br/>
                 <p:panel header="#{bundle.EditTratamientoTitle}">
                     <h:panelGroup id="display">
-                        <p:panelGrid columns="4" rendered="#{editTratamientoController.selected != null}">
+                        <p:panelGrid columns="6" rendered="#{editTratamientoController.selected != null}">
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_tipoDeTratamiento}" />
                             <p:outputLabel value="#{editTratamientoController.selected.tipoDeTratamiento.toString()}" />
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
@@ -52,12 +52,11 @@
                             <p:inputText id="diagnostico" value="#{editTratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
                             <p:inputTextarea cols="22" rows="4" id="observaciones" value="#{editTratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
-                            <!--MÉDICO DERIVANTE-->         
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_medicoDerivante}" for="medicoderivante" />
                             <p:inputText id="medicoderivante" value="#{editTratamientoController.selected.medicoDerivante}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                         </p:panelGrid>
-                        <p:commandButton actionListener="#{editTratamientoController.update}" value="#{bundle.Save}" update="display,:growl"/>
-                        <p:commandButton immediate="true" value="#{bundle.Cancel}" />
+                        <p:commandButton actionListener="#{editTratamientoController.update}" value="#{bundle.Save}" update="display,:growl" disabled="#{empty editTratamientoController.selected}"/>
+                        <p:button outcome="List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" value="#{bundle.Cancel}" disabled="#{empty editTratamientoController.selected}"/>
                     </h:panelGroup>
                 </p:panel>
             </h:form>
@@ -115,6 +114,7 @@
                                              update=":ordenMedicaCreateForm" 
                                              oncomplete="PF('OrdenMedicaCreateDialog').show()"
                                              class="ui-button-create"
+                                             disabled="#{empty editTratamientoController.selected}"
                                              />
                             <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
                             <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
@@ -165,6 +165,7 @@
                                              value="#{bundle.Create}" 
                                              actionListener="#{sesionController.prepareCreateFromTratamiento(editTratamientoController.selected)}" 
                                              update=":SesionCreateForm" 
+                                             disabled="#{empty editTratamientoController.selected}"
                                              oncomplete="PF('SesionCreateDialog').show()"/>
                             <!--<p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SesionViewForm" oncomplete="PF('SesionViewDialog').show()" disabled="#{empty sesionController.selected}"/>-->
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SesionEditForm" oncomplete="PF('SesionEditDialog').show()" disabled="#{empty sesionController.selected}"/>

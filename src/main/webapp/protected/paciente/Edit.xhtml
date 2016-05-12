@@ -8,7 +8,14 @@
 
     <ui:composition>
 
-        <p:dialog id="PacienteEditDlg" widgetVar="PacienteEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditPacienteTitle}">
+        <p:dialog id="PacienteEditDlg" 
+                  widgetVar="PacienteEditDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.EditPacienteTitle}"
+                  closeOnEscape="true"
+                  >
             <h:form id="PacienteEditForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
@@ -59,7 +66,7 @@
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{pacienteController.update}" value="#{bundle.Save}" update="display,:PacienteListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PacienteEditDialog');"/>
-                    <p:commandButton immediate="true" actionListener="#{pacienteController.cancel}" value="#{bundle.Cancel}" onclick="PacienteEditDialog.hide()"/>
+                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('PacienteEditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

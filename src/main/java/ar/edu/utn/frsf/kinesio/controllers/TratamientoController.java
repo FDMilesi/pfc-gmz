@@ -48,10 +48,6 @@ public class TratamientoController implements Serializable {
         return paciente;
     }
 
-    public void cancel() {
-        selected = null;
-    }
-
     public void setPaciente(Paciente paciente) {
         this.paciente = paciente;
         items = null;
