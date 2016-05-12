@@ -17,7 +17,8 @@
                         <p:calendar id="fechaHoraInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.EditSesionTitle_fechaHoraInicio}"  showOn="button"/>
 
                         <p:outputLabel value="#{bundle.CreateSesionLabel_paciente}" for="paciente" />
-                        <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" >                            
+                        <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" 
+                                         required="true">                            
                             <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
                                            var="pacienteItem"
                                            itemValue="#{pacienteItem}"/>
@@ -26,7 +27,9 @@
                         </p:selectOneMenu>
 
                         <p:outputLabel value="#{bundle.CreateSesionLabel_tratamiento}" for="tratamientoSeleccion" />
-                        <p:selectOneMenu id="tratamientoSeleccion" value="#{sesionController.selected.tratamiento}" >
+                        <p:selectOneMenu id="tratamientoSeleccion" value="#{sesionController.selected.tratamiento}"
+                                         required="true"
+                                         requiredMessage="#{bundle.CreateSesionRequiredMessage_tipoDeTratamiento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tratamientoController.items}"
                                            var="tratamientoItem"
@@ -42,8 +45,11 @@
                         </p:selectOneMenu>
 
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sesionController.create}" value="#{bundle.Save}" update=":growl" oncomplete="PF('SesionCreateDialog').hide();PF('agenda').update()"/>
-                    <p:commandButton value="#{bundle.Cancel}" onclick="SesionCreateDialog.hide()"/>
+                    <p:commandButton actionListener="#{sesionController.create}"
+                                     value="#{bundle.Save}"
+                                     oncomplete="handleSubmit(args,'SesionCreateDialog');"
+                                     update="display,:AgendaForm,:growl"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="PF('SesionCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
