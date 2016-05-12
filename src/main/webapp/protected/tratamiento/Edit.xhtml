@@ -52,6 +52,9 @@
                             <p:inputText id="diagnostico" value="#{editTratamientoController.selected.diagnostico}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_observaciones}" for="observaciones" />
                             <p:inputTextarea cols="22" rows="4" id="observaciones" value="#{editTratamientoController.selected.observaciones}" title="#{bundle.EditTratamientoTitle_observaciones}" />
+                            <!--MÉDICO DERIVANTE-->         
+                            <p:outputLabel value="#{bundle.EditTratamientoLabel_medicoDerivante}" for="medicoderivante" />
+                            <p:inputText id="medicoderivante" value="#{editTratamientoController.selected.medicoDerivante}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                         </p:panelGrid>
                         <p:commandButton actionListener="#{editTratamientoController.update}" value="#{bundle.Save}" update="display,:growl"/>
                         <p:commandButton immediate="true" value="#{bundle.Cancel}" />
