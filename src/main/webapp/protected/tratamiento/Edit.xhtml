@@ -169,7 +169,9 @@
                                              oncomplete="PF('SesionCreateDialog').show()"/>
                             <!--<p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SesionViewForm" oncomplete="PF('SesionViewDialog').show()" disabled="#{empty sesionController.selected}"/>-->
                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SesionEditForm" oncomplete="PF('SesionEditDialog').show()" disabled="#{empty sesionController.selected}"/>
-                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" update=":growl,datalist" disabled="#{empty sesionController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" update=":growl,datalist" disabled="#{empty sesionController.selected}">
+                                <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
+                            </p:commandButton>
                         </f:facet>
                     </p:dataTable>
                 </p:panel>
