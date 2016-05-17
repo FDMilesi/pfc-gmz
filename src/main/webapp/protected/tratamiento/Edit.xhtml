@@ -77,19 +77,12 @@
                         <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
                         <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_numero}"/>
-                            </f:facet>
-                            <h:outputText value="#{orderItem.id.toString()}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}"/>
-                            </f:facet>
-                            <h:outputText value="#{orderItem.cantidadDeSesiones}"/>                                
-                        </p:column>
+                        <!--                        <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="#{bundle.ListOrdenMedicaTitle_numero}"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{orderItem.id.toString()}"/>
+                                                </p:column>-->
 
                         <p:column>
                             <f:facet name="header">
@@ -98,6 +91,13 @@
                             <h:outputText value="#{orderItem.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
+                        </p:column>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}"/>
+                            </f:facet>
+                            <h:outputText value="#{orderItem.cantidadDeSesiones}"/>                                
                         </p:column>
 
                         <p:column>

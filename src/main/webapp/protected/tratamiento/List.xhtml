@@ -41,6 +41,11 @@
                     <p:ajax event="rowSelect"   update="viewButton editButton deleteButton"/>
                     <p:ajax event="rowUnselect" update="viewButton editButton deleteButton"/>
 
+                    <p:column headerText="#{bundle.ListTratamientoTitle_fechaCreacion}">
+                        <h:outputText value="#{item.fechaCreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </h:outputText>
+                    </p:column>
                     <p:column headerText="#{bundle.ListTratamientoTitle_tipoDeTratamiento}">
                         <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
                     </p:column>
@@ -61,12 +66,7 @@
                     </p:column>
                     <p:column headerText="#{bundle.ListTratamientoTitle_ordenes}">
                         <h:outputText value="-"/>
-                    </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_fechaCreacion}">
-                        <h:outputText value="#{item.fechaCreacion}">
-                            <f:convertDateTime pattern="dd/MM/yyyy" />
-                        </h:outputText>
-                    </p:column>
+                    </p:column>                    
                     <p:column headerText="#{bundle.ListTratamientoTitle_sesionesAFavor}">
                         <h:outputText value="#{item.sesionesAFavor}"/>
                     </p:column>
