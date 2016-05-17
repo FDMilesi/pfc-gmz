@@ -7,6 +7,7 @@ package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
 import ar.edu.utn.frsf.kinesio.controllers.util.EliminarSesionEvento;
+import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
 import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
 import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
@@ -17,6 +18,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -94,7 +96,10 @@ public class AgendaController implements Serializable {
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
-        sesionInicializadaEvento.fire(new CreacionSesionEvento((Date) selectEvent.getObject()));
+        Date date = (Date) selectEvent.getObject();
+        if(date.before(new Date()))
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("/Bundle").getString("WarningSesionEnFechaAnterior"));
+        sesionInicializadaEvento.fire(new CreacionSesionEvento(date));
     }
 
     public void agregarSesion(@Observes @SesionCreada CreacionSesionEvento evento) {

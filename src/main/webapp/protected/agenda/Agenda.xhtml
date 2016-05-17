@@ -29,7 +29,7 @@
                                 showWeekends="FALSE" minTime="7am" maxTime="21pm" resizable="false">
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
-                                update=":SesionCreateForm"
+                                update=":SesionCreateForm, :growl"
                                 oncomplete="PF('SesionCreateDialog').show();" />
                         <p:ajax event="eventSelect"
                                 listener="#{agendaController.mostrarSesion}"
