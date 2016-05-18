@@ -23,6 +23,7 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class PacienteController implements Serializable {
 
+    private static final String TRATAMIENTOS_PATH = "/protected/tratamiento/List.xhtml?faces-redirect=true";
     @EJB
     private ar.edu.utn.frsf.kinesio.gestores.PacienteFacade ejbFacade;
     private List<Paciente> items = null;
@@ -32,8 +33,8 @@ public class PacienteController implements Serializable {
     public PacienteController() {
     }
 
-    public String mostrarTratamientos() {
-        return "/protected/tratamiento/List.xhtml?faces-redirect-true";
+      public String mostrarTratamientos() {
+        return TRATAMIENTOS_PATH;
     }
 
     public Paciente getSelected() {
@@ -66,7 +67,7 @@ public class PacienteController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
-        return mostrarTratamientos();
+        return TRATAMIENTOS_PATH + "&paciente="+selected.getId().toString();
     }
 
     public void update() {
