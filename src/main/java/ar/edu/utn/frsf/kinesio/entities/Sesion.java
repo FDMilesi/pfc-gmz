@@ -1,14 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
+import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,9 +23,9 @@ import org.primefaces.model.ScheduleEvent;
 
 /**
  *
- * @author Fran
  */
 @Entity
+@EntityListeners(SesionFacade.class)
 @Table(name = "sesion")
 @XmlRootElement
 @NamedQueries({

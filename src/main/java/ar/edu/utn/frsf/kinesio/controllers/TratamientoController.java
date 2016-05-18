@@ -25,6 +25,8 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class TratamientoController implements Serializable {
 
+    private static final String EDIT_TRATAMIENTOS_PATH = "/protected/tratamiento/Edit.xhtml?faces-redirect=true";
+
     @EJB
     private TratamientoFacade ejbFacade;
     private List<Tratamiento> items = null;
@@ -40,10 +42,10 @@ public class TratamientoController implements Serializable {
     public TratamientoController() {
     }
 
-    public String prepararEditTratamiento(){
-        return "/protected/tratamiento/Edit.xhtml?faces-redirect-true";
+    public String prepararEditTratamiento() {
+        return EDIT_TRATAMIENTOS_PATH;
     }
-    
+
     public Paciente getPaciente() {
         return paciente;
     }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
@@ -13,10 +8,10 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PrePersist;
 
 /**
  *
- * @author Fran
  */
 @Stateless
 public class SesionFacade extends AbstractFacade<Sesion> {
@@ -51,12 +46,15 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     /**
-     * Dada una sesión, calcula el número de sesión que le corresponde según 
-     * el tratamiento al que pertenezca. Para ello busca la última sesión 
-     * del tratamiento al que pertenece la sesión recibida, se le 
-     * extrae el número de sesión, y se lo incrementa en 1 (uno).
-     * @param sesion: Sesión sin número de sesión, a la cual se le calculará dicho número.
-     * @return: El número de sesión que le corresponde a la sesión recibida como parámetro.
+     * Dada una sesión, calcula el número de sesión que le corresponde según el
+     * tratamiento al que pertenezca. Para ello busca la última sesión del
+     * tratamiento al que pertenece la sesión recibida, se le extrae el número
+     * de sesión, y se lo incrementa en 1 (uno).
+     *
+     * @param sesion: Sesión sin número de sesión, a la cual se le calculará
+     * dicho número.
+     * @return: El número de sesión que le corresponde a la sesión recibida como
+     * parámetro.
      */
     public Short calcularNumeroDeSesion(Sesion sesion) {
         List<Sesion> sesiones = this.getSesionesByTratamiento(sesion.getTratamiento());
@@ -71,21 +69,26 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     public Sesion editAndReturn(Sesion sesion) {
-        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
         return getEntityManager().merge(sesion);
     }
 
+    /**
+     * Método ejecutado antes de que una sesión sea persistida
+     * @param sesion
+     */
+    @PrePersist
+    void onPrePersist(Sesion sesion) {
+        //Seteo la duración de la sesión creada en base al tipo de tratamiento
+        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
+    }
+
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
-        return getEntityManager()
-                .createNamedQuery("Sesion.findByTratamiento")
-                .setParameter("tratamiento", tratamiento)
-                .getResultList();
+        return getEntityManager().createNamedQuery("Sesion.findByTratamiento")
+                .setParameter("tratamiento", tratamiento).getResultList();
     }
 
     public List<Sesion> getSesionesByAgenda(Agenda agenda) {
-        return getEntityManager()
-                .createNamedQuery("Sesion.findByAgenda")
-                .setParameter("agenda", agenda)
-                .getResultList();
+        return getEntityManager().createNamedQuery("Sesion.findByAgenda")
+                .setParameter("agenda", agenda).getResultList();
     }
 }
