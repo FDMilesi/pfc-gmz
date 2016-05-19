@@ -72,6 +72,9 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Transient
     private Date endDate;
+    
+    @Transient
+    private String styleClass;
 
     public Sesion() {
     }
@@ -200,7 +203,11 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public String getStyleClass() {
-        return "merca";
+        return this.styleClass;
+    }
+    
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
     }
 
     @Override

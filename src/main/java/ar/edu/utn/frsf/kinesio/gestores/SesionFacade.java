@@ -8,6 +8,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 
 /**
@@ -77,11 +78,17 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      * @param sesion
      */
     @PrePersist
-    void onPrePersist(Sesion sesion) {
+    void onPrePersist(Sesion s) {
         //Seteo la duración de la sesión creada en base al tipo de tratamiento
-        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
+        s.setDuracion(s.getTratamiento().getTipoDeTratamiento().getDuracion());
+        colorearSesiones(s);
     }
 
+    @PostLoad
+    void onPostLoad(Sesion s){
+        colorearSesiones(s);
+    }
+    
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager().createNamedQuery("Sesion.findByTratamiento")
                 .setParameter("tratamiento", tratamiento).getResultList();
@@ -90,5 +97,31 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     public List<Sesion> getSesionesByAgenda(Agenda agenda) {
         return getEntityManager().createNamedQuery("Sesion.findByAgenda")
                 .setParameter("agenda", agenda).getResultList();
+    }
+    
+    private void colorearSesiones(Sesion s){
+        switch (s.getTratamiento().getTipoDeTratamiento().getId()) {
+                case 1:
+                    s.setStyleClass("fisiokinesioterapia");
+                    break;
+                case 2:
+                    s.setStyleClass("kinesioterapiaRespiratoria");
+                    break;
+                case 3:
+                    s.setStyleClass("drenajeLinfatico");
+                    break;
+                case 4:
+                    s.setStyleClass("rehabilitacionNeurologica");
+                    break;
+                case 5:
+                    s.setStyleClass("esteticaElectrodos");
+                    break;
+                case 6:
+                    s.setStyleClass("esteticaMasajes");
+                    break;
+                case 7:
+                    s.setStyleClass("gimnasiaTerapeutica");
+                    break;
+            }
     }
 }

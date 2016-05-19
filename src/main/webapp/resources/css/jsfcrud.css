@@ -1,5 +1,5 @@
 .ui-widget {
-    font-size: 12px !important;
+    font-size: 13px !important;
 }
 .ui-layout-north {
     z-index: 20 !important;
@@ -16,3 +16,26 @@
     margin-top: 5px !important;
     margin-bottom: 5px;
 }
+
+.fisiokinesioterapia .fc-event-inner {
+    background: #5C6BC0;
+}
+.kinesioterapiaRespiratoria .fc-event-inner {
+   background: #EC407A;
+ }
+.drenajeLinfatico .fc-event-inner {
+   background: #26A69A;
+ }
+ .rehabilitacionNeurologica .fc-event-inner {
+   background: #AB47BC;
+ }
+ .esteticaElectrodos .fc-event-inner {
+   background: #FF7043;
+ }
+ .esteticaMasajes .fc-event-inner {
+   background: #8D6E63;
+ }
+ .gimnasiaTerapeutica .fc-event-inner {
+   background: #FFEE58;
+   color: black;
+ }
