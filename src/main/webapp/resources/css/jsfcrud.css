@@ -18,24 +18,23 @@
 }
 
 .fisiokinesioterapia .fc-event-inner {
-    background: #5C6BC0;
+    background: #3F51B5; /*indigo*/
 }
 .kinesioterapiaRespiratoria .fc-event-inner {
-   background: #EC407A;
+   background: #F6BF26; /*girasol*/
  }
 .drenajeLinfatico .fc-event-inner {
-   background: #26A69A;
+   background: #33B679; /*menta*/
  }
  .rehabilitacionNeurologica .fc-event-inner {
-   background: #AB47BC;
+   background: #E67C73; /*flamenco*/
  }
  .esteticaElectrodos .fc-event-inner {
-   background: #FF7043;
+   background: #616161; /*grafito*/
  }
  .esteticaMasajes .fc-event-inner {
-   background: #8D6E63;
+   background: #8E24AA; /*uva*/
  }
  .gimnasiaTerapeutica .fc-event-inner {
-   background: #FFEE58;
-   color: black;
+   background: #7986CB; /*lavanda*/
  }
