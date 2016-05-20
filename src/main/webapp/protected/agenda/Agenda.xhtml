@@ -25,8 +25,8 @@
 
                     <p:schedule id="schedule" locale="es" value="#{agendaController.agenda}" 
                                 widgetVar="agenda" timeZone="GMT-3" view="agendaWeek" 
-                                allDaySlot="false" slotMinutes="15" firstHour="8"
-                                showWeekends="FALSE" minTime="7am" maxTime="21pm" resizable="false">
+                                allDaySlot="false" slotDuration="00:15:00" scrollTime="08:00:00"
+                                showWeekends="FALSE" minTime="07:00:00" maxTime="21:00:00" resizable="false">
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
                                 update=":SesionCreateForm, :growl"

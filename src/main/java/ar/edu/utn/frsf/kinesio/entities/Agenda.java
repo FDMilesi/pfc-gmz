@@ -39,19 +39,19 @@ import org.primefaces.model.ScheduleModel;
 public class Agenda implements Serializable, ScheduleModel {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Short id;
-    
+
     @Size(max = 50)
     @Column(name = "profesional")
     private String profesional;
-    
+
     @Transient
     private List<Sesion> sesiones;
-    
+
     @JoinColumn(name = "especialidadid", referencedColumnName = "id")
     @ManyToOne
     private Especialidad especialidad;
@@ -137,12 +137,13 @@ public class Agenda implements Serializable, ScheduleModel {
 
     @Override
     public ScheduleEvent getEvent(String id) {
-        for(ScheduleEvent event : sesiones) {
-			if(event.getId().equals(id))
-				return event;
-		}
-		
-		return null;
+        for (ScheduleEvent event : sesiones) {
+            if (event.getId().equals(id)) {
+                return event;
+            }
+        }
+
+        return null;
     }
 
     @Override
@@ -159,5 +160,10 @@ public class Agenda implements Serializable, ScheduleModel {
     public void clear() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+    @Override
+    public boolean isEventLimit() {
+        return false;
+    }
+
 }
