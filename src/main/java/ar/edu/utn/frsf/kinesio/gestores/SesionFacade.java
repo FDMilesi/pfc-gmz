@@ -42,23 +42,23 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         sesion.setTratamiento(tratamiento);
         sesion.setTranscurrida(false);
         sesion.setCuenta(true);
-        sesion.setNumeroDeSesion(this.calcularNumeroDeSesion(sesion));
+        sesion.setNumeroDeSesion(this.getSiguienteNumeroDeSesion(tratamiento));
         return sesion;
     }
 
+    public Short getSiguienteNumeroDeSesion(Tratamiento tratamiento) {
+        return calcularSiguienteNumeroDeSesion(getSesionesByTratamiento(tratamiento));
+    }
+
     /**
-     * Dada una sesión, calcula el número de sesión que le corresponde según el
-     * tratamiento al que pertenezca. Para ello busca la última sesión del
-     * tratamiento al que pertenece la sesión recibida, se le extrae el número
-     * de sesión, y se lo incrementa en 1 (uno).
+     * Dada una lista de sesiones calcula el número de sesión que le
+     * correspondería a una sesión en caso de ser agregada a la lista. Para ello
+     * toma el número de la última sesión en la lista y le adiciona 1 (uno).
      *
-     * @param sesion: Sesión sin número de sesión, a la cual se le calculará
-     * dicho número.
-     * @return: El número de sesión que le corresponde a la sesión recibida como
-     * parámetro.
+     * @param sesiones
+     * @return: El número de sesión que tendría la siguiente sesión en la lista.
      */
-    public Short calcularNumeroDeSesion(Sesion sesion) {
-        List<Sesion> sesiones = this.getSesionesByTratamiento(sesion.getTratamiento());
+    public Short calcularSiguienteNumeroDeSesion(List<Sesion> sesiones) {
         Short numeroUltimaSesion;
         if (sesiones.isEmpty()) {
             numeroUltimaSesion = (short) 0;

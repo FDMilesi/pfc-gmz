@@ -114,7 +114,7 @@ public class SesionController implements Serializable {
     }
 
     public void calcularNumeroSesion() {
-        selected.setNumeroDeSesion(this.getFacade().calcularNumeroDeSesion(selected));
+        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(tratamiento));
     }
 
     private void persist(PersistAction persistAction, String successMessage) {

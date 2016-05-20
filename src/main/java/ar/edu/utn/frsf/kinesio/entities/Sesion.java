@@ -76,7 +76,11 @@ public class Sesion implements Serializable, ScheduleEvent {
     @Transient
     private String styleClass;
 
-    public Sesion() {
+    public Sesion(){
+    }
+    
+    public Sesion(Short numeroDeSesion) {
+        this.numeroDeSesion = numeroDeSesion;
     }
 
     public Integer getIdSesion() {
