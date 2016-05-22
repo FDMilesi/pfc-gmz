@@ -3,12 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
 
-        <p:dialog id="OrdenMedicaAutorizarDlg" widgetVar="OrdenMedicaAutorizarDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.AutorizarOrdenMedicaTitle}">
+        <p:dialog id="OrdenMedicaAutorizarDlg" closeOnEscape="true" widgetVar="OrdenMedicaAutorizarDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.AutorizarOrdenMedicaTitle}">
             <h:form id="OrdenMedicaAutorizarForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{ordenMedicaController.selected != null}">
@@ -17,11 +16,8 @@
                             <h:outputLink value="#{ordenMedicaController.selected.obraSocial.linkAutorizacion}" target="_blank">
                                 <h:outputText value="#{bundle.EditOrdenMedicaTitle_link}" />
                             </h:outputLink>
-                            <br/>
                             <h:inputText id="codigoAutorizacion" value="#{ordenMedicaController.selected.codigoDeAutorizacion}" />
                         </h:panelGroup>
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_id}" for="id" />
-                        <h:outputText id="id" value="#{ordenMedicaController.selected.id}" title="#{bundle.EditOrdenMedicaTitle_id}" />
 
                         <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_paciente}" for="paciente" />
                         <h:outputText id="paciente" value="#{ordenMedicaController.selected.tratamiento.paciente.toString()}" title="#{bundle.EditOrdenMedicaTitle_paciente}" />
@@ -43,7 +39,6 @@
 
                     </p:panelGrid>
 
-                    <br/>
                     <p:commandButton actionListener="#{ordenMedicaController.update()}" value="#{bundle.Save}" update="display,:OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('OrdenMedicaAutorizarDialog').hide()"/>
                 </h:panelGroup>

@@ -17,154 +17,114 @@
                     <p:menuitem id = "homeMenuItem" value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                     <p:menuitem id = "ordenesMenuItem" value="Ordenes" disabled="true"/>
                 </p:breadCrumb>
-                <br/>
-                <p:panel header="#{bundle.Filtros}">
-                    <p:outputPanel style="text-align: left;">
-                        <h:outputLabel value="Autorizadas:" style="padding-right: 10px;"/>
-                            <p:selectOneButton id="filterAutorizadas" 
-                                               value ="#{ordenMedicaListViewController.autorizada}">
-                                <p:ajax event="change" update="@this ordenMedicaDatalist" onstart="#{ordenMedicaListViewController.filtrarItems()}" />
-                                <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
-                                <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
-                                <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
-                            </p:selectOneButton>    
-                            <br/>
-                        <h:outputLabel value="Presentadas:" style="padding-right: 10px;"/>
+                <p:panel header="#{bundle.ListOrdenTitle}">
+                    <p:panelGrid columns="6">
+                        <h:outputLabel value="Autorizadas:" />
+                        <p:selectOneButton id="filterAutorizadas" 
+                                           value ="#{listOrdenMedicaController.autorizada}">
+                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                            <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
+                            <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
+                            <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
+                        </p:selectOneButton>    
+                        <h:outputLabel value="Presentadas:" />
                         <p:selectOneButton id="filterPresentadas" 
-                                           value ="#{ordenMedicaListViewController.presentada}" >
-                            <p:ajax event="change" update="@this ordenMedicaDatalist" onstart="#{ordenMedicaListViewController.filtrarItems()}" />
+                                           value ="#{listOrdenMedicaController.presentada}" >
+                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
                             <f:selectItem id = "allPresentadasFilter"  itemLabel="Todas" itemValue="#{null}" />
                             <f:selectItem id = "presentadasFilter"  itemLabel="Si" itemValue="true"/>
                             <f:selectItem id = "noPresentadasFilter"  itemLabel="No" itemValue="false"/>                
                         </p:selectOneButton>
-                        <br/>
-                        <h:outputLabel value="Obra Social:" style="padding-right: 10px;"/>
-                        <p:selectOneMenu id="filterObraSocial" value="#{ordenMedicaListViewController.obraSocial}">
-                            <p:ajax event="change" update="@this ordenMedicaDatalist" onstart="#{ordenMedicaListViewController.filtrarItems()}" />
-                            <f:selectItem itemLabel="TODAS" itemValue="#{null}" noSelectionOption="true" />
+                        <h:outputLabel value="Obra Social:" />
+                        <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
+                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                            <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
                             <f:selectItems value="#{obraSocialController.getItemsAvailableSelectOne()}" />
                         </p:selectOneMenu>
-                        <br/>
-                        <h:outputLabel value="Fecha de Inicio:" style="padding-right: 10px;"/>
+                        <h:outputLabel value="Fecha de Inicio:"/>
                         <p:calendar id="filterStartDate" 
-                                        pattern="dd/MM/yyyy" 
-                                        value="#{ordenMedicaListViewController.startDate}" 
-                                        title="#{bundle.FilterOrdenMedica_fechaComienzo}"  
-                                        showOn="button" 
-                                        locale="es"
-                                        navigator="true"
-                                        yearRange="c-90:c+10">
-                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" onstart="#{ordenMedicaListViewController.filtrarItems()}" />                        
+                                    widgetVar="startDateVar"
+                                    pattern="dd/MM/yyyy" 
+                                    value="#{listOrdenMedicaController.startDate}" 
+                                    title="#{bundle.FilterOrdenMedica_fechaComienzo}"  
+                                    showOn="button" 
+                                    locale="es"
+                                    navigator="true"
+                                    yearRange="c-90:c+10">
+                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
                         </p:calendar>
-                        <h:outputLabel value="Fecha de Fin:" style="padding-left: 10px; padding-right: 10px;"/>
+                        <h:outputLabel value="Fecha de Fin:"/>
                         <p:calendar id="filterEndDate" 
-                                        pattern="dd/MM/yyyy" 
-                                        value="#{ordenMedicaListViewController.endDate}" 
-                                        title="#{bundle.FilterOrdenMedica_fechaFin}"  
-                                        showOn="button" 
-                                        locale="es"
-                                        navigator="true"
-                                        yearRange="c-90:c+10">
-                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" onstart="#{ordenMedicaListViewController.filtrarItems()}" />                        
+                                    widgetVar="endDateVar"
+                                    pattern="dd/MM/yyyy" 
+                                    value="#{listOrdenMedicaController.endDate}" 
+                                    title="#{bundle.FilterOrdenMedica_fechaFin}"  
+                                    showOn="button" 
+                                    locale="es"
+                                    navigator="true"
+                                    yearRange="c-90:c+10">
+                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
                         </p:calendar>
-                    </p:outputPanel>
+                        <p:commandButton value="Limpiar Fechas" update="ordenMedicaDatalist" actionListener="#{listOrdenMedicaController.filtrarItems()}" onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
+                    </p:panelGrid>
                 </p:panel>
-                <br/>
-                <p:panel header="#{bundle.ListOrdenTitle}">
-                    <!--<p:panel>-->
-                    <p:dataTable id="ordenMedicaDatalist" value="#{ordenListViewMedicaController.items}"
+                <p:panel>
+                    <p:dataTable id="ordenMedicaDatalist" value="#{listOrdenMedicaController.itemsFiltrados}"
                                  var="item"
                                  widgetVar="tablaOrdenesmedicas"
                                  selectionMode="single"
-                                 selection="#{ordenMedicaListViewController.selected}"
+                                 selection="#{listOrdenMedicaController.selected}"
                                  paginator="true"
                                  paginatorPosition="bottom"
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
-                                 filteredValue="#{ordenMedicaListViewController.itemsFiltrados}"                                 
                                  >
 
                         <p:ajax event="rowSelect"   update="ordenesmedicasAutorizarButton ordenMedicaDeleteButton"/>
                         <p:ajax event="rowUnselect" update="ordenesmedicasAutorizarButton ordenMedicaDeleteButton"/>
 
-                        <p:column sortBy="#{item.tratamiento.paciente.toString()}">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_paciente}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
-                        </p:column>
-
-                        <p:column sortBy="#{item.tratamiento.paciente.dni}">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_dniPaciente}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tratamiento.paciente.dni}"/>
-                        </p:column>
-
-                        <p:column sortBy="#{item.obraSocial.nombre}" >
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_obraSocial}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.obraSocial.nombre}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_numeroafiliadopaciente}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.numeroAfiliadoPaciente}"/>
-                        </p:column>
-
-                        <p:column sortBy="#{item.tratamiento.tipoDeTratamiento.nombre}">
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_tipoDeTratamiento}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.tratamiento.tipoDeTratamiento.nombre}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_codigoPrestacion}"/>
-                            </f:facet>
-                             <h:outputText value="#{tipoDeTratamientoController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.cantidadDeSesiones}"/>                                
-                        </p:column>
-
-                        <p:column >
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}"/>
-                            </f:facet>
-                            <h:outputText value="#{item.codigoDeAutorizacion}"/>
-                        </p:column>
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_fechaCreacion}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.toString()}">
+                            <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_dniPaciente}" sortBy="#{item.tratamiento.paciente.dni}">
+                            <h:outputText value="#{item.tratamiento.paciente.dni}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_obraSocial}" sortBy="#{item.obraSocial.nombre}" >
+                            <h:outputText value="#{item.obraSocial.nombre}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_numeroafiliadopaciente}">
+                            <h:outputText value="#{item.numeroAfiliadoPaciente}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_tipoDeTratamiento}" sortBy="#{item.tratamiento.tipoDeTratamiento.nombre}">
+                            <h:outputText value="#{item.tratamiento.tipoDeTratamiento.nombre}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoPrestacion}">
+                            <h:outputText value="#{tipoDeTratamientoController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
+                            <h:outputText value="#{item.cantidadDeSesiones}"/>                                
+                        </p:column>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
+                            <h:outputText value="#{item.codigoDeAutorizacion}"/>
+                        </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="ordenesmedicasAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaListViewController.selected}"/>
-                            <p:commandButton id="ordenMedicaDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaListViewController.destroy}" update=":growl,ordenMedicaDatalist" disabled="#{empty ordenMedicaListViewController.selected}">
+                            <p:commandButton id="ordenesmedicasAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty listOrdenMedicaController.selected}"/>
+                            <p:commandButton id="ordenMedicaDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{listOrdenMedicaController.destroy}" update=":growl,ordenMedicaDatalist" disabled="#{empty listOrdenMedicaController.selected}">
                                 <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>            
                         </f:facet>
                     </p:dataTable>
-                    <!--</p:panel>-->
                 </p:panel>
             </h:form>
 
-            <ui:include src="AutorizarOrden.xhtml"/>
+            <ui:include src="AutorizarFromListOrdenes.xhtml"/>
         </ui:define>
     </ui:composition>
 

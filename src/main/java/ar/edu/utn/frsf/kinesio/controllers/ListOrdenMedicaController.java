@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
@@ -23,21 +18,20 @@ import javax.inject.Named;
 
 /**
  *
- * @author Nacho Gómez
  */
-@Named("ordenMedicaListViewController")
+@Named("listOrdenMedicaController")
 @ViewScoped
-public class OrdenMedicaListViewController implements Serializable {
+public class ListOrdenMedicaController implements Serializable {
 
-    public OrdenMedicaListViewController() {
+    public ListOrdenMedicaController() {
 
     }
     
     @EJB
     private OrdenMedicaFacade ejbFacade;
-    private List<OrdenMedica> items = null;
     private List<OrdenMedica> itemsFiltrados = null;
     private OrdenMedica selected;
+    //Ver la posibilidad de pasar los parametros de filtrados como parámetros en la llamada a filtrar, en la vista
     private Boolean autorizada;
     private Boolean presentada;
     private ObraSocial obraSocial;
@@ -46,8 +40,8 @@ public class OrdenMedicaListViewController implements Serializable {
 
     @PostConstruct
     public void init(){
-        items = getFacade().findAll();
-        itemsFiltrados = getFacade().findAll();//creo q no hace falta
+        presentada = false;
+        this.filtrarItems();
     }
     
     private OrdenMedicaFacade getFacade() {
@@ -62,7 +56,7 @@ public class OrdenMedicaListViewController implements Serializable {
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
             selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+            itemsFiltrados = null;    // Invalidate list of items to trigger re-query.
         }
     }
     
@@ -72,14 +66,6 @@ public class OrdenMedicaListViewController implements Serializable {
 
     public void setSelected(OrdenMedica selected) {
         this.selected = selected;
-    }
-
-    public List<OrdenMedica> getOrdenes() {
-        return items;
-    }
-    
-    public void setOrdenes(List<OrdenMedica> ordenes) {
-        this.items = ordenes;
     }
 
     public Boolean getAutorizada() {
@@ -123,12 +109,7 @@ public class OrdenMedicaListViewController implements Serializable {
     }
     
     public void filtrarItems(){
-        itemsFiltrados = getFacade().getOrdenesByFilters(autorizada, presentada,obraSocial,startDate,endDate);
-    }
-    
-    public void limpiarFechas(){
-        startDate=null;
-        endDate=null;
+        itemsFiltrados = getFacade().getOrdenesByFilters(autorizada, presentada, obraSocial, startDate, endDate);
     }
     
     public List<OrdenMedica> getItemsFiltrados() {

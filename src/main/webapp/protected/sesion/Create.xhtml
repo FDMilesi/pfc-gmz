@@ -21,7 +21,20 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
-                        <p:calendar id="fechaHoraInicio" pattern="MM/dd/yyyy HH:mm:ss" value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.EditSesionTitle_fechaHoraInicio}"  showOn="button" required="true" requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"/>
+                        <p:calendar id="fechaHoraInicio" 
+                                    pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{sesionController.selected.fechaHoraInicio}" 
+                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
+                                    showOn="button" 
+                                    showButtonPanel="true"
+                                    required="true" 
+                                    locale="es"
+                                    stepMinute="5"
+                                    timeZone="GMT-3"
+                                    minHour="8"
+                                    maxHour="21"
+                                    requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
+                                    />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_agenda}" for="agenda" />
                         <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}" required="true" requiredMessage="#{bundle.EditSesionRequiredMessage_agenda}">
                             <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"

@@ -1,14 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -25,7 +21,6 @@ import javax.inject.Named;
 
 /**
  *
- * @author Nacho Gómez
  */
 @Named("ordenMedicaController")
 @ViewScoped
@@ -33,6 +28,13 @@ public class OrdenMedicaController implements Serializable {
 
     @EJB
     private OrdenMedicaFacade ejbFacade;
+    @EJB
+    private TratamientoFacade tratamientoFacade;
+    /**
+     * Campo auxiliar para permitir recargar el tratamiento cuando haya sido 
+     * modificado por otro controller.
+     */
+    private String idTratamiento;
     private List<OrdenMedica> itemsTratamiento = null;
     private OrdenMedica selected;
     private Tratamiento tratamiento;
@@ -43,6 +45,7 @@ public class OrdenMedicaController implements Serializable {
 
     @PostConstruct
     public void init() {
+        idTratamiento = JsfUtil.getRequestParameter("tratamiento");
         tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
         itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
     }
@@ -51,19 +54,22 @@ public class OrdenMedicaController implements Serializable {
         return ejbFacade;
     }
 
-    public void destroy() {
-        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            itemsTratamiento = null;    // Invalidate list of items to trigger re-query.
-        }
+    /**
+     * Fuerza a que el campo tratamiento del controller sea recargado. Por lo
+     * general es llamado desde otro controller que haya modificado el
+     * tratamiento
+     *
+     * @see getTratamiento()
+     */
+    public void recargarTratamiento() {
+        tratamiento = null;
     }
-    
+
     public void validarCantidadDeSesiones(FacesContext facesContext,
             UIComponent componente,
             Object valor) {
         Short cantidadDeSesiones = (Short) valor;
-        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(tratamiento, itemsTratamiento,cantidadDeSesiones)) {
+        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(this.getTratamiento(), itemsTratamiento, cantidadDeSesiones)) {
             ((UIInput) componente).setValid(false);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrdenMedica_CantidadDeSesionesValidacion"));
         }
@@ -78,8 +84,8 @@ public class OrdenMedicaController implements Serializable {
     }
 
     public List<OrdenMedica> getItemsTratamiento() {
-        if (itemsTratamiento == null){
-            itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
+        if (itemsTratamiento == null) {
+            itemsTratamiento = getFacade().getOrdenesByTratamiento(this.getTratamiento());
         }
         return itemsTratamiento;
     }
@@ -89,6 +95,10 @@ public class OrdenMedicaController implements Serializable {
     }
 
     public Tratamiento getTratamiento() {
+        if (tratamiento == null) {
+            //Debo usar tratamientoFacade porque recargar mediante JsfUtil no da resultado.
+            tratamiento = tratamientoFacade.find(Integer.parseInt(idTratamiento));
+        }
         return tratamiento;
     }
 
@@ -97,12 +107,7 @@ public class OrdenMedicaController implements Serializable {
     }
 
     public OrdenMedica prepareCreate() {
-        selected = getFacade().initOrden();//pasar el tratamiento al facade y finalizar la inicializacion alli
-        if (tratamiento != null) {
-            selected.setTratamiento(tratamiento);
-            selected.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
-            selected.setObraSocial(tratamiento.getPaciente().getObraSocial());
-        }
+        selected = getFacade().initOrden(this.getTratamiento());
         return selected;
     }
 
@@ -115,6 +120,14 @@ public class OrdenMedicaController implements Serializable {
 
     public void update() {
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
+    }
+
+    public void destroy() {
+        persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            itemsTratamiento = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     public OrdenMedica getOrdenMedica(java.lang.Integer id) {

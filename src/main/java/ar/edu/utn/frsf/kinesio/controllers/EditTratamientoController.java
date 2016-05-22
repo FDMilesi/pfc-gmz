@@ -12,11 +12,13 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.enterprise.event.Event;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
 @Named("editTratamientoController")
 @ViewScoped
@@ -25,7 +27,7 @@ public class EditTratamientoController implements Serializable {
     @EJB
     private TratamientoFacade ejbFacade;
     private Tratamiento selected;
-
+    
     @PostConstruct
     protected void init() {
         selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);

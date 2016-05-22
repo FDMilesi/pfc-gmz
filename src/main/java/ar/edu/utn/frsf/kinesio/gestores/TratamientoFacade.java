@@ -34,6 +34,14 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return em;
     }
 
+    public void refresh(Tratamiento tratamiento){
+        this.getEntityManager().refresh(getEntityManager().merge(tratamiento));
+    }
+    
+    public Tratamiento editAndReturn(Tratamiento tratamiento){
+        return getEntityManager().merge(tratamiento);
+    }
+    
     public TratamientoFacade() {
         super(Tratamiento.class);
     }

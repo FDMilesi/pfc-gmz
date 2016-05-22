@@ -55,13 +55,17 @@
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_medicoDerivante}" for="medicoderivante" />
                             <p:inputText id="medicoderivante" value="#{editTratamientoController.selected.medicoDerivante}" title="#{bundle.EditTratamientoTitle_diagnostico}" />
                         </p:panelGrid>
-                        <p:commandButton actionListener="#{editTratamientoController.update}" value="#{bundle.Save}" update="display,:growl" disabled="#{empty editTratamientoController.selected}"/>
+                        <p:commandButton action="#{editTratamientoController.update}" 
+                                         actionListener="#{ordenMedicaController.recargarTratamiento}" 
+                                         value="#{bundle.Save}" 
+                                         update="display,:growl" 
+                                         disabled="#{empty editTratamientoController.selected}"/>
                         <p:button outcome="List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" value="#{bundle.Cancel}" disabled="#{empty editTratamientoController.selected}"/>
                     </h:panelGroup>
                 </p:panel>
             </h:form>
             <br/>
-            <h:form id="OrdenTratamientoListForm" rendered="#{!ordenMedicaController.tratamiento.particular}">
+            <h:form id="OrdenTratamientoListForm" rendered="#{!editTratamientoController.selected.particular}">
                 <p:panel header="#{bundle.ListOrdenTitle}">
                     <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                                  var="orderItem"
@@ -77,33 +81,17 @@
                         <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
                         <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
 
-                        <!--                        <p:column>
-                                                    <f:facet name="header">
-                                                        <h:outputText value="#{bundle.ListOrdenMedicaTitle_numero}"/>
-                                                    </f:facet>
-                                                    <h:outputText value="#{orderItem.id.toString()}"/>
-                                                </p:column>-->
-
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_fechaCreacion}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
                             <h:outputText value="#{orderItem.fechaCreacion}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
                             </h:outputText>
                         </p:column>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
                             <h:outputText value="#{orderItem.cantidadDeSesiones}"/>                                
                         </p:column>
 
-                        <p:column>
-                            <f:facet name="header">
-                                <h:outputText value="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}"/>
-                            </f:facet>
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
                             <h:outputText value="#{orderItem.codigoDeAutorizacion}"/>
                         </p:column>
 
@@ -147,7 +135,7 @@
                         </p:column>
                         <p:column headerText="#{bundle.ListSesionTitle_fechaHoraInicio}">
                             <h:outputText value="#{item.fechaHoraInicio}">
-                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="#{bundle.ListSesionTitle_transcurrida}">
@@ -180,7 +168,7 @@
             <ui:include src="/protected/sesion/Create.xhtml"/>
             <ui:include src="/protected/sesion/Edit.xhtml"/>
             <ui:include src="/protected/ordenMedica/Create.xhtml"/>
-            <ui:include src="/protected/ordenMedica/Autorizar.xhtml"/>
+            <ui:include src="/protected/ordenMedica/AutorizarFromTratamiento.xhtml"/>
         </ui:define>
     </ui:composition>
 
