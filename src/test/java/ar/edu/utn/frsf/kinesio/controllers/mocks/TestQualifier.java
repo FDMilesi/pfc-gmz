@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ar.edu.utn.frsf.kinesio.controllers.util;
+package ar.edu.utn.frsf.kinesio.controllers.mocks;
 
 import static java.lang.annotation.ElementType.*;
 import java.lang.annotation.Retention;
@@ -18,6 +18,6 @@ import javax.inject.Qualifier;
 @Qualifier
 @Retention(RUNTIME)
 @Target({METHOD,FIELD,PARAMETER,TYPE})
-public @interface SesionInicializada{
+public @interface TestQualifier{
     
 }

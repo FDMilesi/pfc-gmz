@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
+import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
@@ -46,7 +47,7 @@ public class OrdenMedicaController implements Serializable {
     @PostConstruct
     public void init() {
         idTratamiento = JsfUtil.getRequestParameter("tratamiento");
-        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
+        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoConverter(), null);
         itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
     }
 
@@ -55,7 +56,7 @@ public class OrdenMedicaController implements Serializable {
     }
 
     /**
-     * Fuerza a que el campo tratamiento del controller sea recargado. Por lo
+     * Fuerza a que el field tratamiento de este controller sea recargado. Por lo
      * general es llamado desde otro controller que haya modificado el
      * tratamiento
      *
@@ -96,7 +97,7 @@ public class OrdenMedicaController implements Serializable {
 
     public Tratamiento getTratamiento() {
         if (tratamiento == null) {
-            //Debo usar tratamientoFacade porque recargar mediante JsfUtil no da resultado.
+            //Debo usar tratamientoFacade porque recargar mediante TratamientoConverter no da resultado.
             tratamiento = tratamientoFacade.find(Integer.parseInt(idTratamiento));
         }
         return tratamiento;

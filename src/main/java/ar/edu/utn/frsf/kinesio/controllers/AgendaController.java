@@ -1,16 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
-import ar.edu.utn.frsf.kinesio.controllers.util.EliminarSesionEvento;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
-import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
-import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
-import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
@@ -19,16 +9,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.primefaces.event.SelectEvent;
@@ -37,7 +21,6 @@ import org.primefaces.model.ScheduleModel;
 
 /**
  *
- * @author fer_0
  */
 @Named(value = "agendaController")
 @ViewScoped
@@ -45,35 +28,27 @@ public class AgendaController implements Serializable {
 
     @EJB
     AgendaFacade ejbFacade;
-    
     List<Agenda> items;
-    
-    Agenda agenda;
+    Agenda selected;
 
     /* Eventos para comunicar controladores */
     @Inject
-    @SesionInicializada
-    Event<CreacionSesionEvento> sesionInicializadaEvento;
+    Event<SesionInicializadaEvento> sesionInicializadaEvento;
     @Inject
     Event<VerSesionEvento> verSesionEvento;
 
-    @PostConstruct
-    protected void init() {
-        items = getFacade().findAll();//Todas las agendas
-        agenda = getFacade().getAgenda();//Obtengo la única agenda que hay por ahora
-    }
-
-    /**
-     * Creates a new instance of AgendaController
-     */
     public AgendaController() {
     }
 
+    //Getters y Setters
     private AgendaFacade getFacade() {
         return ejbFacade;
     }
 
     public List<Agenda> getItemsAvailableSelectOne() {
+        if (items == null) {
+            items = getFacade().findAll();
+        }
         return items;
     }
 
@@ -81,74 +56,71 @@ public class AgendaController implements Serializable {
         return getFacade().find(id);
     }
 
-    public ScheduleModel getAgenda() {
-        return agenda;
+    public void setSelected(Agenda selected) {
+        this.selected = selected;
     }
 
-    public void setAgenda(Agenda agenda) {
-        this.agenda = agenda;
+    public ScheduleModel getSelected() {
+        if (selected == null) {
+            selected = getFacade().getAgenda();
+        }
+        return selected;
     }
 
+    //Métodos de negocio
     public void mostrarSesion(SelectEvent selectEvent) {
-        Sesion sesion = (Sesion) agenda.getEvent(((ScheduleEvent) selectEvent.getObject()).getId());
+        //En este caso el scheduleEvent que devuelve la vista no contiene toda la info necesaria. Por eso es necesario 
+        //buscarlo nuevamente en la lista de sesiones con el getEvent()
+        String scheduleEventId = ((ScheduleEvent) selectEvent.getObject()).getId();
+        Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
         verSesionEvento.fire(new VerSesionEvento());
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
         Date date = (Date) selectEvent.getObject();
-        if(date.before(new Date()))
-            JsfUtil.addWarningMessage(ResourceBundle.getBundle("/Bundle").getString("WarningSesionEnFechaAnterior"));
-        sesionInicializadaEvento.fire(new CreacionSesionEvento(date));
+        if (date.before(new Date())) {
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("WarningSesionEnFechaAnterior"));
+        }
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", selected);
+        sesionInicializadaEvento.fire(new SesionInicializadaEvento(date));
     }
 
-    public void agregarSesion(@Observes @SesionCreada CreacionSesionEvento evento) {
+    public void agregarSesion(@Observes SesionController.SesionCreadaEvento evento) {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
-        agenda.addEvent(sesion);
+        getSelected().addEvent(sesion);
     }
 
-    public void eliminarSesion(@Observes EliminarSesionEvento evento) {
-        agenda.deleteEvent(agenda.getEvent(evento.getIdSesionEliminada()));
+    public void eliminarSesion(@Observes SesionController.SesionEliminadaEvento evento) {
+        getSelected().deleteEvent(getSelected().getEvent(evento.getIdSesionEliminada()));
     }
 
-    @FacesConverter(forClass = Agenda.class)
-    public static class AgendaConverter implements Converter {
+    //Eventos que lanza AgendaController
+    public class SesionInicializadaEvento {
 
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            AgendaController controller = (AgendaController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "agendaController");
-            return controller.getAgenda(getKey(value));
+        private Date date;
+
+        public SesionInicializadaEvento() {
         }
 
-        java.lang.Short getKey(String value) {
-            java.lang.Short key;
-            key = Short.valueOf(value);
-            return key;
+        public SesionInicializadaEvento(Date date) {
+            this.date = date;
         }
 
-        String getStringKey(java.lang.Short value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
+        public Date getDate() {
+            return date;
         }
 
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Agenda) {
-                Agenda o = (Agenda) object;
-                return getStringKey(o.getId());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Agenda.class.getName()});
-                return null;
-            }
+        public void setDate(Date date) {
+            this.date = date;
         }
-
     }
+
+    public class VerSesionEvento {
+
+        public VerSesionEvento() {
+
+        }
+    }
+
 }

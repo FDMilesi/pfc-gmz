@@ -17,12 +17,12 @@ import static org.junit.Assert.*;
  *
  * @author fer_0
  */
-public class PacienteFacadeIT {
+public class PacienteFacadeIT_ {
 
     private PacienteFacade pacienteFacade;
     private EntityTransaction transaction;
 
-    public PacienteFacadeIT() {
+    public PacienteFacadeIT_() {
     }
 
     @Before

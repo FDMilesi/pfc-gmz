@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
+import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
@@ -30,7 +31,7 @@ public class EditTratamientoController implements Serializable {
     
     @PostConstruct
     protected void init() {
-        selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
+        selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoConverter(), null);
     }
 
     public EditTratamientoController() {

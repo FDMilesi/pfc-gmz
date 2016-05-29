@@ -1,13 +1,10 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.util.CreacionSesionEvento;
-import ar.edu.utn.frsf.kinesio.controllers.util.EliminarSesionEvento;
+import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
-import ar.edu.utn.frsf.kinesio.controllers.util.SesionCreada;
-import ar.edu.utn.frsf.kinesio.controllers.util.SesionInicializada;
-import ar.edu.utn.frsf.kinesio.controllers.util.VerSesionEvento;
+import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
@@ -16,16 +13,12 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
@@ -33,27 +26,36 @@ import javax.inject.Inject;
 @ViewScoped
 public class SesionController implements Serializable {
 
+    private static TratamientoConverter tratamientoConverter;
+
     @EJB
     private SesionFacade ejbFacade;
     private List<Sesion> items = null;
     private Sesion selected;
-    private Tratamiento tratamiento;
-
-    @PostConstruct
-    public void init() {
-        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoController.TratamientoControllerConverter(), null);
-    }
+    private Tratamiento tratamientoEnEdicion;
 
     /* Eventos para comunicar controladores */
     @Inject
-    @SesionCreada
-    Event<CreacionSesionEvento> sesionCreadaEvento;
+    Event<SesionCreadaEvento> sesionCreadaEvento;
     @Inject
-    Event<EliminarSesionEvento> eliminarSesionEvento;
+    Event<SesionEliminadaEvento> sesionEliminadaEvento;
 
     public SesionController() {
     }
 
+    //Métodos static
+    public static TratamientoConverter getTratamientoConverter() {
+        if (tratamientoConverter == null) {
+            tratamientoConverter = new TratamientoConverter();
+        }
+        return tratamientoConverter;
+    }
+
+    public static void setTratamientoConverter(TratamientoConverter tratamientoConverter) {
+        SesionController.tratamientoConverter = tratamientoConverter;
+    }
+
+    //Getters y Setters
     public Sesion getSelected() {
         return selected;
     }
@@ -66,12 +68,37 @@ public class SesionController implements Serializable {
         return ejbFacade;
     }
 
-    public void verSesion(@Observes VerSesionEvento evento) {
+    public List<Sesion> getItems() {
+        if (items == null) {
+            items = getFacade().getSesionesByTratamiento(this.getTratamientoEnEdicion());
+        }
+        return items;
+    }
+
+    public Sesion getSesion(Integer id) {
+        return getFacade().find(id);
+    }
+
+    private Tratamiento getTratamientoEnEdicion() {
+        if (tratamientoEnEdicion == null) {
+            tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", getTratamientoConverter(), null);
+        }
+        return tratamientoEnEdicion;
+    }
+
+    //Métodos de negocio
+    public void calcularNumeroSesion() {
+        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
+    }
+
+    public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
+        System.out.println("soy sesion controler" + this.toString());
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
     }
 
-    public void prepareCreate(@Observes @SesionInicializada CreacionSesionEvento evento) {
-        selected = getFacade().initSesionFromAgenda(evento.getDate(), null);
+    public void prepareCreateFromAgenda(@Observes AgendaController.SesionInicializadaEvento evento) {
+        Agenda agendaDeSesion = (Agenda) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agenda");
+        selected = getFacade().initSesionFromAgenda(evento.getDate(), agendaDeSesion);
     }
 
     public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {
@@ -84,8 +111,12 @@ public class SesionController implements Serializable {
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
+    }
+
+    public void createFromAgenda() {
+        this.create();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
-        sesionCreadaEvento.fire(new CreacionSesionEvento());
+        sesionCreadaEvento.fire(new SesionCreadaEvento());
     }
 
     public void update() {
@@ -99,22 +130,7 @@ public class SesionController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-        eliminarSesionEvento.fire(new EliminarSesionEvento(sesionId));
-    }
-
-    public List<Sesion> getItems() {
-        if (items == null) {
-            items = getFacade().getSesionesByTratamiento(tratamiento);
-        }
-        return items;
-    }
-
-    public Sesion getSesion(Integer id) {
-        return getFacade().find(id);
-    }
-
-    public void calcularNumeroSesion() {
-        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(tratamiento));
+        sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -144,45 +160,36 @@ public class SesionController implements Serializable {
         }
     }
 
-    @FacesConverter(forClass = Sesion.class)
-    public static class SesionControllerConverter implements Converter {
-
-        @Override
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            SesionController controller = (SesionController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "sesionController");
-            return controller.getSesion(getKey(value));
-        }
-
-        java.lang.Integer getKey(String value) {
-            java.lang.Integer key;
-            key = Integer.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Integer value) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        @Override
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Sesion) {
-                Sesion o = (Sesion) object;
-                return getStringKey(o.getIdSesion());
-            } else {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Sesion.class.getName()});
-                return null;
-            }
-        }
-
+    //seters para testing
+    public void setFacade(SesionFacade sesionFacade) {
+        this.ejbFacade = sesionFacade;
     }
 
+    //Eventos que lanza SesionController
+    public class SesionCreadaEvento {
+
+        public SesionCreadaEvento() {
+        }
+    }
+
+    public class SesionEliminadaEvento {
+
+        private String idSesionEliminada;
+
+        public SesionEliminadaEvento() {
+
+        }
+
+        public SesionEliminadaEvento(String idSesionEliminada) {
+            this.idSesionEliminada = idSesionEliminada;
+        }
+
+        public String getIdSesionEliminada() {
+            return idSesionEliminada;
+        }
+
+        public void setIdSesionEliminada(String idSesionEliminada) {
+            this.idSesionEliminada = idSesionEliminada;
+        }
+    }
 }

@@ -31,6 +31,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public Sesion initSesionFromAgenda(Date date, Agenda agenda) {
         Sesion sesion = new Sesion();
+        sesion.setAgenda(agenda);
         sesion.setFechaHoraInicio(date);
         sesion.setTranscurrida(false);
         sesion.setCuenta(true);
@@ -75,6 +76,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     /**
      * Método ejecutado antes de que una sesión sea persistida
+     *
      * @param sesion
      */
     @PrePersist
@@ -85,10 +87,10 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     @PostLoad
-    void onPostLoad(Sesion s){
+    void onPostLoad(Sesion s) {
         colorearSesiones(s);
     }
-    
+
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager().createNamedQuery("Sesion.findByTratamiento")
                 .setParameter("tratamiento", tratamiento).getResultList();
@@ -98,30 +100,30 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return getEntityManager().createNamedQuery("Sesion.findByAgenda")
                 .setParameter("agenda", agenda).getResultList();
     }
-    
-    private void colorearSesiones(Sesion s){
+
+    private void colorearSesiones(Sesion s) {
         switch (s.getTratamiento().getTipoDeTratamiento().getId()) {
-                case 1:
-                    s.setStyleClass("fisiokinesioterapia");
-                    break;
-                case 2:
-                    s.setStyleClass("kinesioterapiaRespiratoria");
-                    break;
-                case 3:
-                    s.setStyleClass("drenajeLinfatico");
-                    break;
-                case 4:
-                    s.setStyleClass("rehabilitacionNeurologica");
-                    break;
-                case 5:
-                    s.setStyleClass("esteticaElectrodos");
-                    break;
-                case 6:
-                    s.setStyleClass("esteticaMasajes");
-                    break;
-                case 7:
-                    s.setStyleClass("gimnasiaTerapeutica");
-                    break;
-            }
+            case 1:
+                s.setStyleClass("fisiokinesioterapia");
+                break;
+            case 2:
+                s.setStyleClass("kinesioterapiaRespiratoria");
+                break;
+            case 3:
+                s.setStyleClass("drenajeLinfatico");
+                break;
+            case 4:
+                s.setStyleClass("rehabilitacionNeurologica");
+                break;
+            case 5:
+                s.setStyleClass("esteticaElectrodos");
+                break;
+            case 6:
+                s.setStyleClass("esteticaMasajes");
+                break;
+            case 7:
+                s.setStyleClass("gimnasiaTerapeutica");
+                break;
+        }
     }
 }

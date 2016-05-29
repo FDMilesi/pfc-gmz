@@ -8,14 +8,14 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * 
+ *
  */
 @Stateless
 public class AgendaFacade extends AbstractFacade<Agenda> {
 
     @PersistenceContext(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
     private EntityManager em;
-    
+
     @EJB
     SesionFacade sesionFacade;
 
@@ -28,10 +28,10 @@ public class AgendaFacade extends AbstractFacade<Agenda> {
         super(Agenda.class);
     }
 
-    public Agenda getAgenda(){
-        Agenda agenda = this.findAll().get(0);
+    public Agenda getAgenda() {
+        Agenda agenda = this.find((short) 1);
         agenda.setSesiones(sesionFacade.getSesionesByAgenda(agenda));
         return agenda;
     }
-    
+
 }

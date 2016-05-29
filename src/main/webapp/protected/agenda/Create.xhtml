@@ -44,15 +44,8 @@
                             <p:ajax update="numeroDeSesion" listener="#{sesionController.calcularNumeroSesion()}" event="change"/> 
                         </p:selectOneMenu>
 
-                        <p:outputLabel value="#{bundle.CreateSesionLabel_agenda}" for="agenda" />
-                        <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}">
-                            <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"
-                                           var="agendaItem"
-                                           itemValue="#{agendaItem}"/>
-                        </p:selectOneMenu>
-
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sesionController.create}"
+                    <p:commandButton actionListener="#{sesionController.createFromAgenda}"
                                      value="#{bundle.Save}"
                                      oncomplete="handleSubmit(args,'SesionCreateDialog');"
                                      update="display,:AgendaForm,:growl"/>
