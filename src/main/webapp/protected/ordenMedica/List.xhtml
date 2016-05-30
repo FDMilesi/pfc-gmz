@@ -105,7 +105,7 @@
                             <h:outputText value="#{item.tratamiento.tipoDeTratamiento.nombre}"/>
                         </p:column>
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoPrestacion}">
-                            <h:outputText value="#{tipoDeTratamientoController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
+                            <h:outputText value="#{obraSocialController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
                         </p:column>
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
                             <h:outputText value="#{item.cantidadDeSesiones}"/>                                

@@ -1,13 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.gestores.ObraSocialFacade;
+import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +20,6 @@ import javax.faces.convert.FacesConverter;
 
 /**
  *
- * @author fer_0
  */
 @Named(value = "obraSocialController")
 @ApplicationScoped
@@ -30,6 +27,9 @@ public class ObraSocialController {
 
     @EJB
     private ObraSocialFacade ejbFacade;
+    @EJB
+    private TipoTratamientoObraSocialFacade tipoTratamientoObraSocialFacade;
+
     List<ObraSocial> items;
 
     /**
@@ -43,8 +43,25 @@ public class ObraSocialController {
     public ObraSocialController() {
     }
 
+    public String getCodigoDePrestacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial) {
+
+        //Se puede eliminar este chequeo cdo la BD este consistente
+        if (obraSocial == null) {
+            return "Obra Social no seteada. Volver a crear la orden";
+        }
+
+        TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
+                .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
+
+        return tipoTratamientoObraSocial.getCodigoDePrestacion();
+    }
+
     private ObraSocialFacade getFacade() {
         return ejbFacade;
+    }
+
+    public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {
+        return tipoTratamientoObraSocialFacade;
     }
 
     public List<ObraSocial> getItemsAvailableSelectOne() {

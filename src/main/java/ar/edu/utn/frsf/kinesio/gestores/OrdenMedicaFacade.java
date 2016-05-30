@@ -33,12 +33,9 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setFechaCreacion(new Date());
         orden.setPresentadaAlCirculo(false);
         orden.setTratamiento(tratamiento);
-        if (tratamiento.getPaciente().getObraSocial() != null) {
-            orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
-            if (tratamiento.getPaciente().getNroAfiliadoOS() != null) {
-                orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
-            }
-        }
+        orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
+        orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
+
         return orden;
     }
 

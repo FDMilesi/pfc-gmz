@@ -92,7 +92,6 @@ public class SesionController implements Serializable {
     }
 
     public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
-        System.out.println("soy sesion controler" + this.toString());
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
     }
 

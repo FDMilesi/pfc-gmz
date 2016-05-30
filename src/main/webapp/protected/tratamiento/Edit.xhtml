@@ -65,7 +65,10 @@
                 </p:panel>
             </h:form>
             <br/>
-            <h:form id="OrdenTratamientoListForm" rendered="#{!editTratamientoController.selected.particular}">
+            <p:messages id="messages" />
+            <h:form id="OrdenTratamientoListForm" 
+                    rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                and !editTratamientoController.selected.particular}">
                 <p:panel header="#{bundle.ListOrdenTitle}">
                     <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                                  var="orderItem"

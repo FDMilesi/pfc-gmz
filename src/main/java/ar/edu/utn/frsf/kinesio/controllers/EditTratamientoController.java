@@ -13,13 +13,11 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
-import javax.enterprise.event.Event;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 
 @Named("editTratamientoController")
 @ViewScoped
@@ -28,10 +26,13 @@ public class EditTratamientoController implements Serializable {
     @EJB
     private TratamientoFacade ejbFacade;
     private Tratamiento selected;
-    
+
     @PostConstruct
     protected void init() {
         selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoConverter(), null);
+        if (selected.getPaciente().getObraSocial() == null) {
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("EditTratamiento_obraSocialNoSeteada"));
+        }
     }
 
     public EditTratamientoController() {
@@ -57,6 +58,10 @@ public class EditTratamientoController implements Serializable {
 
     private TratamientoFacade getFacade() {
         return ejbFacade;
+    }
+
+    public Tratamiento getTratamiento(java.lang.Integer id) {
+        return getFacade().find(id);
     }
 
     public void update() {
@@ -95,10 +100,6 @@ public class EditTratamientoController implements Serializable {
                 JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
-    }
-
-    public Tratamiento getTratamiento(java.lang.Integer id) {
-        return getFacade().find(id);
     }
 
 }

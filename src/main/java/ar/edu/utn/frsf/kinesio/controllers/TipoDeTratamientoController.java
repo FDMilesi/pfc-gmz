@@ -5,9 +5,7 @@
  */
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
-import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.gestores.TipoDeTratamientoFacade;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -55,18 +53,6 @@ public class TipoDeTratamientoController implements Serializable {
 
     public TipoDeTratamiento getTipoDeTratamiento(java.lang.Short id) {
         return getFacade().find(id);
-    }
-
-    public String getCodigoDePrestacion(TipoDeTratamiento tipoDeTratamiento,ObraSocial obraSocial){
-        String returnVal = "";
-        
-        for(TipoDeTratamiento tt : items)
-            if(tt.equals(tipoDeTratamiento))
-                for(TipoTratamientoObraSocial ttos : tt.getTipoTratamientoObraSocialList())
-                    if(ttos.getObraSocial().equals(obraSocial))
-                        returnVal = ttos.getCodigoDePrestacion();
-        
-        return returnVal;
     }
     
     @FacesConverter(forClass = TipoDeTratamiento.class)

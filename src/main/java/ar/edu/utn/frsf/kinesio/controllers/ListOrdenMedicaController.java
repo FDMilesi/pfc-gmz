@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
+import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +27,7 @@ public class ListOrdenMedicaController implements Serializable {
     public ListOrdenMedicaController() {
 
     }
-    
+
     @EJB
     private OrdenMedicaFacade ejbFacade;
     private List<OrdenMedica> itemsFiltrados = null;
@@ -39,17 +40,18 @@ public class ListOrdenMedicaController implements Serializable {
     private Date endDate;
 
     @PostConstruct
-    public void init(){
-        presentada = false;
+    public void init() {
+        this.setPresentada(false);
         this.filtrarItems();
     }
-    
-    private OrdenMedicaFacade getFacade() {
-        return ejbFacade;
+
+    //Metodos de negocio
+    public void filtrarItems() {
+        itemsFiltrados = getFacade().getOrdenesByFilters(autorizada, presentada, obraSocial, startDate, endDate);
     }
-    
-    public void cancel() {
-        selected = null;
+
+    public void update() {
+        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
     }
 
     public void destroy() {
@@ -59,7 +61,19 @@ public class ListOrdenMedicaController implements Serializable {
             itemsFiltrados = null;    // Invalidate list of items to trigger re-query.
         }
     }
-    
+
+    //Getters y Setters
+    public List<OrdenMedica> getItemsFiltrados() {
+        if (itemsFiltrados == null){
+            this.filtrarItems();
+        }
+        return itemsFiltrados;
+    }
+
+    private OrdenMedicaFacade getFacade() {
+        return ejbFacade;
+    }
+
     public OrdenMedica getSelected() {
         return selected;
     }
@@ -103,31 +117,19 @@ public class ListOrdenMedicaController implements Serializable {
     public Date getEndDate() {
         return endDate;
     }
-    
+
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
-    public void filtrarItems(){
-        itemsFiltrados = getFacade().getOrdenesByFilters(autorizada, presentada, obraSocial, startDate, endDate);
-    }
-    
-    public List<OrdenMedica> getItemsFiltrados() {
-        return itemsFiltrados;
-    }
-    
+
     public void setItemsFiltrados(List<OrdenMedica> itemsFiltrados) {
         this.itemsFiltrados = itemsFiltrados;
     }
-    
-    public void update() {
-        persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
-    }
-    
+
     public OrdenMedica getOrdenMedica(java.lang.Integer id) {
         return getFacade().find(id);
     }
-    
+
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {
@@ -160,5 +162,5 @@ public class ListOrdenMedicaController implements Serializable {
             }
         }
     }
-    
+
 }
