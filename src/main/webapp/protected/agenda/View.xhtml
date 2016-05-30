@@ -19,29 +19,50 @@
             <h:form id="SesionViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
-                        <h:outputText value="#{bundle.ViewSesionLabel_id}"/>
-                        <h:outputText value="#{sesionController.selected.id}" title="#{bundle.ViewSesionTitle_id}"/>
-                        <h:outputText value="#{bundle.ViewSesionLabel_duracion}"/>
-                        <h:outputText value="#{sesionController.selected.duracion}" title="#{bundle.ViewSesionTitle_duracion}"/>
+                        <!--paciente-->
+                        <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
+                        <h:outputText value="#{sesionController.selected.tratamiento.paciente.toString()}"/>
+                        <!--tratamiento-->
+                        <h:outputText value="#{bundle.CreateSesionLabel_tratamiento}"/>
+                        <h:outputText value="#{sesionController.selected.tratamiento.toString()}"/>                     
+                        <!--transcurrida-->
                         <h:outputText value="#{bundle.ViewSesionLabel_transcurrida}"/>
-                        <p:selectBooleanCheckbox value="#{sesionController.selected.transcurrida}" disabled="true"/>
+                        <p:selectBooleanCheckbox value="#{sesionController.selected.transcurrida}"/>
+                        <!--cuenta-->
                         <h:outputText value="#{bundle.ViewSesionLabel_cuenta}"/>
-                        <p:selectBooleanCheckbox value="#{sesionController.selected.cuenta}" disabled="true"/>
-                        <h:outputText value="#{bundle.ViewSesionLabel_numeroDeSesion}"/>
-                        <h:outputText value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.ViewSesionTitle_numeroDeSesion}"/>
-                        <h:outputText value="#{bundle.ViewSesionLabel_fechaHoraInicio}"/>
-                        <h:outputText value="#{sesionController.selected.fechaHoraInicio}" title="#{bundle.ViewSesionTitle_fechaHoraInicio}">
-                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
-                        </h:outputText>
-                        <h:outputText value="#{bundle.ViewSesionLabel_agenda}"/>
-                        <h:outputText value="#{sesionController.selected.agenda}" title="#{bundle.ViewSesionTitle_agenda}"/>
-                        <h:outputText value="#{bundle.ViewSesionLabel_tratamiento}"/>
-                        <h:outputText value="#{sesionController.selected.tratamiento}" title="#{bundle.ViewSesionTitle_tratamiento}"/>
+                        <p:selectBooleanCheckbox value="#{sesionController.selected.cuenta}"/>
+                        <!--numero de sesion-->
+                        <p:outputLabel value="#{bundle.EditSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
+                        <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
+                        <!--fecha hora inicio-->
+                        <p:outputLabel value="#{bundle.EditSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
+                        <p:calendar id="fechaHoraInicio" 
+                                    pattern="MM/dd/yyyy HH:mm:ss" 
+                                    value="#{sesionController.selected.fechaHoraInicio}" 
+                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
+                                    showOn="button" 
+                                    showButtonPanel="true"
+                                    required="true" 
+                                    locale="es"
+                                    stepMinute="5"
+                                    timeZone="GMT-3"
+                                    minHour="8"
+                                    maxHour="21"
+                                    requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
+                                    />                      
+                        
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('SesionViewDialog').hide()"/>
-                    <p:commandButton icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()">
+                    <p:commandButton icon="ui-icon-trash"  
+                                     value="#{bundle.Delete}" 
+                                     actionListener="#{sesionController.destroy}" 
+                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()">
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
+                    <p:commandButton actionListener="#{sesionController.updateFromAgenda()}" 
+                                     value="#{bundle.Save}" 
+                                     update=":growl" 
+                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

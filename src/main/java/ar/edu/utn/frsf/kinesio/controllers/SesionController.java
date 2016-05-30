@@ -38,6 +38,8 @@ public class SesionController implements Serializable {
     @Inject
     Event<SesionCreadaEvento> sesionCreadaEvento;
     @Inject
+    Event<SesionModificadaEvento> sesionModificadaEvento;
+    @Inject
     Event<SesionEliminadaEvento> sesionEliminadaEvento;
 
     public SesionController() {
@@ -95,7 +97,7 @@ public class SesionController implements Serializable {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
     }
     
-    public void updateFromAgenda(@Observes AgendaController.ModificarSesionEvento evento){
+    public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento){
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         this.update();
     }
@@ -125,6 +127,12 @@ public class SesionController implements Serializable {
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
+    }
+    
+    public void updateFromAgenda(){
+        this.update();
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
+        sesionModificadaEvento.fire(new SesionModificadaEvento());
     }
 
     public void destroy() {
@@ -173,6 +181,12 @@ public class SesionController implements Serializable {
     public class SesionCreadaEvento {
 
         public SesionCreadaEvento() {
+        }
+    }
+    
+    public class SesionModificadaEvento {
+
+        public SesionModificadaEvento() {
         }
     }
 

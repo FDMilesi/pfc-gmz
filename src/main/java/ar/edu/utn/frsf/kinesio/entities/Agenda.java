@@ -148,7 +148,19 @@ public class Agenda implements Serializable, ScheduleModel {
 
     @Override
     public void updateEvent(ScheduleEvent se) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int index = -1;
+
+        for (int i = 0; i < sesiones.size(); i++) {
+            if (sesiones.get(i).getId().equals(se.getId())) {
+                index = i;
+
+                break;
+            }
+        }
+
+        if (index >= 0) {
+            sesiones.set(index, (Sesion) se);
+        }
     }
 
     @Override

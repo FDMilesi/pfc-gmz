@@ -216,7 +216,7 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public boolean isEditable() {
-        return true;
+        return !transcurrida;
     }
 
     @Override
