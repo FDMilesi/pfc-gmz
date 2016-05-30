@@ -15,6 +15,7 @@ import javax.enterprise.event.Observes;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.SelectEvent;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
@@ -36,6 +37,8 @@ public class AgendaController implements Serializable {
     Event<SesionInicializadaEvento> sesionInicializadaEvento;
     @Inject
     Event<VerSesionEvento> verSesionEvento;
+    @Inject
+    Event<ModificarSesionEvento> modificarSesionEvento;
 
     public AgendaController() {
     }
@@ -75,6 +78,16 @@ public class AgendaController implements Serializable {
         Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
         verSesionEvento.fire(new VerSesionEvento());
+    }
+    
+    public void modificarSesion(ScheduleEntryMoveEvent event){
+        String scheduleEventId = (event.getScheduleEvent()).getId();
+        Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
+        
+        sesion.setFechaHoraInicio(event.getScheduleEvent().getStartDate());
+        
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
+        modificarSesionEvento.fire(new ModificarSesionEvento());
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
@@ -119,6 +132,13 @@ public class AgendaController implements Serializable {
     public class VerSesionEvento {
 
         public VerSesionEvento() {
+
+        }
+    }
+    
+    public class ModificarSesionEvento {
+
+        public ModificarSesionEvento() {
 
         }
     }

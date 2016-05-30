@@ -38,6 +38,9 @@
                                 listener="#{agendaController.mostrarSesion}"
                                 update=":SesionViewForm" 
                                 oncomplete="PF('SesionViewDialog').show();" />
+                        <p:ajax event="eventMove"
+                                listener="#{agendaController.modificarSesion}"
+                                update=":growl"/>
                     </p:schedule>                    
                 </h:form>
 
