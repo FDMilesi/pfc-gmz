@@ -26,7 +26,7 @@
                         <h:outputText id="tratamiento" value="#{ordenMedicaController.selected.tratamiento.tipoDeTratamiento.toString()}" title="#{bundle.EditOrdenMedicaTitle_tratamiento}" />
 
                         <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_codigoDePrestacion}" for="codigoPrestacion" />
-                        <h:outputText id="codigoPrestacion" value="#{tipoDeTratamientoController.getCodigoDePrestacion(ordenMedicaController.selected.tratamiento.tipoDeTratamiento,ordenMedicaController.selected.obraSocial)}" />
+                        <h:outputText id="codigoPrestacion" value="#{obraSocialController.getCodigoDePrestacion(ordenMedicaController.selected.tratamiento.tipoDeTratamiento,ordenMedicaController.selected.obraSocial)}" />
 
                         <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_obraSocial}" for="obraSocial" />
                         <h:outputText id="obraSocial" value="#{ordenMedicaController.selected.obraSocial.toString()}" />

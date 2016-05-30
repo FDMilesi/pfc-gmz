@@ -47,8 +47,8 @@
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sesionController.createFromAgenda}"
                                      value="#{bundle.Save}"
-                                     oncomplete="handleSubmit(args,'SesionCreateDialog');"
-                                     update="display,:AgendaForm,:growl"/>
+                                     oncomplete="PF('agenda').update(); PF('SesionCreateDialog').hide();"
+                                     update=":growl"/>
                     <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('SesionCreateDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
