@@ -96,8 +96,8 @@ public class SesionController implements Serializable {
     public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
     }
-    
-    public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento){
+
+    public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         this.update();
     }
@@ -126,23 +126,29 @@ public class SesionController implements Serializable {
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));        
     }
-    
-    public void updateFromAgenda(){
+
+    public void updateFromAgenda() {
         this.update();
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionModificadaEvento.fire(new SesionModificadaEvento());
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
-        String sesionId = selected.getId();
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+        if (!selected.getTranscurrida()) {
+            persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
+            String sesionId = selected.getId();
+            if (!JsfUtil.isValidationFailed()) {
+                selected = null; // Remove selection
+                items = null;    // Invalidate list of items to trigger re-query.
+            }
+            sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
         }
-        sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
+        else{
+            JsfUtil.addErrorMessage("No se puede eliminar una sesion ya transcurrida");
+        }
+
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -183,7 +189,7 @@ public class SesionController implements Serializable {
         public SesionCreadaEvento() {
         }
     }
-    
+
     public class SesionModificadaEvento {
 
         public SesionModificadaEvento() {

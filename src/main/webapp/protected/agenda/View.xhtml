@@ -56,7 +56,8 @@
                     <p:commandButton icon="ui-icon-trash"  
                                      value="#{bundle.Delete}" 
                                      actionListener="#{sesionController.destroy}" 
-                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()">
+                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"
+                                     update=":growl">
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
                     <p:commandButton actionListener="#{sesionController.updateFromAgenda()}" 
