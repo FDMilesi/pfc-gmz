@@ -1,9 +1,9 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
-import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 
 import java.io.Serializable;
@@ -15,10 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.view.ViewScoped;
 
 @Named("tratamientoController")
@@ -35,15 +32,22 @@ public class TratamientoController implements Serializable {
 
     @PostConstruct
     protected void init() {
-        paciente = (Paciente) JsfUtil.getObjectFromRequestParameter("paciente", new PacienteController.PacienteControllerConverter(), null);
-        items = getFacade().getTratamientosByPaciente(paciente);
+        paciente = (Paciente) JsfUtil.getObjectFromRequestParameter(
+                "paciente",
+                FacesContext.getCurrentInstance().getApplication().createConverter(Paciente.class),
+                null);
     }
 
     public TratamientoController() {
     }
 
-    public String prepararEditTratamiento() {
-        return EDIT_TRATAMIENTOS_PATH;
+    //Getters and Setters
+    public Tratamiento getTratamiento(java.lang.Integer id) {
+        return getFacade().find(id);
+    }
+
+    public List<Tratamiento> getItemsAvailableSelectOne() {
+        return getFacade().findAll();
     }
 
     public Paciente getPaciente() {
@@ -65,6 +69,18 @@ public class TratamientoController implements Serializable {
 
     private TratamientoFacade getFacade() {
         return ejbFacade;
+    }
+
+    //Métodos de negocio
+    public List<Tratamiento> getItems() {
+        if (items == null) {
+            items = getFacade().getTratamientosByPaciente(paciente);
+        }
+        return items;
+    }
+
+    public String prepararEditTratamiento() {
+        return EDIT_TRATAMIENTOS_PATH;
     }
 
     public Tratamiento prepareCreate() {
@@ -89,13 +105,6 @@ public class TratamientoController implements Serializable {
             selected = null; // Remove selection
             items = null;    // Invalidate list of items to trigger re-query.
         }
-    }
-
-    public List<Tratamiento> getItems() {
-        if (items == null) {
-            items = getFacade().getTratamientosByPaciente(paciente);
-        }
-        return items;
     }
 
     private void persist(PersistAction persistAction, String successMessage) {
@@ -125,16 +134,8 @@ public class TratamientoController implements Serializable {
         }
     }
 
-    public Tratamiento getTratamiento(java.lang.Integer id) {
-        return getFacade().find(id);
+    //seters para testing
+    public void setFacade(TratamientoFacade tratamientoFacade) {
+        this.ejbFacade = tratamientoFacade;
     }
-
-    public List<Tratamiento> getItemsAvailableSelectMany() {
-        return getFacade().findAll();
-    }
-
-    public List<Tratamiento> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
 }

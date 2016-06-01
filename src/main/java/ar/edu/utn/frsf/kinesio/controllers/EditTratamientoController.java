@@ -1,6 +1,5 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
@@ -29,8 +28,13 @@ public class EditTratamientoController implements Serializable {
 
     @PostConstruct
     protected void init() {
-        selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoConverter(), null);
-        if (selected.getPaciente().getObraSocial() == null) {
+        selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                "tratamiento",
+                FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
+                null);
+        //En caso que el paciente no tenga seteada la obra social y esté editando
+        //un tratamiento no particular, emito un mensaje acerca de la creación de ordenes medicas.
+        if (selected.getPaciente().getObraSocial() == null && !selected.getParticular()) {
             JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("EditTratamiento_obraSocialNoSeteada"));
         }
     }
@@ -38,16 +42,7 @@ public class EditTratamientoController implements Serializable {
     public EditTratamientoController() {
     }
 
-    public void validarCantidadDeSesiones(FacesContext facesContext,
-            UIComponent componente,
-            Object valor) {
-        Short cantidadDeSesiones = (Short) valor;
-        if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
-        }
-    }
-
+    //Getters y Setters
     public Tratamiento getSelected() {
         return selected;
     }
@@ -62,6 +57,17 @@ public class EditTratamientoController implements Serializable {
 
     public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
+    }
+
+    //Métodos de negocio
+    
+    //Validator del campo Cantidad de sesiones de un Tratamiento.
+    public void validarCantidadDeSesiones(FacesContext facesContext, UIComponent componente, Object valor) {
+        Short cantidadDeSesiones = (Short) valor;
+        if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
+        }
     }
 
     public void update() {

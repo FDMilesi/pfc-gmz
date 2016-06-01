@@ -32,8 +32,8 @@ public class OrdenMedicaController implements Serializable {
     @EJB
     private TratamientoFacade tratamientoFacade;
     /**
-     * Campo auxiliar para permitir recargar el tratamiento cuando haya sido 
-     * modificado por otro controller.
+     * Campo auxiliar idTratamiento para permitir recargar el tratamiento cuando
+     * haya sido modificado por otro controller.
      */
     private String idTratamiento;
     private List<OrdenMedica> itemsTratamiento = null;
@@ -47,33 +47,16 @@ public class OrdenMedicaController implements Serializable {
     @PostConstruct
     public void init() {
         idTratamiento = JsfUtil.getRequestParameter("tratamiento");
-        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", new TratamientoConverter(), null);
+        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                "tratamiento",
+                FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
+                null);
         itemsTratamiento = getFacade().getOrdenesByTratamiento(tratamiento);
     }
 
+    //Getters y Setters
     private OrdenMedicaFacade getFacade() {
         return ejbFacade;
-    }
-
-    /**
-     * Fuerza a que el field tratamiento de este controller sea recargado. Por lo
-     * general es llamado desde otro controller que haya modificado el
-     * tratamiento
-     *
-     * @see getTratamiento()
-     */
-    public void recargarTratamiento() {
-        tratamiento = null;
-    }
-
-    public void validarCantidadDeSesiones(FacesContext facesContext,
-            UIComponent componente,
-            Object valor) {
-        Short cantidadDeSesiones = (Short) valor;
-        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(this.getTratamiento(), itemsTratamiento, cantidadDeSesiones)) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrdenMedica_CantidadDeSesionesValidacion"));
-        }
     }
 
     public OrdenMedica getSelected() {
@@ -82,13 +65,6 @@ public class OrdenMedicaController implements Serializable {
 
     public void setSelected(OrdenMedica selected) {
         this.selected = selected;
-    }
-
-    public List<OrdenMedica> getItemsTratamiento() {
-        if (itemsTratamiento == null) {
-            itemsTratamiento = getFacade().getOrdenesByTratamiento(this.getTratamiento());
-        }
-        return itemsTratamiento;
     }
 
     public void setItemsTratamiento(List<OrdenMedica> itemsTratamiento) {
@@ -105,6 +81,34 @@ public class OrdenMedicaController implements Serializable {
 
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
+    }
+
+    /**
+     * Fuerza a que el field tratamiento de este controller sea recargado. Por
+     * lo general es llamado desde otro controller que haya modificado el
+     * tratamiento
+     *
+     * @see getTratamiento()
+     */
+    public void recargarTratamiento() {
+        tratamiento = null;
+    }
+
+    public List<OrdenMedica> getItemsTratamiento() {
+        if (itemsTratamiento == null) {
+            itemsTratamiento = getFacade().getOrdenesByTratamiento(this.getTratamiento());
+        }
+        return itemsTratamiento;
+    }
+
+    //Validator del campo "Cantidad de sesiones a autorizar" en el Create de 
+    //una orden médica.
+    public void validarSesionesDeLaOrden(FacesContext facesContext, UIComponent componente, Object valor) {
+        Short cantidadDeSesiones = (Short) valor;
+        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(this.getTratamiento(), itemsTratamiento, cantidadDeSesiones)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrdenMedica_CantidadDeSesionesValidacion"));
+        }
     }
 
     public OrdenMedica prepareCreate() {

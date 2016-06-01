@@ -1,7 +1,10 @@
 package ar.edu.utn.frsf.kinesio.test.util;
 
+import ar.edu.utn.frsf.kinesio.controllers.converters.PacienteConverter;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import java.util.HashMap;
 import java.util.Map;
+import javax.faces.application.Application;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -40,6 +43,11 @@ public abstract class ContextMocker extends FacesContext {
         when(ext.getSessionMap()).thenReturn(sessionMap);
         when(ext.getRequestParameterMap()).thenReturn(requestMap);
         when(context.getExternalContext()).thenReturn(ext);
+        
+        Application application = mock(Application.class);
+        
+        when(context.getApplication()).thenReturn(application);        
+        
         setCurrentInstance(context);
         
         Mockito.doAnswer(RELEASE)

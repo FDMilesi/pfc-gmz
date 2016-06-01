@@ -1,7 +1,5 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.converters.AgendaConverter;
-import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import ar.edu.utn.frsf.kinesio.controllers.mocks.AgendaControllerHijo;
@@ -12,7 +10,6 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -49,14 +46,7 @@ public class AgendaYSesionControllersIT {
 
     //Constructor
     public AgendaYSesionControllersIT() {
-
         context = ContextMocker.mockFacesContext();
-//        TratamientoControllerConverter tc = mock(TratamientoControllerConverter.class);
-//        when(tc.getAsObject(any(FacesContext.class), any(UIComponent.class), anyString())).thenReturn(new Tratamiento());
-//        SesionController.setTratamientoConverter(tc);
-//        AgendaConverter ac = mock(AgendaConverter.class);
-//        when(ac.getAsObject(any(FacesContext.class), any(UIComponent.class), anyString())).thenReturn(new Agenda());
-//        SesionController.setAgendaConverter(ac);
     }
 
     @Deployment

@@ -26,8 +26,6 @@ import javax.inject.Inject;
 @ViewScoped
 public class SesionController implements Serializable {
 
-    private static TratamientoConverter tratamientoConverter;
-
     @EJB
     private SesionFacade ejbFacade;
     private List<Sesion> items = null;
@@ -43,18 +41,6 @@ public class SesionController implements Serializable {
     Event<SesionEliminadaEvento> sesionEliminadaEvento;
 
     public SesionController() {
-    }
-
-    //Métodos static
-    public static TratamientoConverter getTratamientoConverter() {
-        if (tratamientoConverter == null) {
-            tratamientoConverter = new TratamientoConverter();
-        }
-        return tratamientoConverter;
-    }
-
-    public static void setTratamientoConverter(TratamientoConverter tratamientoConverter) {
-        SesionController.tratamientoConverter = tratamientoConverter;
     }
 
     //Getters y Setters
@@ -83,7 +69,10 @@ public class SesionController implements Serializable {
 
     private Tratamiento getTratamientoEnEdicion() {
         if (tratamientoEnEdicion == null) {
-            tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter("tratamiento", getTratamientoConverter(), null);
+            tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                    "tratamiento", 
+                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class), 
+                    null);
         }
         return tratamientoEnEdicion;
     }
