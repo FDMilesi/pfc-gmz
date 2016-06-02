@@ -126,6 +126,7 @@
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
+                                 sortBy="#{item.fechaHoraInicio}"
                                  >
                         <!-- volver a poner los viewButton en los update-->
                         <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
@@ -147,9 +148,9 @@
                         <p:column headerText="#{bundle.ListSesionTitle_cuenta}">
                             <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListSesionTitle_agenda}">
+<!--                        <p:column headerText="#{bundle.ListSesionTitle_agenda}">
                             <h:outputText value="#{item.agenda.toString()}"/>
-                        </p:column>
+                        </p:column>-->
                         <f:facet name="footer">
                             <p:commandButton id="createButton" 
                                              icon="ui-icon-plus"   
@@ -159,7 +160,7 @@
                                              disabled="#{empty editTratamientoController.selected}"
                                              oncomplete="PF('SesionCreateDialog').show()"/>
                             <!--<p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":SesionViewForm" oncomplete="PF('SesionViewDialog').show()" disabled="#{empty sesionController.selected}"/>-->
-                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" update=":SesionEditForm" oncomplete="PF('SesionEditDialog').show()" disabled="#{empty sesionController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle.Edit}" actionListener="#{sesionController.setFechaVieja(sesionController.selected.fechaHoraInicio)}" update=":SesionEditForm" oncomplete="PF('SesionEditDialog').show()" disabled="#{empty sesionController.selected}"/>
                             <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" update=":growl,datalist" disabled="#{empty sesionController.selected}">
                                 <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>

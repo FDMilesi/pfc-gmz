@@ -34,6 +34,7 @@ public class SesionController implements Serializable {
     private List<Sesion> items = null;
     private Sesion selected;
     private Tratamiento tratamientoEnEdicion;
+    private Date fechaVieja;
 
     /* Eventos para comunicar controladores */
     @Inject
@@ -80,6 +81,15 @@ public class SesionController implements Serializable {
         return tratamientoEnEdicion;
     }
 
+    public Date getFechaVieja() {
+        return fechaVieja;
+    }
+
+    public void setFechaVieja(Date fechaVieja) {
+        this.fechaVieja = fechaVieja;
+    } 
+    
+
     //Métodos de negocio
     public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
         Date fechaModificada = (Date) valor;
@@ -87,14 +97,15 @@ public class SesionController implements Serializable {
             ((UIInput) componente).setValid(false);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
         }
-    }
-    
-    public void calcularNumeroSesion() {
+    }   
+        
+    public void calcularNumeroSesion() {        
         selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
     }
 
     public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
+        this.setFechaVieja(selected.getFechaHoraInicio());
     }
 
     public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento) {
@@ -124,8 +135,15 @@ public class SesionController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionCreadaEvento.fire(new SesionCreadaEvento());
     }
+    
+    private void resetearCuenta(){
+        if (!selected.getFechaHoraInicio().equals(this.getFechaVieja())) {
+            selected.setCuenta(Boolean.TRUE);
+        }
+    }
 
     public void update() {
+        this.resetearCuenta();
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));        
     }
 
