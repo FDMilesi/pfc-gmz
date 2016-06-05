@@ -149,6 +149,7 @@ public class SesionController implements Serializable {
 
     public void updateFromAgenda() {
         this.update();
+        selected.setFechaHoraInicio(selected.getFechaHoraInicio());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionModificadaEvento.fire(new SesionModificadaEvento());
     }

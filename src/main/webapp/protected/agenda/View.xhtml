@@ -37,7 +37,7 @@
                         <!--fecha hora inicio-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="MM/dd/yyyy HH:mm:ss" 
+                                    pattern="dd/MM/yyyy HH:mm:ss" 
                                     value="#{sesionController.selected.fechaHoraInicio}" 
                                     title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
@@ -64,7 +64,7 @@
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
                     <!--guardar-->
-                    <p:commandButton actionListener="#{sesionController.updateFromAgenda()}" 
+                    <p:commandButton actionListener="#{sesionController.updateFromAgenda}" 
                                      value="#{bundle.Save}" 
                                      update=":growl" 
                                      oncomplete="handleSubmit(args, 'SesionViewDialog'); PF('agenda').update()"
