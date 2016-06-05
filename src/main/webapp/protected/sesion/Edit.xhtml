@@ -50,6 +50,7 @@
                                     maxHour="21"
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
                                     disabled="#{sesionController.selected.transcurrida}"
+                                    validator="#{sesionController.validarFecha}"
                                     />    
                     </p:panelGrid>
                     <p:commandButton actionListener="#{sesionController.update}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SesionEditDialog');"/>

@@ -49,10 +49,13 @@
                                     minHour="8"
                                     maxHour="21"
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
+                                    validator="#{sesionController.validarFecha}"
                                     />                      
                         
                     </p:panelGrid>
+                    <!--cerrar-->
                     <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('SesionViewDialog').hide()"/>
+                    <!--eliminar-->
                     <p:commandButton icon="ui-icon-trash"  
                                      value="#{bundle.Delete}" 
                                      actionListener="#{sesionController.destroy}" 
@@ -60,10 +63,12 @@
                                      update=":growl">
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
+                    <!--guardar-->
                     <p:commandButton actionListener="#{sesionController.updateFromAgenda()}" 
                                      value="#{bundle.Save}" 
                                      update=":growl" 
-                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"/>
+                                     oncomplete="handleSubmit(args, 'SesionViewDialog'); PF('agenda').update()"
+                                     />
                 </h:panelGroup>
             </h:form>
         </p:dialog>
