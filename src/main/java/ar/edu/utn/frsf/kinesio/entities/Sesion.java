@@ -1,7 +1,6 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
-import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -74,6 +73,9 @@ public class Sesion implements Serializable, ScheduleEvent {
     private Date endDate;
     
     @Transient
+    private Date startDate;
+    
+    @Transient
     private String styleClass;
 
     public Sesion(){
@@ -129,6 +131,7 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     public void setFechaHoraInicio(Date fechaHoraInicio) {
         this.fechaHoraInicio = fechaHoraInicio;
+        startDate = (Date) fechaHoraInicio.clone();
     }
 
     public Agenda getAgenda() {
@@ -188,13 +191,17 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Override
     public Date getStartDate() {
-        return fechaHoraInicio;
+        return startDate;
     }
-
+    
+    public void setStartDate(Date startDate){
+        this.startDate = startDate;
+    }
+    
     @Override
     public Date getEndDate() {
         if (endDate == null) {
-            Long t = fechaHoraInicio.getTime();
+            Long t = startDate.getTime();
             endDate = new Date(t + (duracion * 60000));
         }
         return endDate;

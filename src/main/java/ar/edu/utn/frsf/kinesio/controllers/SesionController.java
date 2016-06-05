@@ -1,6 +1,5 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
@@ -70,8 +69,8 @@ public class SesionController implements Serializable {
     private Tratamiento getTratamientoEnEdicion() {
         if (tratamientoEnEdicion == null) {
             tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
-                    "tratamiento", 
-                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class), 
+                    "tratamiento",
+                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
                     null);
         }
         return tratamientoEnEdicion;
@@ -87,7 +86,8 @@ public class SesionController implements Serializable {
     }
 
     public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento) {
-        selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
+        selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesionUpdate");
+        selected.setFechaHoraInicio(evento.getDate());
         this.update();
     }
 
@@ -115,7 +115,7 @@ public class SesionController implements Serializable {
     }
 
     public void update() {
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));        
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
     }
 
     public void updateFromAgenda() {
@@ -133,8 +133,7 @@ public class SesionController implements Serializable {
                 items = null;    // Invalidate list of items to trigger re-query.
             }
             sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
-        }
-        else{
+        } else {
             JsfUtil.addErrorMessage("No se puede eliminar una sesion ya transcurrida");
         }
 

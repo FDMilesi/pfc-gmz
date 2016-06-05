@@ -83,12 +83,13 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     void onPrePersist(Sesion s) {
         //Seteo la duración de la sesión creada en base al tipo de tratamiento
         s.setDuracion(s.getTratamiento().getTipoDeTratamiento().getDuracion());
-        colorearSesiones(s);
+        colorearSesion(s);
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
-        colorearSesiones(s);
+        s.setStartDate((Date) s.getFechaHoraInicio().clone());
+        colorearSesion(s);
     }
 
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
@@ -101,7 +102,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("agenda", agenda).getResultList();
     }
 
-    private void colorearSesiones(Sesion s) {
+    private void colorearSesion(Sesion s) {
         switch (s.getTratamiento().getTipoDeTratamiento().getId()) {
             case 1:
                 s.setStyleClass("fisiokinesioterapia");
