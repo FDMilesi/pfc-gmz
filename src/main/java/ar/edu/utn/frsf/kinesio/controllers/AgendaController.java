@@ -79,15 +79,12 @@ public class AgendaController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
         verSesionEvento.fire(new VerSesionEvento());
     }
-    
-    public void modificarSesion(ScheduleEntryMoveEvent event){
-        String scheduleEventId = (event.getScheduleEvent()).getId();
+
+    public void moverSesion(ScheduleEntryMoveEvent event) {
+        String scheduleEventId = event.getScheduleEvent().getId();
         Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
-        
-        sesion.setFechaHoraInicio(event.getScheduleEvent().getStartDate());
-        
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", sesion);
-        modificarSesionEvento.fire(new ModificarSesionEvento());
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesionUpdate", sesion);
+        modificarSesionEvento.fire(new ModificarSesionEvento(event.getScheduleEvent().getStartDate()));
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
@@ -103,7 +100,7 @@ public class AgendaController implements Serializable {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         getSelected().addEvent(sesion);
     }
-    
+
     public void modificarSesion(@Observes SesionController.SesionModificadaEvento evento) {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         getSelected().updateEvent(sesion);
@@ -140,12 +137,26 @@ public class AgendaController implements Serializable {
 
         }
     }
-    
+
     public class ModificarSesionEvento {
 
-        public ModificarSesionEvento() {
+        private Date date;
 
+        public ModificarSesionEvento() {
         }
+
+        public ModificarSesionEvento(Date date) {
+            this.date = date;
+        }
+
+        public Date getDate() {
+            return date;
+        }
+
+        public void setDate(Date date) {
+            this.date = date;
+        }
+
     }
 
 }
