@@ -86,16 +86,19 @@ public class SesionController implements Serializable {
     }
 
     public void setFechaVieja(Date fechaVieja) {
-        this.fechaVieja = fechaVieja;
+        this.fechaVieja = (Date) fechaVieja;
     } 
     
 
     //Métodos de negocio
     public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
-        Date fechaModificada = (Date) valor;
-        if (fechaModificada.before(new Date())) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
+        System.out.println(valor + "   " +selected.getFechaHoraInicio());
+        if (!valor.equals(selected.getFechaHoraInicio())) {
+            Date fechaModificada = (Date) valor;
+            if (fechaModificada.before(new Date())) {
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
+            }
         }
     }   
         
