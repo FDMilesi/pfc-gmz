@@ -50,6 +50,7 @@
                                     maxHour="21"
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
                                     validator="#{sesionController.validarFecha}"
+                                    disabled="#{sesionController.selected.transcurrida}"
                                     />                      
                         
                     </p:panelGrid>

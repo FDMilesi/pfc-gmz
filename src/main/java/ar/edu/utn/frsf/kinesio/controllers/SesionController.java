@@ -91,7 +91,6 @@ public class SesionController implements Serializable {
 
     //Métodos de negocio
     public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
-        System.out.println(valor + "   " +selected.getFechaHoraInicio());
         if (!valor.equals(selected.getFechaHoraInicio())) {
             Date fechaModificada = (Date) valor;
             if (fechaModificada.before(new Date())) {
