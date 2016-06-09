@@ -61,7 +61,8 @@
                                      value="#{bundle.Delete}" 
                                      actionListener="#{sesionController.destroy}" 
                                      oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"
-                                     update=":growl">
+                                     update=":growl"
+                                     disabled="#{sesionController.selected.transcurrida}">
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
                     <!--guardar-->
