@@ -1,4 +1,4 @@
-package ar.edu.utn.frsf.kinesio.controllers.mocks;
+package ar.edu.utn.frsf.kinesio.controllers.adaptadores;
 
 import static java.lang.annotation.ElementType.*;
 import java.lang.annotation.Retention;

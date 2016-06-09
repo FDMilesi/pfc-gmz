@@ -46,10 +46,6 @@ public class TratamientoController implements Serializable {
         return getFacade().find(id);
     }
 
-    public List<Tratamiento> getItemsAvailableSelectOne() {
-        return getFacade().findAll();
-    }
-
     public Paciente getPaciente() {
         return paciente;
     }

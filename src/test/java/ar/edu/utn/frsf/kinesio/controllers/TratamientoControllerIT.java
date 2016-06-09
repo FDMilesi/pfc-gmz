@@ -1,8 +1,8 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.controllers.converters.PacienteConverter;
-import ar.edu.utn.frsf.kinesio.controllers.mocks.TestQualifier;
-import ar.edu.utn.frsf.kinesio.controllers.mocks.TratamientoControllerHijo;
+import ar.edu.utn.frsf.kinesio.controllers.adaptadores.TestQualifier;
+import ar.edu.utn.frsf.kinesio.controllers.adaptadores.TratamientoControllerHijo;
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
  *
  */
 @RunWith(Arquillian.class)
-public class TratamientoControllerTest {
+public class TratamientoControllerIT {
 
     @Inject
     @TestQualifier
@@ -33,7 +33,7 @@ public class TratamientoControllerTest {
     private final FacesContext context;
     TratamientoFacade tratamientoFacade;
 
-    public TratamientoControllerTest() {
+    public TratamientoControllerIT() {
         context = ContextMocker.mockFacesContext();
         context.getExternalContext().getRequestParameterMap().put("paciente", "1");
         PacienteConverter pc = mock(PacienteConverter.class);
@@ -55,6 +55,8 @@ public class TratamientoControllerTest {
 
     @Test
     public void deberiaCargarPacienteAlConstruirse() {
+        //Al injectar el controller se ejecuta el método anotado con 
+        //PostContruct, este método es init(), encargado de cargar el paciente
         assertNotNull(tratamientoController.getPaciente().getApellido());
     }
 
@@ -71,7 +73,8 @@ public class TratamientoControllerTest {
     @Test
     public void deberiaNoSerNullItems() throws NoSuchFieldException {
         tratamientoController.setFacade(tratamientoFacade);
-
+        //Una llamada a getItems() debería siempre retornar los items del 
+        //tratamiento selected, para ello necesita llamar al facade
         //Ejecuto la prueba
         assertNotNull(tratamientoController.getItems());
         verify(tratamientoFacade).getTratamientosByPaciente((Paciente) anyObject());

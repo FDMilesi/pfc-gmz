@@ -207,6 +207,10 @@ public class Sesion implements Serializable, ScheduleEvent {
         return endDate;
     }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+    
     @Override
     public boolean isAllDay() {
         return false;

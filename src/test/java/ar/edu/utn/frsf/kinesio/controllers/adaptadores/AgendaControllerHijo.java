@@ -1,4 +1,4 @@
-package ar.edu.utn.frsf.kinesio.controllers.mocks;
+package ar.edu.utn.frsf.kinesio.controllers.adaptadores;
 
 import ar.edu.utn.frsf.kinesio.controllers.AgendaController;
 import javax.enterprise.context.RequestScoped;

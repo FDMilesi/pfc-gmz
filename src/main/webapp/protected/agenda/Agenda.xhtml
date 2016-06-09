@@ -40,7 +40,8 @@
                                 oncomplete="PF('SesionViewDialog').show();" />
                         <p:ajax event="eventMove"
                                 listener="#{agendaController.moverSesion}"
-                                update=":growl"/>
+                                update=":growl"
+                                oncomplete="PF('agenda').update();"/>
                     </p:schedule>                    
                 </h:form>
 

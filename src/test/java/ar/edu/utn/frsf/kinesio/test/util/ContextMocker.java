@@ -5,9 +5,11 @@ import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import java.util.HashMap;
 import java.util.Map;
 import javax.faces.application.Application;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.anyString;
 
 import org.mockito.Mockito;
@@ -22,6 +24,8 @@ public abstract class ContextMocker extends FacesContext {
     }
 
     private static final Release RELEASE = new Release();
+    
+    public static int messageCount = 0;
 
     private static class Release implements Answer<Void> {
 
@@ -43,6 +47,13 @@ public abstract class ContextMocker extends FacesContext {
         when(ext.getSessionMap()).thenReturn(sessionMap);
         when(ext.getRequestParameterMap()).thenReturn(requestMap);
         when(context.getExternalContext()).thenReturn(ext);
+        Mockito.doAnswer(new Answer() {
+            @Override
+            public Object answer(InvocationOnMock invocation) throws Throwable {
+                ContextMocker.messageCount++;
+                return null;
+            }
+        }).when(context).addMessage(anyString(), (FacesMessage) anyObject());
         
         Application application = mock(Application.class);
         

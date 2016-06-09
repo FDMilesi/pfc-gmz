@@ -2,10 +2,10 @@ package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
-import ar.edu.utn.frsf.kinesio.controllers.mocks.AgendaControllerHijo;
+import ar.edu.utn.frsf.kinesio.controllers.adaptadores.AgendaControllerHijo;
 import ar.edu.utn.frsf.kinesio.test.util.ContextMocker;
-import ar.edu.utn.frsf.kinesio.controllers.mocks.SesionControllerHijo;
-import ar.edu.utn.frsf.kinesio.controllers.mocks.TestQualifier;
+import ar.edu.utn.frsf.kinesio.controllers.adaptadores.SesionControllerHijo;
+import ar.edu.utn.frsf.kinesio.controllers.adaptadores.TestQualifier;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import java.util.ArrayList;
 import java.util.Date;

@@ -83,8 +83,18 @@ public class AgendaController implements Serializable {
     public void moverSesion(ScheduleEntryMoveEvent event) {
         String scheduleEventId = event.getScheduleEvent().getId();
         Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesionUpdate", sesion);
-        modificarSesionEvento.fire(new ModificarSesionEvento(event.getScheduleEvent().getStartDate()));
+        //si quiero mover una sesión a una fecha anterior a la actual
+        if (event.getScheduleEvent().getStartDate().before(new Date())) {
+            //deshago los cambios del move y aviso al usuario
+            //vuelvo a setear fechaYHoraInicio, generando que tambien se resetee startDate
+            sesion.setFechaHoraInicio(sesion.getFechaHoraInicio());
+            sesion.setEndDate(null);//fuerzo a recalcular endDate
+            getSelected().updateEvent(sesion);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorAlMoverFecha"));
+        } else {//sino, le comunico al sesionController para q guarde los cambios de fecha
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesionUpdate", sesion);
+            modificarSesionEvento.fire(new ModificarSesionEvento(event.getScheduleEvent().getStartDate()));
+        }
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
