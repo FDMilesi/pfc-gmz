@@ -28,6 +28,8 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
 
     @EJB
     private SesionFacade sesionFacade;
+    @EJB
+    private OrdenMedicaFacade ordenMedicaFacade;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -69,6 +71,10 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
      */
     public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones) {
         return sesionFacade.getSesionesByTratamiento(tratamiento).size() <= cantidadDeSesiones.intValue();
+    }
+    
+    public boolean esValidaCantidadSesionesCubiertas(Tratamiento trat){
+        return Short.compare(trat.getCantidadDeSesiones(), ordenMedicaFacade.sumatoriaSesionesDeOrdenes(ordenMedicaFacade.getOrdenesByTratamiento(trat))) == 0;
     }
 
     /**

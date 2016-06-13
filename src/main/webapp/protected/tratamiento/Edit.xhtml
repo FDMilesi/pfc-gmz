@@ -36,8 +36,11 @@
                                          requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"
                                          validator="#{editTratamientoController.validarCantidadDeSesiones}">
                             </p:inputText>
+                            <!--Finalizado-->
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
-                            <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" />
+                            <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" 
+                                                     validator="#{editTratamientoController.validarFinalizacionTratamiento}"/>
+                           <!--finalizado-->
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
                             <p:selectOneRadio 
                                 disabled="true"

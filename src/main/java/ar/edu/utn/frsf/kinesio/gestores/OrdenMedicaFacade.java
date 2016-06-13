@@ -125,7 +125,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         return this.sumatoriaSesionesDeOrdenes(ordenes) + valor <= tratamiento.getCantidadDeSesiones();
     }
 
-    private Short sumatoriaSesionesDeOrdenes(List<OrdenMedica> ordenes) {
+    public Short sumatoriaSesionesDeOrdenes(List<OrdenMedica> ordenes) {
         int sum = 0;
 
         for (OrdenMedica o : ordenes) {

@@ -71,6 +71,15 @@ public class EditTratamientoController implements Serializable {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
         }
     }
+    
+    public void validarFinalizacionTratamiento(FacesContext facesContext, UIComponent componente, Object valor){
+        if((Boolean) valor){
+            if (!getFacade().esValidaCantidadSesionesCubiertas(selected)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesCubiertasValidacion"));
+        }
+        }        
+    }
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoUpdated"));
