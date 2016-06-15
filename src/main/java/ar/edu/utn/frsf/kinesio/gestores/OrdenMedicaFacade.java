@@ -124,6 +124,15 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
     public Boolean esValidaCantidadDeSesionesDeOrdenes(Tratamiento tratamiento, List<OrdenMedica> ordenes, Short valor) {
         return this.sumatoriaSesionesDeOrdenes(ordenes) + valor <= tratamiento.getCantidadDeSesiones();
     }
+    
+    public Boolean estanTodasLasOrdenesAutorizadas(List<OrdenMedica> ordenes){
+        for (OrdenMedica o : ordenes) {
+            if (o.getCodigoDeAutorizacion() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public Short sumatoriaSesionesDeOrdenes(List<OrdenMedica> ordenes) {
         int sum = 0;

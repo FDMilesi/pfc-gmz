@@ -62,7 +62,6 @@ public class EditTratamientoController implements Serializable {
     }
 
     //Métodos de negocio
-    
     //Validator del campo Cantidad de sesiones de un Tratamiento.
     public void validarCantidadDeSesiones(FacesContext facesContext, UIComponent componente, Object valor) {
         Short cantidadDeSesiones = (Short) valor;
@@ -71,14 +70,18 @@ public class EditTratamientoController implements Serializable {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
         }
     }
-    
-    public void validarFinalizacionTratamiento(FacesContext facesContext, UIComponent componente, Object valor){
-        if((Boolean) valor){
+
+    public void validarFinalizacionTratamiento(FacesContext facesContext, UIComponent componente, Object valor) {
+        if ((Boolean) valor) {
+            if (!getFacade().sonValidasTodasLasOrdenes(selected)) {
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_EstanTodasLasOrdenesAutorizadasValidacion"));
+            }
             if (!getFacade().esValidaCantidadSesionesCubiertas(selected)) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesCubiertasValidacion"));
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesCubiertasValidacion"));
+            }
         }
-        }        
     }
 
     public void update() {

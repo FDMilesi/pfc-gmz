@@ -76,6 +76,10 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     public boolean esValidaCantidadSesionesCubiertas(Tratamiento trat){
         return Short.compare(trat.getCantidadDeSesiones(), ordenMedicaFacade.sumatoriaSesionesDeOrdenes(ordenMedicaFacade.getOrdenesByTratamiento(trat))) == 0;
     }
+    
+    public boolean sonValidasTodasLasOrdenes(Tratamiento trat){
+        return ordenMedicaFacade.estanTodasLasOrdenesAutorizadas(ordenMedicaFacade.getOrdenesByTratamiento(trat));
+    }
 
     /**
      * Método ejecutado antes de que un tratamiento sea persistido
