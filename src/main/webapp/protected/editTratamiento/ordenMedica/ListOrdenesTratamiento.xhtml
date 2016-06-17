@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <h:form id="OrdenTratamientoListForm" 
+                rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                            and !editTratamientoController.selected.particular}">
+            <p:panel header="#{bundle.ListOrdenTitle}">
+                <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
+                             var="orderItem"
+                             selectionMode="single"
+                             selection="#{ordenMedicaController.selected}"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rowKey="#{orderItem.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"                                
+                             >
+
+                    <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
+                    <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
+
+                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
+                        <h:outputText value="#{orderItem.fechaCreacion}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
+                        </h:outputText>
+                    </p:column>
+
+                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
+                        <h:outputText value="#{orderItem.cantidadDeSesiones}"/>                                
+                    </p:column>
+
+                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
+                        <h:outputText value="#{orderItem.codigoDeAutorizacion}"/>
+                    </p:column>
+
+                    <f:facet name="footer">
+                        <p:commandButton id="ordenMedicaCreateButton" icon="ui-icon-plus"
+                                         value="#{bundle.Create}" 
+                                         actionListener="#{ordenMedicaController.prepareCreate()}"
+                                         update=":ordenMedicaCreateForm" 
+                                         oncomplete="PF('OrdenMedicaCreateDialog').show()"
+                                         class="ui-button-create"
+                                         disabled="#{empty editTratamientoController.selected}"
+                                         />
+                        <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
+                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
+                            <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>
+
+            </p:panel>
+
+        </h:form> 
+    </ui:composition>
+</html>

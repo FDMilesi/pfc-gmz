@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <h:form id="SesionListForm">
+            <p:panel header="#{bundle.ListSesionTitle}">
+                <p:dataTable id="datalist" value="#{sesionController.items}" var="item"
+                             selectionMode="single" selection="#{sesionController.selected}"
+                             paginator="true"
+                             paginatorPosition="bottom"
+                             rowKey="#{item.id}"
+                             rows="10"
+                             rowsPerPageTemplate="10,20,30,40,50"
+                             sortBy="#{item.fechaHoraInicio}"
+                             >
+                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+                    <p:column headerText="#{bundle.ListSesionTitle_numeroDeSesion}">
+                        <h:outputText value="#{item.numeroDeSesion}"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListSesionTitle_duracion}">
+                        <h:outputText value="#{item.duracion}"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListSesionTitle_fechaHoraInicio}">
+                        <h:outputText value="#{item.fechaHoraInicio}">
+                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListSesionTitle_transcurrida}">
+                        <p:selectBooleanCheckbox value="#{item.transcurrida}" disabled="true"/>
+                    </p:column>
+                    <p:column headerText="#{bundle.ListSesionTitle_cuenta}">
+                        <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton id="createButton" 
+                                         icon="ui-icon-plus"   
+                                         value="#{bundle.Create}" 
+                                         actionListener="#{sesionController.prepareCreateFromTratamiento(editTratamientoController.selected)}" 
+                                         update=":SesionCreateForm" 
+                                         disabled="#{empty editTratamientoController.selected}"
+                                         oncomplete="PF('SesionCreateDialog').show()"/>
+                        <p:commandButton id="editButton" 
+                                         icon="ui-icon-pencil" 
+                                         value="#{bundle.Edit}" 
+                                         actionListener="#{sesionController.setFechaVieja(sesionController.selected.fechaHoraInicio)}" 
+                                         update=":SesionEditForm" 
+                                         oncomplete="PF('SesionEditDialog').show()" 
+                                         disabled="#{empty sesionController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" update=":growl,datalist" disabled="#{(empty sesionController.selected)||(sesionController.selected.transcurrida)}">
+                            <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
+                        </p:commandButton>
+                    </f:facet>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </ui:composition>
+</html>
+

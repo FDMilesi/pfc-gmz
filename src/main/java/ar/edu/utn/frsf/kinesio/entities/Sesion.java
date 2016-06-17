@@ -33,6 +33,10 @@ import org.primefaces.model.ScheduleEvent;
     @NamedQuery(name = "Sesion.findByNumeroDeSesion", query = "SELECT s FROM Sesion s WHERE s.numeroDeSesion = :numeroDeSesion"),
     @NamedQuery(name = "Sesion.findByFechaHoraInicio", query = "SELECT s FROM Sesion s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
     @NamedQuery(name = "Sesion.findByTratamiento", query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento"),
+    @NamedQuery(name = "Sesion.findByTratamientoQueCuentan",
+            query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
+    @NamedQuery(name = "Sesion.countByTratamientoQueCuentan",
+            query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
     @NamedQuery(name = "Sesion.findByAgenda", query = "SELECT s FROM Sesion s WHERE s.agenda = :agenda"),
     @NamedQuery(name = "Sesion.findByTranscurrida", query = "SELECT s FROM Sesion s WHERE s.transcurrida = :transcurrida"),
     @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta")})
@@ -71,16 +75,16 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     @Transient
     private Date endDate;
-    
+
     @Transient
     private Date startDate;
-    
+
     @Transient
     private String styleClass;
 
-    public Sesion(){
+    public Sesion() {
     }
-    
+
     public Sesion(Short numeroDeSesion) {
         this.numeroDeSesion = numeroDeSesion;
     }
@@ -193,11 +197,11 @@ public class Sesion implements Serializable, ScheduleEvent {
     public Date getStartDate() {
         return startDate;
     }
-    
-    public void setStartDate(Date startDate){
+
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-    
+
     @Override
     public Date getEndDate() {
         if (endDate == null) {
@@ -210,7 +214,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-    
+
     @Override
     public boolean isAllDay() {
         return false;
@@ -220,7 +224,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     public String getStyleClass() {
         return this.styleClass;
     }
-    
+
     public void setStyleClass(String styleClass) {
         this.styleClass = styleClass;
     }

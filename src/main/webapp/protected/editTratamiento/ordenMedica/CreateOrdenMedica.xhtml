@@ -24,7 +24,7 @@
                     </p:panelGrid>                    
                     <p:commandButton  action="#{ordenMedicaController.create()}" 
                                       value="#{bundle.Save}"
-                                      update="display,:OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" 
+                                      update="display,OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" 
                                       oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>
                     
                     <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('OrdenMedicaCreateDialog').hide()"/>

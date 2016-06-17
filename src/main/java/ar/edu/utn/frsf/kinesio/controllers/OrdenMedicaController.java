@@ -1,11 +1,9 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
-import ar.edu.utn.frsf.kinesio.controllers.converters.TratamientoConverter;
 import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
-import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -20,22 +18,12 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-/**
- *
- */
 @Named("ordenMedicaController")
 @ViewScoped
 public class OrdenMedicaController implements Serializable {
 
     @EJB
     private OrdenMedicaFacade ejbFacade;
-    @EJB
-    private TratamientoFacade tratamientoFacade;
-    /**
-     * Campo auxiliar idTratamiento para permitir recargar el tratamiento cuando
-     * haya sido modificado por otro controller.
-     */
-    private String idTratamiento;
     private List<OrdenMedica> itemsTratamiento = null;
     private OrdenMedica selected;
     private Tratamiento tratamiento;
@@ -46,7 +34,6 @@ public class OrdenMedicaController implements Serializable {
 
     @PostConstruct
     public void init() {
-        idTratamiento = JsfUtil.getRequestParameter("tratamiento");
         tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
                 "tratamiento",
                 FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
@@ -73,25 +60,16 @@ public class OrdenMedicaController implements Serializable {
 
     public Tratamiento getTratamiento() {
         if (tratamiento == null) {
-            //Debo usar tratamientoFacade porque recargar mediante TratamientoConverter no da resultado.
-            tratamiento = tratamientoFacade.find(Integer.parseInt(idTratamiento));
+            tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                    "tratamiento",
+                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
+                    null);
         }
         return tratamiento;
     }
 
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
-    }
-
-    /**
-     * Fuerza a que el field tratamiento de este controller sea recargado. Por
-     * lo general es llamado desde otro controller que haya modificado el
-     * tratamiento
-     *
-     * @see getTratamiento()
-     */
-    public void recargarTratamiento() {
-        tratamiento = null;
     }
 
     public List<OrdenMedica> getItemsTratamiento() {
@@ -111,6 +89,7 @@ public class OrdenMedicaController implements Serializable {
         }
     }
 
+    //Métodos de persistencia
     public OrdenMedica prepareCreate() {
         selected = getFacade().initOrden(this.getTratamiento());
         return selected;

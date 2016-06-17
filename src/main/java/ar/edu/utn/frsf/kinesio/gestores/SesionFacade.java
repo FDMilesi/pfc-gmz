@@ -70,6 +70,21 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return (short) (numeroUltimaSesion + 1);
     }
 
+    /**
+     * Valida si puede agregarse a un tratamiento una sesión más. La validación
+     * se hace típicamente ante la creación de una sesión, o a partir de la
+     * modificación del campo {@code cuenta}.
+     *
+     * @param tratamiento
+     * @return
+     */
+    public boolean puedoAgregarSesion(Tratamiento tratamiento) {
+        short cantidadQueCuentanMasUno = (short) (this.countSesionesByTratamientoQueCuentan(tratamiento) + 1);
+        //Si la cantiad de sesiones que cuentan más uno es menor o igual a 
+        //la cantidad seteada en el tratamiento, retorno true
+        return Short.compare(cantidadQueCuentanMasUno, tratamiento.getCantidadDeSesiones()) <= 0;
+    }
+
     public Sesion editAndReturn(Sesion sesion) {
         return getEntityManager().merge(sesion);
     }
@@ -95,6 +110,11 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager().createNamedQuery("Sesion.findByTratamiento")
                 .setParameter("tratamiento", tratamiento).getResultList();
+    }
+
+    public int countSesionesByTratamientoQueCuentan(Tratamiento tratamiento) {
+        return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoQueCuentan")
+                .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
     }
 
     public List<Sesion> getSesionesByAgenda(Agenda agenda) {

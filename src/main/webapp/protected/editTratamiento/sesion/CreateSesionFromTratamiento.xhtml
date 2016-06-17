@@ -17,6 +17,7 @@
                   closeOnEscape="true"
                   >
             <h:form id="SesionCreateForm">
+                <p:inputText style="display: none;" validator="#{sesionController.puedoCrearNuevaSesion}"/>
                 <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion} #{sesionController.selected.numeroDeSesion}" />
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">

@@ -20,6 +20,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
+import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -70,7 +71,7 @@ public class SesionController implements Serializable {
         return getFacade().find(id);
     }
 
-    private Tratamiento getTratamientoEnEdicion() {
+    public Tratamiento getTratamientoEnEdicion() {
         if (tratamientoEnEdicion == null) {
             tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
                     "tratamiento",
@@ -80,14 +81,17 @@ public class SesionController implements Serializable {
         return tratamientoEnEdicion;
     }
 
+    public void setTratamientoEnEdicion(Tratamiento tratamientoEnEdicion) {
+        this.tratamientoEnEdicion = tratamientoEnEdicion;
+    }
+
     public Date getFechaVieja() {
         return fechaVieja;
     }
 
     public void setFechaVieja(Date fechaVieja) {
         this.fechaVieja = (Date) fechaVieja;
-    } 
-    
+    }
 
     //Métodos de negocio
     public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
@@ -98,12 +102,39 @@ public class SesionController implements Serializable {
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
             }
         }
-    }   
-        
-    public void calcularNumeroSesion() {        
+    }
+
+    /**
+     * Validador usado en la vista de modificar sesión. Verifica que al tildarse
+     * el checkbox de cuenta, la cantidad de sesiones que cuentan no supere la
+     * cantidad de sesiones seteadas en el tratamiento.
+     *
+     * @param facesContext
+     * @param componente
+     * @param checkBoxValue
+     */
+    public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
+        boolean cuenta = (boolean) checkBoxValue;
+        if (cuenta) {
+            if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
+                ((UISelectBoolean) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+            }
+        }
+    }
+
+    public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
+        if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+        }
+    }
+
+    public void calcularNumeroSesion() {
         selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
     }
 
+    //Comunicación entre controllers e inicializaciones de selected
     public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         this.setFechaVieja(selected.getFechaHoraInicio());
@@ -125,6 +156,7 @@ public class SesionController implements Serializable {
         return selected;
     }
 
+    //Métodos de persistencia
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -137,8 +169,8 @@ public class SesionController implements Serializable {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionCreadaEvento.fire(new SesionCreadaEvento());
     }
-    
-    private void resetearCuenta(){
+
+    private void resetearCuenta() {
         if (!selected.getFechaHoraInicio().equals(this.getFechaVieja())) {
             selected.setCuenta(Boolean.TRUE);
         }
@@ -146,11 +178,12 @@ public class SesionController implements Serializable {
 
     public void update() {
         this.resetearCuenta();
-        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));        
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
     }
 
     public void updateFromAgenda() {
         this.update();
+        //ahora se llama a setFechaHoraInicio para que setee starDate a la sesion, de modo que la Agenda se actualice
         selected.setFechaHoraInicio(selected.getFechaHoraInicio());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionModificadaEvento.fire(new SesionModificadaEvento());

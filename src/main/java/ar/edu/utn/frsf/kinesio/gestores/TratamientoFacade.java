@@ -29,19 +29,18 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     @EJB
     private SesionFacade sesionFacade;
 
+    @EJB
+    private OrdenMedicaFacade ordenMedicaFacade;
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
 
-    public void refresh(Tratamiento tratamiento){
-        this.getEntityManager().refresh(getEntityManager().merge(tratamiento));
-    }
-    
     public Tratamiento editAndReturn(Tratamiento tratamiento){
         return getEntityManager().merge(tratamiento);
     }
-    
+
     public TratamientoFacade() {
         super(Tratamiento.class);
     }
@@ -61,19 +60,35 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
 
     /**
      * Dada una entidad Tratamiento y un valor cantidadDeSesiones, verifica que
-     * la cantidadDeSesiones sea un valor válido para dicho tratamiento,
-     * comparando el valor con la cantidad de sesiones del tratamiento.
+     * la cantidadDeSesiones sea un valor válido para dicho tratamiento. Para
+     * eso compara el valor cantidadDeSesiones con dos cosas: con la cantidad de
+     * sesiones QUE CUENTAN del tratamiento y con la cantidad de sesiones
+     * cubiertas por ordenes.
+     *
      * @param tratamiento
      * @param cantidadDeSesiones
-     * @return 
+     * @return
      */
     public boolean esValidaCantidadDeSesiones(Tratamiento tratamiento, Short cantidadDeSesiones) {
-        return sesionFacade.getSesionesByTratamiento(tratamiento).size() <= cantidadDeSesiones.intValue();
+        boolean validaSegunSesiones;
+        boolean validaSegunOrdenes = true;
+        //valido segun las sesiones
+        int cantidadSesionesQueCuentan = sesionFacade.countSesionesByTratamientoQueCuentan(tratamiento);
+        validaSegunSesiones = cantidadSesionesQueCuentan <= cantidadDeSesiones.intValue();
+        
+        //Si el tratamiento es por obra social, valido las ordenes.
+        if (!tratamiento.getParticular()) {
+            validaSegunOrdenes
+                    = Short.compare(cantidadDeSesiones, ordenMedicaFacade.sumatoriaSesionesDeOrdenes(ordenMedicaFacade.getOrdenesByTratamiento(tratamiento))) >= 0;
+        }
+
+        return validaSegunOrdenes && validaSegunSesiones;
     }
 
     /**
      * Método ejecutado antes de que un tratamiento sea persistido
-     * @param tratamiento 
+     *
+     * @param tratamiento
      */
     @PrePersist
     void onPrePersist(Tratamiento tratamiento) {
@@ -85,6 +100,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     /**
      * Método ejecutado luego de obtener un tratamiento desde la base de datos
      * Tratamiento.
+     *
      * @param tratamiento
      */
     @PostLoad
