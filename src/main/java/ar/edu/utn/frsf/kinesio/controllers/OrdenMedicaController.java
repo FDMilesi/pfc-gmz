@@ -83,7 +83,7 @@ public class OrdenMedicaController implements Serializable {
     //una orden médica.
     public void validarSesionesDeLaOrden(FacesContext facesContext, UIComponent componente, Object valor) {
         Short cantidadDeSesiones = (Short) valor;
-        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(this.getTratamiento(), itemsTratamiento, cantidadDeSesiones)) {
+        if (!getFacade().esValidaCantidadDeSesionesDeOrdenes(this.getTratamiento(), cantidadDeSesiones)) {
             ((UIInput) componente).setValid(false);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("CreateOrdenMedica_CantidadDeSesionesValidacion"));
         }

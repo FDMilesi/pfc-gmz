@@ -36,7 +36,8 @@
                                          requiredMessage="#{bundle.EditTratamientoRequiredMessage_cantidadDeSesiones}"
                                          validator="#{editTratamientoController.validarCantidadDeSesiones}" />
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_finalizado}" for="finalizado" />
-                            <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" />
+                            <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" 
+                                                     validator="#{editTratamientoController.validarFinalizacionTratamiento}"/>
                             <p:outputLabel value="#{bundle.EditTratamientoLabel_particular}" for="particular" />
                             <p:selectOneRadio 
                                 disabled="true"
@@ -65,10 +66,14 @@
                     </h:panelGroup>
                 </p:panel>  
             </h:form>
-            <ui:include src="ordenMedica/ListOrdenesTratamiento.xhtml" />
+            <p:messages id="messages" />
+            <ui:include src="ordenMedica/ListOrdenesTratamiento.xhtml" rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                                                                   and !editTratamientoController.selected.particular}"/>
+            <ui:include src="ordenMedica/CreateOrdenMedica.xhtml" rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                                                              and !editTratamientoController.selected.particular}"/>
+            <ui:include src="ordenMedica/AutorizarFromTratamiento.xhtml" rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                                                                     and !editTratamientoController.selected.particular}"/>
             <ui:include src="sesion/ListeSesionesTratamiento.xhtml" />
-            <ui:include src="ordenMedica/CreateOrdenMedica.xhtml" />
-            <ui:include src="ordenMedica/AutorizarFromTratamiento.xhtml"/>
             <ui:include src="sesion/CreateSesionFromTratamiento.xhtml"/>
             <ui:include src="sesion/EditSesionFromTratamiento.xhtml"/>
         </ui:define>

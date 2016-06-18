@@ -121,18 +121,33 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         return query.getResultList();
     }
 
-    public Boolean esValidaCantidadDeSesionesDeOrdenes(Tratamiento tratamiento, List<OrdenMedica> ordenes, Short valor) {
-        return this.sumatoriaSesionesDeOrdenes(ordenes) + valor <= tratamiento.getCantidadDeSesiones();
+    public Boolean esValidaCantidadDeSesionesDeOrdenes(Tratamiento tratamiento, Short valor) {
+        return this.sumatoriaSesionesDeOrdenes(tratamiento) + valor <= tratamiento.getCantidadDeSesiones();
     }
 
-    public Short sumatoriaSesionesDeOrdenes(List<OrdenMedica> ordenes) {
-        int sum = 0;
-
+    public Boolean estanTodasLasOrdenesAutorizadas(List<OrdenMedica> ordenes) {
         for (OrdenMedica o : ordenes) {
-            sum += o.getCantidadDeSesiones();
+            if (o.getCodigoDeAutorizacion() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Short sumatoriaSesionesDeOrdenes(Tratamiento tratamiento) {
+        boolean tieneOrdenes = ((Number) getEntityManager()
+                .createQuery("SELECT COUNT(o) FROM OrdenMedica o WHERE o.tratamiento = :tratamiento")
+                .setParameter("tratamiento", tratamiento).getSingleResult()).intValue() > 0;
+
+        if (tieneOrdenes) {
+            return ((Number) getEntityManager()
+                    .createNamedQuery("OrdenMedica.sumaCantidadDeSesionesByTratamiento")
+                    .setParameter("tratamiento", tratamiento)
+                    .getSingleResult()).shortValue();
+        } else {
+            return (short) 0;
         }
 
-        return (short) sum;
     }
 
 }

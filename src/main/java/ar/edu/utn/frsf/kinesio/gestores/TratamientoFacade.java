@@ -28,7 +28,6 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
 
     @EJB
     private SesionFacade sesionFacade;
-
     @EJB
     private OrdenMedicaFacade ordenMedicaFacade;
 
@@ -79,10 +78,18 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         //Si el tratamiento es por obra social, valido las ordenes.
         if (!tratamiento.getParticular()) {
             validaSegunOrdenes
-                    = Short.compare(cantidadDeSesiones, ordenMedicaFacade.sumatoriaSesionesDeOrdenes(ordenMedicaFacade.getOrdenesByTratamiento(tratamiento))) >= 0;
+                    = Short.compare(cantidadDeSesiones, ordenMedicaFacade.sumatoriaSesionesDeOrdenes(tratamiento)) >= 0;
         }
 
         return validaSegunOrdenes && validaSegunSesiones;
+    }
+    
+    public boolean esValidaCantidadSesionesCubiertas(Tratamiento tratamiento){
+        return Short.compare(tratamiento.getCantidadDeSesiones(), ordenMedicaFacade.sumatoriaSesionesDeOrdenes(tratamiento)) == 0;
+    }
+    
+    public boolean sonValidasTodasLasOrdenes(Tratamiento trat){
+        return ordenMedicaFacade.estanTodasLasOrdenesAutorizadas(ordenMedicaFacade.getOrdenesByTratamiento(trat));
     }
 
     /**

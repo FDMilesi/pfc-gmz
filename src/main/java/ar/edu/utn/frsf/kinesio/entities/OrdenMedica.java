@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "OrdenMedica.findAll", query = "SELECT o FROM OrdenMedica o"),
     @NamedQuery(name = "OrdenMedica.findById", query = "SELECT o FROM OrdenMedica o WHERE o.id = :id"),
+    @NamedQuery(name = "OrdenMedica.sumaCantidadDeSesionesByTratamiento", query = "SELECT SUM(o.cantidadDeSesiones) FROM OrdenMedica o WHERE o.tratamiento = :tratamiento"),
     @NamedQuery(name = "OrdenMedica.findByCantidaddesesiones", query = "SELECT o FROM OrdenMedica o WHERE o.cantidadDeSesiones = :cantidaddesesiones"),
     @NamedQuery(name = "OrdenMedica.findByCodigodeautorizacion", query = "SELECT o FROM OrdenMedica o WHERE o.codigoDeAutorizacion = :codigodeautorizacion"),
     @NamedQuery(name = "OrdenMedica.findByFechacreacion", query = "SELECT o FROM OrdenMedica o WHERE o.fechaCreacion = :fechacreacion"),
@@ -53,35 +54,35 @@ public class OrdenMedica implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "cantidaddesesiones")
     @Min(1)
     @Max(99)
     private short cantidadDeSesiones;
-    
+
     @Size(max = 50)
     @Column(name = "codigodeautorizacion")
     private String codigoDeAutorizacion;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "fechacreacion")
     @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
-    
+
     @Column(name = "presentadaalcirculo")
     private Boolean presentadaAlCirculo;
-    
+
     @Size(max = 10)
     @Column(name = "numeroafiliadopaciente")
     private String numeroAfiliadoPaciente;
-    
+
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private ObraSocial obraSocial;
-    
+
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Tratamiento tratamiento;
@@ -162,11 +163,11 @@ public class OrdenMedica implements Serializable {
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
     }
-    
-    public boolean isAutorizada(){
+
+    public boolean isAutorizada() {
         return (codigoDeAutorizacion != null);
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -191,5 +192,5 @@ public class OrdenMedica implements Serializable {
     public String toString() {
         return "ar.edu.utn.frsf.kinesio.entities.OrdenMedica[ id=" + id + " ]";
     }
-    
+
 }
