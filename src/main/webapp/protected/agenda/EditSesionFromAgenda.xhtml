@@ -3,42 +3,43 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
 
-        <p:dialog id="SesionViewDlg" 
-                  widgetVar="SesionViewDialog" 
+        <p:dialog id="SesionEditDlg" 
+                  widgetVar="SesionEditDialog" 
                   modal="true" 
                   resizable="false" 
                   appendTo="@(body)" 
                   header="#{bundle.ViewSesionTitle}"
                   closeOnEscape="true"
                   >
-            <h:form id="SesionViewForm">
+            <h:form id="SesionEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{agendaSesionController.selected != null}">
                         <!--paciente-->
                         <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
-                        <h:outputText value="#{sesionController.selected.tratamiento.paciente.toString()}"/>
+                        <h:outputText value="#{agendaSesionController.selected.tratamiento.paciente.toString()}"/>
                         <!--tratamiento-->
                         <h:outputText value="#{bundle.CreateSesionLabel_tratamiento}"/>
-                        <h:outputText value="#{sesionController.selected.tratamiento.toString()}"/>                     
+                        <h:outputText value="#{agendaSesionController.selected.tratamiento.toString()}"/>                     
                         <!--transcurrida-->
                         <h:outputText value="#{bundle.ViewSesionLabel_transcurrida}"/>
-                        <p:selectBooleanCheckbox value="#{sesionController.selected.transcurrida}"/>
+                        <p:selectBooleanCheckbox value="#{agendaSesionController.selected.transcurrida}"/>
                         <!--cuenta-->
                         <h:outputText value="#{bundle.ViewSesionLabel_cuenta}"/>
-                        <p:selectBooleanCheckbox value="#{sesionController.selected.cuenta}"/>
+                        <p:selectBooleanCheckbox 
+                            value="#{agendaSesionController.selected.cuenta}"
+                            validator="#{agendaSesionController.puedoSetearCuentaTrue}"/>
                         <!--numero de sesion-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
-                        <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
+                        <p:inputText id="numeroDeSesion" value="#{agendaSesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
                         <!--fecha hora inicio-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" 
                                     pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{sesionController.selected.fechaHoraInicio}" 
+                                    value="#{agendaSesionController.selected.fechaHoraInicio}" 
                                     title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
@@ -49,28 +50,28 @@
                                     minHour="8"
                                     maxHour="21"
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
-                                    validator="#{sesionController.validarFecha}"
-                                    disabled="#{sesionController.selected.transcurrida}"
+                                    validator="#{agendaSesionController.validarFecha}"
+                                    disabled="#{agendaSesionController.selected.transcurrida}"
                                     />                      
-                        
+
                     </p:panelGrid>
-                    <!--cerrar-->
-                    <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('SesionViewDialog').hide()"/>
+                    <!--guardar-->
+                    <p:commandButton actionListener="#{agendaSesionController.updateFromAgenda}" 
+                                     value="#{bundle.Save}" 
+                                     update=":growl" 
+                                     oncomplete="handleSubmit(args, 'SesionEditDialog'); PF('agenda').update()"
+                                     />
                     <!--eliminar-->
                     <p:commandButton icon="ui-icon-trash"  
                                      value="#{bundle.Delete}" 
-                                     actionListener="#{sesionController.destroy}" 
-                                     oncomplete="PF('SesionViewDialog').hide();PF('agenda').update()"
+                                     actionListener="#{agendaSesionController.destroyFromAgenda}" 
+                                     oncomplete="PF('SesionEditDialog').hide();PF('agenda').update()"
                                      update=":growl"
-                                     disabled="#{sesionController.selected.transcurrida}">
+                                     disabled="#{agendaSesionController.selected.transcurrida}">
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
-                    <!--guardar-->
-                    <p:commandButton actionListener="#{sesionController.updateFromAgenda}" 
-                                     value="#{bundle.Save}" 
-                                     update=":growl" 
-                                     oncomplete="handleSubmit(args, 'SesionViewDialog'); PF('agenda').update()"
-                                     />
+                    <!--cerrar-->
+                    <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('SesionEditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>

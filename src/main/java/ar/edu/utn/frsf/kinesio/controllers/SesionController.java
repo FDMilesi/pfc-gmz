@@ -4,17 +4,9 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
-import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
-import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.ejb.EJB;
-import javax.ejb.EJBException;
 import javax.inject.Named;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -25,16 +17,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
-@Named("sesionController")
+@Named("agendaSesionController")
 @ViewScoped
-public class SesionController implements Serializable {
-
-    @EJB
-    private SesionFacade ejbFacade;
-    private List<Sesion> items = null;
-    private Sesion selected;
-    private Tratamiento tratamientoEnEdicion;
-    private Date fechaVieja;
+public class SesionController extends AbstractSesionController implements Serializable {
 
     /* Eventos para comunicar controladores */
     @Inject
@@ -47,63 +32,7 @@ public class SesionController implements Serializable {
     public SesionController() {
     }
 
-    //Getters y Setters
-    public Sesion getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Sesion selected) {
-        this.selected = selected;
-    }
-
-    private SesionFacade getFacade() {
-        return ejbFacade;
-    }
-
-    public List<Sesion> getItems() {
-        if (items == null) {
-            items = getFacade().getSesionesByTratamiento(this.getTratamientoEnEdicion());
-        }
-        return items;
-    }
-
-    public Sesion getSesion(Integer id) {
-        return getFacade().find(id);
-    }
-
-    public Tratamiento getTratamientoEnEdicion() {
-        if (tratamientoEnEdicion == null) {
-            tratamientoEnEdicion = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
-                    "tratamiento",
-                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
-                    null);
-        }
-        return tratamientoEnEdicion;
-    }
-
-    public void setTratamientoEnEdicion(Tratamiento tratamientoEnEdicion) {
-        this.tratamientoEnEdicion = tratamientoEnEdicion;
-    }
-
-    public Date getFechaVieja() {
-        return fechaVieja;
-    }
-
-    public void setFechaVieja(Date fechaVieja) {
-        this.fechaVieja = (Date) fechaVieja;
-    }
-
     //Métodos de negocio
-    public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
-        if (!valor.equals(selected.getFechaHoraInicio())) {
-            Date fechaModificada = (Date) valor;
-            if (fechaModificada.before(new Date())) {
-                ((UIInput) componente).setValid(false);
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
-            }
-        }
-    }
-
     /**
      * Validador usado en la vista de modificar sesión. Verifica que al tildarse
      * el checkbox de cuenta, la cantidad de sesiones que cuentan no supere la
@@ -115,8 +44,9 @@ public class SesionController implements Serializable {
      */
     public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
         boolean cuenta = (boolean) checkBoxValue;
-        if (cuenta) {
-            if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
+        //Si ahora cuenta y antes no contaba
+        if (cuenta && !getContaba()) {
+            if (!getFacade().puedoAgregarSesion(selected.getTratamiento())) {
                 ((UISelectBoolean) componente).setValid(false);
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
             }
@@ -124,26 +54,21 @@ public class SesionController implements Serializable {
     }
 
     public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
+        if (!getFacade().puedoAgregarSesion(selected.getTratamiento())) {
             ((UIInput) componente).setValid(false);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
         }
     }
 
-    public void calcularNumeroSesion() {
-        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
-    }
-
-    //Comunicación entre controllers e inicializaciones de selected
-    public void verSesion(@Observes AgendaController.VerSesionEvento evento) {
+    public void editSesion(@Observes AgendaController.VerSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
-        this.setFechaVieja(selected.getFechaHoraInicio());
+        this.antesDeEditar();
     }
 
     public void onMoveFromAgenda(@Observes AgendaController.ModificarSesionEvento evento) {
         selected = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesionUpdate");
         selected.setFechaHoraInicio(evento.getDate());
-        this.update();
+        persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
     }
 
     public void prepareCreateFromAgenda(@Observes AgendaController.SesionInicializadaEvento evento) {
@@ -151,89 +76,34 @@ public class SesionController implements Serializable {
         selected = getFacade().initSesionFromAgenda(evento.getDate(), agendaDeSesion);
     }
 
-    public Sesion prepareCreateFromTratamiento(Tratamiento tratamiento) {
-        selected = getFacade().initSesionFromTratamiento(tratamiento);
-        return selected;
-    }
-
     //Métodos de persistencia
-    public void create() {
-        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
-        if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
-    }
-
     public void createFromAgenda() {
-        this.create();
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SesionCreated"));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionCreadaEvento.fire(new SesionCreadaEvento());
     }
 
-    private void resetearCuenta() {
-        if (!selected.getFechaHoraInicio().equals(this.getFechaVieja())) {
-            selected.setCuenta(Boolean.TRUE);
-        }
-    }
-
-    public void update() {
+    public void updateFromAgenda() {
         this.resetearCuenta();
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
-    }
-
-    public void updateFromAgenda() {
-        this.update();
         //ahora se llama a setFechaHoraInicio para que setee starDate a la sesion, de modo que la Agenda se actualice
         selected.setFechaHoraInicio(selected.getFechaHoraInicio());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionModificadaEvento.fire(new SesionModificadaEvento());
     }
 
-    public void destroy() {
+    public void destroyFromAgenda() {
         if (!selected.getTranscurrida()) {
             persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
             String sesionId = selected.getId();
             if (!JsfUtil.isValidationFailed()) {
                 selected = null; // Remove selection
-                items = null;    // Invalidate list of items to trigger re-query.
+                sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
             }
-            sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
         } else {
             JsfUtil.addErrorMessage("No se puede eliminar una sesion ya transcurrida");
         }
 
-    }
-
-    private void persist(PersistAction persistAction, String successMessage) {
-        if (selected != null) {
-            try {
-                if (persistAction != PersistAction.DELETE) {
-                    selected = getFacade().editAndReturn(selected);
-                } else {
-                    getFacade().remove(selected);
-                }
-                JsfUtil.addSuccessMessage(successMessage);
-            } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
-            } catch (Exception ex) {
-                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            }
-        }
-    }
-
-    //seters para testing
-    public void setFacade(SesionFacade sesionFacade) {
-        this.ejbFacade = sesionFacade;
     }
 
     //Eventos que lanza SesionController

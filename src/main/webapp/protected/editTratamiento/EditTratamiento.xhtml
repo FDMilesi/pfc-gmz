@@ -60,7 +60,7 @@
                                          update="display,:growl" 
                                          disabled="#{empty editTratamientoController.selected}">
                             <f:setPropertyActionListener target="#{ordenMedicaController.tratamiento}" value="#{editTratamientoController.selected}" />
-                            <f:setPropertyActionListener target="#{sesionController.tratamientoEnEdicion}" value="#{editTratamientoController.selected}" />
+                            <f:setPropertyActionListener target="#{listSesionController.tratamientoEnEdicion}" value="#{editTratamientoController.selected}" />
                         </p:commandButton>
                         <p:button outcome="/protected/tratamiento/List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" value="#{bundle.Cancel}" disabled="#{empty editTratamientoController.selected}"/>
                     </h:panelGroup>

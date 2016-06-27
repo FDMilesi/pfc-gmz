@@ -17,30 +17,30 @@
                   >
             <h:form id="SesionEditForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{listSesionController.selected != null}">
                         <!--paciente-->
                         <h:outputText value="#{bundle.ViewTratamientoLabel_paciente}"/>
-                        <h:outputText value="#{sesionController.selected.tratamiento.paciente.toString()}"/>
+                        <h:outputText value="#{listSesionController.selected.tratamiento.paciente.toString()}"/>
                         <!--tratamiento-->
                         <h:outputText value="#{bundle.CreateSesionLabel_tratamiento}"/>
-                        <h:outputText value="#{sesionController.selected.tratamiento.toString()}"/>
+                        <h:outputText value="#{listSesionController.selected.tratamiento.toString()}"/>
                         <!--transcurrida-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_transcurrida}" for="transcurrida" />
-                        <p:selectBooleanCheckbox id="transcurrida" value="#{sesionController.selected.transcurrida}" />
+                        <p:selectBooleanCheckbox id="transcurrida" value="#{listSesionController.selected.transcurrida}" />
                         <!--cuenta-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_cuenta}" for="cuenta" />
                         <p:selectBooleanCheckbox 
                             id="cuenta" 
-                            value="#{sesionController.selected.cuenta}" 
-                            validator="#{sesionController.puedoSetearCuentaTrue}"/>
+                            value="#{listSesionController.selected.cuenta}" 
+                            validator="#{listSesionController.puedoSetearCuentaTrue}"/>
                         <!--numero de sesion-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
-                        <p:inputText id="numeroDeSesion" value="#{sesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
+                        <p:inputText id="numeroDeSesion" value="#{listSesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
                         <!--fecha hora inicio-->
                         <p:outputLabel value="#{bundle.EditSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" 
                                     pattern="dd/MM/yyyy HH:mm:ss" 
-                                    value="#{sesionController.selected.fechaHoraInicio}" 
+                                    value="#{listSesionController.selected.fechaHoraInicio}" 
                                     title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
@@ -51,11 +51,11 @@
                                     minHour="8"
                                     maxHour="21"
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
-                                    disabled="#{sesionController.selected.transcurrida}"
-                                    validator="#{sesionController.validarFecha}"
+                                    disabled="#{listSesionController.selected.transcurrida}"
+                                    validator="#{listSesionController.validarFecha}"
                                     />    
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sesionController.update}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SesionEditDialog');"/>
+                    <p:commandButton actionListener="#{listSesionController.update}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args, 'SesionEditDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('SesionEditDialog').hide()"/>
                 </h:panelGroup>
             </h:form>

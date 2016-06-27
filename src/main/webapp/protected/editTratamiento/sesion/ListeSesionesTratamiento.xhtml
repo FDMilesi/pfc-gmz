@@ -9,8 +9,8 @@
     <ui:composition>
         <h:form id="SesionListForm">
             <p:panel header="#{bundle.ListSesionTitle}">
-                <p:dataTable id="datalist" value="#{sesionController.items}" var="item"
-                             selectionMode="single" selection="#{sesionController.selected}"
+                <p:dataTable id="datalist" value="#{listSesionController.items}" var="item"
+                             selectionMode="single" selection="#{listSesionController.selected}"
                              paginator="true"
                              paginatorPosition="bottom"
                              rowKey="#{item.id}"
@@ -41,18 +41,20 @@
                         <p:commandButton id="createButton" 
                                          icon="ui-icon-plus"   
                                          value="#{bundle.Create}" 
-                                         actionListener="#{sesionController.prepareCreateFromTratamiento(editTratamientoController.selected)}" 
+                                         actionListener="#{listSesionController.prepareCreate(editTratamientoController.selected)}" 
                                          update=":SesionCreateForm" 
+                                         resetValues="true"
                                          disabled="#{empty editTratamientoController.selected}"
                                          oncomplete="PF('SesionCreateDialog').show()"/>
                         <p:commandButton id="editButton" 
                                          icon="ui-icon-pencil" 
                                          value="#{bundle.Edit}" 
-                                         actionListener="#{sesionController.setFechaVieja(sesionController.selected.fechaHoraInicio)}" 
+                                         actionListener="#{listSesionController.antesDeEditar}" 
                                          update=":SesionEditForm" 
+                                         resetValues="true"
                                          oncomplete="PF('SesionEditDialog').show()" 
-                                         disabled="#{empty sesionController.selected}"/>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{sesionController.destroy}" update=":growl,datalist" disabled="#{(empty sesionController.selected)||(sesionController.selected.transcurrida)}">
+                                         disabled="#{empty listSesionController.selected}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{listSesionController.destroy}" update=":growl,datalist" disabled="#{(empty listSesionController.selected)||(listSesionController.selected.transcurrida)}">
                             <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </f:facet>

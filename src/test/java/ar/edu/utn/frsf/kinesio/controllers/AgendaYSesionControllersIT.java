@@ -79,6 +79,8 @@ public class AgendaYSesionControllersIT {
         List<Sesion> sesiones = new ArrayList<>();
         Sesion sesion = new Sesion((short) 10);
         sesion.setIdSesion(idSesion);
+        sesion.setCuenta(true);
+        sesion.setFechaHoraInicio(new Date());
         sesiones.add(sesion);
         agenda.setSesiones(sesiones);
         
@@ -90,6 +92,8 @@ public class AgendaYSesionControllersIT {
         //Ejecuto la prueba
         agendaController.mostrarSesion(event);
         
+        assertNotNull(sesionController.getSelected());
+
         Sesion sesionRecibida = sesionController.getSelected();
         
         assertEquals(sesionRecibida.getIdSesion(), idSesion);

@@ -10,7 +10,7 @@
         <ui:composition template="/template.xhtml">
 
             <ui:define name="title">
-                title
+                <h:outputText value="#{bundle.AgendaTitle}"></h:outputText>
             </ui:define>
 
             <ui:define name="body">
@@ -28,34 +28,26 @@
                                 allDaySlot="false" slotDuration="00:15:00" scrollTime="08:00:00"
                                 showWeekends="FALSE" minTime="07:00:00" maxTime="21:00:00" resizable="false"
                                 columnFormat="ddd D/MMMM"
-                                
                                 >
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
                                 update=":SesionCreateForm, :growl"
-                                oncomplete="PF('SesionCreateDialog').show();" />
+                                oncomplete="PF('SesionCreateDialog').show();"
+                                resetValues="true" />
                         <p:ajax event="eventSelect"
                                 listener="#{agendaController.mostrarSesion}"                                
-                                update=":SesionViewForm" 
-                                oncomplete="PF('SesionViewDialog').show();" />
+                                update=":SesionEditForm"
+                                oncomplete="PF('SesionEditDialog').show();"
+                                resetValues="true" />
                         <p:ajax event="eventMove"
                                 listener="#{agendaController.moverSesion}"
                                 update=":growl"
                                 oncomplete="PF('agenda').update();"/>
                     </p:schedule>                    
                 </h:form>
-
-                <!--                <p:dialog widgetVar="eventDialog" header="Event Details">
-                                    <h:panelGrid id="eventDetails" columns="2">
-                                        <h:outputText value="puto el que lee"/>
-                                        <h:outputText value="puto el que lee"/>
-                                    </h:panelGrid>
-                                </p:dialog> -->
-                <ui:include src="Create.xhtml"/>
-                <ui:include src="View.xhtml"/>                  
+                <ui:include src="CreateSesionFromAgenda.xhtml"/>
+                <ui:include src="EditSesionFromAgenda.xhtml"/>                  
             </ui:define>
-
         </ui:composition>
-
     </body>
 </html>

@@ -17,14 +17,14 @@
                   closeOnEscape="true"
                   >
             <h:form id="SesionCreateForm">
-                <p:inputText style="display: none;" validator="#{sesionController.puedoCrearNuevaSesion}"/>
-                <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion} #{sesionController.selected.numeroDeSesion}" />
+                <p:inputText style="display: none;" validator="#{listSesionController.puedoCrearNuevaSesion}"/>
+                <p:outputLabel value="#{bundle.CreateSesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{sesionController.selected != null}">
+                    <p:panelGrid columns="2" rendered="#{listSesionController.selected != null}">
                         <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="MM/dd/yyyy HH:mm:ss" 
-                                    value="#{sesionController.selected.fechaHoraInicio}" 
+                                    pattern="dd/MM/yyyy HH:mm:ss" 
+                                    value="#{listSesionController.selected.fechaHoraInicio}" 
                                     title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
@@ -37,13 +37,13 @@
                                     requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
                                     />
                         <p:outputLabel value="#{bundle.CreateSesionLabel_agenda}" for="agenda" />
-                        <p:selectOneMenu id="agenda" value="#{sesionController.selected.agenda}" required="true" requiredMessage="#{bundle.EditSesionRequiredMessage_agenda}">
+                        <p:selectOneMenu id="agenda" value="#{listSesionController.selected.agenda}" required="true" requiredMessage="#{bundle.EditSesionRequiredMessage_agenda}">
                             <f:selectItems value="#{agendaController.itemsAvailableSelectOne}"
                                            var="agendaItem"
                                            itemValue="#{agendaItem}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
-                    <p:commandButton actionListener="#{sesionController.create}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args,'SesionCreateDialog');"/>
+                    <p:commandButton actionListener="#{listSesionController.create}" value="#{bundle.Save}" update="display,:SesionListForm:datalist,:growl" oncomplete="handleSubmit(args,'SesionCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="PF('SesionCreateDialog').hide()" immediate="true"/>
                 </h:panelGroup>
             </h:form>

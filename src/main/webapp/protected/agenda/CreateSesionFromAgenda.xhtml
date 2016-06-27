@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="SesionCreateDlg" 
+                  widgetVar="SesionCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateSesionTitle}"
+                  closeOnEscape="true"
+                  >
+            <h:form id="SesionCreateForm">
+                <p:inputText style="display: none;" validator="#{agendaSesionController.puedoCrearNuevaSesion}"/>
+                <p:outputLabel id="numeroDeSesion" value="#{bundle.CreateSesionLabel_numeroDeSesion} #{agendaSesionController.selected.numeroDeSesion}" />
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{agendaSesionController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
+                        <p:calendar id="fechaHoraInicio" 
+                                    pattern="dd/MM/yyyy HH:mm:ss" 
+                                    value="#{agendaSesionController.selected.fechaHoraInicio}" 
+                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}"  
+                                    showOn="button" 
+                                    showButtonPanel="true"
+                                    required="true" 
+                                    locale="es"
+                                    stepMinute="5"
+                                    timeZone="GMT-3"
+                                    minHour="8"
+                                    maxHour="21"
+                                    requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
+                                    />
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_paciente}" for="paciente" />
+                        <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" 
+                                         required="true"                                         
+                                         requiredMessage="#{bundle.CreateSesionRequiredMessage_Paciente}">           
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                            <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
+                                           var="pacienteItem"
+                                           itemValue="#{pacienteItem}"/>
+                            <p:ajax update="tratamientoSeleccion" event="change"/>
+                            <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/>                            
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{bundle.CreateSesionLabel_tratamiento}" for="tratamientoSeleccion" />
+                        <p:selectOneMenu id="tratamientoSeleccion" value="#{agendaSesionController.selected.tratamiento}"
+                                         required="true"
+                                         requiredMessage="#{bundle.CreateSesionRequiredMessage_Tratamiento}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                            <f:selectItems value="#{tratamientoController.items}"
+                                           var="tratamientoItem"
+                                           itemValue="#{tratamientoItem}"/>
+                            <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/> 
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{agendaSesionController.createFromAgenda}"
+                                     value="#{bundle.Save}"
+                                     update=":growl"
+                                     oncomplete="PF('agenda').update(); handleSubmit(args,'SesionCreateDialog');"
+                                     />
+                    <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('SesionCreateDialog').hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
