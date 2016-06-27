@@ -54,7 +54,7 @@ public class SesionController extends AbstractSesionController implements Serial
     }
 
     public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (!getFacade().puedoAgregarSesion(selected.getTratamiento())) {
+        if (selected.getTratamiento() != null && !getFacade().puedoAgregarSesion(selected.getTratamiento())) {
             ((UIInput) componente).setValid(false);
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
         }
