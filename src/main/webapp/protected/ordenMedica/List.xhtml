@@ -116,7 +116,12 @@
 
                         <f:facet name="footer">
                             <p:commandButton id="ordenesmedicasAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty listOrdenMedicaController.selected}"/>
-                            <p:commandButton id="ordenMedicaDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{listOrdenMedicaController.destroy}" update=":growl,ordenMedicaDatalist" disabled="#{empty listOrdenMedicaController.selected}">
+                            <p:commandButton id="ordenMedicaDeleteButton" 
+                                             icon="ui-icon-trash"  
+                                             value="#{bundle.Delete}" 
+                                             actionListener="#{listOrdenMedicaController.destroy}" 
+                                             update=":growl,ordenMedicaDatalist" 
+                                             disabled="#{(empty listOrdenMedicaController.selected || listOrdenMedicaController.selected.autorizada)}">
                                 <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>            
                         </f:facet>
