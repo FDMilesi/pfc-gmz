@@ -49,7 +49,7 @@
                                          disabled="#{empty editTratamientoController.selected}"
                                          />
                         <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
-                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
+                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{(empty ordenMedicaController.selected || ordenMedicaController.selected.autorizada)}">
                             <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </f:facet>
