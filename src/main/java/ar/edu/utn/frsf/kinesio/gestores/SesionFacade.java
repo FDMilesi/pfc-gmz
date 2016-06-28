@@ -116,6 +116,11 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoQueCuentan")
                 .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
     }
+    
+    public int countSesionesByTratamientoNoTranscurridas(Tratamiento tratamiento) {
+        return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoNoTranscurridas")
+                .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
+    }
 
     public List<Sesion> getSesionesByAgenda(Agenda agenda) {
         return getEntityManager().createNamedQuery("Sesion.findByAgenda")

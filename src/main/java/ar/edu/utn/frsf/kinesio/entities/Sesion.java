@@ -37,6 +37,8 @@ import org.primefaces.model.ScheduleEvent;
             query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
     @NamedQuery(name = "Sesion.countByTratamientoQueCuentan",
             query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
+    @NamedQuery(name = "Sesion.countByTratamientoNoTranscurridas",
+            query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento = :tratamiento and s.transcurrida = FALSE"),
     @NamedQuery(name = "Sesion.findByAgenda", query = "SELECT s FROM Sesion s WHERE s.agenda = :agenda"),
     @NamedQuery(name = "Sesion.findByTranscurrida", query = "SELECT s FROM Sesion s WHERE s.transcurrida = :transcurrida"),
     @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta")})
