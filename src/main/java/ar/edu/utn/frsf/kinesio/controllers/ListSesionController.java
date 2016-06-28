@@ -39,6 +39,8 @@ public class ListSesionController extends AbstractSesionController implements Se
 
     //Getters y Setters
     public List<Sesion> getItems() {
+        if (items == null)
+            items = getFacade().getSesionesByTratamiento(tratamientoEnEdicion);
         return items;
     }
 
