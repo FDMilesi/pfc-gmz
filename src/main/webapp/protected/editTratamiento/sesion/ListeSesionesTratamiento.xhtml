@@ -44,7 +44,7 @@
                                          actionListener="#{listSesionController.prepareCreate(editTratamientoController.selected)}" 
                                          update=":SesionCreateForm" 
                                          resetValues="true"
-                                         disabled="#{empty editTratamientoController.selected}"
+                                         disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
                                          oncomplete="PF('SesionCreateDialog').show()"/>
                         <p:commandButton id="editButton" 
                                          icon="ui-icon-pencil" 
@@ -53,8 +53,8 @@
                                          update=":SesionEditForm" 
                                          resetValues="true"
                                          oncomplete="PF('SesionEditDialog').show()" 
-                                         disabled="#{empty listSesionController.selected}"/>
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{listSesionController.destroy}" update=":growl,datalist" disabled="#{(empty listSesionController.selected)||(listSesionController.selected.transcurrida)}">
+                                         disabled="#{empty listSesionController.selected || editTratamientoController.selected.finalizado}"/>
+                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{listSesionController.destroy}" update=":growl,datalist" disabled="#{(empty listSesionController.selected)||(listSesionController.selected.transcurrida || editTratamientoController.selected.finalizado)}">
                             <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </f:facet>

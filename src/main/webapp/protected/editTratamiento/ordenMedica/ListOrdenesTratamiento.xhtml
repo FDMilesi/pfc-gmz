@@ -46,10 +46,10 @@
                                          update=":ordenMedicaCreateForm" 
                                          oncomplete="PF('OrdenMedicaCreateDialog').show()"
                                          class="ui-button-create"
-                                         disabled="#{empty editTratamientoController.selected}"
+                                         disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
                                          />
-                        <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
-                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{(empty ordenMedicaController.selected || ordenMedicaController.selected.autorizada)}">
+                        <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected || editTratamientoController.selected.finalizado}"/>
+                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{(empty ordenMedicaController.selected || ordenMedicaController.selected.autorizada || editTratamientoController.selected.finalizado)}">
                             <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </f:facet>
