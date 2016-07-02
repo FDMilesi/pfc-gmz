@@ -24,7 +24,11 @@ public class TratamientoConverter implements Converter {
 
     java.lang.Integer getKey(String value) {
         java.lang.Integer key;
-        key = Integer.valueOf(value);
+        try {
+            key = Integer.valueOf(value);
+        }catch (NumberFormatException e){
+            key = Integer.MAX_VALUE;
+        }
         return key;
     }
 

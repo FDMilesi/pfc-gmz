@@ -57,6 +57,10 @@ public class EditTratamientoController implements Serializable {
         return ejbFacade;
     }
 
+    public void setEjbFacade(TratamientoFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
     public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
     }
