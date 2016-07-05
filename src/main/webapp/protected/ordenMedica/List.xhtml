@@ -81,9 +81,6 @@
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  >
 
-                        <p:ajax event="rowSelect"   update="ordenesmedicasAutorizarButton ordenMedicaDeleteButton"/>
-                        <p:ajax event="rowUnselect" update="ordenesmedicasAutorizarButton ordenMedicaDeleteButton"/>
-
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -113,18 +110,27 @@
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
                             <h:outputText value="#{item.codigoDeAutorizacion}"/>
                         </p:column>
-
-                        <f:facet name="footer">
-                            <p:commandButton id="ordenesmedicasAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty listOrdenMedicaController.selected}"/>
+                        <!--OPCIONES-->
+                        <p:column headerText="Opciones">
+                            <!--AUTORIZAR-->
+                            <p:commandButton id="ordenesmedicasAutorizarButton" 
+                                             icon="ui-icon-check" 
+                                             title="#{bundle.Autorizar}" 
+                                             update=":OrdenMedicaAutorizarForm" 
+                                             oncomplete="PF('OrdenMedicaAutorizarDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{listOrdenMedicaController.selected}" />
+                            </p:commandButton>
+                            <!--ELIMINAR-->
                             <p:commandButton id="ordenMedicaDeleteButton" 
                                              icon="ui-icon-trash"  
-                                             value="#{bundle.Delete}" 
+                                             title="#{bundle.Delete}" 
                                              actionListener="#{listOrdenMedicaController.destroy}" 
                                              update=":growl,ordenMedicaDatalist" 
-                                             disabled="#{(empty listOrdenMedicaController.selected || listOrdenMedicaController.selected.autorizada)}">
+                                             disabled="#{item.autorizada}">
+                                <f:setPropertyActionListener value="#{item}" target="#{listOrdenMedicaController.selected}" />
                                 <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
-                            </p:commandButton>            
-                        </f:facet>
+                            </p:commandButton>        
+                        </p:column>                          
                     </p:dataTable>
                 </p:panel>
             </h:form>

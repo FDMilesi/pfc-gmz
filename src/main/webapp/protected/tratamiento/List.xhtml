@@ -52,10 +52,10 @@
                     <p:column headerText="#{bundle.ListTratamientoTitle_diagnostico}">
                         <h:outputText value="#{item.diagnostico}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_cantidadDeSesiones}">
+                    <p:column headerText="#{bundle.ListTratamientoTitle_cantidadDeSesiones}" style="width:50px;">
                         <h:outputText value="#{item.sesionesRealizadas}/#{item.cantidadDeSesiones}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_particular}">
+                    <p:column headerText="#{bundle.ListTratamientoTitle_particular}" style="width:50px;">
                         <h:outputText value="#{item.particular?'Si':'No'}"/>
                     </p:column>
                     <p:column headerText="#{bundle.ListTratamientoTitle_estado}">
@@ -64,7 +64,7 @@
                                      ? bundle.ListTratamientoEstado_finalizado
                                      : bundle.ListTratamientoEstado_enCurso}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_ordenes}">
+                    <p:column headerText="#{bundle.ListTratamientoTitle_ordenes}" style="width: 60px;">
                         <h:outputText value="-"/>
                     </p:column>                    
                     <p:column headerText="#{bundle.ListTratamientoTitle_sesionesAFavor}">
@@ -73,16 +73,34 @@
                     <p:column headerText="#{bundle.ListTratamientoTitle_medico}">
                         <h:outputText value="#{item.medicoDerivante}" />
                     </p:column>
-                    <f:facet name="footer">
-
-                        <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":TratamientoViewForm" oncomplete="PF('TratamientoViewDialog').show()" disabled="#{empty tratamientoController.selected}"/>
-                        <p:button id="editButton" includeViewParams="true" icon="ui-icon-pencil" value="#{bundle.Edit}" outcome="#{tratamientoController.prepararEditTratamiento()}" disabled="#{empty tratamientoController.selected}">
-                            <f:param name="tratamiento" value="#{tratamientoController.selected.id}" />
-                        </p:button>                    
-                        <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{tratamientoController.destroy}" update=":growl,datalist" disabled="#{empty tratamientoController.selected}">
+                    <!--OPCIONES-->
+                    <p:column headerText="Opciones">
+                        <!--VER-->
+                        <p:commandButton id="viewButton"   
+                                         icon="ui-icon-search" 
+                                         title="#{bundle.View}" 
+                                         update=":TratamientoViewForm" 
+                                         oncomplete="PF('TratamientoViewDialog').show()">
+                            <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
+                        </p:commandButton>
+                        <!--MODIFICAR-->
+                        <p:button id="editButton" 
+                                  includeViewParams="true" 
+                                  icon="ui-icon-pencil" 
+                                  title="#{bundle.Edit}" 
+                                  outcome="#{tratamientoController.prepararEditTratamiento()}">
+                            <f:param name="tratamiento" value="#{item.id}" />
+                        </p:button>
+                        <!--ELIMINAR-->
+                        <p:commandButton id="deleteButton" 
+                                         icon="ui-icon-trash"  
+                                         title="#{bundle.Delete}" 
+                                         actionListener="#{tratamientoController.destroy}" 
+                                         update=":growl,datalist">
+                            <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
                             <p:confirm header="#{bundle.ListTratamientoConfirmationHeader}" message="#{bundle.ListTratamientoConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
-                    </f:facet>
+                    </p:column>
                 </p:dataTable>
             </h:form>
 
