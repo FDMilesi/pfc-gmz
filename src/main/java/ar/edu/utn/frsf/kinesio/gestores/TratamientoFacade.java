@@ -84,6 +84,13 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return validaSegunOrdenes && validaSegunSesiones;
     }
     
+    //Valido que la cantidad de sesiones que no transcurrieron sea cero, es decir, que no haya sesiones pendientes.
+    public boolean esValidaCantidadDeSesionesNoTranscurridas(Tratamiento tratamiento){
+        int cantidadSesionesNoTranscurridas = sesionFacade.countSesionesByTratamientoNoTranscurridas(tratamiento);
+        
+        return cantidadSesionesNoTranscurridas == 0;
+    }
+    
     public boolean esValidaCantidadSesionesCubiertas(Tratamiento tratamiento){
         return Short.compare(tratamiento.getCantidadDeSesiones(), ordenMedicaFacade.sumatoriaSesionesDeOrdenes(tratamiento)) == 0;
     }

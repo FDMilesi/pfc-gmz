@@ -38,6 +38,29 @@
                     <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
                         <h:outputText value="#{orderItem.codigoDeAutorizacion}"/>
                     </p:column>
+                    <!--OPCIONES-->
+                    <p:column>
+                        <!--AUTORIZAR-->
+                        <p:commandButton id="ordenMedicaTratamientoAutorizarButton"
+                                         icon="ui-icon-check" 
+                                         title="#{bundle.Autorizar}" 
+                                         update=":OrdenMedicaAutorizarForm" 
+                                         oncomplete="PF('OrdenMedicaAutorizarDialog').show()" 
+                                         disabled="#{editTratamientoController.selected.finalizado}">
+                            <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
+                        </p:commandButton>
+                        <!--ELIMINAR-->
+                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" 
+                                         icon="ui-icon-trash"  
+                                         title="#{bundle.Delete}" 
+                                         actionListener="#{ordenMedicaController.destroy}" 
+                                         update=":growl,ordenMedicasTratamientoList" 
+                                         disabled="#{(orderItem.autorizada || editTratamientoController.selected.finalizado)}">
+                            <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
+                            <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
+                        </p:commandButton>
+
+                    </p:column>
 
                     <f:facet name="footer">
                         <p:commandButton id="ordenMedicaCreateButton" icon="ui-icon-plus"
@@ -46,12 +69,8 @@
                                          update=":ordenMedicaCreateForm" 
                                          oncomplete="PF('OrdenMedicaCreateDialog').show()"
                                          class="ui-button-create"
-                                         disabled="#{empty editTratamientoController.selected}"
-                                         />
-                        <p:commandButton id="ordenMedicaTratamientoAutorizarButton" icon="ui-icon-pencil" value="#{bundle.Autorizar}" update=":OrdenMedicaAutorizarForm" oncomplete="PF('OrdenMedicaAutorizarDialog').show()" disabled="#{empty ordenMedicaController.selected}"/>
-                        <p:commandButton id="ordenMedicaTratamientoDeleteButton" icon="ui-icon-trash"  value="#{bundle.Delete}" actionListener="#{ordenMedicaController.destroy}" update=":growl,ordenMedicasTratamientoList" disabled="#{empty ordenMedicaController.selected}">
-                            <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
-                        </p:commandButton>
+                                         disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
+                                         />                        
                     </f:facet>
                 </p:dataTable>
 
