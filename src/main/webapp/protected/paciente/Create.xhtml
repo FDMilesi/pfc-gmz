@@ -18,61 +18,36 @@
             <h:form id="PacienteCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_apellido}" for="apellido" />
+                        <p:outputLabel value="#{bundle.PacienteLabel_apellido}" for="apellido" />
                         <p:inputText id="apellido" 
-                                     value="#{pacienteController.selected.apellido}" 
-                                     title="#{bundle.CreatePacienteTitle_apellido}" 
-                                     required="true" 
-                                     requiredMessage="#{bundle.CreatePacienteRequiredMessage_apellido}"
-                                     validatorMessage="#{bundle.SurnameValidator}">
-                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[ ]?[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]*"/>
-                        </p:inputText>
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_nombre}" for="nombre" />
+                                     value="#{pacienteController.selected.apellido}"/>
+                        <p:outputLabel value="#{bundle.PacienteLabel_nombre}" for="nombre" />
                         <p:inputText id="nombre" 
-                                     value="#{pacienteController.selected.nombre}" 
-                                     title="#{bundle.CreatePacienteTitle_nombre}" 
-                                     required="true" 
-                                     requiredMessage="#{bundle.CreatePacienteRequiredMessage_nombre}"
-                                     validatorMessage="#{bundle.NameValidator}">
-                            <f:validateRegex pattern="[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[ ]?[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]*"/>
-                        </p:inputText>
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_dni}" for="dni" />
+                                     value="#{pacienteController.selected.nombre}"/>
+                        <p:outputLabel value="#{bundle.PacienteLabel_dni}" for="dni" />
                         <p:inputText id="dni" 
-                                     value="#{pacienteController.selected.dni}" 
-                                     title="#{bundle.CreatePacienteTitle_dni}" 
-                                     required="true" 
-                                     requiredMessage="#{bundle.CreatePacienteRequiredMessage_dni}"
-                                     validatorMessage="#{bundle.DniValidator}">
-                            <f:validateRegex pattern="\d{7,8}+"/>
-                        </p:inputText>  
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_domicilio}" for="domicilio" />
-                        <p:inputText id="domicilio" value="#{pacienteController.selected.domicilio}" title="#{bundle.CreatePacienteTitle_domicilio}" />
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_telefono}" for="telefono" />
+                                     value="#{pacienteController.selected.dni}"/>
+                        <p:outputLabel value="#{bundle.PacienteLabel_domicilio}" for="domicilio" />
+                        <p:inputText id="domicilio" 
+                                     value="#{pacienteController.selected.domicilio}"/>
+                        <p:outputLabel value="#{bundle.PacienteLabel_telefono}" for="telefono" />
                         <p:inputText id="telefono" 
-                                     value="#{pacienteController.selected.telefono}" 
-                                     title="#{bundle.CreatePacienteTitle_telefono}"
-                                     validatorMessage="#{bundle.TelValidator}">
-                            <f:validateRegex pattern="\d*"/>
-                        </p:inputText>     
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_celular}" for="celular" />
+                                     value="#{pacienteController.selected.telefono}" /> 
+                        <p:outputLabel value="#{bundle.PacienteLabel_celular}" for="celular" />
                         <p:inputText id="celular" 
-                                     value="#{pacienteController.selected.celular}" 
-                                     title="#{bundle.CreatePacienteTitle_celular}"
-                                     validatorMessage="#{bundle.CelValidator}">
-                            <f:validateRegex pattern="\d*"/>
-                        </p:inputText>   
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_fechaDeNacimiento}" for="fechaDeNacimiento" />
+                                     value="#{pacienteController.selected.celular}" />   
+                        <p:outputLabel value="#{bundle.PacienteLabel_fechaDeNacimiento}" for="fechaDeNacimiento" />
                         <p:calendar id="fechaDeNacimiento" 
                                     pattern="MM/dd/yyyy" 
                                     value="#{pacienteController.selected.fechaDeNacimiento}" 
-                                    title="#{bundle.EditPacienteTitle_fechaDeNacimiento}"  
                                     showOn="button" 
                                     locale="es"
                                     navigator="true"
                                     yearRange="c-90:c+10"/>
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
-                        <p:inputText id="nroAfiliadoOS" value="#{pacienteController.selected.nroAfiliadoOS}" title="#{bundle.CreatePacienteTitle_nroAfiliadoOS}" />
-                        <p:outputLabel value="#{bundle.CreatePacienteLabel_obraSocial}" for="obraSocial" />
+                        <p:outputLabel value="#{bundle.PacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
+                        <p:inputText id="nroAfiliadoOS" 
+                                     value="#{pacienteController.selected.nroAfiliadoOS}" />
+                        <p:outputLabel value="#{bundle.PacienteLabel_obraSocial}" for="obraSocial" />
                         <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}"

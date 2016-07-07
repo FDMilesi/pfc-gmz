@@ -19,26 +19,26 @@
             <h:form id="PacienteViewForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
-                        <h:outputText value="#{bundle.ViewPacienteLabel_apellido}"/>
-                        <h:outputText value="#{pacienteController.selected.apellido}" title="#{bundle.ViewPacienteTitle_apellido}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_nombre}"/>
-                        <h:outputText value="#{pacienteController.selected.nombre}" title="#{bundle.ViewPacienteTitle_nombre}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_dni}"/>
-                        <h:outputText value="#{pacienteController.selected.dni}" title="#{bundle.ViewPacienteTitle_dni}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_domicilio}"/>
-                        <h:outputText value="#{pacienteController.selected.domicilio}" title="#{bundle.ViewPacienteTitle_domicilio}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_telefono}"/>
-                        <h:outputText value="#{pacienteController.selected.telefono}" title="#{bundle.ViewPacienteTitle_telefono}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_celular}"/>
-                        <h:outputText value="#{pacienteController.selected.celular}" title="#{bundle.ViewPacienteTitle_celular}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_fechaDeNacimiento}"/>
-                        <h:outputText value="#{pacienteController.selected.fechaDeNacimiento}" title="#{bundle.ViewPacienteTitle_fechaDeNacimiento}">
+                        <h:outputText value="#{bundle.PacienteLabel_apellido}"/>
+                        <h:outputText value="#{pacienteController.selected.apellido}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_nombre}"/>
+                        <h:outputText value="#{pacienteController.selected.nombre}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_dni}"/>
+                        <h:outputText value="#{pacienteController.selected.dni}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_domicilio}"/>
+                        <h:outputText value="#{pacienteController.selected.domicilio}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_telefono}"/>
+                        <h:outputText value="#{pacienteController.selected.telefono}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_celular}"/>
+                        <h:outputText value="#{pacienteController.selected.celular}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_fechaDeNacimiento}"/>
+                        <h:outputText value="#{pacienteController.selected.fechaDeNacimiento}">
                             <f:convertDateTime pattern="MM/dd/yyyy" />
                         </h:outputText>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_nroAfiliadoOS}"/>
-                        <h:outputText value="#{pacienteController.selected.nroAfiliadoOS}" title="#{bundle.ViewPacienteTitle_nroAfiliadoOS}"/>
-                        <h:outputText value="#{bundle.ViewPacienteLabel_obraSocial}"/>
-                        <h:outputText value="#{pacienteController.selected.obraSocial.toString()}" title="#{bundle.ViewPacienteTitle_obraSocial}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_nroAfiliadoOS}"/>
+                        <h:outputText value="#{pacienteController.selected.nroAfiliadoOS}"/>
+                        <h:outputText value="#{bundle.PacienteLabel_obraSocial}"/>
+                        <h:outputText value="#{pacienteController.selected.obraSocial.toString()}"/>
                     </p:panelGrid>
                     <p:commandButton value="#{bundle.Close}" immediate="true" onclick="PF('PacienteViewDialog').hide()"/>
                 </h:panelGroup>

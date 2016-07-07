@@ -18,7 +18,7 @@
                     <p:menuitem value="Pacientes" disabled="true"/>
                 </p:breadCrumb>
                 <p:commandButton id="createButton" icon="ui-icon-plus"
-                                 value="#{bundle.ListPacienteLinkCreate}" 
+                                 value="#{bundle.PacienteLinkCreate}" 
                                  actionListener="#{pacienteController.prepareCreate}" 
                                  update=":PacienteCreateForm" 
                                  oncomplete="PF('PacienteCreateDialog').show()"
@@ -34,7 +34,8 @@
                              rowKey="#{item.id}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
-                             filteredValue="#{pacienteController.pacientesFiltrados}"                                 
+                             filteredValue="#{pacienteController.pacientesFiltrados}"  
+                             emptyMessage="#{bundle.ListPacienteEmpty}"
                              >
                     <f:facet name="header">
                         <p:outputPanel style="text-align: right">  
@@ -53,26 +54,26 @@
 
                     <p:column filterBy="#{item.toString()}" filterStyle="display:none" sortBy="#{item.toString()}">
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListPacienteTitle_apellido_nombre}"/>
+                            <h:outputText value="#{bundle.PacienteTitle_apellido_nombre}"/>
                         </f:facet>
                         <h:outputText value="#{item.toString()}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListPacienteTitle_domicilio}">
+                    <p:column headerText="#{bundle.PacienteTitle_domicilio}">
                         <h:outputText value="#{item.domicilio}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListPacienteTitle_telefono}">
+                    <p:column headerText="#{bundle.PacienteTitle_telefono}">
                         <h:outputText value="#{item.telefono}"/>
                     </p:column>
                     <p:column headerText="">
                         <f:facet name="header">
-                            <h:outputText value="#{bundle.ListPacienteTitle_celular}"/>
+                            <h:outputText value="#{bundle.PacienteTitle_celular}"/>
                         </f:facet>
                         <h:outputText value="#{item.celular}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListPacienteTitle_edad}" sortBy="#{item.getEdad()}">
+                    <p:column headerText="#{bundle.PacienteTitle_edad}" sortBy="#{item.getEdad()}">
                         <h:outputText value="#{item.getEdad()}"/>                                
                     </p:column>
-                    <p:column headerText="#{bundle.ListPacienteTitle_obraSocial}" sortBy="#{item.obraSocial.toString()}">
+                    <p:column headerText="#{bundle.PacienteTitle_obraSocial}" sortBy="#{item.obraSocial.toString()}">
                         <h:outputText value="#{item.obraSocial.toString()}"/>
                     </p:column>
                     <f:facet name="footer">                            
@@ -90,7 +91,7 @@
                                          oncomplete="PF('PacienteEditDialog').show()" 
                                          disabled="#{empty pacienteController.selected}"/>
                         <p:commandButton id="deleteButton" icon="ui-icon-trash" value="#{bundle.Delete}" actionListener="#{pacienteController.destroy}" update=":growl,datalist" disabled="#{empty pacienteController.selected}">
-                            <p:confirm header="#{bundle.ListPacienteConfirmationHeader}" message="#{bundle.ListPacienteConfirmationMessage}" icon="ui-icon-alert" />
+                            <p:confirm header="#{bundle.PacienteConfirmationHeader}" message="#{bundle.PacienteConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                         <p:button id="tratamientosButton" includeViewParams="true" icon="ui-icon-document" value="Tratamientos" outcome="#{pacienteController.mostrarTratamientos()}" disabled="#{empty pacienteController.selected}">
                             <f:param name="paciente" value="#{pacienteController.selected.id}" />
