@@ -26,7 +26,6 @@
                                  />
                 <p:dataTable id="datalist" value="#{pacienteController.items}"
                              var="item"
-
                              widgetVar="tablaPacientes"
                              selectionMode="single"
                              selection="#{pacienteController.selected}"
@@ -108,8 +107,9 @@
                         <p:commandButton id="deleteButton" 
                                          icon="ui-icon-trash" 
                                          title="#{bundle.Delete}" 
-                                         actionListener="#{pacienteController.destroy}" 
-                                         update=":growl,datalist">
+                                         action="#{pacienteController.destroy}" 
+                                         update=":growl,datalist"
+                                         oncomplete="PF('tablaPacientes').clearFilters()">
                             <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
                             <p:confirm header="#{bundle.PacienteConfirmationHeader}" message="#{bundle.PacienteConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>                    
