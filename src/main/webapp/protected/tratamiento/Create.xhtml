@@ -7,7 +7,6 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="TratamientoCreateDlg" 
                   widgetVar="TratamientoCreateDialog" 
                   modal="true" 
@@ -20,12 +19,9 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{tratamientoController.selected != null}">
                         <!--      TIPO DE TRATAMIENTO         -->
-                        <p:outputLabel value="#{bundle.CreateTratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
+                        <p:outputLabel value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
                         <p:selectOneMenu id="tipoDeTratamiento"
-                                         value="#{tratamientoController.selected.tipoDeTratamiento}" 
-                                         required="true" 
-                                         requiredMessage="#{bundle.EditTratamientoRequiredMessage_tipoDeTratamiento}"
-                                         >
+                                         value="#{tratamientoController.selected.tipoDeTratamiento}">
                             <p:ajax update="particular" event="change"/>
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
@@ -34,31 +30,25 @@
                                            />
                         </p:selectOneMenu>
                         <!--      CANTIDAD DE SESIONES         -->
-                        <p:outputLabel value="#{bundle.CreateTratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                        <p:outputLabel value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                         <p:inputText id="cantidadDeSesiones" 
-                                     validatorMessage="#{bundle.CreateTratamientoRangoCantidadDeSesiones}" 
-                                     value="#{tratamientoController.selected.cantidadDeSesiones}" 
-                                     title="#{bundle.CreateTratamientoTitle_cantidadDeSesiones}" 
-                                     required="true" 
-                                     requiredMessage="#{bundle.CreateTratamientoRequiredMessage_cantidadDeSesiones}">
+                                     value="#{tratamientoController.selected.cantidadDeSesiones}">
                         </p:inputText>
                         <!--      PARTICULAR U OBRA SOCIAL          -->
-                        <p:outputLabel value="#{bundle.CreateTratamientoLabel_particular}" for="particular" />
+                        <p:outputLabel value="#{bundle.TratamientoLabel_particular}" for="particular" />
                         <p:selectOneRadio
                             disabled="#{!tratamientoController.selected.tipoDeTratamiento.cubiertoPorObraSocial}"
                             id="particular" 
-                            value="#{tratamientoController.selected.particular}" 
-                            required="true" 
-                            requiredMessage="#{bundle.EditTratamientoRequiredMessage_particular}">
-                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_particular_radio}" itemValue="#{true}" />
-                            <f:selectItem itemLabel="#{bundle.CreateTratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
+                            value="#{tratamientoController.selected.particular}">
+                            <f:selectItem itemLabel="#{bundle.TratamientoLabel_particular_radio}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{bundle.TratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
                         </p:selectOneRadio>
                         <!--      DIAGNOSTICO         -->
-                        <p:outputLabel value="#{bundle.CreateTratamientoLabel_diagnostico}" for="diagnostico" />
-                        <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" title="#{bundle.CreateTratamientoTitle_diagnostico}" />
+                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
+                        <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" />
                         <!--      OBSERVACIONES         -->
-                        <p:outputLabel value="#{bundle.CreateTratamientoLabel_observaciones}" for="observaciones" />
-                        <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" title="#{bundle.CreateTratamientoTitle_observaciones}" />
+                        <p:outputLabel value="#{bundle.TratamientoLabel_observaciones}" for="observaciones" />
+                        <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" />
                     </p:panelGrid>
                     <p:commandButton actionListener="#{tratamientoController.create}" value="#{bundle.Save}" update="display,:TratamientoListForm:datalist,:growl" oncomplete="handleSubmit(args,'TratamientoCreateDialog');"/>
                     <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('TratamientoCreateDialog').hide()"/>

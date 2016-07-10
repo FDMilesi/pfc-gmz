@@ -23,12 +23,13 @@
                                  value="#{bundle.ListTratamientoCreate}" 
                                  actionListener="#{tratamientoController.prepareCreate}" 
                                  update=":TratamientoCreateForm" 
+                                 resetValues="true"
                                  oncomplete="PF('TratamientoCreateDialog').show()"
                                  class="ui-button-create"
                                  disabled="#{empty tratamientoController.paciente}"
                                  />    
+                <!--selectionMode="single" selection="#{tratamientoController.selected}"-->
                 <p:dataTable id="datalist" value="#{tratamientoController.items}" var="item"
-                             selectionMode="single" selection="#{tratamientoController.selected}"
                              paginator="true"
                              paginatorPosition="bottom"
                              rowKey="#{item.id}"
@@ -36,41 +37,38 @@
                              rowsPerPageTemplate="10,20,30,40,50"
                              sortBy="#{item.fechaCreacion}"
                              sortOrder="descending"
+                             emptyMessage="#{bundle.ListTratamientoEmpty}"
                              >
-
-                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="viewButton editButton deleteButton"/>
-
-                    <p:column headerText="#{bundle.ListTratamientoTitle_fechaCreacion}">
+                    <p:column headerText="#{bundle.TratamientoTitle_fechaCreacion}">
                         <h:outputText value="#{item.fechaCreacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" />
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_tipoDeTratamiento}">
+                    <p:column headerText="#{bundle.TratamientoTitle_tipoDeTratamiento}">
                         <h:outputText value="#{item.tipoDeTratamiento.toString()}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_diagnostico}">
+                    <p:column headerText="#{bundle.TratamientoTitle_diagnostico}">
                         <h:outputText value="#{item.diagnostico}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_cantidadDeSesiones}" style="width:50px;">
+                    <p:column headerText="#{bundle.TratamientoTitle_cantidadDeSesiones}" style="width:50px;">
                         <h:outputText value="#{item.sesionesRealizadas}/#{item.cantidadDeSesiones}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_particular}" style="width:50px;">
+                    <p:column headerText="#{bundle.TratamientoTitle_particular}" style="width:50px;">
                         <h:outputText value="#{item.particular?'Si':'No'}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_estado}">
+                    <p:column headerText="#{bundle.TratamientoTitle_estado}">
                         <h:outputText 
                             value="#{item.finalizado
-                                     ? bundle.ListTratamientoEstado_finalizado
-                                     : bundle.ListTratamientoEstado_enCurso}"/>
+                                     ? bundle.TratamientoEstado_finalizado
+                                     : bundle.TratamientoEstado_enCurso}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_ordenes}" style="width: 60px;">
+                    <p:column headerText="#{bundle.TratamientoTitle_ordenes}" style="width: 60px;">
                         <h:outputText value="-"/>
                     </p:column>                    
-                    <p:column headerText="#{bundle.ListTratamientoTitle_sesionesAFavor}">
+                    <p:column headerText="#{bundle.TratamientoTitle_sesionesAFavor}">
                         <h:outputText value="#{item.sesionesAFavor}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListTratamientoTitle_medico}">
+                    <p:column headerText="#{bundle.TratamientoTitle_medico}">
                         <h:outputText value="#{item.medicoDerivante}" />
                     </p:column>
                     <!--OPCIONES-->
@@ -98,7 +96,7 @@
                                          actionListener="#{tratamientoController.destroy}" 
                                          update=":growl,datalist">
                             <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
-                            <p:confirm header="#{bundle.ListTratamientoConfirmationHeader}" message="#{bundle.ListTratamientoConfirmationMessage}" icon="ui-icon-alert" />
+                            <p:confirm header="#{bundle.TratamientoConfirmationHeader}" message="#{bundle.TratamientoConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
                 </p:dataTable>

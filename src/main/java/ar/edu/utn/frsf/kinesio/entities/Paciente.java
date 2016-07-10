@@ -76,7 +76,7 @@ public class Paciente implements Serializable {
 
     @Basic(optional = false)
     @NotNull(message = "Ingrese el DNI del paciente.")
-    @Pattern(regexp = "\\d{7,8}+", message = "Error en el campo DNI: solo se admite un número del orden de los millones")
+    @Pattern(regexp = "\\d{7,8}+", message = "Error en el campo DNI: solo se admite un número de 7 u 8 dígitos")
     @Column(name = "dni")
     private String dni;
 
