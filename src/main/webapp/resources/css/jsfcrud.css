@@ -17,6 +17,11 @@
     margin-bottom: 5px;
 }
 
+.ui-button-menu-temporal {
+    background-color: darkgrey !important;
+    border: none !important;
+}
+
 .fisiokinesioterapia{
     background: #3F51B5 !important; /*indigo*/
 }
