@@ -95,6 +95,10 @@ public class PacienteController implements Serializable {
         }
     }
 
+    public void setEjbFacade(PacienteFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {

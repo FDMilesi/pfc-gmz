@@ -152,4 +152,8 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 break;
         }
     }
+
+    public void marcarSesionesTranscurridas() {
+        em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
+    }
 }

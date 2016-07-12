@@ -57,6 +57,10 @@ public class EditTratamientoController implements Serializable {
         return ejbFacade;
     }
 
+    public void setEjbFacade(TratamientoFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
     public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
     }
@@ -64,10 +68,12 @@ public class EditTratamientoController implements Serializable {
     //Métodos de negocio
     //Validator del campo Cantidad de sesiones de un Tratamiento.
     public void validarCantidadDeSesiones(FacesContext facesContext, UIComponent componente, Object valor) {
-        Short cantidadDeSesiones = (Short) valor;
-        if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
+        if (valor != null) {
+            Short cantidadDeSesiones = (Short) valor;
+            if (!getFacade().esValidaCantidadDeSesiones(selected, cantidadDeSesiones)) {
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesValidacion"));
+            }
         }
     }
 

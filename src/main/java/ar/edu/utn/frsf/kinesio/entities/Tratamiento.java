@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
@@ -53,13 +48,13 @@ public class Tratamiento implements Serializable {
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Ingrese la cantidad de sesiones")
+    @Min(value = 1, message = "La cantidad de sesiones debe ser 1 o más")
+    @Max(value = 99, message = "La cantidad de sesiones debe ser menor que 99")
     @Column(name = "cantidaddesesiones")
-    @Min(1)
-    @Max(99)
     private short cantidadDeSesiones;
 
-    @Size(max = 100)
+    @Size(max = 100, message = "Ingrese menos de 100 caracteres para el diagnóstico")
     @Column(name = "diagnostico")
     private String diagnostico;
 
@@ -88,7 +83,7 @@ public class Tratamiento implements Serializable {
     @Column(name = "fechaultimaautorizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaUltimaAutorizacion;
-    
+
     @Size(max = 100)
     @Column(name = "medicoderivante")
     private String medicoDerivante;
@@ -99,6 +94,7 @@ public class Tratamiento implements Serializable {
 
     @JoinColumn(name = "tipodetratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @NotNull(message = "Seleccione un tipo de tratamiento")
     private TipoDeTratamiento tipoDeTratamiento;
 
     @OneToOne
@@ -106,9 +102,10 @@ public class Tratamiento implements Serializable {
     private Tratamiento tratamientoAsociado;
 
     /**
-     * Representa el número de sesiones que fueron marcadas como Transcurridas=true, es decir, 
-     * la cantidad de sesiones a las que el paciente asistió. El valor es calculado luego de 
-     * que la entidad es cargada desde la base de datos, mediante un interceptor del evento
+     * Representa el número de sesiones que fueron marcadas como
+     * Transcurridas=true, es decir, la cantidad de sesiones a las que el
+     * paciente asistió. El valor es calculado luego de que la entidad es
+     * cargada desde la base de datos, mediante un interceptor del evento
      * PostLoad. Ver los listeners de esta entidad.
      */
     @Transient
@@ -238,7 +235,7 @@ public class Tratamiento implements Serializable {
     public void setSesionesRealizadas(int sesionesRealizadas) {
         this.sesionesRealizadas = sesionesRealizadas;
     }
-    
+
     public String getMedicoDerivante() {
         return medicoDerivante;
     }

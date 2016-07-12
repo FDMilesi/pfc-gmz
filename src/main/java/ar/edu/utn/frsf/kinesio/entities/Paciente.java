@@ -25,6 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -59,38 +61,43 @@ public class Paciente implements Serializable {
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Ingrese el apellido del paciente")
+    @Size(max = 50, message = "Apellido demasiado extenso, máximo de 50 caracteres")
+    @Pattern(regexp = "[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\\s]*", message = "Error en el campo apellido: ingrese sólo caracteres alfabéticos o espacios")
     @Column(name = "apellido")
     private String apellido;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @NotNull(message = "Ingrese el nombre del paciente")
+    @Size(max = 50, message = "Nombre demasiado extenso, máximo de 50 caracteres")
+    @Pattern(regexp = "[a-zA-ZñÑ'áéíóúÁÉÍÓÚ]+[a-zA-ZñÑ'áéíóúÁÉÍÓÚ\\s]*", message = "Error en el campo nombre: ingrese sólo caracteres alfabéticos o espacios")
     @Column(name = "nombre")
     private String nombre;
 
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    @NotNull(message = "Ingrese el DNI del paciente.")
+    @Pattern(regexp = "\\d{7,8}+", message = "Error en el campo DNI: solo se admite un número de 7 u 8 dígitos")
     @Column(name = "dni")
     private String dni;
 
-    @Size(max = 50)
+    @Size(max = 50, message = "Máximo de 50 caracteres para el domicilio")
     @Column(name = "domicilio")
     private String domicilio;
-    @Size(max = 20)
+
+    @Pattern(regexp = "\\d*", message = "Ingrese un teléfono válido")
     @Column(name = "telefono")
     private String telefono;
-    @Size(max = 20)
+
+    @Pattern(regexp = "\\d*", message = "Ingrese un celular válido")
     @Column(name = "celular")
     private String celular;
 
     @Column(name = "fechadenacimiento")
     @Temporal(TemporalType.DATE)
+    @Past(message = "Seleccione una fecha de nacimiento anterior al día actual")
     private Date fechaDeNacimiento;
 
-    @Size(max = 10)
+    @Size(max = 10, message = "El N° de afiliado debe tener menos de 10 caracteres")
     @Column(name = "nroafiliadoos")
     private String nroAfiliadoOS;
 
@@ -106,7 +113,7 @@ public class Paciente implements Serializable {
 
     @Transient
     private String edad;
-    
+
     public Integer getId() {
         return id;
     }
@@ -197,7 +204,7 @@ public class Paciente implements Serializable {
     }
 
     public String getEdad() {
-        if (edad == null){
+        if (edad == null) {
             this.calcularEdadPaciente();
         }
         return edad;
@@ -216,7 +223,7 @@ public class Paciente implements Serializable {
             this.setEdad("-");
         }
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 0;
