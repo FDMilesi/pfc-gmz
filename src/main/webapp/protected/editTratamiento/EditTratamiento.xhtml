@@ -22,45 +22,68 @@
                 </p:breadCrumb>
             </h:form>
             <h:form id="TratamientoEditForm">
-                <h:panelGroup id="display" class="ui-fluid">
-                    <p:panelGrid columns="4" layout="grid" columnClasses="ui-g-2, ui-g-4, ui-g-2, ui-g-4" rendered="#{!empty editTratamientoController.selected}">
+                <h:panelGroup id="display" class="ui-g">
+                    <!--<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4" rendered="#{!empty editTratamientoController.selected}">-->
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
                         <p:outputLabel value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoTratamiento" />
+                    </div> 
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
                         <p:outputLabel value="#{editTratamientoController.selected.tipoDeTratamiento.toString()}" id="tipoTratamiento"/>
-
-                        <p:outputLabel value="#{bundle.TratamientoLabel_particular}" for="particular" />
+                    </div> 
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_particular}" for="particular"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
                         <p:outputLabel value="#{tratamientoController.selected.particular?'Si':'No'}" id="particular"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
+                        <p:inputText id="diagnostico" value="#{editTratamientoController.selected.diagnostico}" disabled="#{editTratamientoController.selected.finalizado}"/></div>
 
-                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
-                        <p:inputText id="diagnostico" value="#{editTratamientoController.selected.diagnostico}" disabled="#{editTratamientoController.selected.finalizado}"/>
-
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
                         <p:outputLabel value="#{bundle.TratamientoLabel_finalizado}" for="finalizado" />
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
                         <p:selectBooleanCheckbox id="finalizado" value="#{editTratamientoController.selected.finalizado}" 
                                                  validator="#{editTratamientoController.validarFinalizacionTratamiento}"
                                                  disabled="#{editTratamientoController.selected.finalizado}"/>
-
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
                         <p:outputLabel value="#{bundle.TratamientoLabel_medicoDerivante}" for="medicoderivante" />
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4" >
                         <p:inputText id="medicoderivante" value="#{editTratamientoController.selected.medicoDerivante}" />
+                    </div>
 
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
                         <p:outputLabel value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
                         <p:inputText id="cantidadDeSesiones" 
                                      value="#{editTratamientoController.selected.cantidadDeSesiones}" 
                                      validator="#{editTratamientoController.validarCantidadDeSesiones}" 
                                      disabled="#{editTratamientoController.selected.finalizado}"/>
-
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
                         <p:outputLabel value="#{bundle.TratamientoLabel_observaciones}" for="observaciones" />
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
                         <p:inputTextarea cols="22" rows="3" id="observaciones" value="#{editTratamientoController.selected.observaciones}" disabled="#{editTratamientoController.selected.finalizado}"/>
-
-                        <h:panelGroup>
-                            <p:commandButton actionListener="#{editTratamientoController.update}"
-                                             value="#{bundle.Save}" 
-                                             update="display,:growl,:OrdenTratamientoListForm,:SesionListForm" 
-                                             disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}">
-                                <f:setPropertyActionListener target="#{ordenMedicaController.tratamiento}" value="#{editTratamientoController.selected}" />
-                                <f:setPropertyActionListener target="#{listSesionController.tratamientoEnEdicion}" value="#{editTratamientoController.selected}" />
-                            </p:commandButton>
-                            <p:button outcome="/protected/tratamiento/List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" value="#{bundle.Cancel}" disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"/>
-                        </h:panelGroup>
-                    </p:panelGrid>
+                    </div>
+                    <div class="ui-g-12 ui-md-4 ui-lg-2">
+                        <p:commandButton actionListener="#{editTratamientoController.update}"
+                                         value="#{bundle.Save}" 
+                                         update="display,:growl,:OrdenTratamientoListForm,:SesionListForm" 
+                                         disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}">
+                            <f:setPropertyActionListener target="#{ordenMedicaController.tratamiento}" value="#{editTratamientoController.selected}" />
+                            <f:setPropertyActionListener target="#{listSesionController.tratamientoEnEdicion}" value="#{editTratamientoController.selected}" />
+                        </p:commandButton>
+                    </div>
+                    <div class="ui-g-12 ui-md-8 ui-lg-4">
+                        <p:button outcome="/protected/tratamiento/List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" value="#{bundle.Cancel}" disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"/>
+                    </div>
                 </h:panelGroup>
             </h:form>
             <p:messages id="messages" />
