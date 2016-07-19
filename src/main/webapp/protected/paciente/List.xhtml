@@ -12,112 +12,115 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="PacienteListForm">
-                <p:breadCrumb >
-                    <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
-                    <p:menuitem value="Pacientes" disabled="true"/>
-                </p:breadCrumb>
-                <p:commandButton id="createButton" icon="ui-icon-plus"
-                                 value="#{bundle.PacienteLinkCreate}" 
-                                 actionListener="#{pacienteController.prepareCreate}" 
-                                 update=":PacienteCreateForm" 
-                                 resetValues="true"
-                                 oncomplete="PF('PacienteCreateDialog').show()"
-                                 class="ui-button-create"
-                                 />
-                <p:dataTable id="datalist" value="#{pacienteController.items}"
-                             var="item"
-                             widgetVar="tablaPacientes"
-                             selectionMode="single"
-                             selection="#{pacienteController.selected}"
-                             paginator="true"
-                             paginatorPosition="bottom"
-                             rowKey="#{item.id}"
-                             rows="10"
-                             rowsPerPageTemplate="10,20,30,40,50"
-                             filteredValue="#{pacienteController.pacientesFiltrados}"  
-                             emptyMessage="#{bundle.ListPacienteEmpty}"
-                             >
-                    <f:facet name="header">
-                        <p:outputPanel style="text-align: right">  
-                            <div style="margin: 0px;">
-                                <h:outputText value="Buscar Paciente:" style="margin-right: 5px;"/>
+            <div class="card shadowEffect">
+                <h:form>
+                    <p:breadCrumb >
+                        <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Pacientes" disabled="true"/>
+                    </p:breadCrumb>
+                </h:form>
+            </div>
+            <div class="card shadowEffect">
+                <h:form id="PacienteListForm">
+                    <p:dataTable id="datalist" value="#{pacienteController.items}"
+                                 var="item"
+                                 widgetVar="tablaPacientes"
+                                 selectionMode="single"
+                                 selection="#{pacienteController.selected}"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rowKey="#{item.id}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 filteredValue="#{pacienteController.pacientesFiltrados}"  
+                                 emptyMessage="#{bundle.ListPacienteEmpty}"
+                                 >
+                        <f:facet name="header">
+                            Lista de pacientes
+                            <div style="float: right;">
+                                <p:commandButton id="createButton" icon="ui-icon-plus"
+                                                 value="#{bundle.PacienteLinkCreate}" 
+                                                 actionListener="#{pacienteController.prepareCreate}" 
+                                                 update=":PacienteCreateForm" 
+                                                 resetValues="true"
+                                                 oncomplete="PF('PacienteCreateDialog').show()"
+                                                 />
                                 <p:inputText id="globalFilter"
                                              onkeyup="PF('tablaPacientes').filter()" 
                                              style="width:150px"
-                                             placeholder="Nombre o Apellido"/>
+                                             placeholder="Buscar"/>
                             </div>
-                        </p:outputPanel>
-                    </f:facet>                        
+                            <div style="clear: both;"/>
+                        </f:facet>                        
 
-                    <!--                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton tratamientosButton"/>
-                                        <p:ajax event="rowUnselect" update="viewButton editButton deleteButton tratamientosButton"/>-->
+                        <!--                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton tratamientosButton"/>
+                                            <p:ajax event="rowUnselect" update="viewButton editButton deleteButton tratamientosButton"/>-->
 
-                    <p:column filterBy="#{item.toString()}" filterStyle="display:none" sortBy="#{item.toString()}">
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.PacienteTitle_apellido_nombre}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.toString()}"/>
-                    </p:column>
-                    <p:column headerText="#{bundle.PacienteTitle_domicilio}">
-                        <h:outputText value="#{item.domicilio}"/>
-                    </p:column>
-                    <p:column headerText="#{bundle.PacienteTitle_telefono}">
-                        <h:outputText value="#{item.telefono}"/>
-                    </p:column>
-                    <p:column headerText="">
-                        <f:facet name="header">
-                            <h:outputText value="#{bundle.PacienteTitle_celular}"/>
-                        </f:facet>
-                        <h:outputText value="#{item.celular}"/>
-                    </p:column>
-                    <p:column headerText="#{bundle.PacienteTitle_edad}" sortBy="#{item.getEdad()}">
-                        <h:outputText value="#{item.getEdad()}"/>                                
-                    </p:column>
-                    <p:column headerText="#{bundle.PacienteTitle_obraSocial}" sortBy="#{item.obraSocial.toString()}">
-                        <h:outputText value="#{item.obraSocial.toString()}"/>
-                    </p:column>
+                        <p:column filterBy="#{item.toString()}" filterStyle="display:none" sortBy="#{item.toString()}">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.PacienteTitle_apellido_nombre}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.toString()}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.PacienteTitle_domicilio}">
+                            <h:outputText value="#{item.domicilio}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.PacienteTitle_telefono}">
+                            <h:outputText value="#{item.telefono}"/>
+                        </p:column>
+                        <p:column headerText="">
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.PacienteTitle_celular}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.celular}"/>
+                        </p:column>
+                        <p:column headerText="#{bundle.PacienteTitle_edad}" sortBy="#{item.getEdad()}">
+                            <h:outputText value="#{item.getEdad()}"/>                                
+                        </p:column>
+                        <p:column headerText="#{bundle.PacienteTitle_obraSocial}" sortBy="#{item.obraSocial.toString()}">
+                            <h:outputText value="#{item.obraSocial.toString()}"/>
+                        </p:column>
 
-                    <p:column headerText="Opciones">
-                        <!--VER-->
-                        <p:commandButton id="viewButton" 
-                                         icon="ui-icon-search" 
-                                         title="#{bundle.View}" 
-                                         update=":PacienteViewForm" 
-                                         oncomplete="PF('PacienteViewDialog').show()">
-                            <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
-                        </p:commandButton>
-                        <!--EDITAR-->
-                        <p:commandButton id="editButton" 
-                                         resetValues="true" 
-                                         icon="ui-icon-pencil" 
-                                         title="#{bundle.Edit}" 
-                                         update=":PacienteEditForm" 
-                                         oncomplete="PF('PacienteEditDialog').show()">
-                            <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
-                        </p:commandButton>
-                        <!--TRATAMIENTOS-->
-                        <p:button id="tratamientosButton" 
-                                  includeViewParams="true" 
-                                  icon="ui-icon-document" 
-                                  title="Tratamientos" 
-                                  outcome="#{pacienteController.mostrarTratamientos()}">                            
-                            <f:param name="paciente" value="#{item.id}" />
-                        </p:button>
-                        <!--ELIMINAR-->
-                        <p:commandButton id="deleteButton" 
-                                         icon="ui-icon-trash" 
-                                         title="#{bundle.Delete}" 
-                                         action="#{pacienteController.destroy}" 
-                                         update=":growl,datalist"
-                                         oncomplete="PF('tablaPacientes').clearFilters()">
-                            <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
-                            <p:confirm header="#{bundle.PacienteConfirmationHeader}" message="#{bundle.PacienteConfirmationMessage}" icon="ui-icon-alert" />
-                        </p:commandButton>                    
-                    </p:column>                    
-                </p:dataTable>
-            </h:form>
-
+                        <p:column headerText="Opciones">
+                            <!--VER-->
+                            <p:commandButton id="viewButton" 
+                                             icon="ui-icon-search" 
+                                             title="#{bundle.View}" 
+                                             update=":PacienteViewForm" 
+                                             oncomplete="PF('PacienteViewDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
+                            </p:commandButton>
+                            <!--EDITAR-->
+                            <p:commandButton id="editButton" 
+                                             resetValues="true" 
+                                             icon="ui-icon-pencil" 
+                                             title="#{bundle.Edit}" 
+                                             update=":PacienteEditForm" 
+                                             oncomplete="PF('PacienteEditDialog').show()">
+                                <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
+                            </p:commandButton>
+                            <!--TRATAMIENTOS-->
+                            <p:button id="tratamientosButton" 
+                                      includeViewParams="true" 
+                                      icon="ui-icon-document" 
+                                      title="Tratamientos" 
+                                      outcome="#{pacienteController.mostrarTratamientos()}">                            
+                                <f:param name="paciente" value="#{item.id}" />
+                            </p:button>
+                            <!--ELIMINAR-->
+                            <p:commandButton id="deleteButton" 
+                                             icon="ui-icon-trash" 
+                                             title="#{bundle.Delete}" 
+                                             action="#{pacienteController.destroy}" 
+                                             update=":growl,datalist"
+                                             oncomplete="PF('tablaPacientes').clearFilters()">
+                                <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
+                                <p:confirm header="#{bundle.PacienteConfirmationHeader}" message="#{bundle.PacienteConfirmationMessage}" icon="ui-icon-alert" />
+                            </p:commandButton>                    
+                        </p:column>                    
+                    </p:dataTable>
+                </h:form>
+            </div>
             <ui:include src="Create.xhtml"/>
             <ui:include src="Edit.xhtml"/>
             <ui:include src="View.xhtml"/>

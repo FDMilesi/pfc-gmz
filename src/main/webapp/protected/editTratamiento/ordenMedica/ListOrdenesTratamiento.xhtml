@@ -7,10 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
-        <h:form id="OrdenTratamientoListForm" 
-                rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
-                            and !editTratamientoController.selected.particular}">
-            <p:panel header="#{bundle.ListOrdenTitle}">
+        <div class="card shadowEffect">
+            <h:form id="OrdenTratamientoListForm" 
+                    rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                and !editTratamientoController.selected.particular}">
                 <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                              var="orderItem"
                              selectionMode="single"
@@ -21,7 +21,9 @@
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"                                
                              >
-
+                    <f:facet name="header">
+                        #{bundle.ListOrdenTitle}
+                    </f:facet>
                     <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
                     <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
 
@@ -68,14 +70,11 @@
                                          actionListener="#{ordenMedicaController.prepareCreate()}"
                                          update=":ordenMedicaCreateForm" 
                                          oncomplete="PF('OrdenMedicaCreateDialog').show()"
-                                         class="ui-button-create"
                                          disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
                                          />                        
                     </f:facet>
                 </p:dataTable>
-
-            </p:panel>
-
-        </h:form> 
+            </h:form> 
+        </div>
     </ui:composition>
 </html>

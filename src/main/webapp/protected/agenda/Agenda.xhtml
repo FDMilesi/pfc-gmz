@@ -6,23 +6,16 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
     <body>
-
         <ui:composition template="/template.xhtml">
-
             <ui:define name="title">
                 <h:outputText value="#{bundle.AgendaTitle}"></h:outputText>
             </ui:define>
-
             <ui:define name="body">
                 <h:form id="AgendaForm">
-
                     <p:breadCrumb >
                         <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                         <p:menuitem value="Agenda" disabled="true"/>
                     </p:breadCrumb>
-
-                    <br/>
-
                     <p:schedule id="schedule" locale="es" value="#{agendaController.selected}" 
                                 widgetVar="agenda" timeZone="GMT-3" view="agendaWeek" 
                                 allDaySlot="false" slotDuration="00:15:00" scrollTime="08:00:00"

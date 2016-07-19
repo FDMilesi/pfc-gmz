@@ -5,21 +5,35 @@
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>#{bundle.AppName}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <style>
+            body input{
+                margin-top: 10px !important;
+            }
+        </style>
     </h:head>
     <h:body>
-        <!--<p:fieldset legend="Bienvenido a #{bundle.AppName}">-->
-            <h:form onsubmit="this.action = 'j_security_check'" prependId="false">
-                <h:panelGrid columns="3">
-                    <p:outputLabel for="j_username" value="#{bundle.loginUsuarioLabel}"/>
-                    <p:inputText id="j_username" label="#{bundle.loginUsuarioLabel}" required="true"/>
-                    <p:message for="j_username"/>
-                    <p:outputLabel for="j_password" value="#{bundle.loginContraseñaLabel}" />
-                    <p:password id="j_password" label="#{bundle.loginContraseñaLabel}" required="true"/>
-                    <p:message for="j_password" />
-                    <h:panelGroup />
-                    <p:commandButton id="submit" value="#{bundle.loginButon}" ajax="false"/>
-                </h:panelGrid>
-            </h:form>
-<!--        </p:fieldset>-->
+        <p:growl id="growl" life="6000" />
+        <h:form onsubmit="this.action = 'j_security_check'" prependId="false" style="padding: 10px">
+            <p:panel header="Iniciar sesión" style="max-width: 350px; margin: 0 auto;">
+                <div class="ui-g" style="padding: 0 20px 0 20px">
+                    <p:inputText id="j_username" 
+                                 placeholder="#{bundle.loginUsuarioLabel}" 
+                                 required="true"
+                                 requiredMessage="Ingrese el usuario"
+                                 class="ui-g-12"/>
+                    <p:password id="j_password" 
+                                placeholder="#{bundle.loginContraseñaLabel}" 
+                                required="true"
+                                requiredMessage="Ingrese la contraseña"
+                                class="ui-g-12"/>
+                    <p:commandButton id="submit" 
+                                     value="#{bundle.loginButon}" 
+                                     ajax="false"
+                                     class="ui-g-12 ui-md-6"
+                                     style="margin-left: auto; float: right; margin-top: 10px;"/>
+                </div>        
+            </p:panel>
+        </h:form> 
     </h:body>
 </html>

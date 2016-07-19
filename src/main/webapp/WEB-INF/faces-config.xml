@@ -12,7 +12,7 @@
     <navigation-rule>
         <navigation-case>
             <from-outcome>logout</from-outcome>
-            <to-view-id>/faces/login/login.xhtml</to-view-id>
+            <to-view-id>/login/login.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
     </navigation-rule>

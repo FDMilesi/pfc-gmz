@@ -35,6 +35,31 @@
     <welcome-file-list>
         <welcome-file>faces/protected/agenda/Agenda.xhtml</welcome-file>
     </welcome-file-list>
+    <!-- Páginas de error -->
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>404</error-code>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>400</error-code>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>401</error-code>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/errorPages/Error404.xhtml</location>
+    </error-page>
     <!-- Seguridad -->
     <security-constraint>
         <display-name>Acceso</display-name>

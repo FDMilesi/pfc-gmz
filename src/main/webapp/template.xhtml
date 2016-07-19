@@ -27,7 +27,7 @@
         </h:form>
         <!--HEADER-->
         <h:form>
-            <nav class="navbar navbar-default">
+            <nav class="navbar navbar-default ui-widget">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -53,32 +53,19 @@
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
+
+            <!--MENU-->
+            <div class="sideMenu ui-widget">
+                <ul>
+                    <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
+                    <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                </ul>
+            </div>
+            <div class="separador sideMenu"></div>
         </h:form>
-
-
-        <!--MENU-->
-        <div class="sideMenu">
-            <ul>
-                <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml"/></li>
-                <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
-            </ul>
-        </div>
-        <div class="separador sideMenu"></div>
         <!--CONTENT-->
-        <div style="background-color: #C5CAE9;">
-            <ui:insert name="body"/>
-        </div>
-
-        <!--FOOTER-->
-        <!--        <div class="ui-g">
-                    <div class="ui-g-12" style="background-color: gray">
-                        Footer
-                    </div>
-                </div>-->
-
-
+        <ui:insert name="body"/>
     </h:body>
-
 </html>

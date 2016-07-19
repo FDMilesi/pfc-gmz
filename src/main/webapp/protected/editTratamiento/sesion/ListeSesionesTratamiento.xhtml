@@ -7,8 +7,8 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
-        <h:form id="SesionListForm">
-            <p:panel header="#{bundle.ListSesionTitle}">
+        <div class="card shadowEffect">
+            <h:form id="SesionListForm">
                 <p:dataTable id="datalist" value="#{listSesionController.items}" var="item"
                              selectionMode="single" selection="#{listSesionController.selected}"
                              paginator="true"
@@ -18,6 +18,9 @@
                              rowsPerPageTemplate="10,20,30,40,50"
                              sortBy="#{item.fechaHoraInicio}"
                              >
+                    <f:facet name="header">
+                        #{bundle.ListSesionTitle}
+                    </f:facet>
                     <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                     <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
                     <p:column headerText="#{bundle.ListSesionTitle_numeroDeSesion}">
@@ -72,8 +75,8 @@
                                          oncomplete="PF('SesionCreateDialog').show()"/>                        
                     </f:facet>
                 </p:dataTable>
-            </p:panel>
-        </h:form>
+            </h:form>
+        </div>
     </ui:composition>
 </html>
 
