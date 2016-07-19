@@ -10,7 +10,6 @@
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputStylesheet library="css" name="estilo.css"/>
         <h:outputStylesheet library="navbar" name="navbar.css"/>
-        <h:outputStylesheet name="grid/grid.css" library="primefaces" />
         <h:outputScript library="js" name="jsfcrud.js"/>
         <h:outputScript library="navbar" name="navbar.js"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -43,12 +42,12 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml"/></li>
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
-                        <li><h:link class="menu-desplegable" value="Ayuda"/></li>
+                        <li><h:link class="menu-desplegable ocultar-menu-header" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
+                        <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
+                        <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                        <li><h:link class="menu-desplegable" value="AYUDA"/></li>
                         <li>                        
-                            <h:commandLink class="menu-desplegable" type="submit" action="#{httpSessionController.logout}" value="Cerrar Sesión"/>
+                            <h:commandLink class="menu-desplegable" type="submit" action="#{httpSessionController.logout}" value="CERRAR SESION"/>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -58,12 +57,12 @@
             <div class="sideMenu ui-widget">
                 <ul>
                     <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                    <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
                 </ul>
             </div>
-            <div class="separador sideMenu"></div>
+            <div class="separador sideMenu shadowEffect"></div>
         </h:form>
         <!--CONTENT-->
         <ui:insert name="body"/>

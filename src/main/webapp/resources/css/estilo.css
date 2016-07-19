@@ -9,7 +9,7 @@ body{
 .sideMenu ul{
     margin: 0;
     height: 44px;
-    width: 1200px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0;
 }
