@@ -7,60 +7,102 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
         <p:dialog id="PacienteEditDlg" 
                   widgetVar="PacienteEditDialog" 
                   modal="true" 
-                  resizable="false" 
-                  appendTo="@(body)" 
+                  resizable="false" appendTo="@(body)" 
                   header="#{bundle.EditPacienteTitle}"
                   closeOnEscape="true"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
                   >
             <h:form id="PacienteEditForm">
-                <h:panelGroup id="display">
-                                        <p:panelGrid columns="2" rendered="#{pacienteController.selected != null}">
+                <h:panelGroup id="display" rendered="#{pacienteController.selected != null}">
+                    <p:focus context="display"/>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_apellido}" for="apellido" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="apellido" 
                                      value="#{pacienteController.selected.apellido}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_nombre}" for="nombre" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="nombre" 
                                      value="#{pacienteController.selected.nombre}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_dni}" for="dni" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="dni" 
                                      value="#{pacienteController.selected.dni}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_domicilio}" for="domicilio" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="domicilio" 
                                      value="#{pacienteController.selected.domicilio}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_telefono}" for="telefono" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="telefono" 
                                      value="#{pacienteController.selected.telefono}" /> 
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_celular}" for="celular" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="celular" 
-                                     value="#{pacienteController.selected.celular}" />   
+                                     value="#{pacienteController.selected.celular}" />  
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_fechaDeNacimiento}" for="fechaDeNacimiento" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:calendar id="fechaDeNacimiento" 
-                                    pattern="MM/dd/yyyy" 
+                                    pattern="dd/MM/yyyy" 
                                     value="#{pacienteController.selected.fechaDeNacimiento}" 
                                     showOn="button" 
                                     locale="es"
                                     navigator="true"
                                     yearRange="c-90:c+10"/>
-                        <p:outputLabel value="#{bundle.PacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
-                        <p:inputText id="nroAfiliadoOS" 
-                                     value="#{pacienteController.selected.nroAfiliadoOS}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_obraSocial}" for="obraSocial" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}"
                                            var="obraSocialItem"
                                            itemValue="#{obraSocialItem}"/>
                         </p:selectOneMenu>
-                    </p:panelGrid>
-                    <p:commandButton actionListener="#{pacienteController.update}" value="#{bundle.Save}" update="display,:PacienteListForm:datalist,:growl" oncomplete="handleSubmit(args, 'PacienteEditDialog');"/>
-                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('PacienteEditDialog').hide()"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.PacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="nroAfiliadoOS" 
+                                     value="#{pacienteController.selected.nroAfiliadoOS}" />
+                    </div>
+                    <p:commandButton actionListener="#{pacienteController.update}" 
+                                     value="#{bundle.Save}" 
+                                     update="display,:PacienteListForm:datalist,:growl" 
+                                     oncomplete="handleSubmit(args, 'PacienteEditDialog');"
+                                     style="float: right; background-color: #66BB6A;"/>
+                    <p:commandButton immediate="true" 
+                                     value="#{bundle.Cancel}" 
+                                     onclick="PF('PacienteEditDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>

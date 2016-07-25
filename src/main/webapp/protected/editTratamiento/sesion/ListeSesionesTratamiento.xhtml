@@ -10,34 +10,36 @@
         <div class="card shadowEffect">
             <h:form id="SesionListForm">
                 <p:dataTable id="datalist" value="#{listSesionController.items}" var="item"
-                             selectionMode="single" selection="#{listSesionController.selected}"
+                             selectionMode="single" 
+                             selection="#{listSesionController.selected}"
                              paginator="true"
                              paginatorPosition="bottom"
                              rowKey="#{item.id}"
                              rows="10"
                              rowsPerPageTemplate="10,20,30,40,50"
                              sortBy="#{item.fechaHoraInicio}"
+                             emptyMessage="#{bundle.ListSesionEmpty}"
                              >
                     <f:facet name="header">
                         #{bundle.ListSesionTitle}
                     </f:facet>
                     <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
                     <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
-                    <p:column headerText="#{bundle.ListSesionTitle_numeroDeSesion}">
+                    <p:column headerText="#{bundle.SesionTitle_numeroDeSesion}">
                         <h:outputText value="#{item.numeroDeSesion}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListSesionTitle_duracion}">
+                    <p:column headerText="#{bundle.SesionTitle_duracion}">
                         <h:outputText value="#{item.duracion}"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListSesionTitle_fechaHoraInicio}">
+                    <p:column headerText="#{bundle.SesionTitle_fechaHoraInicio}">
                         <h:outputText value="#{item.fechaHoraInicio}">
                             <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
                         </h:outputText>
                     </p:column>
-                    <p:column headerText="#{bundle.ListSesionTitle_transcurrida}">
+                    <p:column headerText="#{bundle.SesionTitle_transcurrida}">
                         <p:selectBooleanCheckbox value="#{item.transcurrida}" disabled="true"/>
                     </p:column>
-                    <p:column headerText="#{bundle.ListSesionTitle_cuenta}">
+                    <p:column headerText="#{bundle.SesionTitle_cuenta}">
                         <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
                     </p:column>
 
@@ -67,7 +69,7 @@
                     <f:facet name="footer">
                         <p:commandButton id="createButton" 
                                          icon="ui-icon-plus"   
-                                         value="#{bundle.Create}" 
+                                         value="#{bundle.Create}"
                                          actionListener="#{listSesionController.prepareCreate(editTratamientoController.selected)}" 
                                          update=":SesionCreateForm" 
                                          resetValues="true"

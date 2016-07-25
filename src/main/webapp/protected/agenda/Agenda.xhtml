@@ -5,23 +5,26 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 
-    <body>
-        <ui:composition template="/template.xhtml">
-            <ui:define name="title">
-                <h:outputText value="#{bundle.AgendaTitle}"></h:outputText>
-            </ui:define>
-            <ui:define name="body">
-                <h:form id="AgendaForm">
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.AgendaTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form id="AgendaForm">
+                <div class="card shadowEffect">
                     <p:breadCrumb >
                         <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                         <p:menuitem value="Agenda" disabled="true"/>
                     </p:breadCrumb>
+                </div>
+                <div class="card shadowEffect">
                     <p:schedule id="schedule" locale="es" value="#{agendaController.selected}" 
-                                widgetVar="agenda" timeZone="GMT-3" view="agendaWeek" 
-                                allDaySlot="false" slotDuration="00:15:00" scrollTime="08:00:00"
+                                widgetVar="agenda" timeZone="GMT-3" view="agendaDay" 
+                                allDaySlot="false" slotDuration="00:15:00" 
                                 showWeekends="FALSE" minTime="07:00:00" maxTime="21:00:00" resizable="false"
                                 columnFormat="ddd D/MMMM"
                                 >
+                        <!--scrollTime="08:00:00"-->
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
                                 update=":SesionCreateForm, :growl"
@@ -36,11 +39,33 @@
                                 listener="#{agendaController.moverSesion}"
                                 update=":growl"
                                 oncomplete="PF('agenda').update();"/>
-                    </p:schedule>                    
-                </h:form>
-                <ui:include src="CreateSesionFromAgenda.xhtml"/>
-                <ui:include src="EditSesionFromAgenda.xhtml"/>                  
-            </ui:define>
-        </ui:composition>
-    </body>
+                    </p:schedule>
+                </div>
+            </h:form>
+            <ui:include src="CreateSesionFromAgenda.xhtml"/>
+            <ui:include src="EditSesionFromAgenda.xhtml"/> 
+            <script>
+                //Matcher de cambio de tamaño. Hago mobile first
+                var mediaMatchMD = window.matchMedia("(min-width: 40.063em)");
+
+                function mediaMatchMDListener(mediaQuery) {
+                    setTimeout(function () {
+                        if (PrimeFaces.widgets['agenda']) {//si se cargo la agenda
+                            var fullCal = PF('agenda').jq.children(':first');
+                            if (mediaQuery.matches) {//para tablet y desktop
+                                fullCal.fullCalendar('changeView', 'agendaWeek');
+                                $('.fc-right').css("display", "block");
+                            } else {//si vuelvo a tamaño pequeño
+                                fullCal.fullCalendar('changeView', 'agendaDay');
+                                $('.fc-right').css("display", "none");
+                            }
+                        }
+                    }, 10);
+                }
+
+                mediaMatchMDListener(mediaMatchMD);
+                mediaMatchMD.addListener(mediaMatchMDListener);
+            </script>
+        </ui:define>
+    </ui:composition>
 </html>

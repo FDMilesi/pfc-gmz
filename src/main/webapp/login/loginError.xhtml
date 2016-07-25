@@ -16,6 +16,7 @@
         <p:growl id="growl" life="6000" />
         <h:form onsubmit="this.action = 'j_security_check'" prependId="false" style="padding: 10px">
             <p:panel header="Iniciar sesión" style="max-width: 350px; margin: 0 auto;">
+                <p:focus />
                 <div class="ui-g" style="padding: 0 20px 0 20px">
                     <p:outputLabel value="#{bundle.loginErrorMessage}" style="margin-top: 10px"/>
                     <p:inputText id="j_username" 
