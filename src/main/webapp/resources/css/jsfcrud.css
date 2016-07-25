@@ -1,7 +1,3 @@
-.ui-widget {
-    font-size: 14px !important;
-}
-
 .ui-button-menu-temporal {
     background-color: darkgrey !important;
     border: none !important;
@@ -42,11 +38,26 @@
     border-radius: 2px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
-    /*font-family: 'roboto_condensedregular';*/
     color: #546e7a;
 }
  .shadowEffect {
     -webkit-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
     -moz-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
     box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
+}
+
+.inputBuscar{
+    background-color: transparent;
+    border: 0px none;
+    border-bottom: solid 1px;
+    padding: 5px;
+    width: 200px !important;
+    margin: 10px 10px 10px 10px;
+    /*font-family: 'roboto_condensedlight';*/
+    font-size: 14px;
+    color: white;
+}
+
+.inputBuscar:focus{
+    outline: none;
 }

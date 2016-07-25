@@ -20,8 +20,8 @@
 
 /* Component containers
 ----------------------------------*/
-.ui-widget { font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 1em; font-size: 1em; }
-.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget { font-family: "Roboto", "Trebuchet MS", Arial, Helvetica, sans-serif; font-size: 13px;}
+.ui-widget .ui-widget { font-size: 13px; }
 .ui-widget-content { border: 1px solid #D5D5D5; background: #ffffff; color: #222222; }
 .ui-widget-content a { color: #222222; }
 /*.ui-widget-header { border: 1px solid #D5D5D5; background: #cccccc; color: #222222; font-weight: bold; }
@@ -656,7 +656,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 /*Style For Breadcrumb ------------------------------------------------------------------------------------- */
 .ui-breadcrumb {
     background-image: initial !important;
-    padding: 10px 16px 8px 16px !important;
+    /*padding: 10px 16px 8px 16px !important;*/
     background-color: #ffffff;
 }
 .ui-breadcrumb ul li .ui-menuitem-link {
