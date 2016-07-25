@@ -12,7 +12,7 @@
                   modal="true" 
                   resizable="false" 
                   appendTo="@(body)" 
-                  header="#{bundle.ViewSesionTitle}"
+                  header="#{bundle.EditSesionTitle}"
                   closeOnEscape="true"
                   >
             <h:form id="SesionEditForm">
@@ -22,34 +22,33 @@
                         <h:outputText value="#{bundle.TratamientoLabel_paciente}"/>
                         <h:outputText value="#{agendaSesionController.selected.tratamiento.paciente.toString()}"/>
                         <!--tratamiento-->
-                        <h:outputText value="#{bundle.CreateSesionLabel_tratamiento}"/>
+                        <h:outputText value="#{bundle.SesionLabel_tratamiento}"/>
                         <h:outputText value="#{agendaSesionController.selected.tratamiento.toString()}"/>                     
                         <!--transcurrida-->
-                        <h:outputText value="#{bundle.ViewSesionLabel_transcurrida}"/>
+                        <h:outputText value="#{bundle.SesionLabel_transcurrida}"/>
                         <p:selectBooleanCheckbox value="#{agendaSesionController.selected.transcurrida}"/>
                         <!--cuenta-->
-                        <h:outputText value="#{bundle.ViewSesionLabel_cuenta}"/>
+                        <h:outputText value="#{bundle.SesionLabel_cuenta}"/>
                         <p:selectBooleanCheckbox 
                             value="#{agendaSesionController.selected.cuenta}"
                             validator="#{agendaSesionController.puedoSetearCuentaTrue}"/>
                         <!--numero de sesion-->
-                        <p:outputLabel value="#{bundle.EditSesionLabel_numeroDeSesion}" for="numeroDeSesion" />
-                        <p:inputText id="numeroDeSesion" value="#{agendaSesionController.selected.numeroDeSesion}" title="#{bundle.EditSesionTitle_numeroDeSesion}" disabled="true"/>
+                        <p:outputLabel value="#{bundle.SesionLabel_numeroDeSesion}" for="numeroDeSesion" />
+                        <p:inputText id="numeroDeSesion" 
+                                     value="#{agendaSesionController.selected.numeroDeSesion}" 
+                                     disabled="true"/>
                         <!--fecha hora inicio-->
-                        <p:outputLabel value="#{bundle.EditSesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
+                        <p:outputLabel value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                         <p:calendar id="fechaHoraInicio" 
                                     pattern="dd/MM/yyyy HH:mm:ss" 
                                     value="#{agendaSesionController.selected.fechaHoraInicio}" 
-                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
-                                    required="true" 
                                     locale="es"
                                     stepMinute="5"
                                     timeZone="GMT-3"
                                     minHour="8"
                                     maxHour="21"
-                                    requiredMessage="#{bundle.CreateSesionRequiredMessage_fecha}"
                                     validator="#{agendaSesionController.validarFecha}"
                                     disabled="#{agendaSesionController.selected.transcurrida}"
                                     />                      

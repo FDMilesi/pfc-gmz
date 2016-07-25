@@ -17,12 +17,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.primefaces.model.ScheduleEvent;
 
-/**
- *
- */
 @Entity
 @EntityListeners(SesionFacade.class)
 @Table(name = "sesion")
@@ -54,6 +52,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     @Column(name = "numerodesesion")
     private Short numeroDeSesion;
 
+    @NotNull(message = "Ingrese la fecha y hora de la sesión")
     @Column(name = "fechahorainicio")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaHoraInicio;
@@ -67,10 +66,12 @@ public class Sesion implements Serializable, ScheduleEvent {
     @Column(name = "cuenta")
     private Boolean cuenta;
 
+    @NotNull
     @JoinColumn(name = "agendaid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Agenda agenda;
 
+    @NotNull(message = "Seleccione un tratamiento")
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne
     private Tratamiento tratamiento;
