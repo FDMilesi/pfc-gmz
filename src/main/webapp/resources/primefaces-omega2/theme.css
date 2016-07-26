@@ -1108,7 +1108,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .ui-datatable table thead tr .ui-state-default .ui-icon-carat-2-n-s,
 .ui-datatable .ui-datatable-sticky table thead tr .ui-state-default .ui-icon-carat-2-n-s {
-    background-image: url("/pfc-gmz/faces/javax.faces.resource/images/updown-navy-arrow.svg?ln=primefaces-omega2");
+    background-image: url("#{resource['primefaces-omega2:images/updown-navy-arrow.svg']}");
     background-position: center !important;
     background-size: 110%;
     background-repeat: no-repeat;
@@ -1116,7 +1116,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .ui-datatable table thead tr .ui-state-hover .ui-icon-carat-2-n-s,
 .ui-datatable .ui-datatable-sticky table thead tr .ui-state-hover .ui-icon-carat-2-n-s {
-    background-image: url("/pfc-gmz/faces/javax.faces.resource/images/updown-navy-arrow.svg?ln=primefaces-omega2");
+    background-image: url("#{resource['primefaces-omega2:images/updown-navy-arrow.svg']}");
     background-position: center !important;
     background-size: 110%;
     background-repeat: no-repeat;
@@ -1124,7 +1124,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .ui-datatable table thead tr .ui-state-active .ui-icon-triangle-1-n,
 .ui-datatable .ui-datatable-sticky table thead tr .ui-state-active .ui-icon-triangle-1-n {
-    background-image: url("/pfc-gmz/faces/javax.faces.resource/images/uparrow-navy.svg?ln=primefaces-omega2");
+    background-image: url("#{resource['primefaces-omega2:images/uparrow-navy.svg']}");
     background-position: center !important;
     background-size: 110%;
     background-repeat: no-repeat;
@@ -1132,7 +1132,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .ui-datatable table thead tr .ui-state-active .ui-icon-triangle-1-s,
 .ui-datatable .ui-datatable-sticky table thead tr .ui-state-active .ui-icon-triangle-1-s {
-    background-image: url("/pfc-gmz/faces/javax.faces.resource/images/downarrow-navy.svg?ln=primefaces-omega2");
+    background-image: url("#{resource['primefaces-omega2:images/downarrow-navy.svg']}");
     background-position: center !important;
     background-size: 110%;
     background-repeat: no-repeat;
@@ -1807,33 +1807,33 @@ hr.ui-widget-header {
 
 /* paginator */
 .ui-paginator {
-  margin: 0px;
-  padding: 0px !important;
+    margin: 0px;
+    padding: 0px !important;
 }
 .ui-paginator .ui-paginator-pages {
-  padding: 0px 6px;
+    padding: 0px 6px;
 }
 .ui-paginator-page.ui-state-focus,
 .ui-paginator .ui-paginator-first.ui-state-focus,
 .ui-paginator .ui-paginator-prev.ui-state-focus,
 .ui-paginator .ui-paginator-next.ui-state-focus,
 .ui-paginator .ui-paginator-last.ui-state-focus {
-  background-color: #0288d1;
-  color: #ffffff;
+    background-color: #0288d1;
+    color: #ffffff;
 }
 .ui-paginator-top {
-  background-color: #0277bd;
-  border-radius: 1px;
+    background-color: #0277bd;
+    border-radius: 1px;
 }
 .ui-paginator-bottom {
-  background-color: #0277bd;
-  border-radius: 1px;
+    background-color: #0277bd;
+    border-radius: 1px;
 }
 .ui-paginator .ui-paginator-current {
-  font-size: 14px;
-  padding: 15px;
-  color: #9ad6f8;
-  /*font-family: 'roboto_condensedlight';*/
+    font-size: 14px;
+    padding: 15px;
+    color: #9ad6f8;
+    /*font-family: 'roboto_condensedlight';*/
 }
 .ui-paginator .ui-paginator-first,
 .ui-paginator .ui-paginator-prev,
@@ -1841,97 +1841,97 @@ hr.ui-widget-header {
 .ui-paginator .ui-paginator-next,
 .ui-paginator .ui-paginator-last,
 .ui-paginator .ui-paginator-rpp-options {
-  font-size: 20px;
-  padding: 10px 3px !important;
-  font-weight: bold;
-  border: solid 3px transparent;
-  color: #a6defd;
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -ms-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  border-radius: 0px !important;
-  font-weight: normal;
-  /*font-family: 'roboto_condensedlight';*/
+    font-size: 20px;
+    padding: 10px 3px !important;
+    font-weight: bold;
+    border: solid 3px transparent;
+    color: #a6defd;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    border-radius: 0px !important;
+    font-weight: normal;
+    /*font-family: 'roboto_condensedlight';*/
 }
 .ui-paginator .ui-paginator-rpp-options {
-  outline: none;
+    outline: none;
 }
 .ui-paginator .ui-paginator-first .ui-icon {
-  background-image: url("/pfc-gmz/faces/javax.faces.resource/images/left-double-arrow-for-data.svg?ln=primefaces-omega2");
-  background-position: center !important;
-  background-size: 100%;
-  background-repeat: no-repeat;
+    background-image: url("#{resource['primefaces-omega2:images/left-double-arrow-for-data.svg']}");
+    background-position: center !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .ui-paginator .ui-paginator-last .ui-icon {
-  background-image: url("/pfc-gmz/faces/javax.faces.resource/images/right-double-arrow-for-data.svg?ln=primefaces-omega2");
-  background-position: center !important;
-  background-size: 100%;
-  background-repeat: no-repeat;
+    background-image: url("#{resource['primefaces-omega2:images/right-double-arrow-for-data.svg']}");
+    background-position: center !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .ui-paginator .ui-paginator-prev .ui-icon {
-  background-image: url("/pfc-gmz/faces/javax.faces.resource/images/left-one-arrow-for-data.svg?ln=primefaces-omega2");
-  background-position: center !important;
-  background-size: 100%;
-  background-repeat: no-repeat;
+    background-image: url("#{resource['primefaces-omega2:images/left-one-arrow-for-data.svg']}");
+    background-position: center !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .ui-paginator .ui-paginator-next .ui-icon {
-  background-image: url("/pfc-gmz/faces/javax.faces.resource/images/right-one-arrow-for-data.svg?ln=primefaces-omega2");
-  background-position: center !important;
-  background-size: 100%;
-  background-repeat: no-repeat;
+    background-image: url("#{resource['primefaces-omega2:images/right-one-arrow-for-data.svg']}");
+    background-position: center !important;
+    background-size: 100%;
+    background-repeat: no-repeat;
 }
 .ui-paginator .ui-state-active,
 .ui-paginator .ui-paginator-pages .ui-state-active {
-  color: #ffffff !important;
-  background-repeat: no-repeat;
-  border-bottom: solid 3px #ffffff;
-  font-size: 20px;
-  border-radius: 0px !important;
+    color: #ffffff !important;
+    background-repeat: no-repeat;
+    border-bottom: solid 3px #ffffff;
+    font-size: 20px;
+    border-radius: 0px !important;
 }
 .ui-paginator .ui-state-hover,
 .ui-paginator .ui-paginator-pages .ui-state-hover {
-  color: #ffffff !important;
-  /*border-bottom: solid 3px @paginator-element-border-color-hover;*/
-  font-size: 20px;
-  border-radius: 0px !important;
-  background-color: #026bab;
+    color: #ffffff !important;
+    /*border-bottom: solid 3px @paginator-element-border-color-hover;*/
+    font-size: 20px;
+    border-radius: 0px !important;
+    background-color: #026bab;
 }
 .ui-paginator .ui-paginator-rpp-options {
-  outline: none;
-  color: #ffffff !important;
-  /*font-family: 'roboto_condensedregular';*/
-  font-size: 18px !important;
-  background-color: #0277bd;
-  border: solid 1px transparent;
+    outline: none;
+    color: #ffffff !important;
+    /*font-family: 'roboto_condensedregular';*/
+    font-size: 18px !important;
+    background-color: #0277bd;
+    border: solid 1px transparent;
 }
 .ui-paginator .ui-paginator-rpp-options.ui-state-focus {
-  background-color: #0288d1 !important;
+    background-color: #0288d1 !important;
 }
 
 /*Style For UI State Focus --------------------------------------------------------------------------------------*/
 .ui-inputswitch-handle.ui-state-focus {
-  -webkit-box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
-  -moz-box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
-  box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
-  background-color: #bbdefb;
+    -webkit-box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
+    -moz-box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
+    box-shadow: inset 0px 0px 10px 0px rgba(255, 255, 255, 0.7) !important;
+    background-color: #bbdefb;
 }
 .ui-slider-handle.ui-state-focus {
-  background-color: #bbdefb !important;
-  border-color: #bbdefb !important;
+    background-color: #bbdefb !important;
+    border-color: #bbdefb !important;
 }
 .ui-selectonemenu.ui-state-focus,
 .ui-selectcheckboxmenu.ui-state-focus {
-  border-bottom: solid 1px #03A9F4 !important;
+    border-bottom: solid 1px #03A9F4 !important;
 }
 .ui-selectonemenu.ui-state-hover,
 .ui-selectcheckboxmenu:hover {
-  border-bottom: solid 1px #03A9F4 !important;
+    border-bottom: solid 1px #03A9F4 !important;
 }
 .ui-datatable table thead tr th.ui-state-focus {
-  background-color: #c1d5df;
-  -webkit-box-shadow: inset 0px -3px 0px 0px #546e7a;
-  -moz-box-shadow: inset 0px -3px 0px 0px #546e7a;
-  box-shadow: inset 0px -3px 0px 0px #546e7a;
+    background-color: #c1d5df;
+    -webkit-box-shadow: inset 0px -3px 0px 0px #546e7a;
+    -moz-box-shadow: inset 0px -3px 0px 0px #546e7a;
+    box-shadow: inset 0px -3px 0px 0px #546e7a;
 }
