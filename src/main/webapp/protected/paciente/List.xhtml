@@ -37,22 +37,25 @@
                                  emptyMessage="#{bundle.ListPacienteEmpty}"
                                  >
                         <f:facet name="header">
-                            Lista de pacientes
-                            <div style="float: right;">
-                                <p:commandButton id="createButton" icon="ui-icon-plus"
-                                                 value="#{bundle.PacienteLinkCreate}" 
-                                                 actionListener="#{pacienteController.prepareCreate}" 
-                                                 update=":PacienteCreateForm" 
-                                                 resetValues="true"
-                                                 oncomplete="PF('PacienteCreateDialog').show()"
-                                                 />
-                                <h:inputText class="inputBuscar"
-                                             id="globalFilter"
-                                             onkeyup="PF('tablaPacientes').filter()" 
-                                             style="width:150px"
-                                             b:placeholder="Buscar"/>
+                            <div class="ui-g">
+                                <div class="ui-g-9 ui-md-6">Lista de pacientes</div>
+                                <div class="ui-g-3 ui-md-3">
+                                    <p:commandButton id="createButton" icon="ui-icon-plus"
+                                                     value="#{bundle.PacienteLinkCreate}" 
+                                                     actionListener="#{pacienteController.prepareCreate}" 
+                                                     update=":PacienteCreateForm" 
+                                                     resetValues="true"
+                                                     oncomplete="PF('PacienteCreateDialog').show()"
+                                                     style="width: 100%"
+                                                     />
+                                </div>
+                                <div style="padding: 10px; height: 54px;" class="ui-g-12 ui-md-3">
+                                    <h:inputText class="inputBuscar"
+                                                 id="globalFilter"
+                                                 onkeyup="PF('tablaPacientes').filter()" 
+                                                 b:placeholder="Buscar"/>
+                                </div>
                             </div>
-                            <div style="clear: both;"/>
                         </f:facet>                        
 
                         <!--                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton tratamientosButton"/>

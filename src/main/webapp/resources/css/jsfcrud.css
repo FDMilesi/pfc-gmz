@@ -49,11 +49,10 @@
 .inputBuscar{
     background-color: transparent;
     border: 0px none;
+    box-sizing: border-box;
     border-bottom: solid 1px;
     padding: 5px;
-    width: 300px !important;
-    margin: 10px 10px 10px 10px;
-    /*font-family: 'roboto_condensedlight';*/
+    width: 100%;
     font-size: 14px;
     color: white;
 }
