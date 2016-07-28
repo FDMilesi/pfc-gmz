@@ -23,8 +23,8 @@
                     <!--selection="#{listSesionController.selected}"-->
                     <f:facet name="header">
                         <div class="ui-g">
-                            <div class="ui-g-6 ui-md-9">#{bundle.ListSesionTitle}</div>
-                            <div class="ui-g-6 ui-md-3">
+                            <div class="ui-g-6 ui-md-9" style="padding: 0; margin: auto 0;">#{bundle.ListSesionTitle}</div>
+                            <div class="ui-g-6 ui-md-3" style="padding: 0; margin: auto">
                                 <p:commandButton id="createButton" 
                                                  icon="ui-icon-plus"   
                                                  value="#{bundle.SesionNuevaButton}"
@@ -33,7 +33,7 @@
                                                  resetValues="true"
                                                  disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
                                                  oncomplete="PF('SesionCreateDialog').show()"
-                                                 style="width: 100%"/>    
+                                                 style="float: right"/>    
                             </div>  
                         </div>
                     </f:facet>

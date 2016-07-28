@@ -24,7 +24,7 @@
                 </h:form>
             </div>
             <div class="ui-g card shadowEffect">
-                <p:panel id="display" header="Detalles del tratamiento">
+                <p:panel id="display" header="#{bundle.EditTratamientoTitle}">
                     <h:form id="TratamientoEditForm">
                             <!--<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4" rendered="#{!empty editTratamientoController.selected}">-->
                         <div class="ui-g-12 ui-md-4 ui-lg-2" style="font-weight: bold;">
@@ -97,7 +97,7 @@
                                                                               and !editTratamientoController.selected.particular}"/>
             <ui:include src="ordenMedica/AutorizarFromTratamiento.xhtml" rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
                                                                                      and !editTratamientoController.selected.particular}"/>
-            <ui:include src="sesion/ListeSesionesTratamiento.xhtml" />
+            <ui:include src="sesion/ListaSesionesTratamiento.xhtml" />
             <ui:include src="sesion/CreateSesionFromTratamiento.xhtml"/>
             <ui:include src="sesion/EditSesionFromTratamiento.xhtml"/>
         </ui:define>
