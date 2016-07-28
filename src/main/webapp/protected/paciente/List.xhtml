@@ -39,8 +39,8 @@
                                  >
                         <f:facet name="header">
                             <div class="ui-g">
-                                <div class="ui-g-9 ui-md-7" style="margin: auto 0;">LISTA DE PACIENTES</div>
-                                <div class="ui-g-3 ui-md-2">
+                                <div class="ui-g-9 ui-md-7" style="padding: 0; margin: auto 0;">LISTA DE PACIENTES</div>
+                                <div style="padding: 0 10px 0 0; margin: auto" class="ui-g-3 ui-md-2">
                                     <p:commandButton id="createButton" icon="ui-person-add"
                                                      value="#{bundle.PacienteLinkCreate}"                                                      
                                                      actionListener="#{pacienteController.prepareCreate}" 
@@ -50,7 +50,7 @@
                                                      style="width: 100%; float: right;"
                                                      />
                                 </div>
-                                <div style="padding: 10px; height: 54px;" class="ui-g-12 ui-md-3">
+                                <div style="padding: 0; margin: auto" class="ui-g-12 ui-md-3">
                                     <h:inputText class="inputBuscar"
                                                  id="globalFilter"
                                                  onkeyup="PF('tablaPacientes').filter()" 
