@@ -6,31 +6,38 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
-        <p:dialog id="ordenMedicaCreateDlg" closeOnEscape="true" widgetVar="OrdenMedicaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateOrdenMedicaTitle}">
+        <p:dialog id="ordenMedicaCreateDlg" 
+                  closeOnEscape="true" 
+                  widgetVar="OrdenMedicaCreateDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateOrdenMedicaTitle}"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
+                  >
             <h:form id="ordenMedicaCreateForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{ordenMedicaController.selected != null}">
-                        
-                        <p:outputLabel value="#{bundle.CreateOrdenMedicaLabel_cantidadDeSesiones}" />
+                <h:panelGroup id="display" rendered="#{ordenMedicaController.selected != null}">
+                    <p:focus context="display"/>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_cantidadDeSesiones}" for="cantidadDeSesiones"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
                         <p:inputText id="cantidadDeSesiones" 
                                      value="#{ordenMedicaController.selected.cantidadDeSesiones}" 
-                                     title="#{bundle.CreateOrdenMedicaDropDownNoOptionSelected}" 
-                                     validator="#{ordenMedicaController.validarSesionesDeLaOrden}"
-                                     validatorMessage="#{bundle.CreateOrdenMedica_RangoCantidadDeSesiones}"
-                                     required="true"
-                                     requiredMessage="#{bundle.CreateOrdenMedicaRequiredMessage_cantidadDeSesiones}"/>
-                                                
-                    </p:panelGrid>                    
+                                     validator="#{ordenMedicaController.validarSesionesDeLaOrden}"/>
+                    </div>
                     <p:commandButton  action="#{ordenMedicaController.create()}" 
                                       value="#{bundle.Save}"
                                       update="display,OrdenTratamientoListForm:ordenMedicasTratamientoList,:growl" 
-                                      oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"/>
-                    
-                    <p:commandButton immediate="true" value="#{bundle.Cancel}" onclick="PF('OrdenMedicaCreateDialog').hide()"/>
+                                      oncomplete="handleSubmit(args,'OrdenMedicaCreateDialog');"
+                                      style="float: right; background-color: #66BB6A;"/>
+                    <p:commandButton immediate="true" value="#{bundle.Cancel}" 
+                                     onclick="PF('OrdenMedicaCreateDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>

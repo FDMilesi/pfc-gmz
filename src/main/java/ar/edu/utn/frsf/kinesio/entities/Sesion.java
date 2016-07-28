@@ -66,7 +66,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     @Column(name = "cuenta")
     private Boolean cuenta;
 
-    @NotNull
+    @NotNull(message = "Seleccione una agenda")
     @JoinColumn(name = "agendaid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Agenda agenda;

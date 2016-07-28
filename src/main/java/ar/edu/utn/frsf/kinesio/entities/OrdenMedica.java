@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
@@ -20,16 +15,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Nacho Gómez
- */
 @Entity
 @Table(name = "ordenmedica")
 @XmlRootElement
@@ -56,10 +46,9 @@ public class OrdenMedica implements Serializable {
     private Integer id;
 
     @Basic(optional = false)
-    @NotNull
+    @NotNull(message = "Ingrese la cantidad de sesiones")
     @Column(name = "cantidaddesesiones")
-    @Min(1)
-    @Max(99)
+    @Min(value = 1, message = "Ingrese un valor mayor que cero")
     private short cantidadDeSesiones;
 
     @Size(max = 50)

@@ -11,7 +11,6 @@
             <h:form id="SesionListForm">
                 <p:dataTable id="datalist" value="#{listSesionController.items}" var="item"
                              selectionMode="single" 
-                             selection="#{listSesionController.selected}"
                              paginator="true"
                              paginatorPosition="bottom"
                              rowKey="#{item.id}"
@@ -19,12 +18,27 @@
                              rowsPerPageTemplate="10,20,30,40,50"
                              sortBy="#{item.fechaHoraInicio}"
                              emptyMessage="#{bundle.ListSesionEmpty}"
+                             reflow="true"
                              >
+                    <!--selection="#{listSesionController.selected}"-->
                     <f:facet name="header">
-                        #{bundle.ListSesionTitle}
+                        <div class="ui-g">
+                            <div class="ui-g-6 ui-md-9">#{bundle.ListSesionTitle}</div>
+                            <div class="ui-g-6 ui-md-3">
+                                <p:commandButton id="createButton" 
+                                                 icon="ui-icon-plus"   
+                                                 value="#{bundle.SesionNuevaButton}"
+                                                 actionListener="#{listSesionController.prepareCreate(editTratamientoController.selected)}" 
+                                                 update=":SesionCreateForm" 
+                                                 resetValues="true"
+                                                 disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
+                                                 oncomplete="PF('SesionCreateDialog').show()"
+                                                 style="width: 100%"/>    
+                            </div>  
+                        </div>
                     </f:facet>
-                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>
+<!--                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>-->
                     <p:column headerText="#{bundle.SesionTitle_numeroDeSesion}">
                         <h:outputText value="#{item.numeroDeSesion}"/>
                     </p:column>
@@ -43,7 +57,7 @@
                         <p:selectBooleanCheckbox value="#{item.cuenta}" disabled="true"/>
                     </p:column>
 
-                    <p:column>
+                    <p:column headerText="Opciones">
                         <!--EDITAR-->
                         <p:commandButton id="editButton" 
                                          icon="ui-icon-pencil" 
@@ -66,16 +80,6 @@
                             <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
                     </p:column>
-                    <f:facet name="footer">
-                        <p:commandButton id="createButton" 
-                                         icon="ui-icon-plus"   
-                                         value="#{bundle.Create}"
-                                         actionListener="#{listSesionController.prepareCreate(editTratamientoController.selected)}" 
-                                         update=":SesionCreateForm" 
-                                         resetValues="true"
-                                         disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
-                                         oncomplete="PF('SesionCreateDialog').show()"/>                        
-                    </f:facet>
                 </p:dataTable>
             </h:form>
         </div>
