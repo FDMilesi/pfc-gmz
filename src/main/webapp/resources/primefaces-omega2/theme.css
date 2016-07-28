@@ -1,21 +1,21 @@
 /* Omega Theme */
 @font-face {
-  font-family: 'roboto_condensedbold';
-  src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nHm2hrkyco9jQ3NKMXpgOBg.woff2);
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'roboto_condensedbold';
+    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nHm2hrkyco9jQ3NKMXpgOBg.woff2);
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: 'roboto_condensedlight';
-  src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nBBQ_Gf4FfI8J4SYljBAylk.woff2);
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'roboto_condensedlight';
+    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nBBQ_Gf4FfI8J4SYljBAylk.woff2);
+    font-weight: normal;
+    font-style: normal;
 }
 @font-face {
-  font-family: 'roboto_condensedregular';
-  src: url(https://fonts.gstatic.com/s/robotocondensed/v13/Zd2E9abXLFGSr9G3YK2MsDAdhzWOYhqHvOZMRGaEyPo.woff2);
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'roboto_condensedregular';
+    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/Zd2E9abXLFGSr9G3YK2MsDAdhzWOYhqHvOZMRGaEyPo.woff2);
+    font-weight: normal;
+    font-style: normal;
 }
 
 /* Component containers
@@ -477,7 +477,7 @@ label.ui-state-error {
     font-size: 19px;
     border-top-left-radius: 1px;
     border-top-right-radius: 1px;
-      font-family: 'roboto_condensedlight';
+    font-family: 'roboto_condensedlight';
 }
 .ui-dialog .ui-dialog-title {
     margin: 5px 16px 5px 0px !important;
@@ -564,7 +564,7 @@ label.ui-state-error {
  *
  * http://docs.jquery.com/UI/Slider#theming
  */
-.ui-slider { position: relative; text-align: left; background: #838688; border: none; -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset;}
+/*.ui-slider { position: relative; text-align: left; background: #838688; border: none; -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset;}
 .ui-slider .ui-slider-handle { position: absolute; z-index: 2; width: 17px !important; height: 21px  !important; cursor: default; background: url("#{resource['primefaces-omega:images/slider_handles.png']}") 0 0 no-repeat; outline: none; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; border: none; }
 .ui-slider .ui-slider-range { position: absolute; z-index: 1; font-size: .7em; display: block; border: 0; background: #14a4ff; -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; box-shadow: 0 1px 3px rgba(0,0,0,0.6) inset; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 .ui-slider .ui-slider-handle.ui-state-active { background-position: -17px 0; }
@@ -579,20 +579,67 @@ label.ui-state-error {
 .ui-slider-vertical .ui-slider-handle { left: -.2em !important; margin-left: 0; margin-bottom: -.6em; }
 .ui-slider-vertical .ui-slider-range { left: 0; width: 100%; }
 .ui-slider-vertical .ui-slider-range-min { bottom: 0; }
-.ui-slider-vertical .ui-slider-range-max { top: 0; }
+.ui-slider-vertical .ui-slider-range-max { top: 0; }*/
+
+/*Style For Slider --------------------------------------------------------------------------------------*/
+.ui-slider {
+  background-color: #1e88e5;
+  color: #778d9b;
+}
+
+.ui-slider-vertical {
+  margin: 11px 5px;
+}
+.ui-slider-range {
+  background-color: #1565c0;
+}
+.ui-slider-handle {
+  width: 20px !important;
+  height: 20px !important;
+  cursor: move !important;
+  border: solid 1px #ffffff !important;
+  background-color: #ffffff;
+  border-radius: 30px !important;
+  opacity: 1;
+  -webkit-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.4);
+  border-collapse: separate !important;
+}
+@media screen and (min-width: 0\0) {
+  .ui-slider-handle {
+    box-shadow: 0px 0px 8px 0px rgba(43, 59, 93, 0.4) !important;
+  }
+}
+.ui-slider-vertical .ui-slider-handle {
+  left: -5px !important;
+}
+.ui-slider-horizontal .ui-slider-handle {
+  top: -5px !important;
+}
+/* Spinner - Slider */
+.ui-fluid .ui-spinner {
+  box-sizing: border-box;
+}
+.ui-fluid .ui-slider {
+  margin-top: 8px;
+}
+.ui-fluid .ui-spinner .ui-spinner-button .ui-icon {
+  left: 0px !important;
+}
 
 
-.ui-datepicker {padding: 0px !important;}
+/*.ui-datepicker {padding: 0px !important;}
 .ui-datepicker .ui-datepicker-header, .ui-datepicker .ui-timepicker-div > .ui-widget-header { position: relative; padding:.4em 0; border: 1px solid #3b3e40; }
 .ui-datepicker .ui-datepicker-header, .ui-datepicker .ui-timepicker-div > .ui-widget-header {
-    background: #595c5d; /* Old browsers */
-    background: -moz-linear-gradient(top,  #595c5d 0%, #474a4b 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#595c5d), color-stop(100%,#474a4b)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #595c5d 0%,#474a4b 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #595c5d 0%,#474a4b 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #595c5d 0%,#474a4b 100%); /* IE10+ */
-    background: linear-gradient(top,  #595c5d 0%,#474a4b 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#595c5d', endColorstr='#474a4b',GradientType=0 ); /* IE6-9 */
+    background: #595c5d;  Old browsers 
+    background: -moz-linear-gradient(top,  #595c5d 0%, #474a4b 100%);  FF3.6+ 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#595c5d), color-stop(100%,#474a4b));  Chrome,Safari4+ 
+    background: -webkit-linear-gradient(top,  #595c5d 0%,#474a4b 100%);  Chrome10+,Safari5.1+ 
+    background: -o-linear-gradient(top,  #595c5d 0%,#474a4b 100%);  Opera 11.10+ 
+    background: -ms-linear-gradient(top,  #595c5d 0%,#474a4b 100%);  IE10+ 
+    background: linear-gradient(top,  #595c5d 0%,#474a4b 100%);  W3C 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#595c5d', endColorstr='#474a4b',GradientType=0 );  IE6-9 
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
     box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
@@ -606,14 +653,14 @@ label.ui-state-error {
     text-shadow: 0 -1px 0 rgba(0,0,0,0.4);
     border: #27292b solid !important;
     border-width: 1px 0 !important;
-    background: #77797a; /* Old browsers */
-    background: -moz-linear-gradient(top,  #77797a 0%, #5b5e5e 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#77797a), color-stop(100%,#5b5e5e)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #77797a 0%,#5b5e5e 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #77797a 0%,#5b5e5e 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #77797a 0%,#5b5e5e 100%); /* IE10+ */
-    background: linear-gradient(top,  #77797a 0%,#5b5e5e 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#77797a', endColorstr='#5b5e5e',GradientType=0 ); /* IE6-9 */
+    background: #77797a;  Old browsers 
+    background: -moz-linear-gradient(top,  #77797a 0%, #5b5e5e 100%);  FF3.6+ 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#77797a), color-stop(100%,#5b5e5e));  Chrome,Safari4+ 
+    background: -webkit-linear-gradient(top,  #77797a 0%,#5b5e5e 100%);  Chrome10+,Safari5.1+ 
+    background: -o-linear-gradient(top,  #77797a 0%,#5b5e5e 100%);  Opera 11.10+ 
+    background: -ms-linear-gradient(top,  #77797a 0%,#5b5e5e 100%);  IE10+ 
+    background: linear-gradient(top,  #77797a 0%,#5b5e5e 100%);  W3C 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#77797a', endColorstr='#5b5e5e',GradientType=0 );  IE6-9 
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
     box-shadow: 0 1px 0 rgba(255,255,255,0.15) inset;
@@ -634,17 +681,17 @@ label.ui-state-error {
 .ui-datepicker table {font-size: .9em; border-collapse: collapse; margin: -1px 0 0 0 !important; }
 .ui-datepicker th { padding: .7em 0; text-align: center; font-weight: bold; border: 0; font-size: 10px; color: #acacac; border-bottom: 1px solid #cdcdcd !important; }
 .ui-datepicker td { border: 0; padding: 0 !important; border: 1px solid #cdcdcd; }
-.ui-datepicker td a { display: block; padding: 0 !important; border: 0 none !important;/*border: 1px solid #cdcdcd !important;*/ line-height: 30px; text-align: center !important; font-size: 12px; text-decoration: none; font-weight: bold !important; }
+.ui-datepicker td a { display: block; padding: 0 !important; border: 0 none !important;border: 1px solid #cdcdcd !important; line-height: 30px; text-align: center !important; font-size: 12px; text-decoration: none; font-weight: bold !important; }
 .ui-datepicker td a.ui-state-default {
     color: #5d5d5d;
-    background: #e8e9ea; /* Old browsers */
-    background: -moz-linear-gradient(top,  #e8e9ea 0%, #e3e3e3 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8e9ea), color-stop(100%,#e3e3e3)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%); /* IE10+ */
-    background: linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e9ea', endColorstr='#e3e3e3',GradientType=0 ); /* IE6-9 */
+    background: #e8e9ea;  Old browsers 
+    background: -moz-linear-gradient(top,  #e8e9ea 0%, #e3e3e3 100%);  FF3.6+ 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e8e9ea), color-stop(100%,#e3e3e3));  Chrome,Safari4+ 
+    background: -webkit-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%);  Chrome10+,Safari5.1+ 
+    background: -o-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%);  Opera 11.10+ 
+    background: -ms-linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%);  IE10+ 
+    background: linear-gradient(top,  #e8e9ea 0%,#e3e3e3 100%);  W3C 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e8e9ea', endColorstr='#e3e3e3',GradientType=0 );  IE6-9 
     -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset;
     -moz-box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset;
     box-shadow: 0 1px 0 rgba(255,255,255,0.35) inset;
@@ -666,14 +713,14 @@ label.ui-state-error {
 
 td.ui-datepicker-unselectable {
     border-color: #ebebeb !important;
-    background: #fcfcfc; /* Old browsers */
-    background: -moz-linear-gradient(top,  #fcfcfc 0%, #efefef 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#efefef)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #fcfcfc 0%,#efefef 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #fcfcfc 0%,#efefef 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #fcfcfc 0%,#efefef 100%); /* IE10+ */
-    background: linear-gradient(top,  #fcfcfc 0%,#efefef 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#efefef',GradientType=0 ); /* IE6-9 */
+    background: #fcfcfc;  Old browsers 
+    background: -moz-linear-gradient(top,  #fcfcfc 0%, #efefef 100%);  FF3.6+ 
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fcfcfc), color-stop(100%,#efefef));  Chrome,Safari4+ 
+    background: -webkit-linear-gradient(top,  #fcfcfc 0%,#efefef 100%);  Chrome10+,Safari5.1+ 
+    background: -o-linear-gradient(top,  #fcfcfc 0%,#efefef 100%);  Opera 11.10+ 
+    background: -ms-linear-gradient(top,  #fcfcfc 0%,#efefef 100%);  IE10+ 
+    background: linear-gradient(top,  #fcfcfc 0%,#efefef 100%);  W3C 
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#efefef',GradientType=0 );  IE6-9 
 }
 
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
@@ -683,7 +730,7 @@ td.ui-datepicker-unselectable {
 .ui-datepicker .ui-icon-circle-triangle-e { background: url("#{resource['primefaces-omega:images/icons_16.png']}") 0 -112px no-repeat !important; }
 .ui-datepicker-header .ui-state-hover { border: 0; background: none; }
 
-/* with multiple calendars */
+ with multiple calendars 
 .ui-datepicker.ui-datepicker-multi { width:auto; }
 .ui-datepicker-multi .ui-datepicker-group { float:left; }
 .ui-datepicker-multi .ui-datepicker-group table { width:95%; margin:0 auto .4em; }
@@ -699,7 +746,161 @@ td.ui-datepicker-unselectable {
     -moz-box-shadow: 0px 2px 5px rgba(0,0,0,0.8);
     -webkit-box-shadow: 0px 2px 5px rgba(0,0,0,0.8);
     box-shadow: 0px 2px 5px rgba(0,0,0,0.8);
+}*/
+
+/*Style For DatePicker And Calendar--------------------------------------------------------------------------------------*/
+.ui-datepicker-inline {
+    border: solid 1px #e0e0e0;
 }
+.ui-datepicker {
+    padding: 8px !important;
+    background-color: #ffffff !important;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    font-family: 'roboto_condensedregular';
+    z-index: 9999;
+    font-size: 16px !important;
+}
+.ui-datepicker:hover,
+.ui-datepicker:focus {
+    z-index: 9999;
+}
+.ui-datepicker-header {
+    font-size: 18px;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    color: #546e7a;
+    padding: 10px 0px !important;
+}
+.ui-datepicker-header .ui-datepicker-prev {
+    left: 3px !important;
+    top: 10px !important;
+    cursor: pointer;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+.ui-datepicker-header .ui-datepicker-next {
+    right: 3px !important;
+    top: 10px !important;
+    cursor: pointer;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+}
+.ui-datepicker-header .ui-datepicker-prev-hover {
+    background-color: #f5f5f5;
+    left: 3px;
+    top: 3px;
+}
+.ui-datepicker-header .ui-datepicker-next-hover {
+    background-color: #f5f5f5;
+    right: 3px;
+    top: 3px;
+}
+.ui-datepicker-header .ui-datepicker-prev .ui-icon {
+    background-image: url("#{resource['primefaces-omega2:images/left-arrow.svg']}");
+    background-position: center !important;
+    background-size: 130% !important;
+    top: 50%;
+    left: 48%;
+}
+.ui-datepicker-header .ui-datepicker-next .ui-icon {
+    background-image: url("#{resource['primefaces-omega2:images/right-arrow.svg']}");
+    background-position: center !important;
+    background-size: 130% !important;
+    top: 50%;
+    left: 54%;
+}
+.ui-datepicker-calendar {
+    margin: 2px 0px 0px 0px !important;
+    border-collapse: inherit !important;
+}
+.ui-datepicker-calendar thead tr th {
+    color: #546e7a;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    cursor: default;
+    padding: 9px 0px;
+}
+.ui-datepicker-calendar tbody tr td {
+    border: solid 1px transparent;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    cursor: default;
+    padding: 5px 0px;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+}
+.ui-datepicker td span,
+.ui-datepicker td a {
+    text-align: center !important;
+}
+.ui-datepicker-calendar tbody tr td:hover {
+    background-color: #26a69a;
+    border: solid 1px #26a69a;
+}
+.ui-datepicker-calendar tbody tr td:hover a {
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    color: #ffffff !important;
+}
+.ui-datepicker-calendar tbody tr td a {
+    color: #78909c !important;
+    background-color: transparent !important;
+}
+.ui-datepicker-calendar tbody tr .ui-datepicker-today {
+    background-color: #ffffff;
+    border: solid 1px #26a69a;
+}
+.ui-datepicker-calendar tbody tr .ui-datepicker-today a {
+    color: #26a69a !important;
+}
+.ui-datepicker-calendar tbody tr .ui-datepicker-current-day {
+    background-color: #26a69a;
+    border: solid 1px #26a69a;
+}
+.ui-datepicker-calendar tbody tr .ui-datepicker-current-day a {
+    color: #f6fafc !important;
+}
+.ui-datepicker-trigger {
+    width: auto !important;
+    margin-left: 2px !important;
+}
+.ui-datepicker-trigger .ui-icon {
+    background-image: url("/rio/javax.faces.resource/images/calendar.svg.xhtml?ln=primefaces-rio");
+    background-position: center !important;
+    background-size: 145% !important;
+}
+.ui-datepicker-group .ui-datepicker-calendar {
+    width: 100% !important;
+}
+.ui-timepicker-div {
+    color: #546e7a;
+    font-size: 16px !important;
+}
+.ui-timepicker-div dl {
+    padding: 1px 10px;
+}
+.ui-timepicker-div .ui-widget-header {
+    font-size: 18px;
+    padding: 6px;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    color: #546e7a;
+}
+
 
 .ui-progressbar .ui-progressbar-value {
     border: 1px solid #156090; 
@@ -708,6 +909,41 @@ td.ui-datepicker-unselectable {
 
 .ui-progressbar .ui-progressbar-label {
     color: #1f89ce;
+}
+
+.ui-timepicker-div .ui_tpicker_time .ui_tpicker_time_input{
+    border-bottom: none !important;
+}
+
+.ui-slider-horizontal .ui-slider-handle:focus{
+    outline: none;
+}
+
+/*oculto los segundos en el calendar*/
+.ui_tpicker_second, .ui_tpicker_second_label{
+    display: none !important;
+}
+
+/*estilo de los botones del calendar*/
+.ui-datepicker-close, .ui-datepicker-current{
+    border: none !important;
+    border-radius: 2px !important;
+    padding: 10px 16px !important;
+    font-weight: normal !important;
+    text-transform: uppercase !important;
+    font-family: 'roboto_condensedbold' !important;
+    font-size: 14px !important;
+    opacity: 0.7 !important;
+    background-color: transparent !important;
+}
+
+.ui-datepicker-close, .ui-datepicker-current:focus{
+    outline: none;
+}
+
+/*elimino el separador de 1px*/
+#ui-datepicker-div .ui-widget-content{
+    border: none !important;
 }
 
 /*Style For Button ------------------------------------------------------------------------------------- */
@@ -1636,11 +1872,11 @@ hr.ui-widget-header {
 
 /*Style for Labels*/
 .ui-outputlabel {
-  font-size: 16px !important;
-  /*font-family: 'roboto_condensedregular';*/
+    font-size: 16px !important;
+    /*font-family: 'roboto_condensedregular';*/
 }
 .ui-outputlabel {
-  color: #546E7A;
+    color: #546E7A;
 }
 
 /*Style For UI InputField ------------------------------------------------------------------------------------- */
@@ -1840,10 +2076,10 @@ hr.ui-widget-header {
     border-radius: 1px;
 }
 .ui-paginator .ui-paginator-current {
-  font-size: 14px;
-  padding: 15px;
-  color: #9ad6f8;
-  font-family: 'roboto_condensedlight';
+    font-size: 14px;
+    padding: 15px;
+    color: #9ad6f8;
+    font-family: 'roboto_condensedlight';
 }
 .ui-paginator .ui-paginator-first,
 .ui-paginator .ui-paginator-prev,
@@ -1851,19 +2087,19 @@ hr.ui-widget-header {
 .ui-paginator .ui-paginator-next,
 .ui-paginator .ui-paginator-last,
 .ui-paginator .ui-paginator-rpp-options {
-  font-size: 20px;
-  padding: 10px 3px !important;
-  font-weight: bold;
-  border: solid 3px transparent;
-  color: #a6defd;
-  -webkit-transition: all 0.2s ease;
-  -moz-transition: all 0.2s ease;
-  -ms-transition: all 0.2s ease;
-  -o-transition: all 0.2s ease;
-  transition: all 0.2s ease;
-  border-radius: 0px !important;
-  font-weight: normal;
-  font-family: 'roboto_condensedlight';
+    font-size: 20px;
+    padding: 10px 3px !important;
+    font-weight: bold;
+    border: solid 3px transparent;
+    color: #a6defd;
+    -webkit-transition: all 0.2s ease;
+    -moz-transition: all 0.2s ease;
+    -ms-transition: all 0.2s ease;
+    -o-transition: all 0.2s ease;
+    transition: all 0.2s ease;
+    border-radius: 0px !important;
+    font-weight: normal;
+    font-family: 'roboto_condensedlight';
 }
 .ui-paginator .ui-paginator-rpp-options {
     outline: none;
