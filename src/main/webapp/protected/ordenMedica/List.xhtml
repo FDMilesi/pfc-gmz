@@ -13,62 +13,91 @@
 
         <ui:define name="body">
             <h:form id="ordenMedicaListForm">
-                <p:breadCrumb >
-                    <p:menuitem id = "homeMenuItem" value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
-                    <p:menuitem id = "ordenesMenuItem" value="Ordenes" disabled="true"/>
-                </p:breadCrumb>
-                <p:panel header="#{bundle.ListOrdenTitle}">
-                    <p:panelGrid columns="6">
-                        <h:outputLabel value="Autorizadas:" />
-                        <p:selectOneButton id="filterAutorizadas" 
-                                           value ="#{listOrdenMedicaController.autorizada}">
-                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
-                            <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
-                            <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
-                            <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
-                        </p:selectOneButton>    
-                        <h:outputLabel value="Presentadas:" />
-                        <p:selectOneButton id="filterPresentadas" 
-                                           value ="#{listOrdenMedicaController.presentada}" >
-                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
-                            <f:selectItem id = "allPresentadasFilter"  itemLabel="Todas" itemValue="#{null}" />
-                            <f:selectItem id = "presentadasFilter"  itemLabel="Si" itemValue="true"/>
-                            <f:selectItem id = "noPresentadasFilter"  itemLabel="No" itemValue="false"/>                
-                        </p:selectOneButton>
-                        <h:outputLabel value="Obra Social:" />
-                        <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
-                            <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
-                            <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
-                            <f:selectItems value="#{obraSocialController.getItemsAvailableSelectOne()}" />
-                        </p:selectOneMenu>
-                        <h:outputLabel value="Fecha de Inicio:"/>
-                        <p:calendar id="filterStartDate" 
-                                    widgetVar="startDateVar"
-                                    pattern="dd/MM/yyyy" 
-                                    value="#{listOrdenMedicaController.startDate}" 
-                                    title="#{bundle.FilterOrdenMedica_fechaComienzo}"  
-                                    showOn="button" 
-                                    locale="es"
-                                    navigator="true"
-                                    yearRange="c-90:c+10">
-                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
-                        </p:calendar>
-                        <h:outputLabel value="Fecha de Fin:"/>
-                        <p:calendar id="filterEndDate" 
-                                    widgetVar="endDateVar"
-                                    pattern="dd/MM/yyyy" 
-                                    value="#{listOrdenMedicaController.endDate}" 
-                                    title="#{bundle.FilterOrdenMedica_fechaFin}"  
-                                    showOn="button" 
-                                    locale="es"
-                                    navigator="true"
-                                    yearRange="c-90:c+10">
-                            <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
-                        </p:calendar>
-                        <p:commandButton value="Limpiar Fechas" update="ordenMedicaDatalist" actionListener="#{listOrdenMedicaController.filtrarItems()}" onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
-                    </p:panelGrid>
-                </p:panel>
-                <p:panel>
+                <div class="card shadowEffect">
+                    <p:breadCrumb >
+                        <p:menuitem id = "homeMenuItem" value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem id = "ordenesMenuItem" value="Ordenes" disabled="true"/>
+                    </p:breadCrumb>
+                </div>
+                <div class="ui-g card shadowEffect">
+                    <p:panel header="#{bundle.FiltrosOrdenMedicaTitle}">
+                        <!--<p:panelGrid columns="6">-->
+                            <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold; margin: auto">
+                                <h:outputLabel value="Autorizadas:" />
+                            </div>
+                            <div class="ui-g-12 ui-md-8 ui-lg-3">
+                                <p:selectOneButton id="filterAutorizadas" 
+                                                   value ="#{listOrdenMedicaController.autorizada}">
+                                    <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                    <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
+                                    <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
+                                    <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
+                                </p:selectOneButton>
+                            </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
+                            <h:outputLabel value="Presentadas:" />
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                            <p:selectOneButton id="filterPresentadas" 
+                                               value ="#{listOrdenMedicaController.presentada}" >
+                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                <f:selectItem id = "allPresentadasFilter"  itemLabel="Todas" itemValue="#{null}" />
+                                <f:selectItem id = "presentadasFilter"  itemLabel="Si" itemValue="true"/>
+                                <f:selectItem id = "noPresentadasFilter"  itemLabel="No" itemValue="false"/>                
+                            </p:selectOneButton>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
+                            <h:outputLabel value="Obra Social:" />
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                            <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
+                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
+                                <f:selectItems value="#{obraSocialController.getItemsAvailableSelectOne()}" />
+                            </p:selectOneMenu>
+                        </div>
+
+                        <div class="ui-g-12"></div>
+
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
+                            <h:outputLabel value="Fecha de Inicio:"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                            <p:calendar id="filterStartDate" 
+                                        widgetVar="startDateVar"
+                                        pattern="dd/MM/yyyy" 
+                                        value="#{listOrdenMedicaController.startDate}" 
+                                        title="#{bundle.FilterOrdenMedica_fechaComienzo}"  
+                                        showOn="button" 
+                                        locale="es"
+                                        navigator="true"
+                                        yearRange="c-90:c+10">
+                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
+                            </p:calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
+                            <h:outputLabel value="Fecha de Fin:"/>
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                            <p:calendar id="filterEndDate" 
+                                        widgetVar="endDateVar"
+                                        pattern="dd/MM/yyyy" 
+                                        value="#{listOrdenMedicaController.endDate}" 
+                                        title="#{bundle.FilterOrdenMedica_fechaFin}"  
+                                        showOn="button" 
+                                        locale="es"
+                                        navigator="true"
+                                        yearRange="c-90:c+10">
+                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
+                            </p:calendar>
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                            <p:commandButton value="Limpiar Fechas" update="ordenMedicaDatalist" actionListener="#{listOrdenMedicaController.filtrarItems()}" onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
+                        </div>
+                        <!--</p:panelGrid>-->
+                    </p:panel>
+                </div>
+                <div class="card shadowEffect">
                     <p:dataTable id="ordenMedicaDatalist" value="#{listOrdenMedicaController.itemsFiltrados}"
                                  var="item"
                                  widgetVar="tablaOrdenesmedicas"
@@ -79,7 +108,11 @@
                                  rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
+                                 reflow="true"
                                  >
+                        <f:facet name="header">
+                            <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
+                        </f:facet>
 
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
@@ -132,7 +165,7 @@
                             </p:commandButton>        
                         </p:column>                          
                     </p:dataTable>
-                </p:panel>
+                </div>
             </h:form>
 
             <ui:include src="AutorizarFromListOrdenes.xhtml"/>

@@ -885,6 +885,14 @@ td.ui-datepicker-unselectable {
 .ui-datepicker-group .ui-datepicker-calendar {
     width: 100% !important;
 }
+
+/*Dropdown de los calendar*/
+.ui-datepicker-year, .ui-datepicker-month{
+    border: none;
+    font-family: 'roboto_condensedregular';
+    
+}
+
 .ui-timepicker-div {
     color: #546e7a;
     font-size: 16px !important;
