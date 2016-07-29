@@ -1263,10 +1263,12 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     color: #546e7a;
     background-color: #dae8ef;
     border: solid 1px #c1d5df;
+    text-align: left;
     outline: none;
     padding: 10px;
     font-family: 'roboto_condensedlight';
     font-size: 16px;
+    border-left-style: hidden;
 }
 .ui-datatable table thead tr th.ui-state-hover,
 .ui-datatable .ui-datatable-sticky table thead tr th.ui-state-hover {
@@ -1294,6 +1296,8 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .ui-datatable table tbody tr td {
     color: #546e7a;
     border: solid 1px #d9e3e8;
+    border-left: none;
+    border-right: none;
     font-size: 14px;
     /*  font-family: 'roboto_condensedregular';*/
     -webkit-transition: all 0.2s ease;
