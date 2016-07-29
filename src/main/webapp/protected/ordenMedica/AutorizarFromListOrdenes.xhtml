@@ -6,44 +6,80 @@
       xmlns:p="http://primefaces.org/ui">
 
     <ui:composition>
-
-        <p:dialog id="OrdenMedicaAutorizarDlg" closeOnEscape="true" widgetVar="OrdenMedicaAutorizarDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.AutorizarOrdenMedicaTitle}">
+        <p:dialog id="OrdenMedicaAutorizarDlg" 
+                  closeOnEscape="true" 
+                  widgetVar="OrdenMedicaAutorizarDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.AutorizarOrdenMedicaTitle}"
+                  responsive="true"
+                  style="max-width: 500px;"
+                  positionType="absolute"
+                  draggable="false">
             <h:form id="OrdenMedicaAutorizarForm">
-                <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{listOrdenMedicaController.selected != null}">
+                <h:panelGroup id="display" rendered="#{listOrdenMedicaController.selected != null}">
+                    <p:focus context="display"/>
+                    <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}" for="codigoAutorizacion"/>
-                        <h:panelGroup>
-                            <h:outputLink value="#{listOrdenMedicaController.selected.obraSocial.linkAutorizacion}" target="_blank">
-                                <h:outputText value="#{bundle.EditOrdenMedicaTitle_link}" />
-                            </h:outputLink>
-                            <h:inputText id="codigoAutorizacion" value="#{listOrdenMedicaController.selected.codigoDeAutorizacion}" />
-                        </h:panelGroup>
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="codigoAutorizacion" value="#{listOrdenMedicaController.selected.codigoDeAutorizacion}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5"></div>
+                    <div class="ui-g-12 ui-md-7">
+                        <h:outputLink value="#{listOrdenMedicaController.selected.obraSocial.linkAutorizacion}" target="_blank">
+                            #{bundle.OrdenMedicaLabel_link}
+                        </h:outputLink>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_paciente}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="paciente" value="#{listOrdenMedicaController.selected.tratamiento.paciente.toString()}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_tratamiento}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="tratamiento" value="#{listOrdenMedicaController.selected.tratamiento.tipoDeTratamiento.toString()}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_codigoDePrestacion}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="codigoPrestacion" value="#{obraSocialController.getCodigoDePrestacion(listOrdenMedicaController.selected.tratamiento.tipoDeTratamiento,listOrdenMedicaController.selected.obraSocial)}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_obraSocial}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="obraSocial" value="#{listOrdenMedicaController.selected.obraSocial.toString()}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_numeroAfiliadoPaciente}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="numeroAfiliadoPaciente" value="#{(empty listOrdenMedicaController.selected.numeroAfiliadoPaciente) ? 'No cargado':listOrdenMedicaController.selected.numeroAfiliadoPaciente}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_cantidadDeSesiones}" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="cantidadDeSesiones" value="#{listOrdenMedicaController.selected.cantidadDeSesiones}" />
+                    </div>
 
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_paciente}" for="paciente" />
-                        <h:outputText id="paciente" value="#{listOrdenMedicaController.selected.tratamiento.paciente.toString()}" title="#{bundle.EditOrdenMedicaTitle_paciente}" />
-
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_tratamiento}" for="tratamiento" />
-                        <h:outputText id="tratamiento" value="#{listOrdenMedicaController.selected.tratamiento.tipoDeTratamiento.toString()}" title="#{bundle.EditOrdenMedicaTitle_tratamiento}" />
-
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_codigoDePrestacion}" for="codigoPrestacion" />
-                        <h:outputText id="codigoPrestacion" value="#{obraSocialController.getCodigoDePrestacion(listOrdenMedicaController.selected.tratamiento.tipoDeTratamiento,listOrdenMedicaController.selected.obraSocial)}" />
-
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_obraSocial}" for="obraSocial" />
-                        <h:outputText id="obraSocial" value="#{listOrdenMedicaController.selected.obraSocial.toString()}" />
-
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_numeroAfiliadoPaciente}" for="numeroAfiliadoPaciente" />
-                        <h:outputText id="numeroAfiliadoPaciente" value="#{listOrdenMedicaController.selected.numeroAfiliadoPaciente}" title="#{bundle.EditOrdenMedicaTitle_numeroAfiliadoPaciente}" />
-
-                        <p:outputLabel value="#{bundle.EditOrdenMedicaLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
-                        <h:outputText id="cantidadDeSesiones" value="#{listOrdenMedicaController.selected.cantidadDeSesiones}" title="#{bundle.EditOrdenMedicaTitle_cantidadDeSesiones}"/>
-
-                    </p:panelGrid>
-
-                    <p:commandButton actionListener="#{listOrdenMedicaController.update()}" value="#{bundle.Save}" update="display,:ordenMedicaListForm:ordenMedicaDatalist,:growl" oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"/>
-                    <p:commandButton value="#{bundle.Cancel}" immediate="true" onclick="PF('OrdenMedicaAutorizarDialog').hide()"/>
+                    <p:commandButton actionListener="#{listOrdenMedicaController.update()}" 
+                                     value="#{bundle.Save}" 
+                                     update="display,:ordenMedicaListForm:ordenMedicaDatalist,:growl" 
+                                     oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"
+                                     style="float: right; background-color: #66BB6A;"/>
+                    <p:commandButton value="#{bundle.Cancel}" 
+                                     immediate="true" 
+                                     onclick="PF('OrdenMedicaAutorizarDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
                 </h:panelGroup>
             </h:form>
         </p:dialog>
-
     </ui:composition>
 </html>
