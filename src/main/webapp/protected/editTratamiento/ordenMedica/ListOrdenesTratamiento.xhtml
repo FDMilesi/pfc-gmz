@@ -7,10 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
-        <h:form id="OrdenTratamientoListForm" 
-                rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
-                            and !editTratamientoController.selected.particular}">
-            <div class="card shadowEffect">            
+        <div class="card shadowEffect"> 
+            <h:form id="OrdenTratamientoListForm" 
+                    rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
+                                and !editTratamientoController.selected.particular}">           
                 <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
                              var="orderItem"
                              selectionMode="single"
@@ -59,7 +59,7 @@
                         <p:commandButton id="ordenMedicaTratamientoAutorizarButton"
                                          icon="ui-icon-check" 
                                          title="#{bundle.Autorizar}" 
-                                         update=":OrdenMedicaAutorizarForm" 
+                                         update=":OrdenMedicaAutorizarForm"
                                          oncomplete="PF('OrdenMedicaAutorizarDialog').show()" 
                                          disabled="#{editTratamientoController.selected.finalizado}">
                             <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
@@ -77,7 +77,7 @@
 
                     </p:column>
                 </p:dataTable>             
-            </div>
-        </h:form>
+            </h:form>
+        </div>
     </ui:composition>
 </html>

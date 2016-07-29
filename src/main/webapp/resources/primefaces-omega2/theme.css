@@ -1988,7 +1988,7 @@ hr.ui-widget-header {
     background-image: url("#{resource['primefaces-omega:images/ui-icons_ffffff_256x240.png']}");
 }
 
-/* SelectOneMenu */
+/* SelectOneMenu 
 .ui-selectonemenu .ui-selectonemenu-trigger,
 .ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
     border-color: #ffffff;
@@ -1997,8 +1997,153 @@ hr.ui-widget-header {
 .ui-selectcheckboxmenu.ui-state-focus .ui-selectcheckboxmenu-label,
 .ui-selectcheckboxmenu .ui-selectcheckboxmenu-label.ui-state-hover {
     background-color: #ffffff;
-}
+}*/
 
+/*Style For SelectOneMenu And SelectCheckBoxMenu ------------------------------------------------------------------------------------- */
+.ui-selectonemenu.ui-state-focus .ui-selectonemenu-label {
+  background-color: #f5f5f5 !important;
+}
+.ui-selectonemenu .ui-selectonemenu-label {
+  width: 100% !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+}
+.ui-selectonemenu,
+.ui-selectcheckboxmenu {
+  font-size: 16px !important;
+  font-family: 'roboto_condensedregular' !important;
+  padding: 0px 32px 0px 0px !important;
+  border-bottom: solid 1px #B0BEC5 !important;
+  -webkit-transition: none;
+  -moz-transition: none;
+  -ms-transition: none;
+  -o-transition: none;
+  transition: none;
+  color: #778D9B;
+  border-radius: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger,
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger {
+  padding: 0px 12px !important;
+  font-size: 16px;
+  color: #ffffff !important;
+  text-shadow: none;
+  z-index: 100;
+  background-color: #f5f5f5;
+  border-bottom: solid 1px #b0bec5 !important;
+  border-bottom-right-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-left-radius: 0px  !important;
+  border-top-left-radius: 0px  !important;
+}
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger.ui-state-hover,
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-trigger.ui-state-focus,
+.ui-selectonemenu .ui-selectonemenu-trigger.ui-state-hover,
+.ui-selectonemenu .ui-selectonemenu-trigger.ui-state-focus {
+  background-color: #e0e0e0;
+  border-bottom: solid 1px #03a9f4 !important;
+}
+.ui-selectonemenu-panel {
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-list,
+.ui-selectcheckboxmenu .ui-selectcheckboxmenu-list {
+  padding: 0px !important;
+  background-color: #ffffff;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-list-item,
+.ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-list-item {
+  border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  font-size: 14px;
+  -moz-border-radius: 0px !important;
+  margin: 0px 0px 1px !important;
+  color: #546e7a;
+  padding: 10px 14px !important;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-item-group {
+  border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  font-size: 14px;
+  -moz-border-radius: 0px !important;
+  margin: 0px !important;
+  color: #ffffff;
+  padding: 10px 14px !important;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  background-color: #546e7a;
+  font-weight: normal !important;
+}
+.ui-selectonemenu-panel .ui-state-highlight,
+.ui-selectcheckboxmenu-panel .ui-state-highlight {
+  color: #03a9f4 !important;
+  background-color: #f5f5f5;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-item.ui-state-hover {
+  background-color: #f5f5f5;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.ui-selectonemenu-trigger .ui-icon-triangle-1-s,
+.ui-selectcheckboxmenu-trigger .ui-icon-triangle-1-s {
+  background-image: url("#{resource['primefaces-omega2:images/ic_expand_more_black_24px.svg']}");
+  margin-top: 11px !important;
+  background-size: 130%;
+  background-position: center;
+}
+.ui-selectonemenu-panel {
+  background-color: #ffffff;
+  border-radius: 2px;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-icon-search {
+  width: 30px;
+  height: 30px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url("/rio/javax.faces.resource/images/search-icon.svg.xhtml?ln=primefaces-rio");
+  left: 5px !important;
+  top: 8px !important;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-filter-container .ui-inputfield {
+  padding-left: 30px !important;
+  width: 75%;
+}
+.ui-selectonemenu-panel .ui-selectonemenu-table td {
+  border: solid 1px #f5f5f5 !important;
+  border-radius: 0px !important;
+  -webkit-border-radius: 0px !important;
+  font-size: 14px;
+  -moz-border-radius: 0px !important;
+  margin: 0px !important;
+  color: #546e7a;
+  padding: 14px 10px !important;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  -ms-transition: all 0.2s ease;
+  -o-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.ui-selectonemenu-panel tr.ui-state-highlight td {
+  color: #03a9f4 !important;
+  background-color: #f5f5f5;
+}
 
 /* TabMenu */
 .ui-tabmenu li.ui-state-active {
