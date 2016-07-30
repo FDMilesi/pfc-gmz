@@ -14,6 +14,7 @@
 @font-face {
     font-family: 'roboto_condensedregular';
     src: url(https://fonts.gstatic.com/s/robotocondensed/v13/Zd2E9abXLFGSr9G3YK2MsDAdhzWOYhqHvOZMRGaEyPo.woff2);
+    /*src: url(https://fonts.gstatic.com/s/roboto/v15/CWB0XYA8bzo0kSThX0UTuA.woff2);*/
     font-weight: normal;
     font-style: normal;
 }
@@ -725,7 +726,7 @@ td.ui-datepicker-unselectable {
 
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
 .ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left; }
+
 .ui-datepicker .ui-icon-circle-triangle-w { background: url("#{resource['primefaces-omega:images/icons_16.png']}") 0 -128px no-repeat !important; }
 .ui-datepicker .ui-icon-circle-triangle-e { background: url("#{resource['primefaces-omega:images/icons_16.png']}") 0 -112px no-repeat !important; }
 .ui-datepicker-header .ui-state-hover { border: 0; background: none; }
@@ -953,6 +954,9 @@ td.ui-datepicker-unselectable {
 #ui-datepicker-div .ui-widget-content{
     border: none !important;
 }
+
+/*Para que los botones se ubiquen con el cerrar a la izquierda*/
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:right !important; }
 
 /* Style For UI Autocomplete --------------------------------------------------------------------------------------*/
 .ui-autocomplete {
@@ -1722,7 +1726,8 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-view-container .fc-event {
     background-color: #9ccc65;
-    border: solid 1px #9ccc65;
+    border: none !important;
+    border-radius: 2px !important;
 }
 .fc-view-container .fc-event .fc-event-inner {
     margin: 3px;
