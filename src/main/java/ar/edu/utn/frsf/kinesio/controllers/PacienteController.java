@@ -69,6 +69,10 @@ public class PacienteController implements Serializable {
     public String mostrarTratamientos() {
         return TRATAMIENTOS_PATH;
     }
+    
+    public List<Paciente> autocompletar(String query){
+        return this.getFacade().getPacientesAutocompletar(query);
+    }
 
     public Paciente prepareCreate() {
         selected = getFacade().initPaciente();

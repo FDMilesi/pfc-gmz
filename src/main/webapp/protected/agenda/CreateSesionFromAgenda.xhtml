@@ -44,16 +44,20 @@
                         <p:outputLabel value="#{bundle.SesionLabel_paciente}" for="paciente" />
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectOneMenu id="paciente" value="#{tratamientoController.paciente}" 
-                                         required="true"                                         
-                                         requiredMessage="#{bundle.SesionRequiredMessage_Paciente}">           
-                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
-                            <f:selectItems value="#{pacienteController.itemsAvailableSelectOne}"
-                                           var="pacienteItem"
-                                           itemValue="#{pacienteItem}"/>
-                            <p:ajax update="tratamientoSeleccion" event="change"/>
-                            <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/>                            
-                        </p:selectOneMenu>
+                        <p:autoComplete id="paciente"
+                                        value="#{tratamientoController.paciente}"
+                                        completeMethod="#{pacienteController.autocompletar}"
+                                        var="pacienteItem"
+                                        forceSelection="true"
+                                        itemLabel="#{pacienteItem.toString()}"
+                                        itemValue="#{pacienteItem}"
+                                        style="width: 100%"
+                                        >
+                            <p:ajax update="tratamientoSeleccion" event="itemSelect"/>
+                            <p:ajax update="numeroDeSesion" 
+                                    listener="#{agendaSesionController.calcularNumeroSesion()}" 
+                                    event="itemSelect"/>
+                        </p:autoComplete>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}" for="tratamientoSeleccion" />

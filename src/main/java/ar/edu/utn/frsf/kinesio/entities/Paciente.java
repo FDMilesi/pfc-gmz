@@ -41,7 +41,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Paciente.findById", query = "SELECT p FROM Paciente p WHERE p.id = :id"),
     @NamedQuery(name = "Paciente.findByApellido", query = "SELECT p FROM Paciente p WHERE p.apellido = :apellido"),
     @NamedQuery(name = "Paciente.findByNombre", query = "SELECT p FROM Paciente p WHERE p.nombre = :nombre"),
-    @NamedQuery(name = "Paciente.findByDni", query = "SELECT p FROM Paciente p WHERE p.dni = :dni")})
+    @NamedQuery(name = "Paciente.findByDni", query = "SELECT p FROM Paciente p WHERE p.dni = :dni"),
+    @NamedQuery(name = "Paciente.autocompletar", 
+            query = "SELECT p FROM Paciente p WHERE lower(p.apellido) LIKE :query OR lower(p.nombre) LIKE :query")})
 public class Paciente implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -44,7 +44,7 @@
                         <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}"/>
                     </div>
                     <div class="ui-g-12 ui-md-7">
-                        <p:outputLabel value="#{tratamientoController.selected.diagnostico}" />
+                        <p:outputLabel value="#{empty tratamientoController.selected.diagnostico? '-':tratamientoController.selected.diagnostico}" />
                     </div>
                     <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.TratamientoLabel_medicoDerivante}"/>

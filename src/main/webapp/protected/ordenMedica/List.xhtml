@@ -21,21 +21,20 @@
                 </div>
                 <div class="ui-g card shadowEffect">
                     <p:panel header="#{bundle.FiltrosOrdenMedicaTitle}">
-                        <!--<p:panelGrid columns="6">-->
-                            <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold; margin: auto">
-                                <h:outputLabel value="Autorizadas:" />
-                            </div>
-                            <div class="ui-g-12 ui-md-8 ui-lg-3">
-                                <p:selectOneButton id="filterAutorizadas" 
-                                                   value ="#{listOrdenMedicaController.autorizada}">
-                                    <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
-                                    <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
-                                    <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
-                                    <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
-                                </p:selectOneButton>
-                            </div>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold; margin: auto">
+                            <p:outputLabel value="Autorizadas:" />
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-3">
+                            <p:selectOneButton id="filterAutorizadas" 
+                                               value ="#{listOrdenMedicaController.autorizada}">
+                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
+                                <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
+                                <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
+                            </p:selectOneButton>
+                        </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <h:outputLabel value="Presentadas:" />
+                            <p:outputLabel value="Presentadas:" />
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneButton id="filterPresentadas" 
@@ -47,7 +46,7 @@
                             </p:selectOneButton>
                         </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <h:outputLabel value="Obra Social:" />
+                            <p:outputLabel value="Obra Social:" />
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
@@ -60,7 +59,7 @@
                         <div class="ui-g-12"></div>
 
                         <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <h:outputLabel value="Fecha de Inicio:"/>
+                            <p:outputLabel value="Fecha de Inicio:"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:calendar id="filterStartDate" 
@@ -76,7 +75,7 @@
                             </p:calendar>
                         </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <h:outputLabel value="Fecha de Fin:"/>
+                            <p:outputLabel value="Fecha de Fin:"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:calendar id="filterEndDate" 
@@ -94,7 +93,6 @@
                         <div class="ui-g-12 ui-md-8 ui-lg-4">
                             <p:commandButton value="Limpiar Fechas" update="ordenMedicaDatalist" actionListener="#{listOrdenMedicaController.filtrarItems()}" onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
                         </div>
-                        <!--</p:panelGrid>-->
                     </p:panel>
                 </div>
                 <div class="card shadowEffect">
