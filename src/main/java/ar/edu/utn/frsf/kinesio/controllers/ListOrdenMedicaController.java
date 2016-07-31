@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -130,6 +131,14 @@ public class ListOrdenMedicaController implements Serializable {
         return getFacade().find(id);
     }
 
+    public void prepareReportPrint(){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ordenesReport", itemsFiltrados);
+    }
+    
+    public String redirectToReport(){
+        return "/protected/ordenMedica/ReportList.xhtml?faces-redirect-true";
+    }
+    
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {
