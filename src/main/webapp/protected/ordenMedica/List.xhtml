@@ -112,7 +112,7 @@
                             <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
                         </f:facet>
 
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}" sortBy="#{item.fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
