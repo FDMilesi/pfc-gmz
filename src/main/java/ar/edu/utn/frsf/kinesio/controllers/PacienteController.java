@@ -71,7 +71,7 @@ public class PacienteController implements Serializable {
     }
     
     public List<Paciente> autocompletar(String query){
-        return this.getFacade().getPacientesAutocompletar(query);
+        return this.getFacade().getPacientesAutocompletar(query.toLowerCase());
     }
 
     public Paciente prepareCreate() {
