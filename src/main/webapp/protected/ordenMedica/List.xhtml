@@ -110,6 +110,7 @@
                                  >
                         <f:facet name="header">
                             <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
+                            <p:button value="Imprimir" icon="ui-icon-print" onclick="#{listOrdenMedicaController.prepareReportPrint()}" outcome="#{listOrdenMedicaController.redirectToReport()}" />
                         </f:facet>
 
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}" sortBy="#{item.fechaCreacion}">
