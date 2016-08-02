@@ -52,6 +52,7 @@ public class OrdenMedica implements Serializable {
     private short cantidadDeSesiones;
 
     @Size(max = 50)
+    @NotNull(message = "Ingrese el código de autorización")
     @Column(name = "codigodeautorizacion")
     private String codigoDeAutorizacion;
 

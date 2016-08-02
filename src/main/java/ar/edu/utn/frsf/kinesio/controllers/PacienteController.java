@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.gestores.PacienteFacade;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 
@@ -68,6 +71,11 @@ public class PacienteController implements Serializable {
     //Métodos de negocio
     public String mostrarTratamientos() {
         return TRATAMIENTOS_PATH;
+    }
+    
+    public void navegarAListaTratamientos() throws IOException{
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(context.getRequestContextPath()+"/faces"+TRATAMIENTOS_PATH+"&paciente="+selected.getId());
     }
     
     public List<Paciente> autocompletar(String query){

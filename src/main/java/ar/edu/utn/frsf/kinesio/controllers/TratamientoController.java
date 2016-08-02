@@ -5,6 +5,7 @@ import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
+import java.io.IOException;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.faces.context.ExternalContext;
 import javax.inject.Named;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -22,7 +24,7 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class TratamientoController implements Serializable {
 
-    private static final String EDIT_TRATAMIENTOS_PATH 
+    private static final String EDIT_TRATAMIENTOS_PATH
             = "/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true";
 
     @EJB
@@ -78,6 +80,11 @@ public class TratamientoController implements Serializable {
 
     public String prepararEditTratamiento() {
         return EDIT_TRATAMIENTOS_PATH;
+    }
+
+    public void navegarAEditTratamiento() throws IOException {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.redirect(context.getRequestContextPath() + "/faces" + EDIT_TRATAMIENTOS_PATH + "&tratamiento=" + selected.getId());
     }
 
     public Tratamiento prepareCreate() {
