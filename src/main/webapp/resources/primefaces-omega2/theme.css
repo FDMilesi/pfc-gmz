@@ -469,6 +469,11 @@ label.ui-state-error {
     color: #546e7a;
     border-radius: 2px;
 }
+@media screen and (max-width: 40em) {
+    .ui-dialog {
+        top: 0px !important;
+    }
+}
 .ui-dialog .ui-dialog-titlebar {
     padding: 10px 20px !important;
     border-bottom: solid 1px #e0e0e0 !important;
@@ -488,7 +493,6 @@ label.ui-state-error {
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon .ui-icon-closethick {
     background-image: url("#{resource['primefaces-omega2:images/ic_close_black_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/delete-gray.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
