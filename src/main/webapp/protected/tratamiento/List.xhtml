@@ -23,11 +23,11 @@
             </div>
             <div class="card shadowEffect">
                 <h:form id="TratamientoListForm">    
-                    <!--selectionMode="single" selection="#{tratamientoController.selected}"
-                                                     rowKey="#{item.id}"-->
                     <p:dataTable id="datalist" value="#{tratamientoController.items}" var="item"
                                  paginator="true"
                                  paginatorPosition="bottom"
+                                 selectionMode="single" selection="#{tratamientoController.selected}"
+                                 rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  sortBy="#{item.fechaCreacion}"
@@ -35,6 +35,7 @@
                                  emptyMessage="#{bundle.ListTratamientoEmpty}"
                                  reflow="true"
                                  >
+                        <p:ajax event="rowSelect" listener="#{tratamientoController.navegarAEditTratamiento()}" />
                         <f:facet name="header">
                             <div class="ui-g">
                                 <div class="ui-g-6 ui-md-9" style="padding: 0; margin: auto 0;">#{bundle.ListTratamientoTitle}</div>

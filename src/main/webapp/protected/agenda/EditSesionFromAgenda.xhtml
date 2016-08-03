@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
 
@@ -32,7 +33,11 @@
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:outputLabel value="#{agendaSesionController.selected.tratamiento.toString()}"/>
+                        <p:link value="#{agendaSesionController.selected.tratamiento.toString()}"
+                                includeViewParams="true" 
+                                outcome="/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true">
+                            <f:param name="tratamiento" value="#{agendaSesionController.selected.tratamiento.id}" />
+                        </p:link>
                     </div>
                     <!--numero de sesion-->
                     <div class="ui-g-12 ui-md-4">
