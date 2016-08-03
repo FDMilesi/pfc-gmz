@@ -3,32 +3,35 @@ body{
 }
 
 .sideMenu{
-    background-color: #448AFF;
+    background-color: white;
+    width: 230px;
 }
 
 .sideMenu ul{
-    margin: 0;
-    height: 44px;
-    max-width: 1200px;
+    /*    margin: 0;
+        height: 44px;
+        max-width: 1200px;*/
     margin: 0 auto;
     padding: 0;
 }
+.sideMenu ul li{
+    width: auto;
+    font-size: 18px;
+}
 
 .sideMenu ul li a{
-    color: white;
-    display: inline-block;
-    text-align: center;
-    padding: 12px 16px;
+    width: 84%;
+    display: block;
+    /*padding: 12px 16px;*/
+    padding: 12px 8%;
     text-decoration: none;
-    font-size: 17px;
+    transition: all 0.3s ease;
+    color: #455a64;
+    cursor: pointer;
 }
 
-.sideMenu ul li a:hover {
-    /*font-family: 'roboto_condensedbold';*/
-}
-.sideMenu ul li a:focus{ 
-    border-bottom-style: solid;
-    border-bottom-width: 4px;
+.sideMenu ul li a:hover{
+    background-color: #e0e0e0;
 }
 
 .menu-desplegable{
@@ -47,10 +50,6 @@ body{
 .navbar-brand{
     color: white !important;
 }
-.separador{
-    height: 4px;
-    background-color: #448AFF;
-}
 
 .navbar-collapse{
     border-style: none !important;
@@ -59,4 +58,22 @@ body{
 
 .navbar-collapse li:hover{
     background-color: #3F51B5 !important;
+}
+
+.iconos{
+    background-size: 100%; 
+    background-position: center !important; 
+    background-repeat: no-repeat; 
+    height: 24px !important; 
+    width: 24px !important; 
+    opacity: 0.7;
+}
+
+.Separator {
+    border-bottom: solid 1px #e0e0e0;
+    width: 100%;
+    overflow: hidden;
+    height: 0px;
+    margin: 10px 0px;
+    clear: both;
 }

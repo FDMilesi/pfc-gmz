@@ -53,19 +53,32 @@
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
-
-            <!--MENU-->
-            <div class="sideMenu ui-widget">
+        </h:form>
+        <!--MENU-->
+        <div style="background-color: white; height: auto; overflow: hidden;">
+            <div class="sideMenu ui-widget" style="width: 230px; float: left">                
+                <div class="Separator"></div>
                 <ul>
                     <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                    <li><h:link class="sideMenu" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml">
+                            <div class="iconos ui-icon-agenda" style="float:left; margin-right: 10px"></div>
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml">
+                            <div class="iconos ui-icon-paciente" style="float:left; margin-right: 10px"></div>
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml">
+                            <div class="iconos ui-icon-orden" style="float:left; margin-right: 10px"></div>                                    
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Configuración" outcome="/protected/ordenMedica/List.xhtml">
+                            <div class="iconos ui-icon-config" style="float:left; margin-right: 10px"></div>                                    
+                        </h:link></li>
                 </ul>
+                <div class="Separator"></div>
+            </div>            
+            <!--CONTENT-->
+            <div style="background-color: #f5f5f5; float: none; width: auto; overflow: hidden;border-left: solid 1px #e0e0e0; min-height: 800px">
+                <ui:insert name="body"/>
             </div>
-            <div class="separador sideMenu shadowEffect"></div>
-        </h:form>
-        <!--CONTENT-->
-        <ui:insert name="body"/>
+        </div>
     </h:body>
 </html>

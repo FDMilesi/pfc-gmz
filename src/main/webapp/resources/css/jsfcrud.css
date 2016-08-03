@@ -37,12 +37,13 @@
 }
 
 body{
-    background-color: #C5CAE9;
+    background-color: #f5f5f5;
 }
 
 .card {
     padding: 10px;
-    margin: 8px auto;
+    /*margin: 8px auto;*/
+    margin: 8px 8px 8px 15px;
     max-width: 1200px;
     display: block;
     background-color: #ffffff;
@@ -51,6 +52,7 @@ body{
     -moz-border-radius: 2px;
     color: #546e7a;
 }
+
 .shadowEffect {
     -webkit-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
     -moz-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);

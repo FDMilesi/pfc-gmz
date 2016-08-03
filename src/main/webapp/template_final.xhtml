@@ -53,9 +53,8 @@
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
-        </h:form>
-        <!--MENU-->
-        <div style="background-color: #448AFF; height: auto; overflow: hidden; auto">
+
+            <!--MENU-->
             <div class="sideMenu ui-widget">
                 <ul>
                     <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
@@ -64,11 +63,9 @@
                     <li><h:link class="sideMenu" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
                 </ul>
             </div>
-            <!--<div class="separador sideMenu shadowEffect"></div>-->
-            <!--CONTENT-->
-            <div style="background-color: #C5CAE9; float: none; width: auto; overflow: hidden;">
-                <ui:insert name="body"/>
-            </div>
-        </div>
+            <div class="separador sideMenu shadowEffect"></div>
+        </h:form>
+        <!--CONTENT-->
+        <ui:insert name="body"/>
     </h:body>
 </html>
