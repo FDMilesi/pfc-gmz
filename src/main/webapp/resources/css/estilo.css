@@ -24,7 +24,9 @@ body{
 }
 
 .sideMenu ul li a:hover {
-    font-weight: bold;
+    /*font-family: 'roboto_condensedbold';*/
+}
+.sideMenu ul li a:focus{ 
     border-bottom-style: solid;
     border-bottom-width: 4px;
 }

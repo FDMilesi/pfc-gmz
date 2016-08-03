@@ -109,11 +109,18 @@
                                  reflow="true"
                                  >
                         <f:facet name="header">
-                            <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
-                            <p:button value="Imprimir" icon="ui-icon-print" onclick="#{listOrdenMedicaController.prepareReportPrint()}" outcome="#{listOrdenMedicaController.redirectToReport()}" />
+                            <div class="ui-g">
+                                <div class="ui-g-6 ui-md-9" style="padding: 0; margin: auto 0;">#{bundle.ListOrdenTitle}</div>
+                                <div style="padding: 0; margin: auto" class="ui-g-6 ui-md-3">
+                                    <p:button value="Generar Reporte" icon="ui-icon-print" 
+                                              onclick="#{listOrdenMedicaController.prepareReportPrint()}" 
+                                              outcome="#{listOrdenMedicaController.redirectToReport()}" 
+                                              style="float: right;"/>
+                                </div>
+                            </div>
                         </f:facet>
 
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}" sortBy="#{item.fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>

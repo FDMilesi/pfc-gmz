@@ -24,6 +24,17 @@
 .gimnasiaTerapeutica{
     background: #7986CB !important; /*lavanda*/
 }
+.sesionTranscurrida{
+    background-image: url("#{resource['primefaces-omega2:images/ic_done_white_24px.svg']}") !important;
+    background-repeat: no-repeat !important;
+    background-position: right bottom !important;
+}
+
+.sesionNoCuenta{
+    background-image: url("#{resource['primefaces-omega2:images/ic_update_white_24px.svg']}") !important;
+    background-repeat: no-repeat !important;
+    background-position: right bottom !important;
+}
 
 body{
     background-color: #C5CAE9;
