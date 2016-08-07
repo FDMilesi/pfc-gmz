@@ -43,8 +43,9 @@ body{
 }
 
 .navbar {
-    background-color: #3F51B5 !important;
+    background-color: #03a9f4 !important;
     border-radius: 0 !important;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
 
 .navbar-brand{
@@ -77,3 +78,104 @@ body{
     margin: 10px 0px;
     clear: both;
 }
+
+.logo {
+    width: 230px; 
+    background-color: #0288d1; 
+    height: 64px;
+    border-right: solid 1px #0277bd;
+}
+
+.imagenPerfilUsuario{    
+    float: left; 
+    width: 48px !important; 
+    height: 48px !important;
+    margin-right: 5px;
+}
+
+.nombrePerfilUsuario{ 
+    font-size: 18px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+
+.rolUsuario{
+    font-family: 'roboto_condensedlight';
+    font-size: 13px !important;
+}
+
+.contenedorIconosHeader{
+    height: 47px;
+    width: auto;
+    margin-top: 8px;
+    float: right !important;
+}
+
+.contenedorIndividualIconos{
+    width: 47px;
+    height: 47px;
+    margin-left: 4px;
+    display: inline-block;
+    float: right;
+    transition: all 0.3s ease;    
+    border-radius: 50%;
+    cursor: pointer;
+    color: #e1f5fe;
+    overflow: hidden;
+}
+
+.contenedorIndividualIconos:hover{
+    background-color: #039be5;
+}
+
+.iconoHeader{
+    width: 36px;
+    height: 36px;
+    margin: 5.5px auto;
+    background-size: 100%; 
+    background-position: center !important; 
+    background-repeat: no-repeat;
+    opacity: 0.9;
+}
+
+/*.topMenuIcons{
+    height: 28px !important;
+    width: 28px !important;
+    opacity: 0.9 !important;
+}
+
+.asdf{
+    transition: all 0.3s ease;    
+    border-radius: 50%;
+    cursor: pointer;
+    display: block;
+    float: left;
+    color: #e1f5fe;
+    overflow: hidden;
+}
+
+.asdf:hover{
+    background-color: #039be5;
+}*/
+
+/*#top-menu > li > a {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+  font-size: 28px;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 10px;
+  width: 47px;
+  height: 37px;
+  cursor: pointer;
+  display: block;
+  float: left;
+  color: #e1f5fe;
+  overflow: hidden;
+}
+#top-menu > li > a:hover,
+#top-menu li a:focus {
+  background-color: #039be5;*/

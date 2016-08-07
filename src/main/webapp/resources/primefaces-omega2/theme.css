@@ -258,9 +258,10 @@ label.ui-state-error {
 .ui-icon-flag { background-position: -16px -112px; }
 .ui-icon-calendar { background-position: -32px -112px; }
 .ui-icon-agenda{background-image: url("#{resource['primefaces-omega2:images/ic_today_black_24px.svg']}") !important;}
-.ui-icon-paciente{background-image: url("#{resource['primefaces-omega2:images/ic_person_black_24px.svg']}") !important;}
+.ui-icon-paciente{background-image: url("#{resource['primefaces-omega2:images/ic_group_black_24px.svg']}") !important;}
 .ui-icon-orden{background-image: url("#{resource['primefaces-omega2:images/ic_assignment_black_24px.svg']}") !important;}
 .ui-icon-config{background-image: url("#{resource['primefaces-omega2:images/ic_settings_black_24px.svg']}") !important;}
+.ui-icon-account{background-image: url("#{resource['primefaces-omega2:images/ic_account_circle_black_24px.svg']}") !important;}
 .ui-icon-cart { background-position: -48px -112px; }
 .ui-icon-pencil { background-position: -64px -112px; }
 .ui-icon-clock { background-position: -80px -112px; }
@@ -294,7 +295,8 @@ label.ui-state-error {
 .ui-icon-alert { background-position: 0 -144px; }
 .ui-icon-info { background-position: -16px -144px; }
 .ui-icon-notice { background-position: -32px -144px; }
-.ui-icon-help { background-position: -48px -144px; }
+.ui-icon-help {background-image: url("#{resource['primefaces-omega2:images/ic_help_outline_white_24px.svg']}") !important;}
+.ui-icon-log-out {background-image: url("#{resource['primefaces-omega2:images/ic_power_settings_new_white_24px.svg']}") !important;}
 .ui-icon-check { background-position: -64px -144px; }
 .ui-icon-bullet { background-position: -80px -144px; }
 .ui-icon-radio-off { background-position: -96px -144px; }
