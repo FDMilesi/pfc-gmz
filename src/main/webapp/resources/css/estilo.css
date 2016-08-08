@@ -86,6 +86,37 @@ body{
     border-right: solid 1px #0277bd;
 }
 
+.logoPpal{
+    /*background-color: red;*/ 
+    width: auto; 
+    height: 30px; 
+    margin-top: 12px; 
+    margin-left: 12px; 
+    font-size: 36px; 
+    font-weight: bold; 
+    display: inline-block;
+    color: white;
+    opacity: 0.9;
+}
+
+.separatorLogo{
+    width: 2px;
+    height: 27px;
+    margin: 0 8px;
+    background-color: white;
+    display: inline-block;
+    opacity: 0.5;
+}
+
+.descripcion{
+    width: 90px;
+    height: 30px;
+    display: inline-block;
+    color: white;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
 .imagenPerfilUsuario{    
     float: left; 
     width: 48px !important; 
