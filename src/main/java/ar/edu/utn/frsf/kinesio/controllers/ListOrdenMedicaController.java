@@ -4,7 +4,6 @@ import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
-import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -18,15 +17,11 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
-/**
- *
- */
 @Named("listOrdenMedicaController")
 @ViewScoped
 public class ListOrdenMedicaController implements Serializable {
 
     public ListOrdenMedicaController() {
-
     }
 
     @EJB
@@ -65,7 +60,7 @@ public class ListOrdenMedicaController implements Serializable {
 
     //Getters y Setters
     public List<OrdenMedica> getItemsFiltrados() {
-        if (itemsFiltrados == null){
+        if (itemsFiltrados == null) {
             this.filtrarItems();
         }
         return itemsFiltrados;
@@ -131,14 +126,14 @@ public class ListOrdenMedicaController implements Serializable {
         return getFacade().find(id);
     }
 
-    public void prepareReportPrint(){
+    public String redirectToReport() {
+//        Collections.sort(itemsFiltrados,
+//                (o1, o2) -> o1.getTratamiento().getPaciente().getApellido()
+//                .compareTo(o2.getTratamiento().getPaciente().getApellido()));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ordenesReport", itemsFiltrados);
+        return "/protected/ordenMedica/ReportList.xhtml?faces-redirect=true";
     }
-    
-    public String redirectToReport(){
-        return "/protected/ordenMedica/ReportList.xhtml?faces-redirect-true";
-    }
-    
+
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {

@@ -19,57 +19,72 @@
                         <p:menuitem id = "ordenesMenuItem" value="Ordenes" disabled="true"/>
                     </p:breadCrumb>
                 </div>
-
-                <div class="card shadowEffect">
-                    <p:dataTable id="ordenMedicaDatReportList" value="#{reportListOrdenMedicaController.items}"
+                <div class="card shadowEffect" style="width: 21cm;">
+                    <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
+                        <p:printer target="ordenMedicaDatReportList" />
+                    </p:commandButton>
+                    <h:dataTable id="ordenMedicaDatReportList" 
+                                 value="#{reportListOrdenMedicaController.items}"
                                  var="item"
-                                 widgetVar="tablaOrdenesmedicas"
-                                 rowKey="#{item.id}"
-                                 reflow="true"
+                                 class="reporteOrdenes"
                                  >
-                        
                         <f:facet name="header">
-                            <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
-                            <p:commandButton value="Imprimir" type="button" icon="ui-icon-print" >
-                                <p:printer target="ordenMedicaDatReportList" />
-                            </p:commandButton>
+                            <div style="text-align: center">
+                                <span style="font-size: 13pt">
+                                    Círculo de Kinesiólogos, Fisioterapeutas y Terapistas Físicos de Santa Fe
+                                </span><br />
+                                Marcial Candioti 3980 - Santa Fe - Tel/Fax 0342-4551301
+                            </div>
+
+                            <p style="font-weight: normal; font-size: 11pt; margin-bottom: 5px;">
+                                <span style="text-decoration: underline">
+                                    Ficha de Presentación de Facturación Mensual
+                                </span>
+                            </p>
+                            <h:panelGrid columns="3" 
+                                         columnClasses="headerReport,headerReport,headerReport" 
+                                         width="100%"
+                                         style="margin-bottom: 10px;">
+                                <h:panelGroup>
+                                    <span>Profesional:</span>
+                                    <span>Villa, Romina</span>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <span>Cuenta: </span>
+                                    <span>0694/1</span>
+                                </h:panelGroup>
+                                <h:panelGroup>
+                                    <span>Período/Mes:</span>
+                                    <span>#{reportListOrdenMedicaController.mesActual}</span>
+                                </h:panelGroup>
+                            </h:panelGrid>
                         </f:facet>
 
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
-                            <h:outputText value="#{item.fechaCreacion}">
-                                <f:convertDateTime pattern="dd/MM/yyyy" />
-                            </h:outputText>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.toString()}">
+                        <h:column>
+                            <f:facet name="header">#{bundle.ListOrdenMedicaTitle_obraSocial}</f:facet>
+                            <h:outputText style="text-transform: uppercase;" 
+                                          value="#{reportListOrdenMedicaController.items.indexOf(item)+1} #{item.obraSocial.nombre}"/><br />
                             <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_dniPaciente}" sortBy="#{item.tratamiento.paciente.dni}">
-                            <h:outputText value="#{item.tratamiento.paciente.dni}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_obraSocial}" sortBy="#{item.obraSocial.nombre}" >
-                            <h:outputText value="#{item.obraSocial.nombre}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_numeroafiliadopaciente}">
-                            <h:outputText value="#{item.numeroAfiliadoPaciente}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_tipoDeTratamiento}" sortBy="#{item.tratamiento.tipoDeTratamiento.nombre}">
-                            <h:outputText value="#{item.tratamiento.tipoDeTratamiento.nombre}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoPrestacion}">
-                            <h:outputText value="#{obraSocialController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
-                            <h:outputText value="#{item.cantidadDeSesiones}"/>                                
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}</f:facet>
                             <h:outputText value="#{item.codigoDeAutorizacion}"/>
-                        </p:column>
-
-                    </p:dataTable>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">N° de Afiliado</f:facet>
+                            <h:outputText value="#{empty item.numeroAfiliadoPaciente ? item.tratamiento.paciente.dni:item.numeroAfiliadoPaciente}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Código</f:facet>
+                            <h:outputText value="#{obraSocialController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Cantidad</f:facet>
+                            <h:outputText value="#{item.cantidadDeSesiones}"/>                                
+                        </h:column>
+                    </h:dataTable>
                 </div>
             </h:form>
-
         </ui:define>
     </ui:composition>
-
 </html>

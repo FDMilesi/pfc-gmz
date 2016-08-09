@@ -82,13 +82,13 @@ body{
         border-radius: 30px !important;
         -webkit-border-radius: 30px
     }
-    
+
     .ui-datatable .ui-datatable-header .ui-button .ui-button-icon-left{
         margin: auto !important;
         margin-top: -12px !important;
         margin-left: -2px !important;
     }
-    
+
     .ui-datatable .ui-datatable-header .ui-button .ui-button-text{
         display: none !important;
     }
@@ -97,4 +97,35 @@ body{
 /*Se centran verticalmente el icono material de los botones con iconos y texto en los headers de las tablas*/
 .ui-datatable .ui-datatable-header .ui-button .ui-button-icon-left{
     margin-top: -12px !important;
+}
+
+/*Reporte de ordenes*/
+.reporteOrdenes{
+    font-family: sans-serif;
+    border-collapse: collapse;
+    margin: 10mm;
+}
+.reporteOrdenes > tbody tr td{
+    border-bottom: 1px solid lightgrey;
+    padding: 10px 0px;
+    width: 12%;
+    font-size: 10pt !important;
+}
+.reporteOrdenes > tbody tr td:last-child{
+    width: 4%;
+    text-align: center;
+}
+.reporteOrdenes > thead tr th{
+    text-align: left;
+    border-bottom: solid 1px;
+    font-size: 10pt !important;
+    text-align: center;
+}
+
+.headerReport{
+    width: 30%;
+    font-weight: normal;
+}
+.headerReport span:first-child{
+    font-weight: bold;
 }
