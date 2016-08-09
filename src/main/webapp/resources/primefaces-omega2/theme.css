@@ -1268,7 +1268,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .ui-datatable {
     background-color: #ffffff;
     color: #546e7a;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .ui-datatable .ui-datatable-sticky {
     border: 0px;
@@ -1364,12 +1363,10 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     -moz-border-radius: 0px !important;
 }
 .ui-datatable table tbody td {
-    /*font-family: 'roboto_condensedregular';*/
     padding: 10px 10px !important;
 }
 .ui-datatable-fs .ui-datatable-frozenlayout-right,
 .ui-datatable-fs .ui-datatable-frozenlayout-left {
-    /*font-family: 'roboto_condensedregular';*/
     padding: 0px !important;
 }
 .ui-datatable-fs .ui-datatable-frozenlayout-right .ui-datatable-scrollable-container .ui-datatable-scrollable-header .ui-datatable-scrollable-header-box table thead tr th,
@@ -1377,7 +1374,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     border-left-color: #C1D5DF !important;
 }
 .ui-datatable table {
-    border-collapse: collapse;
     font-size: 14px;
 }
 .ui-datatable table thead tr th,
@@ -1422,7 +1418,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     border-left: none;
     border-right: none;
     font-size: 14px;
-    /*  font-family: 'roboto_condensedregular';*/
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -ms-transition: all 0.2s ease;
@@ -1505,7 +1500,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .ui-datatable-footer {
     background-color: #f5f5f5;
     color: #7a8f98;
-    /*font-family: 'roboto_condensedregular';*/
     font-size: 14px;
     padding: 10px !important;
     border-radius: 1px !important;
@@ -1638,7 +1632,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     transition: all 0.2s ease;
     background-color: #ffffff;
     color: #546e7a;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .fc-toolbar {
     background-color: #26a69a;
@@ -1668,7 +1661,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-toolbar .fc-prev-button .ui-icon {
     background-image: url("#{resource['primefaces-omega2:images/ic_navigate_before_white_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/left-one-arrow-for-data.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1677,7 +1669,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-toolbar .fc-next-button .ui-icon {
     background-image: url("#{resource['primefaces-omega2:images/ic_navigate_next_white_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/right-one-arrow-for-data.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1711,6 +1702,9 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-view-container {
     padding: 0px;
+}
+.fc-scroller{
+    min-height: 450px;
 }
 .fc-view-container .fc-month-view > table {
     border-spacing: 0px !important;
@@ -1759,7 +1753,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .fc-view-container .fc-content-skeleton table thead tr .fc-sun,
 .fc-view-container .fc-content-skeleton table thead tr .fc-sat {
     background-color: transparent;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .fc-view-container table tbody tr .fc-day {
     border: solid 1px #f5f5f5 !important;
@@ -1775,7 +1768,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
     border-top-width: 1px !important;
-    /*font-family: 'roboto_condensedregular';*/
     font-weight: normal;
 }
 .fc-view-container .fc-month-view table tbody tr .fc-day:hover {
