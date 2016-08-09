@@ -5,6 +5,7 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -89,6 +90,9 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     public Sesion editAndReturn(Sesion sesion) {
+        //valido que la sesión no se esté agregando a un tratamiento finalizado
+        if (sesion.getTratamiento().getFinalizado())
+            throw new EJBException("Error: el tratamiento se encuentra finalizado");
         return getEntityManager().merge(sesion);
     }
 

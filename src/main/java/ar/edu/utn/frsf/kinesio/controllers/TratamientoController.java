@@ -77,6 +77,10 @@ public class TratamientoController implements Serializable {
         }
         return items;
     }
+    
+    public List<Tratamiento> getTratamientosByPacienteEnCurso(){
+        return getFacade().getTratamientosByPacienteEnCurso(paciente);
+    }
 
     public String prepararEditTratamiento() {
         return EDIT_TRATAMIENTOS_PATH;

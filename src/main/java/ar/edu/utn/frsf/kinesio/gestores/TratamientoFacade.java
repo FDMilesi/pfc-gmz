@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
@@ -99,6 +94,13 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return ordenMedicaFacade.estanTodasLasOrdenesAutorizadas(ordenMedicaFacade.getOrdenesByTratamiento(trat));
     }
 
+    public List<Tratamiento> getTratamientosByPacienteEnCurso(Paciente paciente){
+        return getEntityManager()
+                .createNamedQuery("Tratamiento.findByPacienteEnCurso")
+                .setParameter("paciente", paciente)
+                .getResultList();
+    }
+    
     /**
      * Método ejecutado antes de que un tratamiento sea persistido
      *
