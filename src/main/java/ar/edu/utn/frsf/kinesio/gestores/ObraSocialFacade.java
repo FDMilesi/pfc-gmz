@@ -1,14 +1,12 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
-import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * 
  */
 @Stateless
 public class ObraSocialFacade extends AbstractFacade<ObraSocial> {
@@ -24,5 +22,11 @@ public class ObraSocialFacade extends AbstractFacade<ObraSocial> {
     public ObraSocialFacade() {
         super(ObraSocial.class);
     }
-    
+
+    public ObraSocial getObraSocialIAPOS() {
+        return (ObraSocial) this.getEntityManager()
+                .createNamedQuery("ObraSocial.findByNombre")
+                .setParameter("nombre", "IAPOS")
+                .getResultList().get(0);
+    }
 }

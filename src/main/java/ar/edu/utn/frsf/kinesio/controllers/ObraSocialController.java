@@ -18,9 +18,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-/**
- *
- */
 @Named(value = "obraSocialController")
 @ApplicationScoped
 public class ObraSocialController {
@@ -32,9 +29,11 @@ public class ObraSocialController {
 
     List<ObraSocial> items;
 
-    /**
-     * Creates a new instance of ObraSocialController
-     */
+    //Objeto usado para dar la opción en los combo de obtener todas las obras sociales excepto IAPOS
+    //Es una obra social falsa, por eso el id -1. Creada a los fines de poder listarla en los combo.
+    //requirió la modificacion del converter, para el caso de ID -1
+    private final ObraSocial obraSocialNoIAPOS = new ObraSocial(Short.parseShort("-1"), "Todas excepto IAPOS");
+
     @PostConstruct
     private void init() {
         items = getFacade().findAll();
@@ -72,6 +71,10 @@ public class ObraSocialController {
         return getFacade().find(id);
     }
 
+    public ObraSocial getObraSocialNoIAPOS() {
+        return obraSocialNoIAPOS;
+    }
+
     @FacesConverter(forClass = ObraSocial.class)
     public static class ObraSocialControllerConverter implements Converter {
 
@@ -82,6 +85,9 @@ public class ObraSocialController {
             }
             ObraSocialController controller = (ObraSocialController) facesContext.getApplication().getELResolver().
                     getValue(facesContext.getELContext(), null, "obraSocialController");
+            if (getKey(value).equals((short) -1)) {
+                return controller.getObraSocialNoIAPOS();
+            }
             return controller.getObraSocial(getKey(value));
         }
 
