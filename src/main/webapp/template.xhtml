@@ -4,7 +4,8 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      >
+
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>        
@@ -27,7 +28,7 @@
         </h:form>
         <!--HEADER-->
         <h:form>
-            <nav class="navbar navbar-default ui-widget shadowEffect">
+            <nav class="navbar navbar-default ui-widget shadowEffect">                
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
@@ -36,36 +37,71 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Nombre Aplicación</a>
+                    <div class="logo">
+                        <div class="logoPpal">DELTΔ</div>
+                        <div class="separatorLogo"></div>
+                        <div class="descripcion">Gestión de Clínicas</div>                        
+                        <!--<a class="navbar-brand">DELTΔ</a>-->
+                    </div>                    
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <!--Iconos de ayuda y log-out-->
+                    <div class="contenedorIconosHeader">                        
+                        <h:commandLink class="contenedorIndividualIconos" type="submit" action="#{httpSessionController.logout}" title="Cerrar Sesion">
+                            <div class="iconoHeader ui-icon-log-out"></div> 
+                        </h:commandLink>
+                        <h:link class="contenedorIndividualIconos" outcome="/protected/agenda/Agenda.xhtml" title="Ayuda">                     
+                            <div class="iconoHeader ui-icon-help"></div>
+                        </h:link>
+                    </div>
                     <ul class="nav navbar-nav navbar-right">
                         <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
                         <li><h:link class="menu-desplegable ocultar-menu-header" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
                         <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
                         <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
-                        <li><h:link class="menu-desplegable" value="AYUDA"/></li>
+                        <li><h:link class="menu-desplegable ocultar-menu-header" value="AYUDA"/></li>
                         <li>                        
-                            <h:commandLink class="menu-desplegable" type="submit" action="#{httpSessionController.logout}" value="CERRAR SESION"/>
+                            <h:commandLink class="menu-desplegable ocultar-menu-header" value="CERRAR SESION" type="submit" action="#{httpSessionController.logout}"/>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </nav>
-
-            <!--MENU-->
-            <div class="sideMenu ui-widget">
+        </h:form>
+        <!--MENU-->
+        <div style="background-color: white; height: auto; overflow: hidden;">
+            <div class="sideMenu ui-widget" style="width: 230px; float: left">
+                <div style="height: auto; overflow: hidden; padding: 10px 10px 10px 18px; margin-top: 10px">
+                    <div class="imagenPerfilUsuario iconos ui-icon-account">
+                    </div>
+                    <div id="right" style="float: none; width: auto; overflow: hidden;">
+                        <div class="nombrePerfilUsuario">#{httpSessionController.usuarioLogueado}</div>
+                        <div class="rolUsuario">Administrador</div>
+                    </div>
+                </div>
+                <div class="Separator"></div>
                 <ul>
                     <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                    <li><h:link class="sideMenu" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
-                    <li><h:link class="sideMenu" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                    <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml">
+                            <div class="iconos ui-icon-agenda" style="float:left; margin-right: 10px"></div>
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml">
+                            <div class="iconos ui-icon-paciente" style="float:left; margin-right: 10px"></div>
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml">
+                            <div class="iconos ui-icon-orden" style="float:left; margin-right: 10px"></div>                                    
+                        </h:link></li>
+                    <li><h:link class="sideMenu" value="Configuración" outcome="/protected/ordenMedica/List.xhtml">
+                            <div class="iconos ui-icon-config" style="float:left; margin-right: 10px"></div>                                    
+                        </h:link></li>
                 </ul>
+                <div class="Separator"></div>
+            </div>            
+            <!--CONTENT-->
+            <div style="background-color: #f5f5f5; float: none; width: auto; overflow: hidden;border-left: solid 1px #e0e0e0; height: auto">
+                <ui:insert name="body"/>
             </div>
-            <div class="separador sideMenu shadowEffect"></div>
-        </h:form>
-        <!--CONTENT-->
-        <ui:insert name="body"/>
+        </div>
     </h:body>
 </html>

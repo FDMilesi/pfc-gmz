@@ -9,8 +9,16 @@
     display: inline;
 }
 
+.logo{
+    display: block;
+}
+
 .ocultar-menu-header{
     display: none !important; /*VER ESTOOOOOOO*/
+}
+
+.contenedorIconosHeader{
+    display: inline;
 }
 
 .sr-only {
@@ -408,8 +416,15 @@ tbody.collapse.in {
     .sideMenu{
         display: none;
     }
+    .logo{
+        background-color: transparent;
+        border-right:none;
+    }
     .ocultar-menu-header{
         display: block !important; /*VER ESTOOOO*/
+     }
+     .contenedorIconosHeader{
+         display: none;
      }
     .navbar-nav .open .dropdown-menu {
         position: static;
