@@ -24,7 +24,10 @@
                         <p:outputLabel value="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}" for="codigoAutorizacion"/>
                     </div>
                     <div class="ui-g-12 ui-md-7">
-                        <p:inputText id="codigoAutorizacion" value="#{listOrdenMedicaController.selected.codigoDeAutorizacion}" />
+                        <p:inputText id="codigoAutorizacion" 
+                                     value="#{listOrdenMedicaController.selected.codigoDeAutorizacion}" 
+                                     required="true"
+                                     requiredMessage="Ingrese el código de autorización"/>
                     </div>
                     <div class="ui-g-12 ui-md-5"></div>
                     <div class="ui-g-12 ui-md-7">
