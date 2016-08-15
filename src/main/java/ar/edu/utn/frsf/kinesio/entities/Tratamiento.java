@@ -38,6 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tratamiento.findById", query = "SELECT t FROM Tratamiento t WHERE t.id = :id"),
     @NamedQuery(name = "Tratamiento.findByParticular", query = "SELECT t FROM Tratamiento t WHERE t.particular = :particular"),
     @NamedQuery(name = "Tratamiento.findByFinalizado", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = :finalizado"),
+    @NamedQuery(name = "Tratamiento.findByPacienteEnCurso", 
+            query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = FALSE"),
     @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente")})
 public class Tratamiento implements Serializable {
 
@@ -267,7 +269,7 @@ public class Tratamiento implements Serializable {
     @Override
     public String toString() {
         String result = tipoDeTratamiento + " - " + diagnostico;
-        if (result.length() > 40){
+        if (result.length() > 40) {
             result = result.substring(0, 39);
         }
         return result;

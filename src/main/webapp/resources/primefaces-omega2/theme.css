@@ -1,19 +1,31 @@
 /* Omega Theme */
 @font-face {
     font-family: 'roboto_condensedbold';
-    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nHm2hrkyco9jQ3NKMXpgOBg.woff2);
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.eot']}");
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.eot']}?#iefix") format('embedded-opentype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.woff']}") format('woff'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.ttf']}") format('truetype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.svg']}#roboto_condensedbold") format('svg');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'roboto_condensedlight';
-    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nBBQ_Gf4FfI8J4SYljBAylk.woff2);
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.eot']}");
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.eot']}?#iefix") format('embedded-opentype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.woff']}") format('woff'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.ttf']}") format('truetype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.svg']}#roboto_condensedlight") format('svg');
     font-weight: normal;
     font-style: normal;
 }
 @font-face {
     font-family: 'roboto_condensedregular';
-    src: url(https://fonts.gstatic.com/s/robotocondensed/v13/Zd2E9abXLFGSr9G3YK2MsDAdhzWOYhqHvOZMRGaEyPo.woff2);
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.eot']}");
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.eot']}?#iefix") format('embedded-opentype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.woff']}") format('woff'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.ttf']}") format('truetype'),
+         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.svg']}#roboto_condensedregular") format('svg');
     font-weight: normal;
     font-style: normal;
 }
@@ -256,6 +268,11 @@ label.ui-state-error {
 /*.ui-icon-home { background-position: 0 -112px; }*/
 .ui-icon-flag { background-position: -16px -112px; }
 .ui-icon-calendar { background-position: -32px -112px; }
+.ui-icon-agenda{background-image: url("#{resource['primefaces-omega2:images/ic_today_black_24px.svg']}") !important;}
+.ui-icon-paciente{background-image: url("#{resource['primefaces-omega2:images/ic_group_black_24px.svg']}") !important;}
+.ui-icon-orden{background-image: url("#{resource['primefaces-omega2:images/ic_assignment_black_24px.svg']}") !important;}
+.ui-icon-config{background-image: url("#{resource['primefaces-omega2:images/ic_settings_black_24px.svg']}") !important;}
+.ui-icon-account{background-image: url("#{resource['primefaces-omega2:images/ic_account_circle_black_24px.svg']}") !important;}
 .ui-icon-cart { background-position: -48px -112px; }
 .ui-icon-pencil { background-position: -64px -112px; }
 .ui-icon-clock { background-position: -80px -112px; }
@@ -289,7 +306,8 @@ label.ui-state-error {
 .ui-icon-alert { background-position: 0 -144px; }
 .ui-icon-info { background-position: -16px -144px; }
 .ui-icon-notice { background-position: -32px -144px; }
-.ui-icon-help { background-position: -48px -144px; }
+.ui-icon-help {background-image: url("#{resource['primefaces-omega2:images/ic_help_outline_white_24px.svg']}") !important;}
+.ui-icon-log-out {background-image: url("#{resource['primefaces-omega2:images/ic_power_settings_new_white_24px.svg']}") !important;}
 .ui-icon-check { background-position: -64px -144px; }
 .ui-icon-bullet { background-position: -80px -144px; }
 .ui-icon-radio-off { background-position: -96px -144px; }
@@ -469,6 +487,11 @@ label.ui-state-error {
     color: #546e7a;
     border-radius: 2px;
 }
+@media screen and (max-width: 40em) {
+    .ui-dialog {
+        top: 0px !important;
+    }
+}
 .ui-dialog .ui-dialog-titlebar {
     padding: 10px 20px !important;
     border-bottom: solid 1px #e0e0e0 !important;
@@ -488,7 +511,6 @@ label.ui-state-error {
 }
 .ui-dialog .ui-dialog-titlebar .ui-dialog-titlebar-icon .ui-icon-closethick {
     background-image: url("#{resource['primefaces-omega2:images/ic_close_black_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/delete-gray.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -725,7 +747,7 @@ td.ui-datepicker-unselectable {
 
 .ui-datepicker .ui-datepicker-buttonpane { background-image: none; margin: .7em 0 0 0; padding:0 .2em; border-left: 0; border-right: 0; border-bottom: 0; }
 .ui-datepicker .ui-datepicker-buttonpane button { float: right; margin: .5em .2em .4em; cursor: pointer; padding: .2em .6em .3em .6em; width:auto; overflow:visible; }
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:left; }
+
 .ui-datepicker .ui-icon-circle-triangle-w { background: url("#{resource['primefaces-omega:images/icons_16.png']}") 0 -128px no-repeat !important; }
 .ui-datepicker .ui-icon-circle-triangle-e { background: url("#{resource['primefaces-omega:images/icons_16.png']}") 0 -112px no-repeat !important; }
 .ui-datepicker-header .ui-state-hover { border: 0; background: none; }
@@ -954,6 +976,9 @@ td.ui-datepicker-unselectable {
     border: none !important;
 }
 
+/*Para que los botones se ubiquen con el cerrar a la izquierda*/
+.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current { float:right !important; }
+
 /* Style For UI Autocomplete --------------------------------------------------------------------------------------*/
 .ui-autocomplete {
     font-family: 'roboto_condensedregular';
@@ -1111,6 +1136,7 @@ td.ui-datepicker-unselectable {
     border-radius: 30px !important;
     -webkit-border-radius: 30px !important;
     -moz-border-radius: 30px !important;
+    line-height: 11pt;
 }
 .ui-datepicker-trigger,
 .ui-datepicker-trigger.ui-button-icon-only .ui-button-text {
@@ -1240,6 +1266,10 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     z-index: 990 !important;
     margin-right: 10px !important;
 }
+
+.ui-breadcrumb ul li .ui-menuitem-link:focus{
+    outline: none;
+}
 .ui-breadcrumb .ui-icon-home {
     background-image: url("#{resource['primefaces-omega2:images/ic_home_24px.svg']}") !important;
     background-position: center 5px !important;
@@ -1247,6 +1277,7 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     height: 24px;
     width: 24px;
     margin-top: -5px !important;
+    opacity: 0.7;
 }
 .ui-breadcrumb-chevron {
     height: 20px !important;
@@ -1260,7 +1291,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .ui-datatable {
     background-color: #ffffff;
     color: #546e7a;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .ui-datatable .ui-datatable-sticky {
     border: 0px;
@@ -1356,12 +1386,10 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     -moz-border-radius: 0px !important;
 }
 .ui-datatable table tbody td {
-    /*font-family: 'roboto_condensedregular';*/
     padding: 10px 10px !important;
 }
 .ui-datatable-fs .ui-datatable-frozenlayout-right,
 .ui-datatable-fs .ui-datatable-frozenlayout-left {
-    /*font-family: 'roboto_condensedregular';*/
     padding: 0px !important;
 }
 .ui-datatable-fs .ui-datatable-frozenlayout-right .ui-datatable-scrollable-container .ui-datatable-scrollable-header .ui-datatable-scrollable-header-box table thead tr th,
@@ -1369,7 +1397,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     border-left-color: #C1D5DF !important;
 }
 .ui-datatable table {
-    border-collapse: collapse;
     font-size: 14px;
 }
 .ui-datatable table thead tr th,
@@ -1414,7 +1441,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     border-left: none;
     border-right: none;
     font-size: 14px;
-    /*  font-family: 'roboto_condensedregular';*/
     -webkit-transition: all 0.2s ease;
     -moz-transition: all 0.2s ease;
     -ms-transition: all 0.2s ease;
@@ -1497,7 +1523,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .ui-datatable-footer {
     background-color: #f5f5f5;
     color: #7a8f98;
-    /*font-family: 'roboto_condensedregular';*/
     font-size: 14px;
     padding: 10px !important;
     border-radius: 1px !important;
@@ -1630,7 +1655,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     transition: all 0.2s ease;
     background-color: #ffffff;
     color: #546e7a;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .fc-toolbar {
     background-color: #26a69a;
@@ -1660,7 +1684,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-toolbar .fc-prev-button .ui-icon {
     background-image: url("#{resource['primefaces-omega2:images/ic_navigate_before_white_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/left-one-arrow-for-data.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1669,7 +1692,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-toolbar .fc-next-button .ui-icon {
     background-image: url("#{resource['primefaces-omega2:images/ic_navigate_next_white_24px.svg']}");
-    /*background-image: url("/rio/javax.faces.resource/images/right-one-arrow-for-data.svg.xhtml?ln=primefaces-rio");*/
     background-position: center !important;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -1704,6 +1726,9 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .fc-view-container {
     padding: 0px;
 }
+.fc-scroller{
+    min-height: 450px;
+}
 .fc-view-container .fc-month-view > table {
     border-spacing: 0px !important;
 }
@@ -1722,7 +1747,8 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 }
 .fc-view-container .fc-event {
     background-color: #9ccc65;
-    border: solid 1px #9ccc65;
+    border: none !important;
+    border-radius: 2px !important;
 }
 .fc-view-container .fc-event .fc-event-inner {
     margin: 3px;
@@ -1750,7 +1776,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
 .fc-view-container .fc-content-skeleton table thead tr .fc-sun,
 .fc-view-container .fc-content-skeleton table thead tr .fc-sat {
     background-color: transparent;
-    /*font-family: 'roboto_condensedregular';*/
 }
 .fc-view-container table tbody tr .fc-day {
     border: solid 1px #f5f5f5 !important;
@@ -1766,7 +1791,6 @@ button.ui-button.ui-state-active, .ui-button.ui-state-active {
     -o-transition: all 0.2s ease;
     transition: all 0.2s ease;
     border-top-width: 1px !important;
-    /*font-family: 'roboto_condensedregular';*/
     font-weight: normal;
 }
 .fc-view-container .fc-month-view table tbody tr .fc-day:hover {

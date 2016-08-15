@@ -52,7 +52,8 @@
                             <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
                                 <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
                                 <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItems value="#{obraSocialController.getItemsAvailableSelectOne()}" />
+                                <f:selectItem itemLabel="Todas excepto IAPOS" itemValue="#{obraSocialController.obraSocialNoIAPOS}" />
+                                <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}" />
                             </p:selectOneMenu>
                         </div>
 
@@ -101,6 +102,7 @@
                                  widgetVar="tablaOrdenesmedicas"
                                  selectionMode="single"
                                  selection="#{listOrdenMedicaController.selected}"
+                                 emptyMessage="#{bundle.ListReporteEmpty}"
                                  paginator="true"
                                  paginatorPosition="bottom"
                                  rowKey="#{item.id}"
@@ -109,16 +111,24 @@
                                  reflow="true"
                                  >
                         <f:facet name="header">
-                            <div style="padding: 5px 0">#{bundle.ListOrdenTitle}</div>
-                            <p:button value="Imprimir" icon="ui-icon-print" onclick="#{listOrdenMedicaController.prepareReportPrint()}" outcome="#{listOrdenMedicaController.redirectToReport()}" />
+                            <div class="ui-g">
+                                <div class="ui-g-6 ui-md-9" style="padding: 0; margin: auto 0;">#{bundle.ListOrdenTitle}</div>
+                                <div style="padding: 0; margin: auto" class="ui-g-6 ui-md-3">
+                                    <p:commandButton value="Generar Reporte" 
+                                                     icon="ui-icon-print"
+                                                     immediate="true"
+                                                     onclick="PF('confirmarReporteDialog').show();" 
+                                                     style="float: right;"/>
+                                </div>
+                            </div>
                         </f:facet>
 
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}" sortBy="#{item.fechaCreacion}">
                             <h:outputText value="#{item.fechaCreacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.toString()}">
+                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.apellido}">
                             <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
                         </p:column>
                         <p:column headerText="#{bundle.ListOrdenMedicaTitle_dniPaciente}" sortBy="#{item.tratamiento.paciente.dni}">
@@ -166,6 +176,42 @@
                     </p:dataTable>
                 </div>
             </h:form>
+
+            <p:dialog id="confirmarReporteDlg" 
+                      closeOnEscape="true" 
+                      widgetVar="confirmarReporteDialog" 
+                      modal="true" 
+                      resizable="false" 
+                      appendTo="@(body)" 
+                      header="¿Continuar o imprimir una prueba?"
+                      responsive="true"
+                      style="max-width: 600px;"
+                      positionType="absolute"
+                      draggable="false">
+                <h:panelGroup id="display">
+                    <h:form>
+                        <p:focus context="display"/>
+                        <div class="ui-g-12" style="padding-bottom: 20px;">
+                            <p:outputLabel value="Seleccione 'CONTINUAR' si está seguro/a de que la planilla resultante
+                                           será la entregada al Círculo. Caso contrario realice una impresión de prueba" />
+                        </div>
+                        <p:commandButton value="CONTINUAR" 
+                                         action="#{listOrdenMedicaController.redirectToReport()}"
+                                         immediate="true"
+                                         style="background-color: #66BB6A; float: right;"
+                                         />
+                        <p:commandButton value="GENERAR REPORTE DE PRUEBA" 
+                                         action="#{listOrdenMedicaController.redirectToReport()}"
+                                         immediate="true"
+                                         style="float: right;"
+                                         />
+                        <p:commandButton value="#{bundle.Cancel}" 
+                                         immediate="true"
+                                         onclick="PF('confirmarReporteDialog').hide();"
+                                         style="background-color: #E53935; float: right;"/>
+                    </h:form>
+                </h:panelGroup>
+            </p:dialog>
 
             <ui:include src="AutorizarFromListOrdenes.xhtml"/>
         </ui:define>

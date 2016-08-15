@@ -5,6 +5,7 @@ import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -23,6 +24,9 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    @EJB
+    ObraSocialFacade obraSocialFacade;
 
     public OrdenMedicaFacade() {
         super(OrdenMedica.class);
@@ -84,7 +88,12 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             if (autorizadaSet || presentadaSet) {
                 pqlQuery += "and ";
             }
-            pqlQuery += "o.obraSocial = :obraSocial ";
+            if (obraSocial.getId().equals((short) -1)) {
+                //el indice -1 es una bandera que me indica que quiero obtener todas las OS menos IAPOS
+                pqlQuery += "o.obraSocial != :obraSocial ";
+            } else {//sino filtro por una OS en particular
+                pqlQuery += "o.obraSocial = :obraSocial ";
+            }
             obraSocialSet = true;
         }
         //Si el filtro startDate fue seteado, agregamos la condición segun el valor del parámetro
@@ -109,7 +118,11 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             query.setParameter("presentada", presentada);
         }
         if (obraSocialSet) {
-            query.setParameter("obraSocial", obraSocial);
+            if (obraSocial.getId().equals((short) -1)) {
+                query.setParameter("obraSocial", obraSocialFacade.getObraSocialIAPOS());
+            } else {
+                query.setParameter("obraSocial", obraSocial);
+            }
         }
         if (startDateSet) {
             query.setParameter("startDate", startDate);

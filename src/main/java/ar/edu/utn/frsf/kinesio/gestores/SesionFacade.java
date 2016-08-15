@@ -5,10 +5,12 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 
 /**
@@ -19,6 +21,8 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     @PersistenceContext(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
     private EntityManager em;
+
+    private StringBuilder styleClassDeLaSesion;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -86,6 +90,9 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     public Sesion editAndReturn(Sesion sesion) {
+        //valido que la sesión no se esté agregando a un tratamiento finalizado
+        if (sesion.getTratamiento().getFinalizado())
+            throw new EJBException("Error: el tratamiento se encuentra finalizado");
         return getEntityManager().merge(sesion);
     }
 
@@ -98,13 +105,17 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     void onPrePersist(Sesion s) {
         //Seteo la duración de la sesión creada en base al tipo de tratamiento
         s.setDuracion(s.getTratamiento().getTipoDeTratamiento().getDuracion());
-        colorearSesion(s);
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
-        colorearSesion(s);
+        setSesionStyle(s);
+    }
+    
+    @PostUpdate
+    void onPostUpdate(Sesion s) {
+        setSesionStyle(s);
     }
 
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
@@ -116,7 +127,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoQueCuentan")
                 .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
     }
-    
+
     public int countSesionesByTratamientoNoTranscurridas(Tratamiento tratamiento) {
         return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoNoTranscurridas")
                 .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
@@ -127,30 +138,46 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("agenda", agenda).getResultList();
     }
 
+    private void setIconToSesion(Sesion s) {
+        if (!s.getCuenta()) {
+            styleClassDeLaSesion.append("sesionNoCuenta");
+        } else if (s.getTranscurrida()) {
+            styleClassDeLaSesion.append("sesionTranscurrida");
+        }
+    }
+
     private void colorearSesion(Sesion s) {
         switch (s.getTratamiento().getTipoDeTratamiento().getId()) {
             case 1:
-                s.setStyleClass("fisiokinesioterapia");
+                styleClassDeLaSesion.append("fisiokinesioterapia");
                 break;
             case 2:
-                s.setStyleClass("kinesioterapiaRespiratoria");
+                styleClassDeLaSesion.append("kinesioterapiaRespiratoria");
                 break;
             case 3:
-                s.setStyleClass("drenajeLinfatico");
+                styleClassDeLaSesion.append("drenajeLinfatico");
                 break;
             case 4:
-                s.setStyleClass("rehabilitacionNeurologica");
+                styleClassDeLaSesion.append("rehabilitacionNeurologica");
                 break;
             case 5:
-                s.setStyleClass("esteticaElectrodos");
+                styleClassDeLaSesion.append("esteticaElectrodos");
                 break;
             case 6:
-                s.setStyleClass("esteticaMasajes");
+                styleClassDeLaSesion.append("esteticaMasajes");
                 break;
             case 7:
-                s.setStyleClass("gimnasiaTerapeutica");
+                styleClassDeLaSesion.append("gimnasiaTerapeutica");
                 break;
         }
+    }
+
+    private void setSesionStyle(Sesion s) {
+        this.styleClassDeLaSesion = new StringBuilder();
+        colorearSesion(s);
+        styleClassDeLaSesion.append(" ");
+        setIconToSesion(s);
+        s.setStyleClass(styleClassDeLaSesion.toString());
     }
 
     public void marcarSesionesTranscurridas() {

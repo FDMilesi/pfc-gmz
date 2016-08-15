@@ -23,24 +23,27 @@
             </div>
             <div class="card shadowEffect">
                 <h:form id="PacienteListForm">
+                    <p:focus for="datalist" />
                     <p:dataTable id="datalist" value="#{pacienteController.items}"
                                  var="item"
                                  widgetVar="tablaPacientes"
                                  selectionMode="single"
                                  selection="#{pacienteController.selected}"
+                                 rowKey="#{item.id}"
                                  paginator="true"
                                  paginatorPosition="bottom"
-                                 rowKey="#{item.id}"
                                  rows="10"
                                  rowsPerPageTemplate="10,20,30,40,50"
                                  filteredValue="#{pacienteController.pacientesFiltrados}"  
                                  emptyMessage="#{bundle.ListPacienteEmpty}"
                                  reflow="true"
                                  >
+                        <p:ajax event="rowSelect" listener="#{pacienteController.navegarAListaTratamientos()}" />
                         <f:facet name="header">
                             <div class="ui-g">
                                 <div class="ui-g-9 ui-md-7" style="padding: 0; margin: auto 0;">#{bundle.ListPacienteTitle}</div>
                                 <div style="padding: 0 10px 0 0; margin: auto" class="ui-g-3 ui-md-2">
+                                    <p:defaultCommand target="globalFilter" />
                                     <p:commandButton id="createButton" icon="ui-person-add"
                                                      value="#{bundle.PacienteLinkCreate}"                                                      
                                                      actionListener="#{pacienteController.prepareCreate}" 
@@ -48,19 +51,19 @@
                                                      resetValues="true"
                                                      oncomplete="PF('PacienteCreateDialog').show()"
                                                      style="width: 100%; float: right;"
+                                                     tabindex="2"
                                                      />
                                 </div>
                                 <div style="padding: 0; margin: auto" class="ui-g-12 ui-md-3">
                                     <h:inputText class="inputBuscar"
                                                  id="globalFilter"
-                                                 onkeyup="PF('tablaPacientes').filter()" 
-                                                 b:placeholder="Buscar"/>
+                                                 onkeyup="filtrar()"
+                                                 b:placeholder="Buscar"
+                                                 tabindex="1"
+                                                 />
                                 </div>
                             </div>
                         </f:facet>                        
-
-                        <!--                    <p:ajax event="rowSelect"   update="viewButton editButton deleteButton tratamientosButton"/>
-                                            <p:ajax event="rowUnselect" update="viewButton editButton deleteButton tratamientosButton"/>-->
 
                         <p:column filterBy="#{item.toString()}" filterStyle="display:none" sortBy="#{item.toString()}">
                             <f:facet name="header">
@@ -89,13 +92,13 @@
 
                         <p:column headerText="Opciones">
                             <!--VER-->
-                            <p:commandButton id="viewButton" 
+<!--                            <p:commandButton id="viewButton" 
                                              icon="ui-icon-search" 
                                              title="#{bundle.View}" 
                                              update=":PacienteViewForm" 
                                              oncomplete="PF('PacienteViewDialog').show()">
                                 <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
-                            </p:commandButton>
+                            </p:commandButton>-->
                             <!--EDITAR-->
                             <p:commandButton id="editButton" 
                                              resetValues="true" 
@@ -130,6 +133,15 @@
             <ui:include src="CreatePaciente.xhtml"/>
             <ui:include src="EditPaciente.xhtml"/>
             <ui:include src="ViewPaciente.xhtml"/>
+            <script>
+                function filtrar() {
+                    PF('tablaPacientes').filter();
+                    if (event.keyCode === 13) {
+                        document.getElementById('PacienteListForm:datalist:globalFilter').blur();
+                        document.getElementById('PacienteListForm:datalist_data').focus();
+                    }
+                }
+            </script>
         </ui:define>
     </ui:composition>
 

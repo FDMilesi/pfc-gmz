@@ -22,6 +22,7 @@
                                value="#{bundle.CreateSesionTitle} n° #{agendaSesionController.selected.numeroDeSesion}" />
             </f:facet>
             <h:form id="SesionCreateForm">
+                <p:focus for="paciente" />
                 <p:inputText style="display: none;" validator="#{agendaSesionController.puedoCrearNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{agendaSesionController.selected != null}">
                     <div class="ui-g-12 ui-md-4">
@@ -51,7 +52,13 @@
                                         forceSelection="true"
                                         itemLabel="#{pacienteItem.toString()}"
                                         itemValue="#{pacienteItem}"
+                                        queryDelay="600"
+                                        cache="true"
+                                        cacheTimeout="30000"
                                         style="width: 100%"
+                                        required="true"                                         
+                                        requiredMessage="#{bundle.SesionRequiredMessage_Paciente}"
+                                        emptyMessage="(Ningún paciente con este nombre o apellido)"
                                         >
                             <p:ajax update="tratamientoSeleccion" event="itemSelect"/>
                             <p:ajax update="numeroDeSesion" 
@@ -65,7 +72,7 @@
                     <div class="ui-g-12 ui-md-8">
                         <p:selectOneMenu id="tratamientoSeleccion" value="#{agendaSesionController.selected.tratamiento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
-                            <f:selectItems value="#{tratamientoController.items}"
+                            <f:selectItems value="#{tratamientoController.tratamientosByPacienteEnCurso}"
                                            var="tratamientoItem"
                                            itemValue="#{tratamientoItem}"/>
                             <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/> 
