@@ -85,6 +85,14 @@ public class TratamientoController implements Serializable {
         return selected;
     }
 
+    public void prepararConsentimiento(Tratamiento tratamiento){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoParaConsentimiento", tratamiento);
+    }
+    
+    public String redirectToConsentimiento(){
+        return "/protected/tratamiento/ConsentimientoInformado.xhtml?faces-redirect-true";
+    }
+    
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoCreated"));
         if (!JsfUtil.isValidationFailed()) {

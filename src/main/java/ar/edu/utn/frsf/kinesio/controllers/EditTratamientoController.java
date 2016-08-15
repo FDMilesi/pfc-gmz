@@ -64,7 +64,7 @@ public class EditTratamientoController implements Serializable {
     public Tratamiento getTratamiento(java.lang.Integer id) {
         return getFacade().find(id);
     }
-
+    
     //Métodos de negocio
     //Validator del campo Cantidad de sesiones de un Tratamiento.
     public void validarCantidadDeSesiones(FacesContext facesContext, UIComponent componente, Object valor) {

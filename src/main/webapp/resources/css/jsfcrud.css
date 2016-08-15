@@ -87,3 +87,23 @@ body{
 .ui-datatable .ui-datatable-header .ui-button .ui-button-icon-left{
     margin-top: -12px !important;
 }
+
+.hiddenIfNotPrint{
+    visibility: hidden;
+}
+
+@media print{
+    
+    .hiddenOnPrint {
+        visibility: hidden;
+    }
+    
+    .labelOnPrint{
+       font-weight: bold;
+    }
+
+    .showedOnPrint {
+        visibility: visible;
+    }
+    
+}

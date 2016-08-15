@@ -102,6 +102,15 @@
                                       outcome="#{tratamientoController.prepararEditTratamiento()}">
                                 <f:param name="tratamiento" value="#{item.id}" />
                             </p:button>
+                            <!-- GENERAR CONSENTIMIENTO-->
+                            <p:button id="consentimientoButton" 
+                                      includeViewParams="true" 
+                                      icon="ui-icon-document" 
+                                      title="#{bundle.Consentimiento}"
+                                      onclick="#{tratamientoController.prepararConsentimiento(item)}"
+                                      outcome="#{tratamientoController.redirectToConsentimiento()}">
+                                <f:param name="tratamiento" value="#{item.id}" />
+                            </p:button>
                             <!--ELIMINAR-->
                             <p:commandButton id="deleteButton" 
                                              icon="ui-icon-trash"  
