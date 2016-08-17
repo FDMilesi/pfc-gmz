@@ -251,7 +251,8 @@ label.ui-state-error {
 .ui-icon-transferthick-e-w { background-position: -112px -80px; }
 .ui-icon-folder-collapsed { background-position: 0 -96px; }
 .ui-icon-folder-open { background-position: -16px -96px; }
-.ui-icon-document { background-position: -32px -96px; }
+/*.ui-icon-document { background-position: -32px -96px; }*/
+.ui-icon-document {background-image: url("#{resource['primefaces-omega2:images/ic_description_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-document-b { background-position: -48px -96px; }
 .ui-icon-note { background-position: -64px -96px; }
 .ui-icon-mail-closed { background-position: -80px -96px; }
@@ -260,7 +261,8 @@ label.ui-state-error {
 .ui-icon-comment { background-position: -128px -96px; }
 .ui-icon-person { background-position: -144px -96px; }
 .ui-icon-print { background-position: -160px -96px; }
-.ui-icon-trash { background-position: -176px -96px; }
+/*.ui-icon-trash { background-position: -176px -96px; }*/
+.ui-icon-trash {background-image: url("#{resource['primefaces-omega2:images/ic_delete_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-locked { background-position: -192px -96px; }
 .ui-icon-unlocked { background-position: -208px -96px; }
 .ui-icon-bookmark { background-position: -224px -96px; }
@@ -274,7 +276,8 @@ label.ui-state-error {
 .ui-icon-config{background-image: url("#{resource['primefaces-omega2:images/ic_settings_black_24px.svg']}") !important;}
 .ui-icon-account{background-image: url("#{resource['primefaces-omega2:images/ic_account_circle_black_24px.svg']}") !important;}
 .ui-icon-cart { background-position: -48px -112px; }
-.ui-icon-pencil { background-position: -64px -112px; }
+.ui-icon-pencil {background-image: url("#{resource['primefaces-omega2:images/ic_mode_edit_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
+/*.ui-icon-pencil { background-position: -64px -112px; }*/
 .ui-icon-clock { background-position: -80px -112px; }
 .ui-icon-disk { background-position: -96px -112px; }
 .ui-icon-calculator { background-position: -112px -112px; }
@@ -308,7 +311,8 @@ label.ui-state-error {
 .ui-icon-notice { background-position: -32px -144px; }
 .ui-icon-help {background-image: url("#{resource['primefaces-omega2:images/ic_help_outline_white_24px.svg']}") !important;}
 .ui-icon-log-out {background-image: url("#{resource['primefaces-omega2:images/ic_power_settings_new_white_24px.svg']}") !important;}
-.ui-icon-check { background-position: -64px -144px; }
+.ui-icon-check {background-image: url("#{resource['primefaces-omega2:images/ic_check_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
+.ui-icon-announcement {background-image: url("#{resource['primefaces-omega2:images/ic_announcement_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-bullet { background-position: -80px -144px; }
 .ui-icon-radio-off { background-position: -96px -144px; }
 .ui-icon-radio-on { background-position: -112px -144px; }
@@ -1127,7 +1131,13 @@ td.ui-datepicker-unselectable {
 }
 .ui-button-icon-only .ui-icon {
     font-size: 16px !important;
+    margin-left: -12px !important;
 }
+
+.ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon{
+    margin-top: -12px !important;
+}
+
 .ui-button-text-only .ui-button-text {
     padding: 10px 24px !important;
 }
