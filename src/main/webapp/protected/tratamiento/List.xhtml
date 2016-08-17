@@ -88,19 +88,28 @@
                         <!--OPCIONES-->
                         <p:column headerText="Opciones">
                             <!--VER-->
-                            <p:commandButton id="viewButton"   
+<!--                            <p:commandButton id="viewButton"   
                                              icon="ui-icon-search" 
                                              title="#{bundle.View}" 
                                              update=":TratamientoViewForm" 
                                              oncomplete="PF('TratamientoViewDialog').show()">
                                 <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
-                            </p:commandButton>
+                            </p:commandButton>-->
                             <!--MODIFICAR-->
                             <p:button id="editButton" 
                                       includeViewParams="true" 
                                       icon="ui-icon-pencil" 
                                       title="#{bundle.Edit}" 
                                       outcome="#{tratamientoController.prepararEditTratamiento()}">
+                                <f:param name="tratamiento" value="#{item.id}" />
+                            </p:button>
+                            <!-- GENERAR CONSENTIMIENTO-->
+                            <p:button id="consentimientoButton" 
+                                      includeViewParams="true" 
+                                      icon="ui-icon-announcement" 
+                                      title="#{bundle.Consentimiento}"
+                                      onclick="#{tratamientoController.prepararConsentimiento(item)}"
+                                      outcome="#{tratamientoController.redirectToConsentimiento()}">
                                 <f:param name="tratamiento" value="#{item.id}" />
                             </p:button>
                             <!--ELIMINAR-->

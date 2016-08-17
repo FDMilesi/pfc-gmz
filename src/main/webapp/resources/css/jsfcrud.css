@@ -101,6 +101,25 @@ body{
     margin-top: -12px !important;
 }
 
+.hiddenIfNotPrint{
+    visibility: hidden;
+}
+
+@media print{
+    
+    .hiddenOnPrint {
+        visibility: hidden;
+    }
+    
+    .labelOnPrint{
+       font-weight: bold;
+    }
+
+    .showedOnPrint {
+        visibility: visible;
+    }
+    
+}
 /*Reporte de ordenes*/
 .reporteOrdenes{
     font-family: sans-serif;
@@ -130,4 +149,24 @@ body{
 }
 .headerReport span:first-child{
     font-weight: bold;
+}
+
+/*Hago "material" los botones de las opciones de las tablas*/
+.ui-datatable-data .ui-button{
+    background-color: transparent !important;
+    opacity: 0.6;
+}
+
+.ui-datatable-data .ui-state-disabled{
+    opacity: 0.2 !important;
+}
+
+.ui-datatable-data .ui-button:hover{
+    background-color: #0288d1 !important;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.ui-datatable-data .ui-state-disabled:hover{
+    background-color: transparent !important;
 }
