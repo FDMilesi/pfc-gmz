@@ -2,7 +2,7 @@
 @font-face {
     font-family: 'roboto_condensedbold';
     src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.eot']}");
-    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.eot']}?#iefix") format('embedded-opentype'),
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.eot']}#iefix") format('embedded-opentype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.woff']}") format('woff'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.ttf']}") format('truetype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Bold-webfont.svg']}#roboto_condensedbold") format('svg');
@@ -12,7 +12,7 @@
 @font-face {
     font-family: 'roboto_condensedlight';
     src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.eot']}");
-    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.eot']}?#iefix") format('embedded-opentype'),
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.eot']}#iefix") format('embedded-opentype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.woff']}") format('woff'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.ttf']}") format('truetype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Light-webfont.svg']}#roboto_condensedlight") format('svg');
@@ -22,7 +22,7 @@
 @font-face {
     font-family: 'roboto_condensedregular';
     src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.eot']}");
-    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.eot']}?#iefix") format('embedded-opentype'),
+    src: url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.eot']}#iefix") format('embedded-opentype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.woff']}") format('woff'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.ttf']}") format('truetype'),
         url("#{resource['primefaces-omega2:fonts/RobotoCondensed-Regular-webfont.svg']}#roboto_condensedregular") format('svg');
