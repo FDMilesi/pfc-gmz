@@ -82,7 +82,9 @@ body{
         max-height: 35px !important;
         min-height: 35px !important;
         border-radius: 30px !important;
-        -webkit-border-radius: 30px
+        -webkit-border-radius: 30px;
+        background-color: transparent !important;
+        opacity: 0.9 !important;
     }
 
     .ui-datatable .ui-datatable-header .ui-button .ui-button-icon-left{
@@ -155,6 +157,11 @@ body{
 .ui-datatable-data .ui-button{
     background-color: transparent !important;
     opacity: 0.6;
+}
+
+.ui-datatable-data .ui-button-icon-only .ui-icon{
+    margin-left: -12px !important;
+    margin-top: -12px !important;
 }
 
 .ui-datatable-data .ui-state-disabled{

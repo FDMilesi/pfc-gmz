@@ -227,14 +227,15 @@ label.ui-state-error {
 .ui-icon-suitcase { background-position: -112px -96px; }
 .ui-icon-comment { background-position: -128px -96px; }
 .ui-icon-person { background-position: -144px -96px; }
-.ui-icon-print { background-position: -160px -96px; }
+.ui-icon-print { background-image: url("#{resource['primefaces-omega2:images/ic_print_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
 .ui-icon-trash {background-image: url("#{resource['primefaces-omega2:images/ic_delete_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-locked { background-position: -192px -96px; }
 .ui-icon-unlocked { background-position: -208px -96px; }
 .ui-icon-bookmark { background-position: -224px -96px; }
 .ui-icon-tag { background-position: -240px -96px; }
 .ui-icon-flag { background-position: -16px -112px; }
-.ui-icon-calendar { background-position: -32px -112px; }
+/*.ui-icon-calendar { background-position: -32px -112px; }*/
+.ui-icon-calendar {background-image: url("#{resource['primefaces-omega2:images/ic_today_white_24px.svg']}") !important;}
 .ui-icon-agenda{background-image: url("#{resource['primefaces-omega2:images/ic_today_black_24px.svg']}") !important;}
 .ui-icon-paciente{background-image: url("#{resource['primefaces-omega2:images/ic_group_black_24px.svg']}") !important;}
 .ui-icon-orden{background-image: url("#{resource['primefaces-omega2:images/ic_assignment_black_24px.svg']}") !important;}
@@ -254,8 +255,8 @@ label.ui-state-error {
 .ui-icon-star { background-position: -224px -112px; }
 .ui-icon-link { background-position: -240px -112px; }
 .ui-icon-cancel { background-position: 0 -128px; }
-.ui-icon-plus { background-position: -16px -128px; }
-.ui-person-add {background-image: url("#{resource['primefaces-omega2:images/ic_person_add_black_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important; opacity: 0.5;}
+.ui-icon-plus { background-image: url("#{resource['primefaces-omega2:images/ic_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
+.ui-person-add {background-image: url("#{resource['primefaces-omega2:images/ic_person_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
 .ui-icon-plusthick { background-position: -32px -128px; }
 .ui-icon-minus { background-position: -48px -128px; }
 .ui-icon-minusthick { background-position: -64px -128px; }
@@ -876,7 +877,7 @@ label.ui-state-error {
     border-radius: 2px !important;
     -webkit-border-radius: 2px !important;
     -moz-border-radius: 2px !important;
-    /*font-size: 14px;*/
+    font-size: 14px;
     /*font-family: 'roboto_condensedregular';*/
     color: #ffffff;
     text-shadow: none;
@@ -900,7 +901,7 @@ label.ui-state-error {
     background-color: #176ba0;
 }
 .ui-button-icon-left {
-    margin-left: 8px;
+    margin-left: 4px;
 }
 .ui-button-icon-only {
     min-width: 35px !important;
@@ -911,11 +912,11 @@ label.ui-state-error {
 }
 .ui-button-icon-only .ui-icon {
     font-size: 16px !important;
-    margin-left: -12px !important;
+    /*margin-left: -12px !important;*/
 }
 
 .ui-button-icon-only .ui-icon, .ui-button-text-icon-left .ui-icon, .ui-button-text-icon-right .ui-icon{
-    margin-top: -12px !important;
+    /*margin-top: -12px !important;*/
 }
 
 .ui-button-text-only .ui-button-text {
@@ -956,6 +957,10 @@ label.ui-state-error {
     text-align: left;
     width: auto;
     cursor: pointer;
+}
+
+.ui-dialog .ui-button-text-only{
+    margin: 12px 4px 0 4px !important;
 }
 
 /*Style For Checkbox --------------------------------------------------------------------------------------*/
