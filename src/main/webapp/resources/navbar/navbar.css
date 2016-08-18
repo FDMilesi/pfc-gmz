@@ -247,7 +247,7 @@ tbody.collapse.in {
     border-radius: 0;
     box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);
 }
-@media (min-width: 768px) {
+@media screen and (min-width: 64.063em) {
     .navbar-header {
         float: left;
     }
@@ -263,7 +263,7 @@ tbody.collapse.in {
 .navbar-collapse.in {
     overflow-y: auto;
 }
-@media (min-width: 768px) {
+@media screen and (min-width: 64.063em) {
     .navbar-collapse {
         width: auto;
         border-top: 0;
@@ -387,7 +387,7 @@ tbody.collapse.in {
 .navbar-toggle .icon-bar + .icon-bar {
     margin-top: 4px;
 }
-@media (min-width: 768px) {
+@media screen and (min-width: 64.063em) {
     .navbar-toggle {
         display: none;
     }
@@ -411,7 +411,7 @@ tbody.collapse.in {
     font-size: 17px;
     /*line-height: 20px;*/
 }
-@media (min-width: 768px) {
+@media screen and (min-width: 64.063em) {
     .navbar-nav {
         /*estilos del navbar original, que mostraba la lista desplagable de forma horizontal*/
         /*ahora la oculto con el display none*/
