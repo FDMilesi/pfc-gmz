@@ -49,6 +49,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());
         tratamiento.setParticular(false);
+        tratamiento.setFinalizado(Boolean.FALSE);
         return tratamiento;
     }
 
