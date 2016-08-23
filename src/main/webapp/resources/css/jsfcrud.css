@@ -1,8 +1,9 @@
-.ui-button-menu-temporal {
-    background-color: darkgrey !important;
-    border: none !important;
+body{
+    background-color: #f5f5f5;
+    margin: 0;
 }
 
+/*Colores de las sesiones*/
 .fisiokinesioterapia{
     background: #3F51B5 !important; /*indigo*/
 }
@@ -24,20 +25,17 @@
 .gimnasiaTerapeutica{
     background: #7986CB !important; /*lavanda*/
 }
+
+/*Iconos de las sesiones en la agenda*/
 .sesionTranscurrida{
     background-image: url("#{resource['primefaces-omega2:images/ic_done_white_24px.svg']}") !important;
     background-repeat: no-repeat !important;
     background-position: right bottom !important;
 }
-
 .sesionNoCuenta{
     background-image: url("#{resource['primefaces-omega2:images/ic_update_white_24px.svg']}") !important;
     background-repeat: no-repeat !important;
     background-position: right bottom !important;
-}
-
-body{
-    background-color: #f5f5f5;
 }
 
 .card {
@@ -52,13 +50,11 @@ body{
     -moz-border-radius: 2px;
     color: #546e7a;
 }
-
 .shadowEffect {
     -webkit-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
     -moz-box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
     box-shadow: 0px 1px 2px 0px rgba(43, 59, 93, 0.4);
 }
-
 .inputBuscar{
     background-color: transparent;
     border: 0px none;
@@ -69,13 +65,12 @@ body{
     font-size: 14px;
     color: white;
 }
-
 .inputBuscar:focus{
     outline: none;
 }
 
 /*Esto hace responsive a todos los botones "nuevo X" dentro de los headers de las tablas*/
-@media (max-width: 640px){
+@media screen and (max-width: 40.063em){
     .ui-datatable .ui-datatable-header .ui-button{        
         min-width: 35px !important;
         max-width: 35px !important;
@@ -86,13 +81,11 @@ body{
         background-color: transparent !important;
         opacity: 0.9 !important;
     }
-
     .ui-datatable .ui-datatable-header .ui-button .ui-button-icon-left{
         margin: auto !important;
         margin-top: -12px !important;
         margin-left: -2px !important;
     }
-
     .ui-datatable .ui-datatable-header .ui-button .ui-button-text{
         display: none !important;
     }
@@ -108,20 +101,17 @@ body{
 }
 
 @media print{
-    
     .hiddenOnPrint {
         visibility: hidden;
     }
-    
     .labelOnPrint{
-       font-weight: bold;
+        font-weight: bold;
     }
-
     .showedOnPrint {
         visibility: visible;
     }
-    
 }
+
 /*Reporte de ordenes*/
 .reporteOrdenes{
     font-family: sans-serif;
@@ -144,7 +134,6 @@ body{
     font-size: 10pt !important;
     text-align: center;
 }
-
 .headerReport{
     width: 30%;
     font-weight: normal;
@@ -158,22 +147,172 @@ body{
     background-color: transparent !important;
     opacity: 0.6;
 }
-
 .ui-datatable-data .ui-button-icon-only .ui-icon{
     margin-left: -12px !important;
     margin-top: -12px !important;
 }
-
 .ui-datatable-data .ui-state-disabled{
     opacity: 0.2 !important;
 }
-
 .ui-datatable-data .ui-button:hover{
     background-color: #0288d1 !important;
     opacity: 0.8;
     transition: all 0.3s ease;
 }
-
 .ui-datatable-data .ui-state-disabled:hover{
     background-color: transparent !important;
+}
+
+/*
+** Estilo del template, side menu e iconos del header
+*/
+/*side menu mobile first. Por defecto no se muestra*/
+.sideMenu{
+    display: none;
+    background-color: white;
+    width: 230px;
+    float: left;
+}
+@media screen and (min-width: 64.063em) {
+    .sideMenu{
+        display: block;
+    }
+}
+.sideMenu ul{
+    margin: 0 auto;
+    padding: 0;
+}
+.sideMenu ul li{
+    display: block;
+}
+.sideMenu ul li a{
+    font-size: 18px;
+    display: block;
+    line-height: 20px;
+    /*width: 84%;*/
+    padding: 12px 8%;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    color: #455a64;
+    cursor: pointer;
+}
+.sideMenu ul li a:hover{
+    background-color: #e0e0e0;
+}
+.sideMenu ul li a .iconos{
+    float:left; 
+    margin-right: 10px
+}
+
+/*Iconos del side menu*/
+.iconos{
+    background-size: 100%; 
+    background-position: center !important; 
+    background-repeat: no-repeat; 
+    height: 24px !important; 
+    width: 24px !important; 
+    opacity: 0.7;
+}
+.Separator {
+    border-bottom: solid 1px #e0e0e0;
+    width: 100%;
+    overflow: hidden;
+    height: 0px;
+    margin: 10px 0px;
+    clear: both;
+}
+/*Estilo del logo DELTA*/
+.logo {
+    width: 230px; 
+    height: 64px;
+    background-color: transparent;
+    border-right:none;
+}
+@media screen and (min-width: 64.063em) {
+    .logo{
+        border-right: solid 1px #0277bd;
+        background-color: #0288d1; 
+    }
+}
+.logoPpal{
+    width: auto; 
+    height: 30px; 
+    margin-top: 7px; 
+    margin-left: 12px; 
+    font-size: 36px; 
+    font-weight: bold; 
+    display: inline-block;
+    color: white;
+    opacity: 0.9;
+}
+.separatorLogo{
+    width: 2px;
+    height: 27px;
+    margin: 0 8px;
+    background-color: white;
+    display: inline-block;
+    opacity: 0.5;
+}
+.descripcion{
+    width: 90px;
+    height: 30px;
+    display: inline-block;
+    color: white;
+    opacity: 0.7;
+    font-size: 13.5px;
+}
+
+/*Estilo de perfil usuario*/
+.imagenPerfilUsuario{    
+    float: left; 
+    width: 48px !important; 
+    height: 48px !important;
+    margin-right: 5px;
+}
+.nombrePerfilUsuario{ 
+    font-size: 18px;
+    padding-top: 2px;
+    padding-bottom: 5px;
+}
+.rolUsuario{
+    font-family: 'roboto_condensedlight';
+    font-size: 13px !important;
+}
+
+/*Estilo de iconos a la derecha del banner*/
+.contenedorIconosHeader{
+    display: none;
+    height: 47px;
+    width: auto;
+    margin-top: 8px;
+    float: right !important;
+}
+@media screen and (min-width: 64.063em) {
+    .contenedorIconosHeader{
+        display: inline;
+    }
+}
+.contenedorIndividualIconos{
+    width: 47px;
+    height: 47px;
+    margin-left: 4px;
+    display: inline-block;
+    float: right;
+    transition: all 0.3s ease;    
+    border-radius: 50%;
+    cursor: pointer;
+    color: #e1f5fe;
+    overflow: hidden;
+}
+.contenedorIndividualIconos:hover{
+    background-color: #039be5;
+}
+.iconoHeader{
+    width: 32px;
+    height: 36px;
+    margin: 5.5px auto;
+    background-size: 100%; 
+    background-position: center !important; 
+    background-repeat: no-repeat;
+    opacity: 0.9;
 }
