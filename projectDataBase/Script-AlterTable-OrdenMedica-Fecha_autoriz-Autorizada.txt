@@ -2,4 +2,4 @@ ALTER TABLE public.ordenmedica
    ADD COLUMN fechaautorizacion date;
 
 ALTER TABLE public.ordenmedica
-   ADD COLUMN autorizada boolean NOT NULL;
+   ADD COLUMN autorizada boolean NOT NULL DEFAULT FALSE;
