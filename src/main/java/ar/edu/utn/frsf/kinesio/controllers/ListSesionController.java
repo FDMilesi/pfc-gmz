@@ -99,6 +99,7 @@ public class ListSesionController extends AbstractSesionController implements Se
     }
 
     public void destroy() {
+        if (selected == null) System.out.println("es nuuuuuullll");
         if (!selected.getTranscurrida()) {
             persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
             if (!JsfUtil.isValidationFailed()) {

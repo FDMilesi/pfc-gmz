@@ -169,7 +169,7 @@
                             <p:commandButton id="ordenMedicaDeleteButton" 
                                              icon="ui-icon-trash"  
                                              title="#{bundle.Delete}" 
-                                             actionListener="#{listOrdenMedicaController.destroy}" 
+                                             action="#{listOrdenMedicaController.destroy}" 
                                              update=":growl,ordenMedicaDatalist" 
                                              disabled="#{item.autorizada}">
                                 <f:setPropertyActionListener value="#{item}" target="#{listOrdenMedicaController.selected}" />
@@ -198,7 +198,7 @@
                             <p:outputLabel value="#{bundle.ConfirmarReporte_msj}" />
                         </div>
                         <p:commandButton value="#{bundle.ConfirmarReporte_continuar}" 
-                                         action="#{listOrdenMedicaController.redirectToReport()}"
+                                         action="#{listOrdenMedicaController.marcarOrdenesPresentadasYRedirigir()}"
                                          immediate="true"
                                          style="background-color: #66BB6A; float: right;"
                                          />

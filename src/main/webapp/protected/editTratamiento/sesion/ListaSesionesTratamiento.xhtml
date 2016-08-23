@@ -73,7 +73,7 @@
                         <p:commandButton id="deleteButton" 
                                          icon="ui-icon-trash"  
                                          title="#{bundle.Delete}" 
-                                         actionListener="#{listSesionController.destroy}" 
+                                         action="#{listSesionController.destroy}" 
                                          update=":growl,datalist" 
                                          disabled="#{(item.transcurrida || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{item}" target="#{listSesionController.selected}" />
