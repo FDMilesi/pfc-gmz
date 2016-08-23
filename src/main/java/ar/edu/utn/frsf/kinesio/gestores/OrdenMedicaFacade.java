@@ -39,6 +39,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setTratamiento(tratamiento);
         orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
         orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
+        orden.setAutorizada(Boolean.FALSE);
 
         return orden;
     }
@@ -68,11 +69,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
         //Si el filtro autorizado fue seteado, agregamos la condición segun el valor del parámetro
         if (autorizada != null) {
-            if (autorizada) {
-                pqlQuery += "o.codigoDeAutorizacion IS NOT NULL ";
-            } else {
-                pqlQuery += "o.codigoDeAutorizacion IS NULL ";
-            }
+            pqlQuery += "o.autorizada = :autorizada ";
             autorizadaSet = true;
         }
         //Si el filtro presentada fue seteado, agregamos la condición segun el valor del parámetro
@@ -101,7 +98,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             if (autorizadaSet || presentadaSet || obraSocialSet) {
                 pqlQuery += "and ";
             }
-            pqlQuery += "o.fechaCreacion >= :startDate ";
+            pqlQuery += "o.fechaAutorizacion >= :startDate ";
             startDateSet = true;
         }
         //Si el filtro endDate fue seteado, agregamos la condición segun el valor del parámetro
@@ -109,11 +106,14 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             if (autorizadaSet || presentadaSet || obraSocialSet || startDateSet) {
                 pqlQuery += "and ";
             }
-            pqlQuery += "o.fechaCreacion <= :endDate ";
+            pqlQuery += "o.fechaAutorizacion <= :endDate ";
             endDateSet = true;
         }
 
         Query query = getEntityManager().createQuery(pqlQuery);
+        if (autorizadaSet) {
+            query.setParameter("autorizada", autorizada);
+        }
         if (presentadaSet) {
             query.setParameter("presentada", presentada);
         }
@@ -145,6 +145,15 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             }
         }
         return true;
+    }
+
+    public OrdenMedica autorizarOrden(OrdenMedica ordenMedica) {
+        //Si el codigo de autorización es nulo o vacio le seteo la fecha de autorización
+        if (ordenMedica.getCodigoDeAutorizacion() != null && !(ordenMedica.getCodigoDeAutorizacion().isEmpty())) {
+            ordenMedica.setFechaAutorizacion(new Date());
+            ordenMedica.setAutorizada(Boolean.TRUE);
+        }
+        return ordenMedica;
     }
 
     public Short sumatoriaSesionesDeOrdenes(Tratamiento tratamiento) {

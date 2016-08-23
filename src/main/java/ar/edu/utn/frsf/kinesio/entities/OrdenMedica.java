@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OrdenMedica.findByPresentadaalcirculo", query = "SELECT o FROM OrdenMedica o WHERE o.presentadaAlCirculo = :presentadaalcirculo"),
     @NamedQuery(name = "OrdenMedica.findByNumeroafiliadopaciente", query = "SELECT o FROM OrdenMedica o WHERE o.numeroAfiliadoPaciente = :numeroafiliadopaciente"),
     @NamedQuery(name = "OrdenMedica.findByTratamiento", query = "SELECT o FROM OrdenMedica o WHERE o.tratamiento = :tratamiento"),
-    @NamedQuery(name = "OrdenMedica.findByAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.codigoDeAutorizacion IS NOT NULL"),
-    @NamedQuery(name = "OrdenMedica.findByNoAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.codigoDeAutorizacion IS NULL"),
-    @NamedQuery(name = "OrdenMedica.findByAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.codigoDeAutorizacion IS NOT NULL and o.presentadaAlCirculo = :presentada"),
-    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.codigoDeAutorizacion IS NULL and o.presentadaAlCirculo = :presentada")})
+    @NamedQuery(name = "OrdenMedica.findByAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE"),
+    @NamedQuery(name = "OrdenMedica.findByNoAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE"),
+    @NamedQuery(name = "OrdenMedica.findByAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE and o.presentadaAlCirculo = :presentada"),
+    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE and o.presentadaAlCirculo = :presentada")})
 public class OrdenMedica implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -75,6 +75,13 @@ public class OrdenMedica implements Serializable {
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Tratamiento tratamiento;
+    
+    @Column(name = "fechaautorizacion")
+    @Temporal(TemporalType.DATE)
+    private Date fechaAutorizacion;
+    
+    @Column(name = "autorizada")
+    private Boolean autorizada;
 
     public OrdenMedica() {
     }
@@ -152,9 +159,21 @@ public class OrdenMedica implements Serializable {
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
     }
+    
+    public Date getFechaAutorizacion() {
+        return fechaAutorizacion;
+    }
 
-    public boolean isAutorizada() {
-        return (codigoDeAutorizacion != null);
+    public void setFechaAutorizacion(Date fechaAutorizacion) {
+        this.fechaAutorizacion = fechaAutorizacion;
+    }
+    
+    public Boolean getAutorizada() {
+        return autorizada;
+    }
+
+    public void setAutorizada(Boolean autorizada) {
+        this.autorizada = autorizada;
     }
 
     @Override

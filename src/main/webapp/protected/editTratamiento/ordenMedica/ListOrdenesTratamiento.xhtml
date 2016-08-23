@@ -40,8 +40,8 @@
                     <!--                    <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
                                         <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>-->
 
-                    <p:column headerText="#{bundle.OrdenMedicaTitle_fechaCreacion}">
-                        <h:outputText value="#{orderItem.fechaCreacion}">
+                    <p:column headerText="#{bundle.OrdenMedicaTitle_fechaAutorizacion}">
+                        <h:outputText value="#{orderItem.fechaAutorizacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
                         </h:outputText>
                     </p:column>

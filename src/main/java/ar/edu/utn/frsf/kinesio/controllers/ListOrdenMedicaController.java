@@ -47,6 +47,7 @@ public class ListOrdenMedicaController implements Serializable {
     }
 
     public void update() {
+        selected = this.getFacade().autorizarOrden(selected);
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
     }
 
