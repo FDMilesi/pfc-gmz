@@ -3,6 +3,9 @@ package ar.edu.utn.frsf.kinesio.gestores;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -91,8 +94,9 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public Sesion editAndReturn(Sesion sesion) {
         //valido que la sesión no se esté agregando a un tratamiento finalizado
-        if (sesion.getTratamiento().getFinalizado())
+        if (sesion.getTratamiento().getFinalizado()) {
             throw new EJBException("Error: el tratamiento se encuentra finalizado");
+        }
         return getEntityManager().merge(sesion);
     }
 
@@ -112,7 +116,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
         setSesionStyle(s);
     }
-    
+
     @PostUpdate
     void onPostUpdate(Sesion s) {
         setSesionStyle(s);
@@ -182,5 +186,72 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public void marcarSesionesTranscurridas() {
         em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
+    }
+
+    public void cargaMasivaSesiones(Sesion sesionARepetir, boolean lun, boolean mar, boolean mie, boolean jue, boolean vie, int diasARepetir) {
+        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(lun, mar, mie, jue, vie, diasARepetir);
+
+        for (LocalDate fecha : listaDeFechas) {
+            Sesion sesion = new Sesion();
+            sesion.setAgenda(sesionARepetir.getAgenda());
+            sesion.setFechaHoraInicio(this.localDateToDate(sesionARepetir.getFechaHoraInicio(), fecha));
+            sesion.setTranscurrida(false);
+            sesion.setCuenta(true);
+            sesion.setTratamiento(sesionARepetir.getTratamiento());
+            sesion.setNumeroDeSesion(this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()));
+        }
+    }
+
+    //Fusiona la hora de la sesion a repetir con una fecha de la lista de fechas que me devolvio "getFechasParaCargaMasiva()"
+    private Date localDateToDate(Date d, LocalDate ld) {
+        java.util.Date date = java.sql.Date.valueOf(ld);
+        date.setTime(d.getTime());
+        return date;
+    }
+
+    private List<LocalDate> getFechasParaCargaMasiva(boolean lun, boolean mar, boolean mie, boolean jue, boolean vie, int diasARepetir) {
+        int count = 0;
+        int diasFuturos = 1;
+        LocalDate diaFut;
+        List<LocalDate> listaDeFechas = new ArrayList<>();
+
+        while (count < diasARepetir) {
+            diaFut = LocalDate.now().plusDays(diasFuturos);
+
+            switch (diaFut.getDayOfWeek()) {
+                case MONDAY:
+                    if (lun) {
+                        listaDeFechas.add(diaFut);
+                        count++;
+                    }
+                    break;
+                case TUESDAY:
+                    if (mar) {
+                        listaDeFechas.add(diaFut);
+                        count++;
+                    }
+                    break;
+                case WEDNESDAY:
+                    if (mie) {
+                        listaDeFechas.add(diaFut);
+                        count++;
+                    }
+                    break;
+                case THURSDAY:
+                    if (jue) {
+                        listaDeFechas.add(diaFut);
+                        count++;
+                    }
+                    break;
+                case FRIDAY:
+                    if (vie) {
+                        listaDeFechas.add(diaFut);
+                        count++;
+                    }
+                    break;
+            }
+            diasFuturos++;
+        }
+        return listaDeFechas;
     }
 }
