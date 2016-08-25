@@ -68,7 +68,7 @@
                         <p:commandButton id="ordenMedicaTratamientoDeleteButton" 
                                          icon="ui-icon-trash"  
                                          title="#{bundle.Delete}" 
-                                         actionListener="#{ordenMedicaController.destroy}" 
+                                         action="#{ordenMedicaController.destroy}" 
                                          update=":growl,ordenMedicasTratamientoList" 
                                          disabled="#{(orderItem.autorizada || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />

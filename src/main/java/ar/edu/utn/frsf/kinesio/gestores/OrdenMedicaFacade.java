@@ -172,4 +172,11 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
     }
 
+    public void marcarOrdenesComoPresentadas(List<OrdenMedica> listaOrdenes) {
+        for (OrdenMedica orden : listaOrdenes) {
+            orden.setPresentadaAlCirculo(Boolean.TRUE);
+            edit(orden);
+        }
+    }
+
 }

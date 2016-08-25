@@ -8,7 +8,7 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListOrdenTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ReporteOrdenTitle}"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
@@ -20,7 +20,10 @@
                     </p:breadCrumb>
                 </div>
                 <div class="card shadowEffect" style="width: 21cm; margin: 8px auto">
-                    <p:commandButton value="IMPRIMIR" type="button" icon="ui-icon-print" >
+                    <p:commandButton value="IMPRIMIR" 
+                                     type="button" 
+                                     icon="ui-icon-print" 
+                                     process="@this">
                         <p:printer target="ordenMedicaDatReportList" />
                     </p:commandButton>
                     <h:dataTable id="ordenMedicaDatReportList" 
@@ -61,13 +64,13 @@
                         </f:facet>
 
                         <h:column>
-                            <f:facet name="header">#{bundle.ListOrdenMedicaTitle_obraSocial}</f:facet>
+                            <f:facet name="header">#{bundle.OrdenMedicaTitle_obraSocial}</f:facet>
                             <h:outputText style="text-transform: uppercase;" 
                                           value="#{reportListOrdenMedicaController.items.indexOf(item)+1} #{item.obraSocial.nombre}"/><br />
                             <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
                         </h:column>
                         <h:column>
-                            <f:facet name="header">#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}</f:facet>
+                            <f:facet name="header">#{bundle.OrdenMedicaTitle_codigoDeAutorizacion}</f:facet>
                             <h:outputText value="#{item.codigoDeAutorizacion}"/>
                         </h:column>
                         <h:column>

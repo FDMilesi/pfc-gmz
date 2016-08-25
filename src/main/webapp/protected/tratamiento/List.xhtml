@@ -116,7 +116,7 @@
                             <p:commandButton id="deleteButton" 
                                              icon="ui-icon-trash"  
                                              title="#{bundle.Delete}" 
-                                             actionListener="#{tratamientoController.destroy}" 
+                                             action="#{tratamientoController.destroy}" 
                                              update=":growl,datalist">
                                 <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
                                 <p:confirm header="#{bundle.TratamientoConfirmationHeader}" message="#{bundle.TratamientoConfirmationMessage}" icon="ui-icon-alert" />
