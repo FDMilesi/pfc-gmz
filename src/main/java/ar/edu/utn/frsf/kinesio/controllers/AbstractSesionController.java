@@ -105,8 +105,8 @@ public abstract class AbstractSesionController implements Serializable {
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
+                if (cause != null && cause.getMessage() != null) {
+                    msg = cause.getMessage();
                 }
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);

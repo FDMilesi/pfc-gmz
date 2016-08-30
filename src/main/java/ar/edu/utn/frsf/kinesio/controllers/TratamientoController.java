@@ -73,7 +73,7 @@ public class TratamientoController implements Serializable {
     //Métodos de negocio
     public List<Tratamiento> getItems() {
         if (items == null) {
-            items = getFacade().getTratamientosByPaciente(paciente);
+            items = getFacade().getTratamientosByPacienteContandoSesiones(paciente);
         }
         return items;
     }

@@ -3,11 +3,14 @@ package ar.edu.utn.frsf.kinesio.gestores;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
-import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -86,8 +89,22 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      * @return
      */
     public boolean puedoAgregarSesion(Tratamiento tratamiento) {
-        short cantidadQueCuentanMasUno = (short) (this.countSesionesByTratamientoQueCuentan(tratamiento) + 1);
-        //Si la cantiad de sesiones que cuentan más uno es menor o igual a 
+        return this.puedoAgregarSesiones(tratamiento, 1);
+    }
+
+    /**
+     * Me dice si puedo agregar o no una determinada cantidad de sesiones al
+     * tratamiento pasado como parámetro. Se invoca típicamente desde la carga
+     * masiva de sesiones. (Notar que es private, no usado desde afuera aún).
+     *
+     * @param tratamiento
+     * @param cantSesiones cantidad de sesiones que quiero ver si se pueden
+     * agregar al tratamiento
+     * @return
+     */
+    private boolean puedoAgregarSesiones(Tratamiento tratamiento, int cantSesiones) {
+        short cantidadQueCuentanMasUno = (short) (this.countSesionesByTratamientoQueCuentan(tratamiento) + cantSesiones);
+        //Si la cantiad de sesiones que cuentan más la cantiadad que deseo agregar es menor o igual a 
         //la cantidad seteada en el tratamiento, retorno true
         return Short.compare(cantidadQueCuentanMasUno, tratamiento.getCantidadDeSesiones()) <= 0;
     }
@@ -134,6 +151,11 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public int countSesionesByTratamientoNoTranscurridas(Tratamiento tratamiento) {
         return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoNoTranscurridas")
+                .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
+    }
+
+    public int countSesionesByTratamientoQueCuentanTranscurridas(Tratamiento tratamiento) {
+        return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoQueCuentanTranscurridas")
                 .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
     }
 
@@ -188,68 +210,48 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
     }
 
-    public void cargaMasivaSesiones(Sesion sesionARepetir, boolean lun, boolean mar, boolean mie, boolean jue, boolean vie, int diasARepetir) {
-        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(lun, mar, mie, jue, vie, diasARepetir);
+    public void cargaMasivaSesiones(Sesion sesionARepetir, Set<String> diasSeleccionados, int diasARepetir) {
+        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(diasSeleccionados, diasARepetir);
+        int siguienteNumeroDeSesion = this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()).intValue();
 
         for (LocalDate fecha : listaDeFechas) {
             Sesion sesion = new Sesion();
             sesion.setAgenda(sesionARepetir.getAgenda());
-            sesion.setFechaHoraInicio(this.localDateToDate(sesionARepetir.getFechaHoraInicio(), fecha));
+            Date nuevaFecha = this.calcularFechaSesionARepetir(sesionARepetir.getFechaHoraInicio(), fecha);
+            sesion.setFechaHoraInicio(nuevaFecha);
             sesion.setTranscurrida(false);
             sesion.setCuenta(true);
             sesion.setTratamiento(sesionARepetir.getTratamiento());
-            sesion.setNumeroDeSesion(this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()));
+            sesion.setNumeroDeSesion((short) siguienteNumeroDeSesion);
+            this.getEntityManager().merge(sesion);
+            siguienteNumeroDeSesion++;
         }
     }
 
-    //Fusiona la hora de la sesion a repetir con una fecha de la lista de fechas que me devolvio "getFechasParaCargaMasiva()"
-    private Date localDateToDate(Date d, LocalDate ld) {
-        java.util.Date date = java.sql.Date.valueOf(ld);
-        date.setTime(d.getTime());
-        return date;
+    //Fusiona la hora de la sesion a repetir con la fecha en que debe repetirse la sesión
+    private Date calcularFechaSesionARepetir(Date fechaOriginal, LocalDate nuevaFecha) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fechaOriginal);
+        int hora = cal.get(Calendar.HOUR_OF_DAY);
+        int minutos = cal.get(Calendar.MINUTE);
+        LocalDateTime ldt = nuevaFecha.atTime(hora, minutos);
+        Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+        return out;
     }
 
-    private List<LocalDate> getFechasParaCargaMasiva(boolean lun, boolean mar, boolean mie, boolean jue, boolean vie, int diasARepetir) {
+    private List<LocalDate> getFechasParaCargaMasiva(Set<String> diasSeleccionados, int diasARepetir) {
         int count = 0;
         int diasFuturos = 1;
         LocalDate diaFut;
         List<LocalDate> listaDeFechas = new ArrayList<>();
 
+        diaFut = LocalDate.now();
         while (count < diasARepetir) {
-            diaFut = LocalDate.now().plusDays(diasFuturos);
-
-            switch (diaFut.getDayOfWeek()) {
-                case MONDAY:
-                    if (lun) {
-                        listaDeFechas.add(diaFut);
-                        count++;
-                    }
-                    break;
-                case TUESDAY:
-                    if (mar) {
-                        listaDeFechas.add(diaFut);
-                        count++;
-                    }
-                    break;
-                case WEDNESDAY:
-                    if (mie) {
-                        listaDeFechas.add(diaFut);
-                        count++;
-                    }
-                    break;
-                case THURSDAY:
-                    if (jue) {
-                        listaDeFechas.add(diaFut);
-                        count++;
-                    }
-                    break;
-                case FRIDAY:
-                    if (vie) {
-                        listaDeFechas.add(diaFut);
-                        count++;
-                    }
-                    break;
+            if (diasSeleccionados.contains(diaFut.getDayOfWeek().name())) {
+                listaDeFechas.add(diaFut);
+                count++;
             }
+            diaFut = LocalDate.now().plusDays(diasFuturos);
             diasFuturos++;
         }
         return listaDeFechas;

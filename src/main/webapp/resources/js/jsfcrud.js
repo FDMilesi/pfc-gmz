@@ -11,3 +11,13 @@ function handleSubmit(args, dialog) {
     }
 }
 
+//Cuando quiero cerras dos dialogs luego de un submit
+function handleSubmitTwoDialogs(args, dialog1, dialog2) {
+    var jqDialog = jQuery('#' + dialog1);
+    if (args.validationFailed) {
+        jqDialog.effect('shake', {times: 3}, 100);
+    } else {
+        PF(dialog1).hide();
+        PF(dialog2).hide();
+    }
+}

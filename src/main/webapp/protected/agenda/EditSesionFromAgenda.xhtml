@@ -33,7 +33,8 @@
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:link value="#{agendaSesionController.selected.tratamiento.toString()}"
+                        <p:link style="font-size: 12pt"
+                                value="#{agendaSesionController.selected.tratamiento.toString()}"
                                 includeViewParams="true" 
                                 outcome="/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true">
                             <f:param name="tratamiento" value="#{agendaSesionController.selected.tratamiento.id}" />
@@ -52,7 +53,8 @@
                         <p:outputLabel value="#{bundle.SesionLabel_transcurrida}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox value="#{agendaSesionController.selected.transcurrida}"/>
+                        <p:selectBooleanCheckbox disabled="#{agendaSesionController.selected.transcurrida}"
+                                                 value="#{agendaSesionController.selected.transcurrida}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
@@ -60,6 +62,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:selectBooleanCheckbox 
+                            disabled="#{agendaSesionController.selected.transcurrida}"
                             value="#{agendaSesionController.selected.cuenta}"
                             validator="#{agendaSesionController.puedoSetearCuentaTrue}"/>
                     </div>
@@ -91,8 +94,7 @@
                                      style="float: right; background-color: #66BB6A;"
                                      />
                     <!--eliminar-->
-                    <p:commandButton icon="ui-icon-trash"  
-                                     value="#{bundle.Delete}" 
+                    <p:commandButton value="#{bundle.Delete}" 
                                      actionListener="#{agendaSesionController.destroyFromAgenda}" 
                                      oncomplete="PF('SesionEditDialog').hide();PF('agenda').update()"
                                      update=":growl"
