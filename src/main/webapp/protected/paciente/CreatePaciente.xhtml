@@ -93,7 +93,7 @@
                         <p:inputText id="nroAfiliadoOS" 
                                      value="#{pacienteController.selected.nroAfiliadoOS}" />
                     </div>
-                    <p:commandButton  action="#{pacienteController.create}" 
+                    <p:commandButton  action="#{pacienteController.createAndRedirect()}" 
                                       value="#{bundle.Save}"
                                       update="display,:PacienteListForm:datalist,:growl" 
                                       oncomplete="handleSubmit(args,'PacienteCreateDialog');"
