@@ -257,6 +257,8 @@ label.ui-state-error {
 .ui-icon-cancel { background-position: 0 -128px; }
 .ui-icon-plus { background-image: url("#{resource['primefaces-omega2:images/ic_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
 .ui-person-add {background-image: url("#{resource['primefaces-omega2:images/ic_person_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
+.ui-person-add-black{background-image: url("#{resource['primefaces-omega2:images/ic_person_add_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
+.ui-tratamiento-add{background-image: url("#{resource['primefaces-omega2:images/ic_note_add_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-plusthick { background-position: -32px -128px; }
 .ui-icon-minus { background-position: -48px -128px; }
 .ui-icon-minusthick { background-position: -64px -128px; }

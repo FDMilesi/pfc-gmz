@@ -41,7 +41,7 @@ body{
 .card {
     padding: 10px;
     /*margin: 8px auto;*/
-    margin: 8px 8px 8px 15px;
+    margin: 15px;
     max-width: 1200px;
     display: block;
     background-color: #ffffff;
@@ -145,7 +145,7 @@ body{
 /*Hago "material" los botones de las opciones de las tablas*/
 .ui-datatable-data .ui-button{
     background-color: transparent !important;
-    opacity: 0.6;
+    opacity: 0.5;
 }
 .ui-datatable-data .ui-button-icon-only .ui-icon{
     margin-left: -12px !important;
@@ -155,8 +155,7 @@ body{
     opacity: 0.2 !important;
 }
 .ui-datatable-data .ui-button:hover{
-    background-color: #0288d1 !important;
-    opacity: 0.8;
+    opacity: 1;
     transition: all 0.3s ease;
 }
 .ui-datatable-data .ui-state-disabled:hover{
@@ -315,4 +314,24 @@ body{
     background-position: center !important; 
     background-repeat: no-repeat;
     opacity: 0.9;
+}
+
+/*Botones de carga rápida*/
+.cargaRapida{
+    background-color: transparent !important;
+    float: left !important;
+    opacity: 0.5 !important;
+    margin-left: 25px !important;
+    margin-top: 7px !important;
+}
+.ui-dialog .ui-state-disabled{
+    opacity: 0.2 !important;
+}
+.cargaRapida:hover{
+    opacity: 1 !important;
+    transition: all 0.3s ease !important;
+}
+.ui-dialog .ui-state-disabled:hover{
+    background-color: transparent !important;
+    opacity: 0.2 !important;
 }

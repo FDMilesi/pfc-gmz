@@ -70,7 +70,7 @@ public class TratamientoController implements Serializable {
         return ejbFacade;
     }
 
-    //Métodos de negocio
+    //Métodos de negocio    
     public List<Tratamiento> getItems() {
         if (items == null) {
             items = getFacade().getTratamientosByPacienteContandoSesiones(paciente);
