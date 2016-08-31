@@ -120,6 +120,12 @@ public class AgendaController implements Serializable {
         getSelected().deleteEvent(getSelected().getEvent(evento.getIdSesionEliminada()));
     }
 
+    public void agregarSesiones(List<Sesion> sesionesAAgregar) {
+        for (Sesion sesion : sesionesAAgregar) {
+            this.getSelected().addEvent(sesion);
+        }
+    }
+
     //Eventos que lanza AgendaController
     public class SesionInicializadaEvento {
 

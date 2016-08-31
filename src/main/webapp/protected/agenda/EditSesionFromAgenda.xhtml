@@ -93,6 +93,16 @@
                                      oncomplete="handleSubmit(args, 'SesionEditDialog'); PF('agenda').update()"
                                      style="float: right; background-color: #66BB6A;"
                                      />
+                    <!--carga masica-->
+                    <p:commandButton value="REPETIR SESIÓN" 
+                                     title="Permite repetir esta sesión en días futuros"
+                                     resetValues="true"
+                                     update=":CargaMasivaForm" 
+                                     oncomplete="PF('CargaMasivaDialog').show();"
+                                     style="float: right;"
+                                     >
+                        <f:setPropertyActionListener value="#{agendaSesionController.selected}" target="#{cargaMasivaController.selected}" />
+                    </p:commandButton>
                     <!--eliminar-->
                     <p:commandButton value="#{bundle.Delete}" 
                                      actionListener="#{agendaSesionController.destroyFromAgenda}" 
@@ -103,10 +113,10 @@
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
                     <!--cerrar-->
-                    <p:commandButton value="#{bundle.Close}" 
+<!--                    <p:commandButton value="#{bundle.Close}" 
                                      immediate="true" 
                                      onclick="PF('SesionEditDialog').hide()"
-                                     style="float: right;"/>
+                                     style="float: right;"/>-->
                 </h:panelGroup>
             </h:form>
         </p:dialog>

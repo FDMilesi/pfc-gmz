@@ -16,8 +16,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
 
 /**
  *
@@ -114,28 +112,14 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         if (sesion.getTratamiento().getFinalizado()) {
             throw new EJBException("Error: el tratamiento se encuentra finalizado");
         }
+        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
+        this.setSesionStyle(sesion);
         return getEntityManager().merge(sesion);
-    }
-
-    /**
-     * Método ejecutado antes de que una sesión sea persistida
-     *
-     * @param sesion
-     */
-    @PrePersist
-    void onPrePersist(Sesion s) {
-        //Seteo la duración de la sesión creada en base al tipo de tratamiento
-        s.setDuracion(s.getTratamiento().getTipoDeTratamiento().getDuracion());
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
-        setSesionStyle(s);
-    }
-
-    @PostUpdate
-    void onPostUpdate(Sesion s) {
         setSesionStyle(s);
     }
 
@@ -210,8 +194,17 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
     }
 
-    public void cargaMasivaSesiones(Sesion sesionARepetir, Set<String> diasSeleccionados, int diasARepetir) {
-        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(diasSeleccionados, diasARepetir);
+    //Métodos para la carga masiva
+    
+    public List<Sesion> cargaMasivaSesiones(Sesion sesionARepetir, Set<String> diasSeleccionados, int diasARepetir) {
+        List<Sesion> sesionesCreadas = new ArrayList<>();
+        LocalDate diaInicio;
+        if(sesionARepetir.getFechaHoraInicio().before(new Date())){
+            diaInicio = LocalDate.now();
+        }else{
+            diaInicio = sesionARepetir.getFechaHoraInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(diasSeleccionados, diasARepetir, diaInicio);
         int siguienteNumeroDeSesion = this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()).intValue();
 
         for (LocalDate fecha : listaDeFechas) {
@@ -223,11 +216,33 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             sesion.setCuenta(true);
             sesion.setTratamiento(sesionARepetir.getTratamiento());
             sesion.setNumeroDeSesion((short) siguienteNumeroDeSesion);
+            sesion.setDuracion(sesionARepetir.getDuracion());
+            this.setSesionStyle(sesion);
             this.getEntityManager().merge(sesion);
+            sesionesCreadas.add(sesion);
             siguienteNumeroDeSesion++;
         }
+        return sesionesCreadas;
     }
 
+    private List<LocalDate> getFechasParaCargaMasiva(Set<String> diasSeleccionados, int diasARepetir, LocalDate diaInicio) {
+        int count = 0;
+        int diasFuturos = 1;
+        LocalDate diaFututo;
+        List<LocalDate> listaDeFechas = new ArrayList<>();
+
+        diaFututo = diaInicio;
+        while (count < diasARepetir) {
+            if (diasSeleccionados.contains(diaFututo.getDayOfWeek().name())) {
+                listaDeFechas.add(diaFututo);
+                count++;
+            }
+            diaFututo = diaInicio.plusDays(diasFuturos);
+            diasFuturos++;
+        }
+        return listaDeFechas;
+    }
+    
     //Fusiona la hora de la sesion a repetir con la fecha en que debe repetirse la sesión
     private Date calcularFechaSesionARepetir(Date fechaOriginal, LocalDate nuevaFecha) {
         Calendar cal = Calendar.getInstance();
@@ -237,23 +252,5 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         LocalDateTime ldt = nuevaFecha.atTime(hora, minutos);
         Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
         return out;
-    }
-
-    private List<LocalDate> getFechasParaCargaMasiva(Set<String> diasSeleccionados, int diasARepetir) {
-        int count = 0;
-        int diasFuturos = 1;
-        LocalDate diaFut;
-        List<LocalDate> listaDeFechas = new ArrayList<>();
-
-        diaFut = LocalDate.now();
-        while (count < diasARepetir) {
-            if (diasSeleccionados.contains(diaFut.getDayOfWeek().name())) {
-                listaDeFechas.add(diaFut);
-                count++;
-            }
-            diaFut = LocalDate.now().plusDays(diasFuturos);
-            diasFuturos++;
-        }
-        return listaDeFechas;
     }
 }

@@ -68,9 +68,8 @@
                                     event="itemSelect"/>
                         </p:autoComplete>
                     </div>
-                    
+
                     <!--CARGA RÁPIDA PACIENTE-->
-                    
                     <p:commandButton    id="createPacienteButtonCargaRapida" 
                                         icon="ui-person-add-black"                                                     
                                         actionListener="#{pacienteController.prepareCreate}" 
@@ -82,7 +81,8 @@
                                         immediate ="true"
                                         class="cargaRapida"
                                         title="Carga rápida paciente"/>
-                    
+                    <!--FIN CARGA RÁPIDA PACIENTE-->
+
                     <div class="ui-g-12 ui-md-3">
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}" for="tratamientoSeleccion" />
                     </div>
@@ -95,9 +95,8 @@
                             <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/> 
                         </p:selectOneMenu>
                     </div>
-                    
+
                     <!--CARGA RÁPIDA TRATAMIENTO-->
-                    
                     <p:commandButton    id="createTratamientoButtonCargaRapida" 
                                         icon="ui-tratamiento-add"                                                     
                                         actionListener="#{tratamientoController.prepareCreate}" 
@@ -111,7 +110,9 @@
                                         class='cargaRapida'
                                         title='Carga rápida tratamiento'
                                         widgetVar="createTratamientoButtonCargaRapida"/>
-                    
+                    <!--FIN CARGA RÁPIDA TRATAMIENTO-->
+
+                    <!--Botones del dialog-->
                     <p:commandButton actionListener="#{agendaSesionController.createFromAgenda}"
                                      value="#{bundle.Save}"
                                      update=":growl"
@@ -128,12 +129,11 @@
         </p:dialog>
         <!--Script para deshabilitar el boton de "Nuevo tratamiento" en la carga rápida cuando no hay pacientes seleccionados-->
         <script>
-            function deshabilitar(){
-                if (PF('pacienteAutocomplete').input.prop('value') == ""){
+            function deshabilitar() {
+                if (PF('pacienteAutocomplete').input.prop('value') == "") {
                     PF('createTratamientoButtonCargaRapida').disable();
                     PF('tratamientoSeleccion').disable();
-                }
-                else{
+                } else {
                     PF('createTratamientoButtonCargaRapida').enable();
                 }
             }

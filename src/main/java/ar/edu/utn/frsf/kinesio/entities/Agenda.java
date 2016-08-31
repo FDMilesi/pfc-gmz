@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
@@ -24,10 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.primefaces.model.ScheduleEvent;
 import org.primefaces.model.ScheduleModel;
 
-/**
- *
- * @author Fran
- */
 @Entity
 @Table(name = "agenda")
 @XmlRootElement
@@ -132,7 +123,7 @@ public class Agenda implements Serializable, ScheduleModel {
 
     @Override
     public List<ScheduleEvent> getEvents() {
-        return new ArrayList<ScheduleEvent>(sesiones);
+        return new ArrayList<>(sesiones);
     }
 
     @Override

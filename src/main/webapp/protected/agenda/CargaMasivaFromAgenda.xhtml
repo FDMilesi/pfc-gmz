@@ -48,11 +48,11 @@
                 </h:panelGroup>
                 <p:commandButton 
                     value="GUARDAR" 
-                    update="display,:SesionListForm:datalist,:growl" 
+                    update="display,:growl" 
                     actionListener="#{cargaMasivaController.guardarCargaMasiva()}"
-                    oncomplete="handleSubmitTwoDialogs(args, 'CargaMasivaDialog', 'SesionEditDialog');"
+                    oncomplete="PF('agenda').update(); handleSubmitTwoDialogs(args, 'CargaMasivaDialog', 'SesionEditDialog');"
                     style="float: right; background-color: #66BB6A;">
-                    <f:setPropertyActionListener value="#{null}" target="#{listSesionController.items}" />
+                    <f:actionListener binding="#{agendaController.agregarSesiones(cargaMasivaController.sesionesCreadas)}"/>
                 </p:commandButton>
                 <p:commandButton value="#{bundle.Cancel}" 
                                  immediate="true" 

@@ -6,6 +6,8 @@ import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import javax.annotation.PostConstruct;
@@ -29,6 +31,7 @@ public class CargaMasivaController implements Serializable {
     private DayOfWeek[] dias;
     private int[] arrayVecesDisponible;
     private Sesion selected;
+    private List<Sesion> sesionesCreadas;
 
     @PostConstruct
     public void init() {
@@ -57,9 +60,10 @@ public class CargaMasivaController implements Serializable {
 
     public void guardarCargaMasiva() {
         if (cantSesiones > 0) {
-            this.getFacade().cargaMasivaSesiones(selected, diasSeleccionados, cantSesiones);
+            sesionesCreadas = this.getFacade().cargaMasivaSesiones(selected, diasSeleccionados, cantSesiones);
             JsfUtil.addSuccessMessage("Sesiones creadas con éxito");
         } else {
+            sesionesCreadas = new ArrayList<>();
             JsfUtil.addWarningMessage("No se ha creado ninguna sesión");
         }
     }
@@ -87,6 +91,10 @@ public class CargaMasivaController implements Serializable {
 
     public void setCantSesiones(int cantSesiones) {
         this.cantSesiones = cantSesiones;
+    }
+
+    public List<Sesion> getSesionesCreadas() {
+        return sesionesCreadas;
     }
 
     public DayOfWeek[] getDias() {
