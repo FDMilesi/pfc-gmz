@@ -231,13 +231,12 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         LocalDate diaFututo;
         List<LocalDate> listaDeFechas = new ArrayList<>();
 
-        diaFututo = diaInicio;
         while (count < diasARepetir) {
+            diaFututo = diaInicio.plusDays(diasFuturos);
             if (diasSeleccionados.contains(diaFututo.getDayOfWeek().name())) {
                 listaDeFechas.add(diaFututo);
                 count++;
             }
-            diaFututo = diaInicio.plusDays(diasFuturos);
             diasFuturos++;
         }
         return listaDeFechas;
