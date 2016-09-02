@@ -6,9 +6,11 @@ import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.gestores.ObraSocialFacade;
 import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
@@ -52,11 +54,25 @@ public class ObraSocialController {
         TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
                 .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
 
+        //Si no existe la relacion entre la OS y el tipo de trata
+        if (tipoTratamientoObraSocial == null) {
+            return tipoDeTratamiento.getNombre();
+        }
+        //Si no fue cargado ningún código a la relación
+        if (tipoTratamientoObraSocial.getCodigoDePrestacion().isEmpty()
+                || tipoTratamientoObraSocial.getCodigoDePrestacion() == null) {
+            return tipoDeTratamiento.getNombre();
+        }
+
         return tipoTratamientoObraSocial.getCodigoDePrestacion();
     }
 
     private ObraSocialFacade getFacade() {
         return ejbFacade;
+    }
+
+    public List<ObraSocial> autocompletar(String query) {
+        return items.stream().filter(o -> o.getNombre().toLowerCase().startsWith(query.toLowerCase())).collect(Collectors.toList());
     }
 
     public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {

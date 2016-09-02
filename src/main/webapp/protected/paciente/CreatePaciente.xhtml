@@ -79,12 +79,27 @@
                         <p:outputLabel value="#{bundle.PacienteLabel_obraSocial}" for="obraSocial" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
-                        <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
+                        <p:autoComplete id="obraSocial"
+                                        value="#{pacienteController.selected.obraSocial}"
+                                        completeMethod="#{obraSocialController.autocompletar}"
+                                        var="OSItem"
+                                        forceSelection="true"
+                                        itemLabel="#{OSItem.toString()}"
+                                        itemValue="#{OSItem}"
+                                        queryDelay="300"
+                                        cache="true"
+                                        cacheTimeout="2147483647"
+                                        style="width: 100%"
+                                        emptyMessage="(Ninguna Obra social con este nombre)"
+                                        widgetVar="OSAutocomplete"
+                                        >
+                        </p:autoComplete>
+<!--                        <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}"
                                            var="obraSocialItem"
                                            itemValue="#{obraSocialItem}"/>
-                        </p:selectOneMenu>
+                        </p:selectOneMenu>-->
                     </div>
                     <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />

@@ -1,0 +1,2 @@
+ALTER TABLE public.paciente
+   ALTER COLUMN dni DROP NOT NULL;
