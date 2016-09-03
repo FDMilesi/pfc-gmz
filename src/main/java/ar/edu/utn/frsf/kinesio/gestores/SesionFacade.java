@@ -218,7 +218,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             sesion.setNumeroDeSesion((short) siguienteNumeroDeSesion);
             sesion.setDuracion(sesionARepetir.getDuracion());
             this.setSesionStyle(sesion);
-            this.getEntityManager().merge(sesion);
+            this.getEntityManager().persist(sesion);
             sesionesCreadas.add(sesion);
             siguienteNumeroDeSesion++;
         }
