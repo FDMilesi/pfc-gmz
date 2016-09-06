@@ -44,7 +44,7 @@
                     <div class="ui-g-12 ui-md-3">
                         <p:outputLabel value="#{bundle.SesionLabel_paciente}" for="paciente" />
                     </div>
-                    <div class="ui-g-12 ui-md-7">
+                    <div class="ui-g-10 ui-md-7">
                         <p:autoComplete id="paciente"
                                         value="#{tratamientoController.paciente}"
                                         completeMethod="#{pacienteController.autocompletar}"
@@ -69,7 +69,8 @@
                         </p:autoComplete>
                     </div>
 
-                    <!--CARGA RÁPIDA PACIENTE-->
+                    <!--CARGA RÁPIDA PACIENTE-->                    
+                    <div class="ui-g-2 ui-md-2">
                     <p:commandButton    id="createPacienteButtonCargaRapida" 
                                         icon="ui-person-add-black"                                                     
                                         actionListener="#{pacienteController.prepareCreate}" 
@@ -81,12 +82,13 @@
                                         immediate ="true"
                                         class="cargaRapida"
                                         title="Carga rápida paciente"/>
+                    </div>
                     <!--FIN CARGA RÁPIDA PACIENTE-->
 
                     <div class="ui-g-12 ui-md-3">
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}" for="tratamientoSeleccion" />
                     </div>
-                    <div class="ui-g-12 ui-md-7">
+                    <div class="ui-g-10 ui-md-7">
                         <p:selectOneMenu id="tratamientoSeleccion" widgetVar="tratamientoSeleccion" value="#{agendaSesionController.selected.tratamiento}">
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{tratamientoController.tratamientosByPacienteEnCurso}"
@@ -95,8 +97,9 @@
                             <p:ajax update="numeroDeSesion" listener="#{agendaSesionController.calcularNumeroSesion()}" event="change"/> 
                         </p:selectOneMenu>
                     </div>
-
+                    
                     <!--CARGA RÁPIDA TRATAMIENTO-->
+                    <div class="ui-g-2 ui-md-2">
                     <p:commandButton    id="createTratamientoButtonCargaRapida" 
                                         icon="ui-tratamiento-add"                                                     
                                         actionListener="#{tratamientoController.prepareCreate}" 
@@ -110,6 +113,7 @@
                                         class='cargaRapida'
                                         title='Carga rápida tratamiento'
                                         widgetVar="createTratamientoButtonCargaRapida"/>
+                    </div>
                     <!--FIN CARGA RÁPIDA TRATAMIENTO-->
 
                     <!--Botones del dialog-->

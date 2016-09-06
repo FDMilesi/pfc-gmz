@@ -892,12 +892,13 @@ label.ui-state-error {
 .ui-buttonset .ui-state-hover {
     background-color: #03a9f4;
 }
-.ui-button.ui-state-focus {
+/*Saco las sombras de todos los botones en general porque aparecen tmb en los icon-only y no deberían*/
+/*.ui-button.ui-state-focus {
     -webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     -moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
     background-color: #03a9f4;
-}
+}*/
 .ui-button.ui-state-active,
 .ui-buttonset .ui-state-active {
     background-color: #176ba0;

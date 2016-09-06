@@ -319,10 +319,11 @@ body{
 /*Botones de carga rápida*/
 .cargaRapida{
     background-color: transparent !important;
-    float: left !important;
+    /*float: left !important;*/
     opacity: 0.5 !important;
-    margin-left: 25px !important;
-    margin-top: 7px !important;
+    /*margin-left: 25px !important;*/
+    /*margin-top: 7px !important;*/
+    max-width: none !important;
 }
 .ui-dialog .ui-state-disabled{
     opacity: 0.2 !important;
