@@ -203,12 +203,12 @@ SELECT pg_catalog.setval('tipodetratamiento_id_seq', 1, true);
 --
 
 INSERT INTO tipotratamientoobrasocial VALUES (1,35,'25.01.01-25.01.02',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,113,'25.01.01-25.01.03',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,76,'25.01.01-25.01.04',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,78,'25.01.01-25.01.05-25.50.01',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,10,'25.01.01-25.01.05-25.50.02',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,115,'25.01.01-25.01.04',25);
-INSERT INTO tipotratamientoobrasocial VALUES (1,116,'25.01.01-25.01.05-25.50.02',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,113,'25.01.01-25.01.02',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,76,'25.01.01-25.01.02',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,78,'25.01.01-25.01.02-25.50.01',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,10,'25.01.01-25.01.02-25.50.01',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,115,'25.01.01-25.01.02',25);
+INSERT INTO tipotratamientoobrasocial VALUES (1,116,'25.01.01-25.01.02-25.50.01',25);
 
 
 -- Completed on 2016-03-15 19:02:53

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListPacienteTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="card shadowEffect">
+                <h:form>
+                    <p:breadCrumb >
+                        <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Configuraciones" disabled="true"/>
+                    </p:breadCrumb>
+                </h:form>
+            </div>
+            <div class="card shadowEffect">
+                <h:form id="ConfigOSForm">
+                    <p:focus />
+                    <p:tabView>
+                        <p:tab title="Códigos de prestación">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-6">
+                                    <div class="ui-g-12 ui-md-4">
+                                        <p:outputLabel value="#{bundle.ObraSocialSeleccion}" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-8">
+                                        <p:autoComplete id="obraSocial"
+                                                        value="#{configObraSocialController.currentObraSocial}"
+                                                        completeMethod="#{obraSocialController.autocompletar}"
+                                                        var="OSItem"
+                                                        forceSelection="true"
+                                                        itemLabel="#{OSItem.toString()}"
+                                                        itemValue="#{OSItem}"
+                                                        queryDelay="300"
+                                                        cache="true"
+                                                        cacheTimeout="2147483647"
+                                                        style="width: 100%"
+                                                        emptyMessage="(Ninguna Obra social con este nombre)"
+                                                        widgetVar="OSAutocomplete"
+                                                        >
+                                            <p:ajax update="codPrestacion" 
+                                                    listener="#{configObraSocialController.buscarTipoTratamientoObraSocial()}" 
+                                                    event="itemSelect"/>
+                                        </p:autoComplete>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-4">
+                                        <p:outputLabel value="#{bundle.TipoTratamientoSeleccion}" />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-8">
+                                        <p:selectOneMenu id="tipoDeTratamiento"
+                                                         value="#{configObraSocialController.currentTipoDeTratamiento}">
+                                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                                            <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
+                                                           var="tipoDeTratamientoItem"
+                                                           itemValue="#{tipoDeTratamientoItem}"
+                                                           />
+                                            <p:ajax update="codPrestacion" 
+                                                    listener="#{configObraSocialController.buscarTipoTratamientoObraSocial()}" 
+                                                    event="change"/> 
+                                        </p:selectOneMenu>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-4">
+                                        <p:outputLabel value="Cód. de prestación: " />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-8">
+                                        <p:inputText id="codPrestacion"
+                                                     disabled="#{empty configObraSocialController.currentTipoTratamientoObraSocial}"
+                                                     value="#{configObraSocialController.currentTipoTratamientoObraSocial.codigoDePrestacion}" />
+                                    </div>
+                                    <div class="ui-g-12">
+                                        <p:commandButton value="#{bundle.Save}"
+                                                         actionListener="#{configObraSocialController.updateTipoTratamientoObraSocial()}" 
+                                                         style="float: right;"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </p:tab>
+                        <!--<p:tab title="Merca"></p:tab>-->
+                    </p:tabView>
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+
+</html>

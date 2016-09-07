@@ -110,9 +110,10 @@
                     </div>
                     <p:commandButton  action="#{pacienteController.createAndRedirect()}" 
                                       value="#{bundle.Save}"
-                                      update="display,:PacienteListForm:datalist,:growl" 
-                                      oncomplete="handleSubmit(args,'PacienteCreateDialog');"
+                                      update="display,:growl" 
                                       style="float: right; background-color: #66BB6A;"/>
+                    <!--oncomplete="handleSubmit(args,'PacienteCreateDialog');"-->
+                    <!--:PacienteListForm:datalist, quitado del update-->
                     <p:commandButton immediate="true" 
                                      value="#{bundle.Cancel}" 
                                      onclick="PF('PacienteCreateDialog').hide()"
