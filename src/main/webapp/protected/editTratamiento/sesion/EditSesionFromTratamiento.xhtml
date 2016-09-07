@@ -48,7 +48,8 @@
                         <p:outputLabel value="#{bundle.SesionLabel_transcurrida}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox value="#{listSesionController.selected.transcurrida}"/>
+                        <!--<p:selectBooleanCheckbox value="#{listSesionController.selected.transcurrida}"/>-->
+                        <p:outputLabel value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
