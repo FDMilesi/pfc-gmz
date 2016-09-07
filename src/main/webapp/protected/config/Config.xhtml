@@ -57,7 +57,7 @@
                                         <p:selectOneMenu id="tipoDeTratamiento"
                                                          value="#{configObraSocialController.currentTipoDeTratamiento}">
                                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
-                                            <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
+                                            <f:selectItems value="#{tipoDeTratamientoController.itemsCubiertosPorOS}"
                                                            var="tipoDeTratamientoItem"
                                                            itemValue="#{tipoDeTratamientoItem}"
                                                            />
@@ -76,6 +76,7 @@
                                     </div>
                                     <div class="ui-g-12">
                                         <p:commandButton value="#{bundle.Save}"
+                                                         update=":growl"
                                                          actionListener="#{configObraSocialController.updateTipoTratamientoObraSocial()}" 
                                                          style="float: right;"/>
                                     </div>

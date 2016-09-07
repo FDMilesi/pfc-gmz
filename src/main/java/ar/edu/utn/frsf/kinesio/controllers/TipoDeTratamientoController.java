@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
@@ -12,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,10 +16,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
-/**
- *
- * @author fer_0
- */
 @Named(value = "tipoDeTratamientoController")
 @ApplicationScoped
 public class TipoDeTratamientoController implements Serializable {
@@ -31,15 +23,15 @@ public class TipoDeTratamientoController implements Serializable {
     @EJB
     TipoDeTratamientoFacade ejbFacade;
     List<TipoDeTratamiento> items;
+    List<TipoDeTratamiento> itemsCubiertosPorOS;
 
     @PostConstruct
     protected void init() {
         items = getFacade().findAll();
+        itemsCubiertosPorOS
+                = items.stream().filter(t -> t.isCubiertoPorObraSocial()).collect(Collectors.toList());
     }
 
-    /**
-     * Creates a new instance of TipoDeTratamientoController
-     */
     public TipoDeTratamientoController() {
     }
 
@@ -51,10 +43,14 @@ public class TipoDeTratamientoController implements Serializable {
         return items;
     }
 
+    public List<TipoDeTratamiento> getItemsCubiertosPorOS() {
+        return itemsCubiertosPorOS;
+    }
+
     public TipoDeTratamiento getTipoDeTratamiento(java.lang.Short id) {
         return getFacade().find(id);
     }
-    
+
     @FacesConverter(forClass = TipoDeTratamiento.class)
     public static class TipoDeTratamientoControllerConverter implements Converter {
 
