@@ -15,7 +15,7 @@
                   appendTo="@(body)" 
                   closeOnEscape="true"
                   responsive="true"
-                  style="max-width: 300px;"
+                  style="max-width: 450px;"
                   positionType="absolute"
                   draggable="false"
                   >
@@ -24,7 +24,7 @@
                     <div class="ui-g-12">
                         <p:outputLabel value="Repetir el/los días: "/>
                     </div>
-                    <div class="ui-g-12">
+                    <div class="ui-g-4">
                         <p:selectManyCheckbox value="#{cargaMasivaController.diasSeleccionados}" 
                                               columns="1" 
                                               layout="pageDirection"
@@ -36,6 +36,84 @@
                                            itemLabel="#{cargaMasivaController.getItemLabel(dia.value)}" />
                         </p:selectManyCheckbox>
                     </div>
+                    <div class="ui-g-8">
+                        <div class="ui-g-12">
+                            <p:calendar id="horaLunes"
+                                        value="#{cargaMasivaController.horaLunes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaMartes"
+                                        value="#{cargaMasivaController.horaMartes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaMiercoles"
+                                        value="#{cargaMasivaController.horaMiercoles}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaJueves"
+                                        value="#{cargaMasivaController.horaJueves}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaViernes"
+                                        value="#{cargaMasivaController.horaViernes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                    </div>
+
                     <div class="ui-g-12 ui-md-8">
                         <p:outputLabel value="Número de veces: " style="line-height: 40px;"/>
                     </div>

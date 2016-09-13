@@ -1229,9 +1229,9 @@ label.ui-state-error {
 }
 
 /*oculto los segundos en el calendar*/
-.ui_tpicker_second, .ui_tpicker_second_label{
+/*.ui_tpicker_second, .ui_tpicker_second_label{
     display: none !important;
-}
+}*/
 
 /*estilo de los botones del calendar*/
 .ui-datepicker-close, .ui-datepicker-current{

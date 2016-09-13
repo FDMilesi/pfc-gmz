@@ -63,7 +63,6 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:selectBooleanCheckbox 
-                            disabled="#{agendaSesionController.selected.transcurrida}"
                             value="#{agendaSesionController.selected.cuenta}"
                             validator="#{agendaSesionController.puedoSetearCuentaTrue}"/>
                     </div>
@@ -73,7 +72,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="dd/MM/yyyy HH:mm:ss" 
+                                    pattern="dd/MM/yyyy HH:mm" 
                                     value="#{agendaSesionController.selected.fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"

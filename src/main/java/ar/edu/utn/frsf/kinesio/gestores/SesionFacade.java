@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -196,7 +197,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     //Métodos para la carga masiva
     
-    public List<Sesion> cargaMasivaSesiones(Sesion sesionARepetir, Set<String> diasSeleccionados, int diasARepetir) {
+    public List<Sesion> cargaMasivaSesiones(Sesion sesionARepetir, Map<String, Date> diasYHorarios, int diasARepetir) {
         List<Sesion> sesionesCreadas = new ArrayList<>();
         LocalDate diaInicio;
         if(sesionARepetir.getFechaHoraInicio().before(new Date())){
@@ -204,14 +205,13 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         }else{
             diaInicio = sesionARepetir.getFechaHoraInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
-        List<LocalDate> listaDeFechas = this.getFechasParaCargaMasiva(diasSeleccionados, diasARepetir, diaInicio);
+        List<Date> listaDeFechas = this.getFechasParaCargaMasiva(diasYHorarios, diasARepetir, diaInicio);
         int siguienteNumeroDeSesion = this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()).intValue();
 
-        for (LocalDate fecha : listaDeFechas) {
+        for (Date fecha : listaDeFechas) {
             Sesion sesion = new Sesion();
             sesion.setAgenda(sesionARepetir.getAgenda());
-            Date nuevaFecha = this.calcularFechaSesionARepetir(sesionARepetir.getFechaHoraInicio(), fecha);
-            sesion.setFechaHoraInicio(nuevaFecha);
+            sesion.setFechaHoraInicio(fecha);
             sesion.setTranscurrida(false);
             sesion.setCuenta(true);
             sesion.setTratamiento(sesionARepetir.getTratamiento());
@@ -225,16 +225,19 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return sesionesCreadas;
     }
 
-    private List<LocalDate> getFechasParaCargaMasiva(Set<String> diasSeleccionados, int diasARepetir, LocalDate diaInicio) {
+    private List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
         int count = 0;
         int diasFuturos = 1;
-        LocalDate diaFututo;
-        List<LocalDate> listaDeFechas = new ArrayList<>();
+        LocalDate diaFuturo;
+        List<Date> listaDeFechas = new ArrayList<>();
 
         while (count < diasARepetir) {
-            diaFututo = diaInicio.plusDays(diasFuturos);
-            if (diasSeleccionados.contains(diaFututo.getDayOfWeek().name())) {
-                listaDeFechas.add(diaFututo);
+            diaFuturo = diaInicio.plusDays(diasFuturos);
+            if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
+                
+                listaDeFechas
+                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()), 
+                                diaFuturo));
                 count++;
             }
             diasFuturos++;
@@ -243,13 +246,12 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
     
     //Fusiona la hora de la sesion a repetir con la fecha en que debe repetirse la sesión
-    private Date calcularFechaSesionARepetir(Date fechaOriginal, LocalDate nuevaFecha) {
+    private Date calcularFechaSesionARepetir(Date horaQueQuiero, LocalDate nuevaFecha) {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(fechaOriginal);
+        cal.setTime(horaQueQuiero);
         int hora = cal.get(Calendar.HOUR_OF_DAY);
         int minutos = cal.get(Calendar.MINUTE);
         LocalDateTime ldt = nuevaFecha.atTime(hora, minutos);
-        Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
-        return out;
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

@@ -7,8 +7,12 @@ import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,6 +36,11 @@ public class CargaMasivaController implements Serializable {
     private int[] arrayVecesDisponible;
     private Sesion selected;
     private List<Sesion> sesionesCreadas;
+    private Date horaLunes;
+    private Date horaMartes;
+    private Date horaMiercoles;
+    private Date horaJueves;
+    private Date horaViernes;
 
     @PostConstruct
     public void init() {
@@ -60,7 +69,11 @@ public class CargaMasivaController implements Serializable {
 
     public void guardarCargaMasiva() {
         if (cantSesiones > 0) {
-            sesionesCreadas = this.getFacade().cargaMasivaSesiones(selected, diasSeleccionados, cantSesiones);
+            Map<String, Date> diasYHorarios = new HashMap<>();
+            for (String diaSeleccionado : diasSeleccionados) {
+                diasYHorarios.put(diaSeleccionado, this.getHoraDelDiaSeleccionado(diaSeleccionado));
+            }
+            sesionesCreadas = this.getFacade().cargaMasivaSesiones(selected, diasYHorarios, cantSesiones);
             JsfUtil.addSuccessMessage("Sesiones creadas con éxito");
         } else {
             sesionesCreadas = new ArrayList<>();
@@ -68,11 +81,28 @@ public class CargaMasivaController implements Serializable {
         }
     }
 
+    private Date getHoraDelDiaSeleccionado(String dia) {
+        switch (DayOfWeek.valueOf(dia)) {
+            case MONDAY:
+                return horaLunes;
+            case TUESDAY:
+                return horaMartes;
+            case WEDNESDAY:
+                return horaMiercoles;
+            case THURSDAY:
+                return horaJueves;
+            case FRIDAY:
+                return horaViernes;
+        }
+        return null;
+    }
+
     public Sesion getSelected() {
         return selected;
     }
 
     public void setSelected(Sesion selected) {
+        //Cargo las veces disponibles
         int vecesDisponible = selected.getTratamiento().getCantidadDeSesiones() - getFacade().countSesionesByTratamientoQueCuentan(selected.getTratamiento());
         if (vecesDisponible <= 0) {
             arrayVecesDisponible = new int[]{};
@@ -82,6 +112,12 @@ public class CargaMasivaController implements Serializable {
                 arrayVecesDisponible[i] = i + 1;
             }
         }
+        //Seteo las horas por defecto
+        horaLunes = (Date) selected.getFechaHoraInicio().clone();
+        horaMartes = (Date) selected.getFechaHoraInicio().clone();
+        horaMiercoles = (Date) selected.getFechaHoraInicio().clone();
+        horaJueves = (Date) selected.getFechaHoraInicio().clone();
+        horaViernes = (Date) selected.getFechaHoraInicio().clone();
         this.selected = selected;
     }
 
@@ -124,4 +160,45 @@ public class CargaMasivaController implements Serializable {
     private SesionFacade getFacade() {
         return ejbFacade;
     }
+
+    public Date getHoraLunes() {
+        return horaLunes;
+    }
+
+    public void setHoraLunes(Date horaLunes) {
+        this.horaLunes = horaLunes;
+    }
+
+    public Date getHoraMartes() {
+        return horaMartes;
+    }
+
+    public void setHoraMartes(Date horaMartes) {
+        this.horaMartes = horaMartes;
+    }
+
+    public Date getHoraMiercoles() {
+        return horaMiercoles;
+    }
+
+    public void setHoraMiercoles(Date horaMiercoles) {
+        this.horaMiercoles = horaMiercoles;
+    }
+
+    public Date getHoraJueves() {
+        return horaJueves;
+    }
+
+    public void setHoraJueves(Date horaJueves) {
+        this.horaJueves = horaJueves;
+    }
+
+    public Date getHoraViernes() {
+        return horaViernes;
+    }
+
+    public void setHoraViernes(Date horaViernes) {
+        this.horaViernes = horaViernes;
+    }
+
 }

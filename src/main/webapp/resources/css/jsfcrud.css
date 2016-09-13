@@ -336,3 +336,12 @@ body{
     background-color: transparent !important;
     opacity: 0.2 !important;
 }
+
+/*Form carga masiva*/
+#CargaMasivaForm table tbody tr td{
+    padding: 13px 0px;
+}
+
+#CargaMasivaForm .ui-calendar .ui-inputfield{
+    width: 60% !important;
+}
