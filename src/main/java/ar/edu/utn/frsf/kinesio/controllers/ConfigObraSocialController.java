@@ -44,7 +44,7 @@ public class ConfigObraSocialController implements Serializable {
     public void updateTipoTratamientoObraSocial() {
         //TODO: meter en un try-catch
         this.tipoTratamientoObraSocialFacade.edit(currentTipoTratamientoObraSocial);
-        JsfUtil.addSuccessMessage("Código guardado con éxito");
+        JsfUtil.addSuccessMessage("Configuración guardada con éxito");
 
     }
 

@@ -1,7 +1,10 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +30,8 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
     @EJB
     ObraSocialFacade obraSocialFacade;
+    @EJB
+    private TipoTratamientoObraSocialFacade tipoTratamientoObraSocialFacade;
 
     public OrdenMedicaFacade() {
         super(OrdenMedica.class);
@@ -40,10 +45,30 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
         orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
         orden.setAutorizada(Boolean.FALSE);
-
+        
+        //si no necesita autorizacion ya la doy de alta como autorizada
+        if (!this.necesitaAutorizacion(tratamiento.getTipoDeTratamiento(), tratamiento.getPaciente().getObraSocial()))
+            orden.setAutorizada(Boolean.TRUE);
+        
         return orden;
     }
+    
+    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial){
+        TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
+                .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
+        
+        //Si no existe la relacion entre la OS y el tipo de trata
+        if (tipoTratamientoObraSocial == null) {
+            return Boolean.TRUE;
+        }
+        
+        return tipoTratamientoObraSocial.isRequiereAutorizacion();
+    }
 
+    public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {
+        return tipoTratamientoObraSocialFacade;
+    }
+    
     public List<OrdenMedica> getOrdenesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager()
                 .createNamedQuery("OrdenMedica.findByTratamiento")

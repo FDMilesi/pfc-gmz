@@ -45,7 +45,7 @@
                                                         emptyMessage="(Ninguna Obra social con este nombre)"
                                                         widgetVar="OSAutocomplete"
                                                         >
-                                            <p:ajax update="codPrestacion" 
+                                            <p:ajax update="codPrestacion,requiereAutorizacion" 
                                                     listener="#{configObraSocialController.buscarTipoTratamientoObraSocial()}" 
                                                     event="itemSelect"/>
                                         </p:autoComplete>
@@ -61,7 +61,7 @@
                                                            var="tipoDeTratamientoItem"
                                                            itemValue="#{tipoDeTratamientoItem}"
                                                            />
-                                            <p:ajax update="codPrestacion" 
+                                            <p:ajax update="codPrestacion,requiereAutorizacion" 
                                                     listener="#{configObraSocialController.buscarTipoTratamientoObraSocial()}" 
                                                     event="change"/> 
                                         </p:selectOneMenu>
@@ -74,6 +74,13 @@
                                                      disabled="#{empty configObraSocialController.currentTipoTratamientoObraSocial}"
                                                      value="#{configObraSocialController.currentTipoTratamientoObraSocial.codigoDePrestacion}" />
                                     </div>
+                                    <div class="ui-g-12 ui-md-4">
+                                        <p:outputLabel value="Requiere autorización?: " />
+                                    </div>
+                                    <div class="ui-g-12 ui-md-8">
+                                        <p:selectBooleanCheckbox id="requiereAutorizacion" value="#{configObraSocialController.currentTipoTratamientoObraSocial.requiereAutorizacion}"                                                    
+                                                     disabled="#{empty configObraSocialController.currentTipoTratamientoObraSocial}"/>
+                                    </div>
                                     <div class="ui-g-12">
                                         <p:commandButton value="#{bundle.Save}"
                                                          update=":growl"
@@ -83,7 +90,7 @@
                                 </div>
                             </div>
                         </p:tab>
-                        <!--<p:tab title="Merca"></p:tab>-->
+                        <!--<p:tab title="Acá iría otro Tab"></p:tab>-->
                     </p:tabView>
                 </h:form>
             </div>
