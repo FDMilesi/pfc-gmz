@@ -93,12 +93,14 @@
                         <p:inputText id="nroAfiliadoOS" 
                                      value="#{pacienteController.selected.nroAfiliadoOS}" />
                     </div>
-                    <p:commandButton  action="#{pacienteController.create}" 
+                    <p:commandButton  id ="btnGuardar"
+                                      action="#{pacienteController.create}" 
                                       value="#{bundle.Save}"
                                       update="display,:PacienteListForm:datalist,:growl" 
                                       oncomplete="handleSubmit(args,'PacienteCreateDialog');"
                                       style="float: right; background-color: #66BB6A;"/>
-                    <p:commandButton immediate="true" 
+                    <p:commandButton id="btnCancear"
+                                     immediate="true" 
                                      value="#{bundle.Cancel}" 
                                      onclick="PF('PacienteCreateDialog').hide()"
                                      style="float: right; background-color: #E53935;"/>
