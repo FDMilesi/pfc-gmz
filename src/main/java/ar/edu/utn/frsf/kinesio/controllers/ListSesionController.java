@@ -25,13 +25,14 @@ public class ListSesionController extends AbstractSesionController implements Se
 
     @PostConstruct
     public void init() {
-        tratamientoEnEdicion = 
-                (Tratamiento) JsfUtil.getObjectFromRequestParameter(
-                    "tratamiento",
-                    FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
-                    null);
-        if (tratamientoEnEdicion != null)
+        tratamientoEnEdicion
+                = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                        "tratamiento",
+                        FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
+                        null);
+        if (tratamientoEnEdicion != null) {
             items = getFacade().getSesionesByTratamiento(tratamientoEnEdicion);
+        }
     }
 
     public ListSesionController() {
@@ -39,11 +40,16 @@ public class ListSesionController extends AbstractSesionController implements Se
 
     //Getters y Setters
     public List<Sesion> getItems() {
-        if (items == null)
+        if (items == null) {
             items = getFacade().getSesionesByTratamiento(tratamientoEnEdicion);
+        }
         return items;
     }
 
+    public void setItems(List<Sesion> items) {
+        this.items = items;
+    }
+    
     public Tratamiento getTratamientoEnEdicion() {
         return tratamientoEnEdicion;
     }

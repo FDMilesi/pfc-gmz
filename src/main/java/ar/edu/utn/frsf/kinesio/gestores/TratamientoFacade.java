@@ -1,7 +1,6 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
-import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +8,6 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PostLoad;
 import javax.persistence.PrePersist;
 
 /**
@@ -44,11 +42,22 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
                 .createNamedQuery("Tratamiento.findByPaciente")
                 .setParameter("paciente", paciente).getResultList();
     }
-
+    
+    public List<Tratamiento> getTratamientosByPacienteContandoSesiones(Paciente paciente) {
+        List<Tratamiento> lista = getEntityManager()
+                .createNamedQuery("Tratamiento.findByPaciente")
+                .setParameter("paciente", paciente).getResultList();
+        for (Tratamiento tratamiento : lista) {
+            tratamiento.setSesionesRealizadas(sesionFacade.countSesionesByTratamientoQueCuentanTranscurridas(tratamiento));
+        }
+        return lista;
+    }
+    
     public Tratamiento initTratamiento(Paciente paciente) {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());
         tratamiento.setParticular(false);
+        tratamiento.setFinalizado(Boolean.FALSE);
         return tratamiento;
     }
 
@@ -111,25 +120,6 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         if (!tratamiento.getTipoDeTratamiento().isCubiertoPorObraSocial()) {
             tratamiento.setParticular(true);
         }
-    }
-
-    /**
-     * Método ejecutado luego de obtener un tratamiento desde la base de datos
-     * Tratamiento.
-     *
-     * @param tratamiento
-     */
-    @PostLoad
-    void onPostLoad(Tratamiento tratamiento) {
-        //Calculo el atributo sesionesRealizadas del tratamiento que se esta cargando.
-        List<Sesion> sesiones = this.sesionFacade.getSesionesByTratamiento(tratamiento);
-        int sesionesRealizadas = 0;
-        for (Sesion s : sesiones) {
-            if (s.getTranscurrida()) {
-                sesionesRealizadas++;
-            }
-        }
-        tratamiento.setSesionesRealizadas(sesionesRealizadas);
     }
 
 }

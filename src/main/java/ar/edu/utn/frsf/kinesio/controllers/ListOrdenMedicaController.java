@@ -47,6 +47,7 @@ public class ListOrdenMedicaController implements Serializable {
     }
 
     public void update() {
+        selected = this.getFacade().autorizarOrden(selected);
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
     }
 
@@ -126,14 +127,22 @@ public class ListOrdenMedicaController implements Serializable {
         return getFacade().find(id);
     }
 
+    /* Ordenar lista con funcionales
+    Collections.sort(itemsFiltrados,
+    (o1, o2) -> o1.getTratamiento().getPaciente().getApellido()
+    .compareTo(o2.getTratamiento().getPaciente().getApellido()));
+    */
+    
     public String redirectToReport() {
-//        Collections.sort(itemsFiltrados,
-//                (o1, o2) -> o1.getTratamiento().getPaciente().getApellido()
-//                .compareTo(o2.getTratamiento().getPaciente().getApellido()));
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ordenesReport", itemsFiltrados);
         return "/protected/ordenMedica/ReportList.xhtml?faces-redirect=true";
     }
 
+    public String marcarOrdenesPresentadasYRedirigir(){ 
+        getFacade().marcarOrdenesComoPresentadas(itemsFiltrados);
+        return this.redirectToReport();
+    }
+    
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
         if (selected != null) {
             try {

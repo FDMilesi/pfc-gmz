@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:composition>
         <p:dialog id="SesionEditDlg" 
@@ -19,7 +20,7 @@
                   draggable="false"
                   >
             <h:form id="SesionEditForm">
-                <h:panelGroup id="display" rendered="#{listSesionController.selected != null}">
+                <h:panelGroup id="display" class="ui-g" rendered="#{listSesionController.selected != null}">
                     <!--paciente-->
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.TratamientoLabel_paciente}"/>
@@ -47,7 +48,8 @@
                         <p:outputLabel value="#{bundle.SesionLabel_transcurrida}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox value="#{listSesionController.selected.transcurrida}"/>
+                        <!--<p:selectBooleanCheckbox value="#{listSesionController.selected.transcurrida}"/>-->
+                        <p:outputLabel value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
@@ -64,9 +66,8 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="dd/MM/yyyy HH:mm:ss" 
+                                    pattern="dd/MM/yyyy HH:mm" 
                                     value="#{listSesionController.selected.fechaHoraInicio}" 
-                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
                                     locale="es"
@@ -78,18 +79,27 @@
                                     validator="#{listSesionController.validarFecha}"
                                     />
                     </div>
-                    <p:commandButton actionListener="#{listSesionController.update}" 
-                                     value="#{bundle.Save}" 
-                                     update="display,:SesionListForm:datalist,:growl" 
-                                     oncomplete="handleSubmit(args, 'SesionEditDialog');"
-                                     style="float: right; background-color: #66BB6A;"
-                                     />
-                    <p:commandButton value="#{bundle.Cancel}" 
-                                     immediate="true" 
-                                     onclick="PF('SesionEditDialog').hide()"
-                                     style="float: right; background-color: #E53935;"
-                                     />
                 </h:panelGroup>
+                <p:commandButton actionListener="#{listSesionController.update}" 
+                                 value="#{bundle.Save}" 
+                                 update="display,:SesionListForm:datalist,:growl" 
+                                 oncomplete="handleSubmit(args, 'SesionEditDialog');"
+                                 style="float: right; background-color: #66BB6A;"
+                                 />
+                <p:commandButton value="REPETIR SESIÓN" 
+                                 title="Permite repetir esta sesión en días futuros"
+                                 resetValues="true"
+                                 update=":CargaMasivaForm" 
+                                 oncomplete="PF('CargaMasivaDialog').show();"
+                                 style="float: right;"
+                                 >
+                    <f:setPropertyActionListener value="#{listSesionController.selected}" target="#{cargaMasivaController.selected}" />
+                </p:commandButton>
+                <p:commandButton value="#{bundle.Cancel}" 
+                                 immediate="true" 
+                                 onclick="PF('SesionEditDialog').hide();"
+                                 style="float: right; background-color: #E53935;"
+                                 />
             </h:form>
         </p:dialog>
     </ui:composition>

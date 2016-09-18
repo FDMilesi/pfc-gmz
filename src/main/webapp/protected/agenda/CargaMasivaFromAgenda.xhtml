@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:composition>
+        <p:dialog id="CargaMasivaDlg" 
+                  widgetVar="CargaMasivaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  header="Repetir sesión"
+                  appendTo="@(body)" 
+                  closeOnEscape="true"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
+                  draggable="false"
+                  >
+            <h:form id="CargaMasivaForm">
+                <h:panelGroup id="display" class="ui-g">
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Repetir el/los días: "/>
+                    </div>
+                    <div class="ui-g-4">
+                        <p:selectManyCheckbox value="#{cargaMasivaController.diasSeleccionados}" 
+                                              columns="1" 
+                                              layout="pageDirection"
+                                              style="text-transform: capitalize;"
+                                              validator="#{cargaMasivaController.validatorCheckBoxes}">
+                            <f:selectItems value="#{cargaMasivaController.dias}" 
+                                           var="dia" 
+                                           itemValue="#{dia}" 
+                                           itemLabel="#{cargaMasivaController.getItemLabel(dia.value)}" />
+                        </p:selectManyCheckbox>
+                    </div>
+                    <div class="ui-g-8">
+                        <div class="ui-g-12">
+                            <p:calendar id="horaLunes"
+                                        value="#{cargaMasivaController.horaLunes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaMartes"
+                                        value="#{cargaMasivaController.horaMartes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaMiercoles"
+                                        value="#{cargaMasivaController.horaMiercoles}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaJueves"
+                                        value="#{cargaMasivaController.horaJueves}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                        <div class="ui-g-12">
+                            <p:calendar id="horaViernes"
+                                        value="#{cargaMasivaController.horaViernes}"
+                                        pattern="HH:mm" 
+                                        timeOnly="true"
+                                        showOn="button" 
+                                        showButtonPanel="true"
+                                        locale="es"
+                                        stepMinute="5"
+                                        timeZone="GMT-3"
+                                        minHour="8"
+                                        maxHour="21"
+                                        readonlyInput="true"
+                                        />
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-8">
+                        <p:outputLabel value="Número de veces: " style="line-height: 40px;"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <p:selectOneMenu value="#{cargaMasivaController.cantSesiones}" 
+                                         validator="#{cargaMasivaController.validatorVecesARepetir}">
+                            <f:selectItems value="#{cargaMasivaController.arrayVecesDisponible}" />
+                        </p:selectOneMenu>
+                    </div>
+                </h:panelGroup>
+                <p:commandButton 
+                    value="GUARDAR" 
+                    update="display,:growl" 
+                    actionListener="#{cargaMasivaController.guardarCargaMasiva()}"
+                    oncomplete="PF('agenda').update(); handleSubmitTwoDialogs(args, 'CargaMasivaDialog', 'SesionEditDialog');"
+                    style="float: right; background-color: #66BB6A;">
+                    <f:actionListener binding="#{agendaController.agregarSesiones(cargaMasivaController.sesionesCreadas)}"/>
+                </p:commandButton>
+                <p:commandButton value="#{bundle.Cancel}" 
+                                 immediate="true" 
+                                 onclick="PF('CargaMasivaDialog').hide()"
+                                 style="float: right; background-color: #E53935;"
+                                 />
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PacienteCreateCargaRapidaDlg" 
+                  widgetVar="PacienteCreateCargaRapidaDialog" 
+                  modal="true" 
+                  resizable="false" appendTo="@(body)" 
+                  header="#{bundle.CreatePacienteTitle}"
+                  closeOnEscape="true"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
+                  draggable="false"
+                  >
+            <h:form id="PacienteCreateCargaRapidaForm">
+                <h:panelGroup id="display" rendered="#{pacienteController.selected != null}">
+                    <p:focus context="display"/>
+                    <!--APELLIDO-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.PacienteLabel_apellido}" for="apellido" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="apellido" 
+                                     value="#{pacienteController.selected.apellido}"/>
+                    </div>
+
+                    <!--NOMBRE-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.PacienteLabel_nombre}" for="nombre" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="nombre" 
+                                     value="#{pacienteController.selected.nombre}"/>
+                    </div>
+
+                    <!--TELEFONOS-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.PacienteLabel_telefono}" for="telefono" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="telefono" 
+                                     value="#{pacienteController.selected.telefono}" /> 
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.PacienteLabel_celular}" for="celular" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="celular" 
+                                     value="#{pacienteController.selected.celular}" />  
+                    </div>
+
+                    <!--BOTONES-->                    
+                    <p:commandButton  action="#{pacienteController.create()}" 
+                                      value="#{bundle.Save}"
+                                      update="display,:SesionCreateForm,:growl" 
+                                      oncomplete="handleSubmit(args,'PacienteCreateCargaRapidaDialog');"
+                                      style="float: right; background-color: #66BB6A;">
+                        <f:setPropertyActionListener value="#{pacienteController.selected}" target="#{tratamientoController.paciente}"/>
+                    </p:commandButton>
+                    <p:commandButton immediate="true" 
+                                     value="#{bundle.Cancel}" 
+                                     onclick="PF('PacienteCreateCargaRapidaDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

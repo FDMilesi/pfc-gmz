@@ -1,11 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -17,10 +13,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Fran
- */
 @Entity
 @Table(name = "tipotratamientoobrasocial")
 @XmlRootElement
@@ -33,14 +25,22 @@ public class TipoTratamientoObraSocial implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected TipoTratamientoObraSocialPK tipoTratamientoObraSocialPK;
+    
     @Size(max = 20)
     @Column(name = "codigodeprestacion")
     private String codigoDePrestacion;
+    
     @Column(name = "topesesionesa\u00f1o")
     private Short topeSesionesAño;
+    
+    @Basic(optional = false)
+    @Column(name = "requiereautorizacion")
+    private boolean requiereAutorizacion;
+    
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private ObraSocial obraSocial;
+    
     @JoinColumn(name = "tipotratamientoid", referencedColumnName = "id", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private TipoDeTratamiento tipoDeTratamiento;
@@ -94,6 +94,14 @@ public class TipoTratamientoObraSocial implements Serializable {
 
     public void setTipoDeTratamiento(TipoDeTratamiento tipoDeTratamiento) {
         this.tipoDeTratamiento = tipoDeTratamiento;
+    }
+
+    public boolean isRequiereAutorizacion() {
+        return requiereAutorizacion;
+    }
+
+    public void setRequiereAutorizacion(boolean requiereAutorizacion) {
+        this.requiereAutorizacion = requiereAutorizacion;
     }
 
     @Override

@@ -40,17 +40,17 @@
                     <!--                    <p:ajax event="rowSelect"   update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>
                                         <p:ajax event="rowUnselect" update="ordenMedicaTratamientoAutorizarButton ordenMedicaTratamientoDeleteButton"/>-->
 
-                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}">
-                        <h:outputText value="#{orderItem.fechaCreacion}">
+                    <p:column headerText="#{bundle.OrdenMedicaTitle_fechaAutorizacion}">
+                        <h:outputText value="#{orderItem.fechaAutorizacion}">
                             <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3"/>
                         </h:outputText>
                     </p:column>
 
-                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
+                    <p:column headerText="#{bundle.OrdenMedicaTitle_cantidadDeSesiones}">
                         <h:outputText value="#{orderItem.cantidadDeSesiones}"/>                                
                     </p:column>
 
-                    <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
+                    <p:column headerText="#{bundle.OrdenMedicaTitle_codigoDeAutorizacion}">
                         <h:outputText value="#{orderItem.codigoDeAutorizacion}"/>
                     </p:column>
                     <!--OPCIONES-->
@@ -68,11 +68,11 @@
                         <p:commandButton id="ordenMedicaTratamientoDeleteButton" 
                                          icon="ui-icon-trash"  
                                          title="#{bundle.Delete}" 
-                                         actionListener="#{ordenMedicaController.destroy}" 
+                                         action="#{ordenMedicaController.destroy}" 
                                          update=":growl,ordenMedicasTratamientoList" 
                                          disabled="#{(orderItem.autorizada || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
-                            <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
+                            <p:confirm header="#{bundle.OrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
 
                     </p:column>

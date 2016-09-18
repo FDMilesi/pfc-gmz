@@ -23,11 +23,12 @@
                                 allDaySlot="false" slotDuration="00:15:00" 
                                 showWeekends="FALSE" minTime="07:00:00" maxTime="21:00:00" resizable="false"
                                 columnFormat="ddd D/MMMM"
+                                scrollTime="#{agendaController.horaActual}"
                                 >
                         <!--scrollTime="08:00:00"-->
                         <p:ajax event="dateSelect" 
                                 listener="#{agendaController.prepareCreateSesion}"
-                                update=":SesionCreateForm, :growl"
+                                update=":SesionCreateForm, :growl, :PacienteCreateCargaRapidaForm"
                                 oncomplete="PF('SesionCreateDialog').show();"
                                 resetValues="true" />
                         <p:ajax event="eventSelect"
@@ -43,7 +44,10 @@
                 </div>
             </h:form>
             <ui:include src="CreateSesionFromAgenda.xhtml"/>
-            <ui:include src="EditSesionFromAgenda.xhtml"/> 
+            <ui:include src="EditSesionFromAgenda.xhtml"/>
+            <ui:include src="CargaRapida/CreatePacienteCargaRapida.xhtml"/>
+            <ui:include src="CargaRapida/CreateTratmientoCargaRapida.xhtml"/>
+            <ui:include src="CargaMasivaFromAgenda.xhtml" />            
             <script>
                 //Matcher de cambio de tamaño. Hago mobile first
                 var mediaMatchMD = window.matchMedia("(min-width: 40.063em)");

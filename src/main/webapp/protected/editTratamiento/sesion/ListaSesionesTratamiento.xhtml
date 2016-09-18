@@ -37,8 +37,8 @@
                             </div>  
                         </div>
                     </f:facet>
-<!--                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
-                    <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>-->
+                    <!--                    <p:ajax event="rowSelect"   update="createButton editButton deleteButton"/>
+                                        <p:ajax event="rowUnselect" update="createButton editButton deleteButton"/>-->
                     <p:column headerText="#{bundle.SesionTitle_numeroDeSesion}">
                         <h:outputText value="#{item.numeroDeSesion}"/>
                     </p:column>
@@ -62,18 +62,18 @@
                         <p:commandButton id="editButton" 
                                          icon="ui-icon-pencil" 
                                          title="#{bundle.Edit}"
-                                         update=":SesionEditForm" 
+                                         update=":SesionEditForm, :CargaMasivaForm" 
                                          resetValues="true"
                                          oncomplete="PF('SesionEditDialog').show()" 
                                          disabled="#{editTratamientoController.selected.finalizado}">                            
-                            <f:setPropertyActionListener value="#{item}" target="#{listSesionController.selected}" />    
+                            <f:setPropertyActionListener value="#{item}" target="#{listSesionController.selected}" />
                             <f:actionListener binding="#{listSesionController.antesDeEditar()}"/>
                         </p:commandButton>
                         <!--ELIMINAR-->
                         <p:commandButton id="deleteButton" 
                                          icon="ui-icon-trash"  
                                          title="#{bundle.Delete}" 
-                                         actionListener="#{listSesionController.destroy}" 
+                                         action="#{listSesionController.destroy}" 
                                          update=":growl,datalist" 
                                          disabled="#{(item.transcurrida || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{item}" target="#{listSesionController.selected}" />

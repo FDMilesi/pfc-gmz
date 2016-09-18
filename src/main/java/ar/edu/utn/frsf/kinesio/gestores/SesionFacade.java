@@ -3,15 +3,20 @@ package ar.edu.utn.frsf.kinesio.gestores;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
-import javax.persistence.PostUpdate;
-import javax.persistence.PrePersist;
 
 /**
  *
@@ -83,38 +88,39 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      * @return
      */
     public boolean puedoAgregarSesion(Tratamiento tratamiento) {
-        short cantidadQueCuentanMasUno = (short) (this.countSesionesByTratamientoQueCuentan(tratamiento) + 1);
-        //Si la cantiad de sesiones que cuentan más uno es menor o igual a 
+        return this.puedoAgregarSesiones(tratamiento, 1);
+    }
+
+    /**
+     * Me dice si puedo agregar o no una determinada cantidad de sesiones al
+     * tratamiento pasado como parámetro. Se invoca típicamente desde la carga
+     * masiva de sesiones. (Notar que es private, no usado desde afuera aún).
+     *
+     * @param tratamiento
+     * @param cantSesiones cantidad de sesiones que quiero ver si se pueden
+     * agregar al tratamiento
+     * @return
+     */
+    private boolean puedoAgregarSesiones(Tratamiento tratamiento, int cantSesiones) {
+        short cantidadQueCuentanMasUno = (short) (this.countSesionesByTratamientoQueCuentan(tratamiento) + cantSesiones);
+        //Si la cantiad de sesiones que cuentan más la cantiadad que deseo agregar es menor o igual a 
         //la cantidad seteada en el tratamiento, retorno true
         return Short.compare(cantidadQueCuentanMasUno, tratamiento.getCantidadDeSesiones()) <= 0;
     }
 
     public Sesion editAndReturn(Sesion sesion) {
         //valido que la sesión no se esté agregando a un tratamiento finalizado
-        if (sesion.getTratamiento().getFinalizado())
+        if (sesion.getTratamiento().getFinalizado()) {
             throw new EJBException("Error: el tratamiento se encuentra finalizado");
+        }
+        sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
+        this.setSesionStyle(sesion);
         return getEntityManager().merge(sesion);
-    }
-
-    /**
-     * Método ejecutado antes de que una sesión sea persistida
-     *
-     * @param sesion
-     */
-    @PrePersist
-    void onPrePersist(Sesion s) {
-        //Seteo la duración de la sesión creada en base al tipo de tratamiento
-        s.setDuracion(s.getTratamiento().getTipoDeTratamiento().getDuracion());
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
-        setSesionStyle(s);
-    }
-    
-    @PostUpdate
-    void onPostUpdate(Sesion s) {
         setSesionStyle(s);
     }
 
@@ -130,6 +136,11 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public int countSesionesByTratamientoNoTranscurridas(Tratamiento tratamiento) {
         return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoNoTranscurridas")
+                .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
+    }
+
+    public int countSesionesByTratamientoQueCuentanTranscurridas(Tratamiento tratamiento) {
+        return ((Number) getEntityManager().createNamedQuery("Sesion.countByTratamientoQueCuentanTranscurridas")
                 .setParameter("tratamiento", tratamiento).getSingleResult()).intValue();
     }
 
@@ -182,5 +193,65 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     public void marcarSesionesTranscurridas() {
         em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
+    }
+
+    //Métodos para la carga masiva
+    
+    public List<Sesion> cargaMasivaSesiones(Sesion sesionARepetir, Map<String, Date> diasYHorarios, int diasARepetir) {
+        List<Sesion> sesionesCreadas = new ArrayList<>();
+        LocalDate diaInicio;
+        if(sesionARepetir.getFechaHoraInicio().before(new Date())){
+            diaInicio = LocalDate.now();
+        }else{
+            diaInicio = sesionARepetir.getFechaHoraInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        }
+        List<Date> listaDeFechas = this.getFechasParaCargaMasiva(diasYHorarios, diasARepetir, diaInicio);
+        int siguienteNumeroDeSesion = this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()).intValue();
+
+        for (Date fecha : listaDeFechas) {
+            Sesion sesion = new Sesion();
+            sesion.setAgenda(sesionARepetir.getAgenda());
+            sesion.setFechaHoraInicio(fecha);
+            sesion.setTranscurrida(false);
+            sesion.setCuenta(true);
+            sesion.setTratamiento(sesionARepetir.getTratamiento());
+            sesion.setNumeroDeSesion((short) siguienteNumeroDeSesion);
+            sesion.setDuracion(sesionARepetir.getDuracion());
+            this.setSesionStyle(sesion);
+            this.getEntityManager().persist(sesion);
+            sesionesCreadas.add(sesion);
+            siguienteNumeroDeSesion++;
+        }
+        return sesionesCreadas;
+    }
+
+    private List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
+        int count = 0;
+        int diasFuturos = 1;
+        LocalDate diaFuturo;
+        List<Date> listaDeFechas = new ArrayList<>();
+
+        while (count < diasARepetir) {
+            diaFuturo = diaInicio.plusDays(diasFuturos);
+            if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
+                
+                listaDeFechas
+                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()), 
+                                diaFuturo));
+                count++;
+            }
+            diasFuturos++;
+        }
+        return listaDeFechas;
+    }
+    
+    //Fusiona la hora de la sesion a repetir con la fecha en que debe repetirse la sesión
+    private Date calcularFechaSesionARepetir(Date horaQueQuiero, LocalDate nuevaFecha) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(horaQueQuiero);
+        int hora = cal.get(Calendar.HOUR_OF_DAY);
+        int minutos = cal.get(Calendar.MINUTE);
+        LocalDateTime ldt = nuevaFecha.atTime(hora, minutos);
+        return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 }

@@ -33,7 +33,8 @@
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:link value="#{agendaSesionController.selected.tratamiento.toString()}"
+                        <p:link style="font-size: 12pt"
+                                value="#{agendaSesionController.selected.tratamiento.toString()}"
                                 includeViewParams="true" 
                                 outcome="/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true">
                             <f:param name="tratamiento" value="#{agendaSesionController.selected.tratamiento.id}" />
@@ -52,7 +53,9 @@
                         <p:outputLabel value="#{bundle.SesionLabel_transcurrida}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox value="#{agendaSesionController.selected.transcurrida}"/>
+<!--                        <p:selectBooleanCheckbox disabled="#{agendaSesionController.selected.transcurrida}"
+                                                 value="#{agendaSesionController.selected.transcurrida}"/>-->
+                        <p:outputLabel value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
@@ -69,7 +72,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="dd/MM/yyyy HH:mm:ss" 
+                                    pattern="dd/MM/yyyy HH:mm" 
                                     value="#{agendaSesionController.selected.fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
@@ -90,9 +93,18 @@
                                      oncomplete="handleSubmit(args, 'SesionEditDialog'); PF('agenda').update()"
                                      style="float: right; background-color: #66BB6A;"
                                      />
+                    <!--carga masica-->
+                    <p:commandButton value="REPETIR SESIÓN" 
+                                     title="Permite repetir esta sesión en días futuros"
+                                     resetValues="true"
+                                     update=":CargaMasivaForm" 
+                                     oncomplete="PF('CargaMasivaDialog').show();"
+                                     style="float: right;"
+                                     >
+                        <f:setPropertyActionListener value="#{agendaSesionController.selected}" target="#{cargaMasivaController.selected}" />
+                    </p:commandButton>
                     <!--eliminar-->
-                    <p:commandButton icon="ui-icon-trash"  
-                                     value="#{bundle.Delete}" 
+                    <p:commandButton value="#{bundle.Delete}" 
                                      actionListener="#{agendaSesionController.destroyFromAgenda}" 
                                      oncomplete="PF('SesionEditDialog').hide();PF('agenda').update()"
                                      update=":growl"
@@ -101,10 +113,10 @@
                         <p:confirm header="#{bundle.ListSesionConfirmationHeader}" message="#{bundle.ListSesionConfirmationMessage}" icon="ui-icon-alert" />
                     </p:commandButton>
                     <!--cerrar-->
-                    <p:commandButton value="#{bundle.Close}" 
+<!--                    <p:commandButton value="#{bundle.Close}" 
                                      immediate="true" 
                                      onclick="PF('SesionEditDialog').hide()"
-                                     style="float: right;"/>
+                                     style="float: right;"/>-->
                 </h:panelGroup>
             </h:form>
         </p:dialog>

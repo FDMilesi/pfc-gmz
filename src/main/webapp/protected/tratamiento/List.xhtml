@@ -88,13 +88,13 @@
                         <!--OPCIONES-->
                         <p:column headerText="Opciones">
                             <!--VER-->
-                            <p:commandButton id="viewButton"   
+<!--                            <p:commandButton id="viewButton"   
                                              icon="ui-icon-search" 
                                              title="#{bundle.View}" 
                                              update=":TratamientoViewForm" 
                                              oncomplete="PF('TratamientoViewDialog').show()">
                                 <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
-                            </p:commandButton>
+                            </p:commandButton>-->
                             <!--MODIFICAR-->
                             <p:button id="editButton" 
                                       includeViewParams="true" 
@@ -106,7 +106,7 @@
                             <!-- GENERAR CONSENTIMIENTO-->
                             <p:button id="consentimientoButton" 
                                       includeViewParams="true" 
-                                      icon="ui-icon-document" 
+                                      icon="ui-icon-announcement" 
                                       title="#{bundle.Consentimiento}"
                                       onclick="#{tratamientoController.prepararConsentimiento(item)}"
                                       outcome="#{tratamientoController.redirectToConsentimiento()}">
@@ -116,7 +116,7 @@
                             <p:commandButton id="deleteButton" 
                                              icon="ui-icon-trash"  
                                              title="#{bundle.Delete}" 
-                                             actionListener="#{tratamientoController.destroy}" 
+                                             action="#{tratamientoController.destroy}" 
                                              update=":growl,datalist">
                                 <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
                                 <p:confirm header="#{bundle.TratamientoConfirmationHeader}" message="#{bundle.TratamientoConfirmationMessage}" icon="ui-icon-alert" />

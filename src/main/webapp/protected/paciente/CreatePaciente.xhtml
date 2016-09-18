@@ -22,14 +22,14 @@
                 <h:panelGroup id="display" rendered="#{pacienteController.selected != null}">
                     <p:focus context="display"/>
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_apellido}" for="apellido" />
+                        <p:outputLabel id="apellidoLbl" value="#{bundle.PacienteLabel_apellido}" for="apellido" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="apellido" 
                                      value="#{pacienteController.selected.apellido}"/>
                     </div>
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_nombre}" for="nombre" />
+                        <p:outputLabel id="nombreLbl" value="#{bundle.PacienteLabel_nombre}" for="nombre" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="nombre" 
@@ -79,12 +79,27 @@
                         <p:outputLabel value="#{bundle.PacienteLabel_obraSocial}" for="obraSocial" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
-                        <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
+                        <p:autoComplete id="obraSocial"
+                                        value="#{pacienteController.selected.obraSocial}"
+                                        completeMethod="#{obraSocialController.autocompletar}"
+                                        var="OSItem"
+                                        forceSelection="true"
+                                        itemLabel="#{OSItem.toString()}"
+                                        itemValue="#{OSItem}"
+                                        queryDelay="300"
+                                        cache="true"
+                                        cacheTimeout="2147483647"
+                                        style="width: 100%"
+                                        emptyMessage="(Ninguna Obra social con este nombre)"
+                                        widgetVar="OSAutocomplete"
+                                        >
+                        </p:autoComplete>
+<!--                        <p:selectOneMenu id="obraSocial" value="#{pacienteController.selected.obraSocial}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
                             <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}"
                                            var="obraSocialItem"
                                            itemValue="#{obraSocialItem}"/>
-                        </p:selectOneMenu>
+                        </p:selectOneMenu>-->
                     </div>
                     <div class="ui-g-12 ui-md-5">
                         <p:outputLabel value="#{bundle.PacienteLabel_nroAfiliadoOS}" for="nroAfiliadoOS" />
@@ -96,8 +111,8 @@
                     <p:commandButton  id ="btnGuardar"
                                       action="#{pacienteController.create}" 
                                       value="#{bundle.Save}"
-                                      update="display,:PacienteListForm:datalist,:growl" 
-                                      oncomplete="handleSubmit(args,'PacienteCreateDialog');"
+                                      update="display,:growl" 
+                                      oncomplete="handleSubmit(args, 'PacienteCreateDialog');"
                                       style="float: right; background-color: #66BB6A;"/>
                     <p:commandButton id="btnCancear"
                                      immediate="true" 

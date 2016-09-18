@@ -3,14 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui"
-
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui">
 
     <h:head>
         <title><ui:insert name="title">Default Title</ui:insert></title>        
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
-        <h:outputStylesheet library="css" name="estilo.css"/>
         <h:outputStylesheet library="navbar" name="navbar.css"/>
         <h:outputScript library="js" name="jsfcrud.js"/>
         <h:outputScript library="navbar" name="navbar.js"/>
@@ -22,16 +19,15 @@
         <!--Cuadro de confirmación-->
         <h:form>
             <p:confirmDialog global="true" closeOnEscape="true">
-                <p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="SI" type="button" styleClass="ui-confirmdialog-yes"/>
+                <p:commandButton value="NO" type="button" styleClass="ui-confirmdialog-no"/>
             </p:confirmDialog>
         </h:form>
         <!--HEADER-->
         <h:form>
-            <nav class="navbar navbar-default ui-widget shadowEffect">                
-                <!-- Brand and toggle get grouped for better mobile display -->
+            <nav class="navbar navbar-default ui-widget">                
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#lista-a-colapsar" aria-expanded="false">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -45,8 +41,7 @@
                     </div>                    
                 </div>
 
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div class="collapse navbar-collapse" id="lista-a-colapsar">
                     <!--Iconos de ayuda y log-out-->
                     <div class="contenedorIconosHeader">                        
                         <h:commandLink class="contenedorIndividualIconos" type="submit" action="#{httpSessionController.logout}" title="Cerrar Sesion">
@@ -56,14 +51,14 @@
                             <div class="iconoHeader ui-icon-help"></div>
                         </h:link>
                     </div>
-                    <ul class="nav navbar-nav navbar-right">
+                    <ul class="nav navbar-nav">
                         <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="AGENDA" outcome="/protected/agenda/Agenda.xhtml"/></li>
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE PACIENTES" outcome="/protected/paciente/List.xhtml"/></li>
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="LISTADO DE ORDENES" outcome="/protected/ordenMedica/List.xhtml"/></li>
-                        <li><h:link class="menu-desplegable ocultar-menu-header" value="AYUDA"/></li>
+                        <li><h:link value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
+                        <li><h:link value="Lista de pacientes" outcome="/protected/paciente/List.xhtml"/></li>
+                        <li><h:link value="Lista de ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                        <li><h:link value="Ayuda"/></li>
                         <li>                        
-                            <h:commandLink class="menu-desplegable ocultar-menu-header" value="CERRAR SESION" type="submit" action="#{httpSessionController.logout}"/>
+                            <h:commandLink value="Cerrar sesión" type="submit" action="#{httpSessionController.logout}"/>
                         </li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
@@ -71,7 +66,7 @@
         </h:form>
         <!--MENU-->
         <div style="background-color: white; height: auto; overflow: hidden;">
-            <div class="sideMenu ui-widget" style="width: 230px; float: left">
+            <div class="sideMenu ui-widget">
                 <div style="height: auto; overflow: hidden; padding: 10px 10px 10px 18px; margin-top: 10px">
                     <div class="imagenPerfilUsuario iconos ui-icon-account">
                     </div>
@@ -83,17 +78,17 @@
                 <div class="Separator"></div>
                 <ul>
                     <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                    <li><h:link class="sideMenu" value="Agenda" outcome="/protected/agenda/Agenda.xhtml">
-                            <div class="iconos ui-icon-agenda" style="float:left; margin-right: 10px"></div>
+                    <li><h:link value="Agenda" outcome="/protected/agenda/Agenda.xhtml">
+                            <div class="iconos ui-icon-agenda" />
                         </h:link></li>
-                    <li><h:link class="sideMenu" value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml">
-                            <div class="iconos ui-icon-paciente" style="float:left; margin-right: 10px"></div>
+                    <li><h:link value="Listado de Pacientes" outcome="/protected/paciente/List.xhtml">
+                            <div class="iconos ui-icon-paciente" />
                         </h:link></li>
-                    <li><h:link class="sideMenu" value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml">
-                            <div class="iconos ui-icon-orden" style="float:left; margin-right: 10px"></div>                                    
+                    <li><h:link value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml">
+                            <div class="iconos ui-icon-orden" />                                    
                         </h:link></li>
-                    <li><h:link class="sideMenu" value="Configuración" outcome="/protected/ordenMedica/List.xhtml">
-                            <div class="iconos ui-icon-config" style="float:left; margin-right: 10px"></div>                                    
+                    <li><h:link value="Configuración" outcome="/protected/config/Config.xhtml">
+                            <div class="iconos ui-icon-config" />                                    
                         </h:link></li>
                 </ul>
                 <div class="Separator"></div>

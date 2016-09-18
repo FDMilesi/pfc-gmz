@@ -72,22 +72,22 @@
                             <h:outputText value="#{item.toString()}"/>
                         </p:column>
                         <p:column headerText="#{bundle.PacienteTitle_domicilio}">
-                            <h:outputText value="#{item.domicilio}"/>
+                            <h:outputText value="#{item.domicilio != null ? item.domicilio : '-'}"/>
                         </p:column>
                         <p:column headerText="#{bundle.PacienteTitle_telefono}">
-                            <h:outputText value="#{item.telefono}"/>
+                            <h:outputText value="#{item.telefono != null ? item.telefono : '-'}"/>
                         </p:column>
                         <p:column headerText="">
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.PacienteTitle_celular}"/>
                             </f:facet>
-                            <h:outputText value="#{item.celular}"/>
+                            <h:outputText value="#{item.celular != null ? item.celular : '-'}"/>
                         </p:column>
                         <p:column headerText="#{bundle.PacienteTitle_edad}" sortBy="#{item.getEdad()}">
                             <h:outputText value="#{item.getEdad()}"/>                                
                         </p:column>
                         <p:column headerText="#{bundle.PacienteTitle_obraSocial}" sortBy="#{item.obraSocial.toString()}">
-                            <h:outputText value="#{item.obraSocial.toString()}"/>
+                            <h:outputText value="#{item.obraSocial != null ? item.obraSocial.toString():'-'}"/>
                         </p:column>
 
                         <p:column headerText="Opciones">

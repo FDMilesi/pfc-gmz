@@ -1,7 +1,10 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +30,8 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
     @EJB
     ObraSocialFacade obraSocialFacade;
+    @EJB
+    private TipoTratamientoObraSocialFacade tipoTratamientoObraSocialFacade;
 
     public OrdenMedicaFacade() {
         super(OrdenMedica.class);
@@ -39,10 +44,31 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setTratamiento(tratamiento);
         orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
         orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
-
+        orden.setAutorizada(Boolean.FALSE);
+        
+        //si no necesita autorizacion ya la doy de alta como autorizada
+        if (!this.necesitaAutorizacion(tratamiento.getTipoDeTratamiento(), tratamiento.getPaciente().getObraSocial()))
+            orden.setAutorizada(Boolean.TRUE);
+        
         return orden;
     }
+    
+    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial){
+        TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
+                .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
+        
+        //Si no existe la relacion entre la OS y el tipo de trata
+        if (tipoTratamientoObraSocial == null) {
+            return Boolean.TRUE;
+        }
+        
+        return tipoTratamientoObraSocial.isRequiereAutorizacion();
+    }
 
+    public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {
+        return tipoTratamientoObraSocialFacade;
+    }
+    
     public List<OrdenMedica> getOrdenesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager()
                 .createNamedQuery("OrdenMedica.findByTratamiento")
@@ -68,11 +94,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
         //Si el filtro autorizado fue seteado, agregamos la condición segun el valor del parámetro
         if (autorizada != null) {
-            if (autorizada) {
-                pqlQuery += "o.codigoDeAutorizacion IS NOT NULL ";
-            } else {
-                pqlQuery += "o.codigoDeAutorizacion IS NULL ";
-            }
+            pqlQuery += "o.autorizada = :autorizada ";
             autorizadaSet = true;
         }
         //Si el filtro presentada fue seteado, agregamos la condición segun el valor del parámetro
@@ -101,7 +123,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             if (autorizadaSet || presentadaSet || obraSocialSet) {
                 pqlQuery += "and ";
             }
-            pqlQuery += "o.fechaCreacion >= :startDate ";
+            pqlQuery += "o.fechaAutorizacion >= :startDate ";
             startDateSet = true;
         }
         //Si el filtro endDate fue seteado, agregamos la condición segun el valor del parámetro
@@ -109,11 +131,14 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             if (autorizadaSet || presentadaSet || obraSocialSet || startDateSet) {
                 pqlQuery += "and ";
             }
-            pqlQuery += "o.fechaCreacion <= :endDate ";
+            pqlQuery += "o.fechaAutorizacion <= :endDate ";
             endDateSet = true;
         }
 
         Query query = getEntityManager().createQuery(pqlQuery);
+        if (autorizadaSet) {
+            query.setParameter("autorizada", autorizada);
+        }
         if (presentadaSet) {
             query.setParameter("presentada", presentada);
         }
@@ -147,6 +172,15 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         return true;
     }
 
+    public OrdenMedica autorizarOrden(OrdenMedica ordenMedica) {
+        //Si el codigo de autorización es nulo o vacio le seteo la fecha de autorización
+        if (ordenMedica.getCodigoDeAutorizacion() != null && !(ordenMedica.getCodigoDeAutorizacion().isEmpty())) {
+            ordenMedica.setFechaAutorizacion(new Date());
+            ordenMedica.setAutorizada(Boolean.TRUE);
+        }
+        return ordenMedica;
+    }
+
     public Short sumatoriaSesionesDeOrdenes(Tratamiento tratamiento) {
         boolean tieneOrdenes = ((Number) getEntityManager()
                 .createQuery("SELECT COUNT(o) FROM OrdenMedica o WHERE o.tratamiento = :tratamiento")
@@ -161,6 +195,13 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             return (short) 0;
         }
 
+    }
+
+    public void marcarOrdenesComoPresentadas(List<OrdenMedica> listaOrdenes) {
+        for (OrdenMedica orden : listaOrdenes) {
+            orden.setPresentadaAlCirculo(Boolean.TRUE);
+            edit(orden);
+        }
     }
 
 }

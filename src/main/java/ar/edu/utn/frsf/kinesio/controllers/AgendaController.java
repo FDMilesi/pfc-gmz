@@ -6,9 +6,12 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
@@ -39,7 +42,15 @@ public class AgendaController implements Serializable {
     Event<VerSesionEvento> verSesionEvento;
     @Inject
     Event<ModificarSesionEvento> modificarSesionEvento;
+    
+    private String horaActual;
 
+    @PostConstruct
+    public void init(){
+        int horaActualInt = LocalDateTime.now().getHour();
+        horaActual = horaActualInt + ":00:00";
+    }
+    
     public AgendaController() {
     }
 
@@ -71,6 +82,9 @@ public class AgendaController implements Serializable {
     }
 
     //Métodos de negocio
+    public String getHoraActual(){        
+        return this.horaActual;
+    }
     public void mostrarSesion(SelectEvent selectEvent) {
         //En este caso el scheduleEvent que devuelve la vista no contiene toda la info necesaria. Por eso es necesario 
         //buscarlo nuevamente en la lista de sesiones con el getEvent()
@@ -118,6 +132,12 @@ public class AgendaController implements Serializable {
 
     public void eliminarSesion(@Observes SesionController.SesionEliminadaEvento evento) {
         getSelected().deleteEvent(getSelected().getEvent(evento.getIdSesionEliminada()));
+    }
+
+    public void agregarSesiones(List<Sesion> sesionesAAgregar) {
+        for (Sesion sesion : sesionesAAgregar) {
+            this.getSelected().addEvent(sesion);
+        }
     }
 
     //Eventos que lanza AgendaController

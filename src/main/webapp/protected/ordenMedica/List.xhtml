@@ -14,15 +14,20 @@
         <ui:define name="body">
             <h:form id="ordenMedicaListForm">
                 <div class="card shadowEffect">
-                    <p:breadCrumb >
+                    <p:breadCrumb>
                         <p:menuitem id = "homeMenuItem" value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                         <p:menuitem id = "ordenesMenuItem" value="Ordenes" disabled="true"/>
                     </p:breadCrumb>
                 </div>
+                <style>
+                    .card .ui-md-4 .ui-outputlabel{
+                        font-family: "roboto_condensedbold";
+                    }
+                </style>
                 <div class="ui-g card shadowEffect">
                     <p:panel header="#{bundle.FiltrosOrdenMedicaTitle}">
-                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold; margin: auto">
-                            <p:outputLabel value="Autorizadas:" />
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="margin: auto; line-height: 40px">
+                            <p:outputLabel value="#{bundle.FiltrosOrdenMedia_autorizadas}" />
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneButton id="filterAutorizadas" 
@@ -33,8 +38,8 @@
                                 <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
                             </p:selectOneButton>
                         </div>
-                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <p:outputLabel value="Presentadas:" />
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="line-height: 40px">
+                            <p:outputLabel value="#{bundle.FiltrosOrdenMedia_presentadas}" />
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneButton id="filterPresentadas" 
@@ -45,8 +50,8 @@
                                 <f:selectItem id = "noPresentadasFilter"  itemLabel="No" itemValue="false"/>                
                             </p:selectOneButton>
                         </div>
-                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <p:outputLabel value="Obra Social:" />
+                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="line-height: 40px">
+                            <p:outputLabel value="#{bundle.FiltrosOrdenMedia_obraSocial}" style="white-space: nowrap"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
@@ -56,18 +61,14 @@
                                 <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}" />
                             </p:selectOneMenu>
                         </div>
-
-                        <div class="ui-g-12"></div>
-
-                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <p:outputLabel value="Fecha de Inicio:"/>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1">
+                            <p:outputLabel value="#{bundle.FiltrosOrdenMedia_fechaInicio}"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:calendar id="filterStartDate" 
                                         widgetVar="startDateVar"
                                         pattern="dd/MM/yyyy" 
                                         value="#{listOrdenMedicaController.startDate}" 
-                                        title="#{bundle.FilterOrdenMedica_fechaComienzo}"  
                                         showOn="button" 
                                         locale="es"
                                         navigator="true"
@@ -75,15 +76,14 @@
                                 <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
                             </p:calendar>
                         </div>
-                        <div class="ui-g-12 ui-md-4 ui-lg-1" style="font-weight: bold;">
-                            <p:outputLabel value="Fecha de Fin:"/>
+                        <div class="ui-g-12 ui-md-4 ui-lg-1">
+                            <p:outputLabel value="#{bundle.FiltrosOrdenMedia_fechaFin}"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:calendar id="filterEndDate" 
                                         widgetVar="endDateVar"
                                         pattern="dd/MM/yyyy" 
                                         value="#{listOrdenMedicaController.endDate}" 
-                                        title="#{bundle.FilterOrdenMedica_fechaFin}"  
                                         showOn="button" 
                                         locale="es"
                                         navigator="true"
@@ -92,7 +92,10 @@
                             </p:calendar>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-4">
-                            <p:commandButton value="Limpiar Fechas" update="ordenMedicaDatalist" actionListener="#{listOrdenMedicaController.filtrarItems()}" onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
+                            <p:commandButton value="#{bundle.FiltrosOrdenMedia_limpiarFechas}" 
+                                             update="ordenMedicaDatalist" 
+                                             actionListener="#{listOrdenMedicaController.filtrarItems()}" 
+                                             onclick="PF('startDateVar').setDate(null); PF('endDateVar').setDate(null)"/>
                         </div>
                     </p:panel>
                 </div>
@@ -114,7 +117,7 @@
                             <div class="ui-g">
                                 <div class="ui-g-6 ui-md-9" style="padding: 0; margin: auto 0;">#{bundle.ListOrdenTitle}</div>
                                 <div style="padding: 0; margin: auto" class="ui-g-6 ui-md-3">
-                                    <p:commandButton value="Generar Reporte" 
+                                    <p:commandButton value="GENERAR REPORTE" 
                                                      icon="ui-icon-print"
                                                      immediate="true"
                                                      onclick="PF('confirmarReporteDialog').show();" 
@@ -123,33 +126,33 @@
                             </div>
                         </f:facet>
 
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_fechaCreacion}" sortBy="#{item.fechaCreacion}">
-                            <h:outputText value="#{item.fechaCreacion}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_fechaAutorizacion}" sortBy="#{item.fechaAutorizacion}">
+                            <h:outputText value="#{item.fechaAutorizacion}">
                                 <f:convertDateTime pattern="dd/MM/yyyy" />
                             </h:outputText>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.apellido}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_paciente}" sortBy="#{item.tratamiento.paciente.apellido}">
                             <h:outputText value="#{item.tratamiento.paciente.toString()}"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_dniPaciente}" sortBy="#{item.tratamiento.paciente.dni}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_dniPaciente}" sortBy="#{item.tratamiento.paciente.dni}">
                             <h:outputText value="#{item.tratamiento.paciente.dni}"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_obraSocial}" sortBy="#{item.obraSocial.nombre}" >
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_obraSocial}" sortBy="#{item.obraSocial.nombre}" >
                             <h:outputText value="#{item.obraSocial.nombre}"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_numeroafiliadopaciente}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_numeroafiliadopaciente}">
                             <h:outputText value="#{item.numeroAfiliadoPaciente}"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_tipoDeTratamiento}" sortBy="#{item.tratamiento.tipoDeTratamiento.nombre}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_tipoDeTratamiento}" sortBy="#{item.tratamiento.tipoDeTratamiento.nombre}">
                             <h:outputText value="#{item.tratamiento.tipoDeTratamiento.nombre}"/>
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoPrestacion}">
+<!--                        <p:column headerText="#{bundle.OrdenMedicaTitle_codigoPrestacion}">
                             <h:outputText value="#{obraSocialController.getCodigoDePrestacion(item.tratamiento.tipoDeTratamiento,item.obraSocial)}"/>
-                        </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_cantidadDeSesiones}">
+                        </p:column>-->
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_cantidadDeSesiones}">
                             <h:outputText value="#{item.cantidadDeSesiones}"/>                                
                         </p:column>
-                        <p:column headerText="#{bundle.ListOrdenMedicaTitle_codigoDeAutorizacion}">
+                        <p:column headerText="#{bundle.OrdenMedicaTitle_codigoDeAutorizacion}">
                             <h:outputText value="#{item.codigoDeAutorizacion}"/>
                         </p:column>
                         <!--OPCIONES-->
@@ -166,7 +169,7 @@
                             <p:commandButton id="ordenMedicaDeleteButton" 
                                              icon="ui-icon-trash"  
                                              title="#{bundle.Delete}" 
-                                             actionListener="#{listOrdenMedicaController.destroy}" 
+                                             action="#{listOrdenMedicaController.destroy}" 
                                              update=":growl,ordenMedicaDatalist" 
                                              disabled="#{item.autorizada}">
                                 <f:setPropertyActionListener value="#{item}" target="#{listOrdenMedicaController.selected}" />
@@ -183,7 +186,7 @@
                       modal="true" 
                       resizable="false" 
                       appendTo="@(body)" 
-                      header="¿Continuar o imprimir una prueba?"
+                      header="#{bundle.ConfirmarReporteTitle}"
                       responsive="true"
                       style="max-width: 600px;"
                       positionType="absolute"
@@ -192,15 +195,14 @@
                     <h:form>
                         <p:focus context="display"/>
                         <div class="ui-g-12" style="padding-bottom: 20px;">
-                            <p:outputLabel value="Seleccione 'CONTINUAR' si está seguro/a de que la planilla resultante
-                                           será la entregada al Círculo. Caso contrario realice una impresión de prueba" />
+                            <p:outputLabel value="#{bundle.ConfirmarReporte_msj}" />
                         </div>
-                        <p:commandButton value="CONTINUAR" 
-                                         action="#{listOrdenMedicaController.redirectToReport()}"
+                        <p:commandButton value="#{bundle.ConfirmarReporte_continuar}" 
+                                         action="#{listOrdenMedicaController.marcarOrdenesPresentadasYRedirigir()}"
                                          immediate="true"
                                          style="background-color: #66BB6A; float: right;"
                                          />
-                        <p:commandButton value="GENERAR REPORTE DE PRUEBA" 
+                        <p:commandButton value="#{bundle.ConfirmarReporte_prueba}" 
                                          action="#{listOrdenMedicaController.redirectToReport()}"
                                          immediate="true"
                                          style="float: right;"

@@ -21,6 +21,11 @@ public abstract class AbstractSesionController implements Serializable {
     @EJB
     private SesionFacade ejbFacade;
     protected Sesion selected;
+    /**
+     * Atributos que sirven a los sesionControllers para saber si durante la
+     * edición de una sesión se modificó la fecha de la misma. En caso de ser
+     * así, debe resetearse el cambo 'cuenta' de la sesión si es que 'contaba'
+     */
     private Date fechaVieja;
     private boolean contaba;
 
@@ -47,8 +52,8 @@ public abstract class AbstractSesionController implements Serializable {
     public Date getFechaVieja() {
         return fechaVieja;
     }
-    
-    public boolean getContaba(){
+
+    public boolean getContaba() {
         return contaba;
     }
 
@@ -64,11 +69,20 @@ public abstract class AbstractSesionController implements Serializable {
         }
     }
 
-    public void antesDeEditar(){
+    /**
+     * Antes de mostrar el dialog de edición de una sesión, guardo la fecha que
+     * tenía y guarso el valor del boolean 'cuenta'. Esto me sirve para luego
+     * decidir si resetear o no el boolean 'cuenta.
+     */
+    public void antesDeEditar() {
         fechaVieja = (Date) selected.getFechaHoraInicio().clone();
         contaba = selected.getCuenta();
     }
-    
+
+    /**
+     * Resetea a TRUE el valor de 'cuenta' si la fecha de la sesión fué
+     * modificada por el usuario
+     */
     protected void resetearCuenta() {
         if (!selected.getFechaHoraInicio().equals(this.getFechaVieja())) {
             selected.setCuenta(Boolean.TRUE);
@@ -91,8 +105,8 @@ public abstract class AbstractSesionController implements Serializable {
             } catch (EJBException ex) {
                 String msg = "";
                 Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
+                if (cause != null && cause.getMessage() != null) {
+                    msg = cause.getMessage();
                 }
                 if (msg.length() > 0) {
                     JsfUtil.addErrorMessage(msg);

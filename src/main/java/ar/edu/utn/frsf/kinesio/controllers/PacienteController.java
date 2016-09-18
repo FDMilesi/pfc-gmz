@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.context.ExternalContext;
@@ -87,12 +88,19 @@ public class PacienteController implements Serializable {
         return selected;
     }
 
-    public String create() {
+    public String createAndRedirect() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PacienteCreated"));
         if (!JsfUtil.isValidationFailed()) {
             items = null;    // Invalidate list of items to trigger re-query.
         }
         return TRATAMIENTOS_PATH + "&paciente=" + selected.getId().toString();
+    }
+    
+    public void create() {
+        persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("PacienteCreated"));
+        if (!JsfUtil.isValidationFailed()) {
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     public void update() {

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="TratamientoCreateDlg" 
+                  widgetVar="TratamientoCreateCargaRapidaDialog" 
+                  modal="true" 
+                  resizable="false" 
+                  appendTo="@(body)" 
+                  header="#{bundle.CreateTratamientoTitle}"
+                  closeOnEscape="true"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
+                  draggable="false"
+                  >
+            <h:form id="TratamientoCreateCargaRapidaForm">
+                <h:panelGroup id="display" rendered="#{tratamientoController.selected != null}">
+                    <p:focus />
+                    <!--      TIPO DE TRATAMIENTO         -->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:selectOneMenu id="tipoDeTratamiento"
+                                         value="#{tratamientoController.selected.tipoDeTratamiento}">
+                            <p:ajax update="particular" event="change"/>
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                            <f:selectItems value="#{tipoDeTratamientoController.itemsAvailableSelectOne}"
+                                           var="tipoDeTratamientoItem"
+                                           itemValue="#{tipoDeTratamientoItem}"
+                                           />
+                        </p:selectOneMenu>
+                    </div>
+                    <!--      CANTIDAD DE SESIONES         -->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="cantidadDeSesiones" 
+                                     value="#{tratamientoController.selected.cantidadDeSesiones}">
+                        </p:inputText>
+                    </div>
+                    <!--      PARTICULAR U OBRA SOCIAL          -->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_particular}" for="particular" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:selectOneRadio
+                            disabled="#{!tratamientoController.selected.tipoDeTratamiento.cubiertoPorObraSocial}"
+                            id="particular" 
+                            value="#{tratamientoController.selected.particular}">
+                            <f:selectItem itemLabel="#{bundle.TratamientoLabel_particular_radio}" itemValue="#{true}" />
+                            <f:selectItem itemLabel="#{bundle.TratamientoLabel_obraSocial_radio}" itemValue="#{false}" />
+                        </p:selectOneRadio>
+                    </div>
+                    <!--      DIAGNOSTICO         -->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" />
+                    </div>
+                    
+                    <!--    BOTONES     -->
+                    <p:commandButton actionListener="#{tratamientoController.create}" 
+                                     value="#{bundle.Save}" 
+                                     update="display,:SesionCreateForm,:growl" 
+                                     oncomplete="handleSubmit(args,'TratamientoCreateCargaRapidaDialog');"
+                                     style="float: right; background-color: #66BB6A;">
+                        <f:setPropertyActionListener value="#{tratamientoController.selected}" target="#{agendaSesionController.selected.tratamiento}"/>
+                    </p:commandButton>
+                    <p:commandButton immediate="true" 
+                                     value="#{bundle.Cancel}" 
+                                     onclick="PF('TratamientoCreateCargaRapidaDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>
