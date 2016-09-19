@@ -24,7 +24,7 @@
                     <p:focus />
                     <!--      TIPO DE TRATAMIENTO         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
+                        <p:outputLabel id="tipoTratamientoLbl" value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:selectOneMenu id="tipoDeTratamiento"
@@ -39,7 +39,7 @@
                     </div>
                     <!--      CANTIDAD DE SESIONES         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                        <p:outputLabel id="cantidadDeSesionesLbl" value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="cantidadDeSesiones" 
@@ -48,7 +48,7 @@
                     </div>
                     <!--      PARTICULAR U OBRA SOCIAL          -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_particular}" for="particular" />
+                        <p:outputLabel id="particularLbl" value="#{bundle.TratamientoLabel_particular}" for="particular" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:selectOneRadio
@@ -61,24 +61,26 @@
                     </div>
                     <!--      DIAGNOSTICO         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
+                        <p:outputLabel id="diagnosticoLbl" value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" />
                     </div>
                     <!--      OBSERVACIONES         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_observaciones}" for="observaciones" />
+                        <p:outputLabel id="observacionesLbl" value="#{bundle.TratamientoLabel_observaciones}" for="observaciones" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputTextarea cols="22" rows="8" id="observaciones" value="#{tratamientoController.selected.observaciones}" />
                     </div>
-                    <p:commandButton actionListener="#{tratamientoController.create}" 
+                    <p:commandButton id="guardarTratamientoCreateBtn"
+                                     actionListener="#{tratamientoController.create}" 
                                      value="#{bundle.Save}" 
                                      update="display,:TratamientoListForm:datalist,:growl" 
                                      oncomplete="handleSubmit(args,'TratamientoCreateDialog');"
                                      style="float: right; background-color: #66BB6A;"/>
-                    <p:commandButton immediate="true" 
+                    <p:commandButton id="cancelarTratamientoCreateBtn"
+                                     immediate="true" 
                                      value="#{bundle.Cancel}" 
                                      onclick="PF('TratamientoCreateDialog').hide()"
                                      style="float: right; background-color: #E53935;"/>

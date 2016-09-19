@@ -88,7 +88,8 @@
                             <p:inputTextarea cols="22" rows="3" id="observaciones" value="#{editTratamientoController.selected.observaciones}" disabled="#{editTratamientoController.selected.finalizado}"/>
                         </div>
                         <div class="ui-g-12" style="clear: both;">
-                            <p:commandButton actionListener="#{editTratamientoController.update}"
+                            <p:commandButton id="confirmEditTratamiento"
+                                             actionListener="#{editTratamientoController.update}"
                                              value="#{bundle.Save}" 
                                              update="display,:growl,:OrdenTratamientoListForm,:SesionListForm" 
                                              disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
@@ -96,7 +97,8 @@
                                 <f:setPropertyActionListener target="#{ordenMedicaController.tratamiento}" value="#{editTratamientoController.selected}" />
                                 <f:setPropertyActionListener target="#{listSesionController.tratamientoEnEdicion}" value="#{editTratamientoController.selected}" />
                             </p:commandButton>
-                            <p:button outcome="/protected/tratamiento/List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" 
+                            <p:button id="cancelEditTratamiento"
+                                      outcome="/protected/tratamiento/List.xhtml?paciente=#{editTratamientoController.selected.paciente.id}" 
                                       value="#{bundle.Cancel}" 
                                       disabled="#{empty editTratamientoController.selected || editTratamientoController.selected.finalizado}"
                                       style="float: right;"/>
