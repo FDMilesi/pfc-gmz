@@ -113,15 +113,30 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         if (sesion.getTratamiento().getFinalizado()) {
             throw new EJBException("Error: el tratamiento se encuentra finalizado");
         }
+        
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
         this.setSesionStyle(sesion);
-        return getEntityManager().merge(sesion);
+        Sesion retorno = getEntityManager().merge(sesion); 
+        
+        this.recalcularNumerosDeSesion(sesion.getTratamiento());
+        
+        return retorno;
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
         setSesionStyle(s);
+    }
+    
+    private void recalcularNumerosDeSesion(Tratamiento tratamiento){
+        List<Sesion> lista = this.getSesionesByTratamiento(tratamiento);
+        int i = 1;
+        
+        for (Sesion sesion : lista) {
+            sesion.setNumeroDeSesion((short)i);
+            i++;
+        }
     }
 
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
