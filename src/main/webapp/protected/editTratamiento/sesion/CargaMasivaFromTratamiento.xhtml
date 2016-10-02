@@ -21,6 +21,17 @@
                   >
             <h:form id="CargaMasivaForm">
                 <h:panelGroup id="display" class="ui-g">
+                    
+                    <div class="ui-g-12 ui-md-8">
+                        <p:outputLabel value="Número de veces: " style="line-height: 40px;"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-4">
+                        <p:selectOneMenu value="#{cargaMasivaController.cantSesiones}" 
+                                         validator="#{cargaMasivaController.validatorVecesARepetir}">
+                            <f:selectItems value="#{cargaMasivaController.arrayVecesDisponible}" />
+                        </p:selectOneMenu>
+                    </div>
+                    
                     <div class="ui-g-12">
                         <p:outputLabel value="Repetir el/los días: "/>
                     </div>
@@ -114,15 +125,6 @@
                         </div>
                     </div>
 
-                    <div class="ui-g-12 ui-md-8">
-                        <p:outputLabel value="Número de veces: " style="line-height: 40px;"/>
-                    </div>
-                    <div class="ui-g-12 ui-md-4">
-                        <p:selectOneMenu value="#{cargaMasivaController.cantSesiones}" 
-                                         validator="#{cargaMasivaController.validatorVecesARepetir}">
-                            <f:selectItems value="#{cargaMasivaController.arrayVecesDisponible}" />
-                        </p:selectOneMenu>
-                    </div>
                 </h:panelGroup>
                 <p:commandButton 
                     value="GUARDAR" 
