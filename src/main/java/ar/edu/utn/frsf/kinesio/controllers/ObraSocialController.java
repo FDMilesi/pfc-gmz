@@ -6,6 +6,7 @@ import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.gestores.ObraSocialFacade;
 import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,14 +32,19 @@ public class ObraSocialController {
 
     List<ObraSocial> items;
 
+    //lista de OS para el autocomplete desde lista de ordenes. Necesito que este la opción: Todas excepto IAPOS
+    List<ObraSocial> itemsMasObraSocialNOIapos;
+
     //Objeto usado para dar la opción en los combo de obtener todas las obras sociales excepto IAPOS
     //Es una obra social falsa, por eso el id -1. Creada a los fines de poder listarla en los combo.
     //requirió la modificacion del converter, para el caso de ID -1
-    private final ObraSocial obraSocialNoIAPOS = new ObraSocial(Short.parseShort("-1"), "Todas excepto IAPOS");
+    private final ObraSocial obraSocialNoIAPOS = new ObraSocial((short) -1, "Todas excepto IAPOS");
 
     @PostConstruct
     private void init() {
         items = getFacade().findAll();
+        itemsMasObraSocialNOIapos = new ArrayList<>(items);
+        itemsMasObraSocialNOIapos.add(obraSocialNoIAPOS);
     }
 
     public ObraSocialController() {
@@ -75,6 +81,10 @@ public class ObraSocialController {
         return items.stream().filter(o -> o.getNombre().toLowerCase().startsWith(query.toLowerCase())).collect(Collectors.toList());
     }
 
+    public List<ObraSocial> autocompletarDesdeListaOrdenes(String query) {
+        return itemsMasObraSocialNOIapos.stream().filter(o -> o.getNombre().toLowerCase().startsWith(query.toLowerCase())).collect(Collectors.toList());
+    }
+
     public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {
         return tipoTratamientoObraSocialFacade;
     }
@@ -96,7 +106,7 @@ public class ObraSocialController {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
+            if (value == null || value.length() == 0 || !value.matches("\\d+")) {
                 return null;
             }
             ObraSocialController controller = (ObraSocialController) facesContext.getApplication().getELResolver().

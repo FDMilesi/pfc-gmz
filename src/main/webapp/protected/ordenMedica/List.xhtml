@@ -32,7 +32,7 @@
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneButton id="filterAutorizadas" 
                                                value ="#{listOrdenMedicaController.autorizada}">
-                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                <p:ajax event="change" update="@this ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />
                                 <f:selectItem id = "allAutorizacionFilter"  itemLabel="Todas" itemValue="#{null}" />
                                 <f:selectItem id = "autorizadasFilter"  itemLabel="Si" itemValue="true"/>
                                 <f:selectItem id = "noAutorizadasFilter"  itemLabel="No" itemValue="false"/>
@@ -44,7 +44,7 @@
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
                             <p:selectOneButton id="filterPresentadas" 
                                                value ="#{listOrdenMedicaController.presentada}" >
-                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
+                                <p:ajax event="change" update="@this ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />
                                 <f:selectItem id = "allPresentadasFilter"  itemLabel="Todas" itemValue="#{null}" />
                                 <f:selectItem id = "presentadasFilter"  itemLabel="Si" itemValue="true"/>
                                 <f:selectItem id = "noPresentadasFilter"  itemLabel="No" itemValue="false"/>                
@@ -54,12 +54,28 @@
                             <p:outputLabel value="#{bundle.FiltrosOrdenMedia_obraSocial}" style="white-space: nowrap"/>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-3">
-                            <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
-                                <p:ajax event="change" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />
-                                <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
-                                <f:selectItem itemLabel="Todas excepto IAPOS" itemValue="#{obraSocialController.obraSocialNoIAPOS}" />
-                                <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}" />
-                            </p:selectOneMenu>
+                            <p:autoComplete id="obraSocial"
+                                            value="#{listOrdenMedicaController.obraSocial}"
+                                            completeMethod="#{obraSocialController.autocompletarDesdeListaOrdenes}"
+                                            var="OSItem"
+                                            forceSelection="true"
+                                            itemLabel="#{OSItem.toString()}"
+                                            itemValue="#{OSItem}"
+                                            queryDelay="300"
+                                            cache="true"
+                                            cacheTimeout="2147483647"
+                                            style="width: 100%; line-height: 43px;"
+                                            emptyMessage="(Ninguna Obra social con este nombre)"
+                                            widgetVar="OSAutocomplete"
+                                            >
+                                <p:ajax event="itemSelect" update="ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />
+                            </p:autoComplete>
+    <!--                            <p:selectOneMenu id="filterObraSocial" value="#{listOrdenMedicaController.obraSocial}">
+                                    <p:ajax event="change" update="@this ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />
+                                    <f:selectItem itemLabel="Todas" itemValue="#{null}" noSelectionOption="true" />
+                                    <f:selectItem itemLabel="Todas excepto IAPOS" itemValue="#{obraSocialController.obraSocialNoIAPOS}" />
+                                    <f:selectItems value="#{obraSocialController.itemsAvailableSelectOne}" />
+                                </p:selectOneMenu>-->
                         </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-1">
                             <p:outputLabel value="#{bundle.FiltrosOrdenMedia_fechaInicio}"/>
@@ -73,7 +89,7 @@
                                         locale="es"
                                         navigator="true"
                                         yearRange="c-90:c+10">
-                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
+                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />                        
                             </p:calendar>
                         </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-1">
@@ -88,7 +104,7 @@
                                         locale="es"
                                         navigator="true"
                                         yearRange="c-90:c+10">
-                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" oncomplete="#{listOrdenMedicaController.filtrarItems()}" />                        
+                                <p:ajax event="dateSelect" update="@this ordenMedicaDatalist" listener="#{listOrdenMedicaController.filtrarItems()}" />                        
                             </p:calendar>
                         </div>
                         <div class="ui-g-12 ui-md-8 ui-lg-4">
