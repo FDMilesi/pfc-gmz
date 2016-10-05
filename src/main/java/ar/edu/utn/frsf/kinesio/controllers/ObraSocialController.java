@@ -106,7 +106,7 @@ public class ObraSocialController {
 
         @Override
         public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0 || !value.matches("\\d+")) {
+            if (value == null || value.length() == 0 || !value.matches("(-)?(\\d)+")) {
                 return null;
             }
             ObraSocialController controller = (ObraSocialController) facesContext.getApplication().getELResolver().

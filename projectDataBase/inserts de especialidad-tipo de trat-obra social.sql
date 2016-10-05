@@ -185,7 +185,7 @@ INSERT INTO tipodetratamiento VALUES (8,1,'Estimulación Temprana',45,TRUE);
 INSERT INTO tipodetratamiento VALUES (9,1,'Gimnasia terapéutica',60,FALSE);
 INSERT INTO tipodetratamiento VALUES (10,1,'Estética Masajes',90,FALSE);
 INSERT INTO tipodetratamiento VALUES (11,1,'Estética Electrodos',60,FALSE);
-
+INSERT INTO tipodetratamiento VALUES (12,1,'FKT + Magnetoterapia',45,TRUE);
 
 --
 -- TOC entry 2177 (class 0 OID 0)
