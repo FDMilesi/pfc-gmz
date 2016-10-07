@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.gestores.OrdenMedicaFacade;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.ObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
+import ar.edu.utn.frsf.kinesio.gestores.util.FiltroOrdenMedica;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,26 +16,31 @@ import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 
 @Named("listOrdenMedicaController")
 @ViewScoped
 public class ListOrdenMedicaController implements Serializable {
-
+    
     public ListOrdenMedicaController() {
     }
-
+    
     @EJB
     private OrdenMedicaFacade ejbFacade;
+    @Inject
+    private ObraSocialController obraSocialController;
+    @Inject
+    private TipoDeTratamientoController tipoDeTratamientoController;
+    
     private List<OrdenMedica> itemsFiltrados = null;
     private OrdenMedica selected;
-    //Ver la posibilidad de pasar los parametros de filtrados como parámetros en la llamada a filtrar, en la vista
     private Boolean autorizada;
     private Boolean presentada;
     private ObraSocial obraSocial;
     private Date startDate;
     private Date endDate;
-
+    
     @PostConstruct
     public void init() {
         this.setPresentada(false);
@@ -43,14 +49,37 @@ public class ListOrdenMedicaController implements Serializable {
 
     //Metodos de negocio
     public void filtrarItems() {
-        itemsFiltrados = getFacade().getOrdenesByFilters(autorizada, presentada, obraSocial, startDate, endDate);
+        FiltroOrdenMedica filtro = new FiltroOrdenMedica();
+        if (obraSocial != null) {
+            if (obraSocial.equals(obraSocialController.getObraSocialNoIAPOS())) {
+                filtro.setObraSocialExcluida(obraSocialController.getObraSocialIAPOS());
+                filtro.setTipoDeTratamientoExcluido(tipoDeTratamientoController.getTipoFisikinesioterapia());
+                
+            } else if (obraSocial.equals(obraSocialController.getObraSocialIAPOSFKT())) {
+                filtro.setObraSocial(obraSocialController.getObraSocialIAPOS());
+                filtro.setTipoDeTratamiento(tipoDeTratamientoController.getTipoFisikinesioterapia());
+                
+            } else {
+                filtro.setObraSocial(obraSocial);
+            }
+        }
+        
+        filtro.setAutorizada(autorizada);
+        
+        filtro.setStartDate(startDate);
+        
+        filtro.setEndDate(endDate);
+        
+        filtro.setPresentada(presentada);
+        
+        itemsFiltrados = getFacade().getOrdenesByFilters(filtro);
     }
-
+    
     public void update() {
         selected = this.getFacade().autorizarOrden(selected);
         persist(JsfUtil.PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaUpdated"));
     }
-
+    
     public void destroy() {
         persist(JsfUtil.PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("OrdenMedicaDeleted"));
         if (!JsfUtil.isValidationFailed()) {
@@ -66,63 +95,63 @@ public class ListOrdenMedicaController implements Serializable {
         }
         return itemsFiltrados;
     }
-
+    
     private OrdenMedicaFacade getFacade() {
         return ejbFacade;
     }
-
+    
     public OrdenMedica getSelected() {
         return selected;
     }
-
+    
     public void setSelected(OrdenMedica selected) {
         this.selected = selected;
     }
-
+    
     public Boolean getAutorizada() {
         return autorizada;
     }
-
+    
     public void setAutorizada(Boolean autorizada) {
         this.autorizada = autorizada;
     }
-
+    
     public Boolean getPresentada() {
         return presentada;
     }
-
+    
     public void setPresentada(Boolean presentada) {
         this.presentada = presentada;
     }
-
+    
     public ObraSocial getObraSocial() {
         return obraSocial;
     }
-
+    
     public void setObraSocial(ObraSocial obraSocial) {
         this.obraSocial = obraSocial;
     }
-
+    
     public Date getStartDate() {
         return startDate;
     }
-
+    
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-
+    
     public Date getEndDate() {
         return endDate;
     }
-
+    
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
-
+    
     public void setItemsFiltrados(List<OrdenMedica> itemsFiltrados) {
         this.itemsFiltrados = itemsFiltrados;
     }
-
+    
     public OrdenMedica getOrdenMedica(java.lang.Integer id) {
         return getFacade().find(id);
     }
@@ -131,14 +160,13 @@ public class ListOrdenMedicaController implements Serializable {
     Collections.sort(itemsFiltrados,
     (o1, o2) -> o1.getTratamiento().getPaciente().getApellido()
     .compareTo(o2.getTratamiento().getPaciente().getApellido()));
-    */
-    
+     */
     public String redirectToReport() {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("ordenesReport", itemsFiltrados);
         return "/protected/ordenMedica/ReportList.xhtml?faces-redirect=true";
     }
-
-    public String marcarOrdenesPresentadasYRedirigir(){ 
+    
+    public String marcarOrdenesPresentadasYRedirigir() {
         getFacade().marcarOrdenesComoPresentadas(itemsFiltrados);
         return this.redirectToReport();
     }
@@ -175,5 +203,5 @@ public class ListOrdenMedicaController implements Serializable {
             }
         }
     }
-
+    
 }

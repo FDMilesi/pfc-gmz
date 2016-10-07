@@ -6,6 +6,7 @@ import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.gestores.util.FiltroOrdenMedica;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -45,30 +46,31 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
         orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
         orden.setAutorizada(Boolean.FALSE);
-        
+
         //si no necesita autorizacion ya la doy de alta como autorizada
-        if (!this.necesitaAutorizacion(tratamiento.getTipoDeTratamiento(), tratamiento.getPaciente().getObraSocial()))
+        if (!this.necesitaAutorizacion(tratamiento.getTipoDeTratamiento(), tratamiento.getPaciente().getObraSocial())) {
             orden.setAutorizada(Boolean.TRUE);
-        
+        }
+
         return orden;
     }
-    
-    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial){
+
+    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial) {
         TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
                 .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
-        
+
         //Si no existe la relacion entre la OS y el tipo de trata
         if (tipoTratamientoObraSocial == null) {
             return Boolean.TRUE;
         }
-        
+
         return tipoTratamientoObraSocial.isRequiereAutorizacion();
     }
 
     public TipoTratamientoObraSocialFacade getTipoTratamientoObraSocialFacade() {
         return tipoTratamientoObraSocialFacade;
     }
-    
+
     public List<OrdenMedica> getOrdenesByTratamiento(Tratamiento tratamiento) {
         return getEntityManager()
                 .createNamedQuery("OrdenMedica.findByTratamiento")
@@ -76,84 +78,74 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
                 .getResultList();
     }
 
-    public List<OrdenMedica> getOrdenesByFilters(Boolean autorizada, Boolean presentada, ObraSocial obraSocial, Date startDate, Date endDate) {
-        boolean autorizadaSet = false;
-        boolean presentadaSet = false;
-        boolean obraSocialSet = false;
-        boolean startDateSet = false;
-        boolean endDateSet = false;
+    public List<OrdenMedica> getOrdenesByFilters(FiltroOrdenMedica filtro) {
         String pqlQuery;
 
-        //Si no hay filtro seleccionado, seleccionamos todas las órdenes
-        if (autorizada == null && presentada == null && obraSocial == null && startDate == null && endDate == null) {
-            pqlQuery = "SELECT o FROM OrdenMedica o ";
-        } //Si hay algún filtro seleccionado, armamos el comienzo de la query
-        else {
-            pqlQuery = "SELECT o FROM OrdenMedica o WHERE ";
+        pqlQuery = "SELECT o FROM OrdenMedica o WHERE 1=1 ";
+
+        if (filtro.getAutorizada() != null) {
+            pqlQuery += "and o.autorizada = :autorizada ";
         }
 
-        //Si el filtro autorizado fue seteado, agregamos la condición segun el valor del parámetro
-        if (autorizada != null) {
-            pqlQuery += "o.autorizada = :autorizada ";
-            autorizadaSet = true;
-        }
-        //Si el filtro presentada fue seteado, agregamos la condición segun el valor del parámetro
-        if (presentada != null) {
-            if (autorizadaSet) {
-                pqlQuery += "and ";
-            }
-            pqlQuery += "o.presentadaAlCirculo = :presentada ";
-            presentadaSet = true;
-        }
-        //Si el filtro obraSocial fue seteado, agregamos la condición segun el valor del parámetro
-        if (obraSocial != null) {
-            if (autorizadaSet || presentadaSet) {
-                pqlQuery += "and ";
-            }
-            if (obraSocial.getId().equals((short) -1)) {
-                //el indice -1 es una bandera que me indica que quiero obtener todas las OS menos IAPOS
-                pqlQuery += "o.obraSocial != :obraSocial ";
-            } else {//sino filtro por una OS en particular
-                pqlQuery += "o.obraSocial = :obraSocial ";
-            }
-            obraSocialSet = true;
-        }
-        //Si el filtro startDate fue seteado, agregamos la condición segun el valor del parámetro
-        if (startDate != null) {
-            if (autorizadaSet || presentadaSet || obraSocialSet) {
-                pqlQuery += "and ";
-            }
-            pqlQuery += "o.fechaAutorizacion >= :startDate ";
-            startDateSet = true;
-        }
-        //Si el filtro endDate fue seteado, agregamos la condición segun el valor del parámetro
-        if (endDate != null) {
-            if (autorizadaSet || presentadaSet || obraSocialSet || startDateSet) {
-                pqlQuery += "and ";
-            }
-            pqlQuery += "o.fechaAutorizacion <= :endDate ";
-            endDateSet = true;
+        if (filtro.getPresentada() != null) {
+            pqlQuery += "and o.presentadaAlCirculo = :presentada ";
         }
 
+        if (filtro.getStartDate() != null) {
+            pqlQuery += "and o.fechaAutorizacion >= :startDate ";
+        }
+
+        if (filtro.getEndDate() != null) {
+            pqlQuery += "and o.fechaAutorizacion <= :endDate ";
+        }
+
+        if (filtro.getObraSocial() != null) {
+            pqlQuery += "and o.obraSocial = :obraSocial ";
+        }
+
+        if (filtro.getTipoDeTratamiento() != null) {
+            pqlQuery += "and o.tratamiento.tipoDeTratamiento = :tipoDeTratamiento ";
+        }
+
+        //Caso especial: quiero excluir la OS, pero además excluir los tratamientos fisiokinesio
+        if (filtro.getObraSocialExcluida() != null && filtro.getObraSocial() == null) {
+            pqlQuery += "and o.id NOT IN "
+                    + "(SELECT om.id "
+                    + "FROM OrdenMedica om "
+                    + "WHERE om.obraSocial = :obraSocialExcluida "
+                    + "and om.tratamiento.tipoDeTratamiento = :tipoDeTratamientoExcluido) ";
+        }
+        
+        //SETEO LOS PARAMETROS
         Query query = getEntityManager().createQuery(pqlQuery);
-        if (autorizadaSet) {
-            query.setParameter("autorizada", autorizada);
+
+        if (filtro.getAutorizada() != null) {
+            query.setParameter("autorizada", filtro.getAutorizada());
         }
-        if (presentadaSet) {
-            query.setParameter("presentada", presentada);
+
+        if (filtro.getPresentada() != null) {
+            query.setParameter("presentada", filtro.getPresentada());
         }
-        if (obraSocialSet) {
-            if (obraSocial.getId().equals((short) -1)) {
-                query.setParameter("obraSocial", obraSocialFacade.getObraSocialIAPOS());
-            } else {
-                query.setParameter("obraSocial", obraSocial);
-            }
+
+        if (filtro.getStartDate() != null) {
+            query.setParameter("startDate", filtro.getStartDate());
         }
-        if (startDateSet) {
-            query.setParameter("startDate", startDate);
+
+        if (filtro.getEndDate() != null) {
+            query.setParameter("endDate", filtro.getEndDate());
         }
-        if (endDateSet) {
-            query.setParameter("endDate", endDate);
+
+        if (filtro.getObraSocial() != null) {
+            query.setParameter("obraSocial", filtro.getObraSocial());
+        }
+        
+        if (filtro.getTipoDeTratamiento() != null) {
+            query.setParameter("tipoDeTratamiento", filtro.getTipoDeTratamiento());
+        }
+        
+        if (filtro.getObraSocialExcluida() != null && filtro.getObraSocial() == null) {
+            query.setParameter("obraSocialExcluida", filtro.getObraSocialExcluida());
+            query.setParameter("tipoDeTratamientoExcluido", filtro.getTipoDeTratamientoExcluido());
         }
 
         return query.getResultList();

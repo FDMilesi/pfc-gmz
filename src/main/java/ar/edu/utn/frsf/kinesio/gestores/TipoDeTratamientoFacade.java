@@ -3,12 +3,10 @@ package ar.edu.utn.frsf.kinesio.gestores;
 import ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- * 
- */
 @Stateless
 public class TipoDeTratamientoFacade extends AbstractFacade<TipoDeTratamiento> {
 
@@ -23,5 +21,10 @@ public class TipoDeTratamientoFacade extends AbstractFacade<TipoDeTratamiento> {
     public TipoDeTratamientoFacade() {
         super(TipoDeTratamiento.class);
     }
-    
+
+    public TipoDeTratamiento getTipoTratamientoFisikinesioterapia() {
+        return (TipoDeTratamiento) this.getEntityManager()
+                .createNamedQuery("TipoDeTratamiento.findByNombre")
+                .setParameter("nombre", "Fisiokinesioterapia").getSingleResult();
+    }
 }
