@@ -82,6 +82,11 @@ public class Tratamiento implements Serializable {
     @Size(max = 100)
     @Column(name = "medicoderivante")
     private String medicoDerivante;
+    
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "accidentetrabajo")
+    private boolean accidenteTrabajo;
 
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne(optional = false)
@@ -237,6 +242,14 @@ public class Tratamiento implements Serializable {
 
     public void setMedicoDerivante(String medicoDerivante) {
         this.medicoDerivante = medicoDerivante;
+    }
+
+    public boolean isAccidenteTrabajo() {
+        return accidenteTrabajo;
+    }
+
+    public void setAccidenteTrabajo(boolean accidenteTrabajo) {
+        this.accidenteTrabajo = accidenteTrabajo;
     }
 
     @Override

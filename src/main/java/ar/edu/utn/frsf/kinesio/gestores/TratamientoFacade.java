@@ -60,6 +60,14 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         tratamiento.setFinalizado(Boolean.FALSE);
         return tratamiento;
     }
+    
+    public boolean esOSIapos(Paciente paciente){
+        return (paciente.getObraSocial().getId() == 35) ||
+                (paciente.getObraSocial().getId() == 36) ||
+                (paciente.getObraSocial().getId() == 37) ||
+                (paciente.getObraSocial().getId() == 38) ||
+                (paciente.getObraSocial().getId() == 39);
+    }
 
     /**
      * Dada una entidad Tratamiento y un valor cantidadDeSesiones, verifica que

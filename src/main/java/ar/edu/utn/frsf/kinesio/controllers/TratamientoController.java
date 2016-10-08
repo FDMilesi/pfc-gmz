@@ -71,6 +71,10 @@ public class TratamientoController implements Serializable {
     }
 
     //Métodos de negocio    
+    public boolean esObraSocialIapos(){
+        return this.getFacade().esOSIapos(paciente);
+    }
+    
     public List<Tratamiento> getItems() {
         if (items == null) {
             items = getFacade().getTratamientosByPacienteContandoSesiones(paciente);

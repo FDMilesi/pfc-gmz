@@ -42,7 +42,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         orden.setFechaCreacion(new Date());
         orden.setPresentadaAlCirculo(false);
         orden.setTratamiento(tratamiento);
-        orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
+        this.setearObraSocial(orden, tratamiento);
         orden.setNumeroAfiliadoPaciente(tratamiento.getPaciente().getNroAfiliadoOS());
         orden.setAutorizada(Boolean.FALSE);
         
@@ -51,6 +51,15 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             orden.setAutorizada(Boolean.TRUE);
         
         return orden;
+    }
+    
+    private void setearObraSocial(OrdenMedica orden, Tratamiento tratamiento){
+        if (tratamiento.isAccidenteTrabajo()) {
+            ObraSocial iaposAccidenteTrabajo = this.obraSocialFacade.getObraSocialIAPOSAccidenteTrabajo();
+            orden.setObraSocial(iaposAccidenteTrabajo);
+        }
+        else
+            orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
     }
     
     public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial){

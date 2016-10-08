@@ -2085,7 +2085,7 @@ label.ui-state-error {
 }
 .fc-view-container .fc-event {
     background-color: #9ccc65;
-    border: none !important;
+    border: solid 1px whitesmoke;
     border-radius: 2px !important;
 }
 .fc-view-container .fc-event .fc-event-inner {

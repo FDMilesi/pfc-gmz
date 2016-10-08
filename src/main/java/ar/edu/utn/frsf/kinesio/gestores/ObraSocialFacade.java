@@ -29,4 +29,11 @@ public class ObraSocialFacade extends AbstractFacade<ObraSocial> {
                 .setParameter("nombre", "IAPOS")
                 .getResultList().get(0);
     }
+    
+    public ObraSocial getObraSocialIAPOSAccidenteTrabajo() {
+        return (ObraSocial) this.getEntityManager()
+                .createNamedQuery("ObraSocial.findByNombre")
+                .setParameter("nombre", "IAPOS - ACCIDENTE DE TRABAJO")
+                .getResultList().get(0);
+    }
 }
