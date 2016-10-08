@@ -64,7 +64,7 @@ public class OrdenMedica implements Serializable {
     @Column(name = "presentadaalcirculo")
     private Boolean presentadaAlCirculo;
 
-    @Size(max = 10)
+    @Size(max = 20)
     @Column(name = "numeroafiliadopaciente")
     private String numeroAfiliadoPaciente;
 

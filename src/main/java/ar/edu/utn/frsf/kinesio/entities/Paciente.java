@@ -97,7 +97,7 @@ public class Paciente implements Serializable {
     @Past(message = "Seleccione una fecha de nacimiento anterior al día actual")
     private Date fechaDeNacimiento;
 
-    @Size(max = 10, message = "El N° de afiliado debe tener menos de 10 caracteres")
+    @Size(max = 20, message = "El N° de afiliado debe tener menos de 20 caracteres")
     @Column(name = "nroafiliadoos")
     private String nroAfiliadoOS;
 
