@@ -7,7 +7,6 @@ import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.gestores.ObraSocialFacade;
 import ar.edu.utn.frsf.kinesio.gestores.TipoTratamientoObraSocialFacade;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,13 +37,19 @@ public class ObraSocialController {
     //Objeto usado para dar la opción en los combo de obtener todas las obras sociales excepto IAPOS
     //Es una obra social falsa, por eso el id -1. Creada a los fines de poder listarla en los combo.
     //requirió la modificacion del converter, para el caso de ID -1
-    private final ObraSocial obraSocialNoIAPOS = new ObraSocial((short) -1, "Todas excepto IAPOS");
+    private final ObraSocial obraSocialNoIAPOS = new ObraSocial((short) -1, "Todas excepto IAPOS FKT");
+
+    private final ObraSocial obraSocialIAPOSFKT = new ObraSocial((short) -2, "IAPOS FKT");
+
+    private ObraSocial obraSocialIAPOS;
 
     @PostConstruct
     private void init() {
         items = getFacade().findAll();
         itemsMasObraSocialNOIapos = new ArrayList<>(items);
         itemsMasObraSocialNOIapos.add(obraSocialNoIAPOS);
+        itemsMasObraSocialNOIapos.add(obraSocialIAPOSFKT);
+        obraSocialIAPOS = getFacade().getObraSocialIAPOS();
     }
 
     public ObraSocialController() {
@@ -101,6 +106,14 @@ public class ObraSocialController {
         return obraSocialNoIAPOS;
     }
 
+    public ObraSocial getObraSocialIAPOSFKT() {
+        return obraSocialIAPOSFKT;
+    }
+
+    public ObraSocial getObraSocialIAPOS() {
+        return obraSocialIAPOS;
+    }
+
     @FacesConverter(forClass = ObraSocial.class)
     public static class ObraSocialControllerConverter implements Converter {
 
@@ -113,6 +126,9 @@ public class ObraSocialController {
                     getValue(facesContext.getELContext(), null, "obraSocialController");
             if (getKey(value).equals((short) -1)) {
                 return controller.getObraSocialNoIAPOS();
+            }
+            if (getKey(value).equals((short) -2)) {
+                return controller.getObraSocialIAPOSFKT();
             }
             return controller.getObraSocial(getKey(value));
         }

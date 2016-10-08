@@ -24,12 +24,14 @@ public class TipoDeTratamientoController implements Serializable {
     TipoDeTratamientoFacade ejbFacade;
     List<TipoDeTratamiento> items;
     List<TipoDeTratamiento> itemsCubiertosPorOS;
+    TipoDeTratamiento tipoFisikinesioterapia;
 
     @PostConstruct
     protected void init() {
         items = getFacade().findAll();
         itemsCubiertosPorOS
                 = items.stream().filter(t -> t.isCubiertoPorObraSocial()).collect(Collectors.toList());
+        tipoFisikinesioterapia = getFacade().getTipoTratamientoFisikinesioterapia();
     }
 
     public TipoDeTratamientoController() {
@@ -49,6 +51,10 @@ public class TipoDeTratamientoController implements Serializable {
 
     public TipoDeTratamiento getTipoDeTratamiento(java.lang.Short id) {
         return getFacade().find(id);
+    }
+
+    public TipoDeTratamiento getTipoFisikinesioterapia() {
+        return tipoFisikinesioterapia;
     }
 
     @FacesConverter(forClass = TipoDeTratamiento.class)
