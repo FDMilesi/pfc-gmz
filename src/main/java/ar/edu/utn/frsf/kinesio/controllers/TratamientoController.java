@@ -108,6 +108,14 @@ public class TratamientoController implements Serializable {
         return "/protected/tratamiento/ConsentimientoInformado.xhtml?faces-redirect-true";
     }
     
+    public void prepararAdjuntarTratamientos(Tratamiento tratamiento){
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoParaEstudios", tratamiento);
+    }
+    
+    public String redirectToAdjuntarTratamientos(){
+        return "/protected/tratamiento/AdjuntarEstudios.xhtml?faces-redirect-true";
+    }
+    
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoCreated"));
         if (!JsfUtil.isValidationFailed()) {
