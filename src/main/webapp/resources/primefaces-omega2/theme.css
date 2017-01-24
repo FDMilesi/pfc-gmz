@@ -270,7 +270,7 @@ label.ui-state-error {
 .ui-icon-clipboard { background-position: -160px -128px; }
 .ui-icon-copy { background-position: -176px -128px; }
 .ui-icon-contact { background-position: -192px -128px; }
-.ui-icon-image { background-position: -208px -128px; }
+.ui-icon-image { background-image: url("#{resource['primefaces-omega2:images/icon_imageAdd-ltr.svg']}") !important; width: 24px; height: 24px }
 .ui-icon-video { background-position: -224px -128px; }
 .ui-icon-script { background-position: -240px -128px; }
 .ui-icon-alert { background-position: 0 -144px; }

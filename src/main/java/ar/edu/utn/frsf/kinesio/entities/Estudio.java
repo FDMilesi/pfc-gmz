@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,61 +26,63 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Nacho Gómez
  */
 @Entity
-@Table(name = "obrasocial")
+@Table(name = "estudio")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ObraSocial.findAll", query = "SELECT o FROM ObraSocial o"),
-    @NamedQuery(name = "ObraSocial.findById", query = "SELECT o FROM ObraSocial o WHERE o.id = :id"),
-    @NamedQuery(name = "ObraSocial.findByNombre", query = "SELECT o FROM ObraSocial o WHERE o.nombre = :nombre")})
-public class ObraSocial implements Serializable {
+    @NamedQuery(name = "Estudio.findAll", query = "SELECT e FROM Estudio e")
+    , @NamedQuery(name = "Estudio.findById", query = "SELECT e FROM Estudio e WHERE e.id = :id")
+    , @NamedQuery(name = "Estudio.findByNombrearchivo", query = "SELECT e FROM Estudio e WHERE e.nombrearchivo = :nombrearchivo")})
+public class Estudio implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "nombre")
-    private String nombre;
-    @Size(max = 256)
-    @Column(name = "linkautorizacion")
-    private String linkAutorizacion;
+    @Size(min = 1, max = 125)
+    @Column(name = "nombrearchivo")
+    private String nombrearchivo;
+    @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Tratamiento tratamientoid;
 
-    public ObraSocial() {
+    public Estudio() {
     }
 
-    public ObraSocial(Short id) {
+    public Estudio(Integer id) {
         this.id = id;
     }
 
-    public ObraSocial(Short id, String nombre) {
+    public Estudio(Integer id, String nombrearchivo) {
         this.id = id;
-        this.nombre = nombre;
+        this.nombrearchivo = nombrearchivo;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombrearchivo() {
+        return nombrearchivo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombrearchivo(String nombrearchivo) {
+        this.nombrearchivo = nombrearchivo;
     }
 
-    public String getLinkAutorizacion() {
-        return linkAutorizacion;
+    public Tratamiento getTratamientoid() {
+        return tratamientoid;
     }
 
-    public void setLinkAutorizacion(String linkAutorizacion) {
-        this.linkAutorizacion = linkAutorizacion;
+    public void setTratamientoid(Tratamiento tratamientoid) {
+        this.tratamientoid = tratamientoid;
     }
 
     @Override
@@ -91,10 +95,10 @@ public class ObraSocial implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ObraSocial)) {
+        if (!(object instanceof Estudio)) {
             return false;
         }
-        ObraSocial other = (ObraSocial) object;
+        Estudio other = (Estudio) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -103,7 +107,7 @@ public class ObraSocial implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return getNombrearchivo();
     }
-
+    
 }

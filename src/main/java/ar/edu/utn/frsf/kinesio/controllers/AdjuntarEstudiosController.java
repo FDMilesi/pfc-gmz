@@ -1,23 +1,31 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
+import ar.edu.utn.frsf.kinesio.gestores.EstudioFacade;
+import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
+import ar.edu.utn.frsf.kinesio.entities.Estudio;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import org.apache.commons.io.FileUtils;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
 
 /**
  *
@@ -32,24 +40,27 @@ public class AdjuntarEstudiosController implements Serializable {
 
     @PostConstruct
     protected void init(){
-        getListaOrdenesReporte();
+        getListaEstudios();
     }
     
     //Metodos de negocio
-    public void getListaOrdenesReporte() {
-        tratamiento = (Tratamiento) FacesContext.getCurrentInstance()
-                .getExternalContext()
-                .getSessionMap()
-                .get("tratamientoParaEstudios");
-        estudiosTratamiento = new ArrayList<String>();
-        estudiosTratamiento.add("biceps.jpg");
-        estudiosTratamiento.add("dorsal.jpg");
+    public void getListaEstudios() {
+        tratamiento = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
+                "tratamiento",
+                FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
+                null);
+        estudiosTratamiento = tratamiento.getEstudioList();
+        if(estudiosTratamiento!=null && !estudiosTratamiento.isEmpty())
+            selectedFile=estudiosTratamiento.get(0);
     }
     
     private Tratamiento tratamiento;
-    private UploadedFile uploadFile;
-    private String selectedFile;
-    private List<String> estudiosTratamiento;
+    private Estudio selectedFile;
+    private List<Estudio> estudiosTratamiento;
+    @EJB
+    private EstudioFacade ejbFacade;
+    @EJB
+    private TratamientoFacade tratFacade;
    
     public Tratamiento getTratamiento() {
         return tratamiento;
@@ -59,67 +70,82 @@ public class AdjuntarEstudiosController implements Serializable {
         this.tratamiento = tratamiento;
     }
 
-    public UploadedFile getUploadFile() {
-        return uploadFile;
-    }
-
-    public void setUploadFile(UploadedFile uploadFile) {
-        this.uploadFile = uploadFile;
-    }
-
-    public String getSelectedFile() {
+    public Estudio getSelectedFile() {
         return selectedFile;
     }
 
-    public void setSelectedFile(String selectedFile) {
+    public void setSelectedFile(Estudio selectedFile) {
         this.selectedFile = selectedFile;
     }
-
-    public List<String> getEstudiosTratamiento() {
+    
+    public List<Estudio> getEstudiosTratamiento() {
         return estudiosTratamiento;
     }
 
-    public void setEstudiosTratamiento(List<String> estudiosTratamiento) {
+    public void setEstudiosTratamiento(List<Estudio> estudiosTratamiento) {
         this.estudiosTratamiento = estudiosTratamiento;
     }
+    
+    private EstudioFacade getFacade() {
+        return ejbFacade;
+    }
 
-    public void handleFileUpload(){
-        try {
+    public void handleFileUpload(FileUploadEvent event){
+          try {
+
+            String baseDirectory = "C:/deltaGestion/estudios/"+getDirectoryHashed();
+
+            File directory = new File(baseDirectory);
+            File image = new File(baseDirectory+"/"+event.getFile().getFileName());
             
-            String baseDirectory = "C:\\deltaGestion\\estudios";
-            String childDirectory = getDirectoryHashed();
-            String fileName = uploadFile.getFileName() + (new Date()).getTime();
+            if(image.exists()){
+                //Ver como manejar para avisar al usuario
+                String msg = "El archivo con el nombre especificado ya existe y no será creado.";
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null));
+            }
+            else{
+                if(!directory.exists())
+                    directory.mkdirs();
+                
+                //create an InputStream from the uploaded file
+                InputStream inputStr = event.getFile().getInputstream();
 
+                // write the inputStream to a FileOutputStream
+                OutputStream outputStream = new FileOutputStream(image);
 
-            //create an InputStream from the uploaded file
-            InputStream inputStr = uploadFile.getInputstream();
-            
-            //create destination File
-            String destPath = baseDirectory + "\\" + childDirectory + "\\" + fileName;
-            File destFile = new File(destPath);
+                int read;
+                byte[] bytes = new byte[1024];
 
-            //use org.apache.commons.io.FileUtils to copy the File                  
-            FileUtils.copyInputStreamToFile(inputStr, destFile);
-            
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(AdjuntarEstudiosController.class.getName()).log(Level.SEVERE, null, ex);
+                while ((read = inputStr.read(bytes)) != -1) {
+                    outputStream.write(bytes, 0, read);
+                }
+                
+                Estudio e = new Estudio();
+                e.setNombrearchivo(event.getFile().getFileName());
+                e.setTratamientoid(tratamiento);
+                tratamiento.addEstudio(e);
+                tratFacade.editAndReturn(tratamiento);
+            }
+           
         } catch (IOException ex) {
             Logger.getLogger(AdjuntarEstudiosController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AdjuntarEstudiosController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
     
-    private String getDirectoryHashed() throws NoSuchAlgorithmException{
+    public String getDirectoryHashed() throws NoSuchAlgorithmException{
         
-        String stringToEncrypt = tratamiento.getPaciente().getApellido()
-                + tratamiento.getPaciente().getNombre()
-                + tratamiento.getPaciente().getDni();
+        String stringToEncrypt = tratamiento.getPaciente().getId()
+                + tratamiento.getPaciente().getDni()
+                + tratamiento.getId();
+              
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] messageDigest = md.digest(stringToEncrypt.getBytes());
+        BigInteger number = new BigInteger(1, messageDigest);
+        String hashtext = number.toString(16);
         
-        MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
-        messageDigest.update(stringToEncrypt.getBytes());
-        String encryptedString = new String(messageDigest.digest());
-        
-        return encryptedString;
+        return hashtext;
         
     }
     

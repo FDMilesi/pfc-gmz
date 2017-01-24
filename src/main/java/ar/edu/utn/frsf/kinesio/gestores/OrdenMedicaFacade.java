@@ -56,7 +56,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
     }
     
     private void setearObraSocial(OrdenMedica orden, Tratamiento tratamiento){
-        if (tratamiento.isAccidenteTrabajo()) {
+        if (tratamiento.getAccidentetrabajo()) {
             ObraSocial iaposAccidenteTrabajo = this.obraSocialFacade.getObraSocialIAPOSAccidenteTrabajo();
             orden.setObraSocial(iaposAccidenteTrabajo);
         }

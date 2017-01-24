@@ -26,6 +26,8 @@ public class TratamientoController implements Serializable {
 
     private static final String EDIT_TRATAMIENTOS_PATH
             = "/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true";
+    private static final String ADJUNTAR_ESTUDIOS_PATH
+            = "/protected/tratamiento/AdjuntarEstudios.xhtml?faces-redirect=true";
 
     @EJB
     private TratamientoFacade ejbFacade;
@@ -89,7 +91,7 @@ public class TratamientoController implements Serializable {
     public String prepararEditTratamiento() {
         return EDIT_TRATAMIENTOS_PATH;
     }
-
+    
     public void navegarAEditTratamiento() throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         context.redirect(context.getRequestContextPath() + "/faces" + EDIT_TRATAMIENTOS_PATH + "&tratamiento=" + selected.getId());
@@ -108,12 +110,12 @@ public class TratamientoController implements Serializable {
         return "/protected/tratamiento/ConsentimientoInformado.xhtml?faces-redirect-true";
     }
     
-    public void prepararAdjuntarTratamientos(Tratamiento tratamiento){
-        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoParaEstudios", tratamiento);
+    public void prepararAdjuntarTratamientos(Tratamiento tratamiento) {
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoParaAdjuntarEstudios", tratamiento);
     }
-    
+
     public String redirectToAdjuntarTratamientos(){
-        return "/protected/tratamiento/AdjuntarEstudios.xhtml?faces-redirect-true";
+        return ADJUNTAR_ESTUDIOS_PATH;
     }
     
     public void create() {
