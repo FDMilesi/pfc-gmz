@@ -53,6 +53,11 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return lista;
     }
     
+    public List<Tratamiento> getTratamientosEnCursoAndNoParticulares(){
+        return getEntityManager()
+                .createNamedQuery("Tratamiento.findByEnCursoAndNoParticular").getResultList();
+    }
+    
     public Tratamiento initTratamiento(Paciente paciente) {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());

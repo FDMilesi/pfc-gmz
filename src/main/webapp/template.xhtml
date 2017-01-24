@@ -24,7 +24,7 @@
             </p:confirmDialog>
         </h:form>
         <!--HEADER-->
-        <h:form>
+        <h:form id="navBarForm">
             <nav class="navbar navbar-default ui-widget">                
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#lista-a-colapsar" aria-expanded="false">
@@ -50,12 +50,21 @@
                         <h:link class="contenedorIndividualIconos" outcome="/protected/agenda/Agenda.xhtml" title="Ayuda">                     
                             <div class="iconoHeader ui-icon-help"></div>
                         </h:link>
+                        <h:link class="contenedorIndividualIconos" outcome="/protected/notificacion/List.xhtml" title="Notificaciones">                     
+                            <div class="iconoHeader ui-icon-notification" style="position: absolute; margin-left: 7px"></div>
+                            <div class="contadorNotificacion">
+                                <h:outputText id="notificationText" value="#{notificacionController.cantidadDeNotificaciones}"/>
+                                <!--<p:outputLabel id="notificationText" value="#{notificacionController.cantidadDeNotificaciones}"/>-->
+                            </div>                            
+                        </h:link>
+
                     </div>
                     <ul class="nav navbar-nav">
                         <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
                         <li><h:link value="Agenda" outcome="/protected/agenda/Agenda.xhtml"/></li>
                         <li><h:link value="Lista de pacientes" outcome="/protected/paciente/List.xhtml"/></li>
                         <li><h:link value="Lista de ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
+                        <li><h:link value="Notificaciones" outcome="/protected/notificacion/List.xhtml"/></li>
                         <li><h:link value="Ayuda"/></li>
                         <li>                        
                             <h:commandLink value="Cerrar sesión" type="submit" action="#{httpSessionController.logout}"/>
@@ -98,5 +107,17 @@
                 <ui:insert name="body"/>
             </div>
         </div>
+        <script>
+            function ocultarBadge() {
+                if ($('#navBarForm\\:notificationText')[0].innerText == "0") {//si no hay notificaciones que mostrar
+                    $(".contadorNotificacion").css("display","none");
+                }
+                else{
+                    $(".contadorNotificacion").css("display","block");
+                }
+            }
+            
+            ocultarBadge();
+        </script>
     </h:body>
 </html>

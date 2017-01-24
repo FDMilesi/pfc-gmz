@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListNotificacionesTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="card shadowEffect">
+                <h:form>
+                    <p:breadCrumb>
+                        <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Notificaciones" disabled="true"  />
+                    </p:breadCrumb>
+                </h:form>
+            </div>
+
+            <style>
+                #NotificacionListForm thead{
+                    visibility: hidden;
+                }
+            </style>
+
+            <div class="card shadowEffect">
+                <h:form id="NotificacionListForm">    
+                    <p:dataTable id="datalist" value="#{notificacionController.items}" var="item"
+                                 selectionMode="single" selection="#{notificacionController.selected}"
+                                 rowKey="#{item.id}"
+                                 sortBy="#{item.fechayhora}"
+                                 sortOrder="descending"
+                                 emptyMessage="#{bundle.ListNotificacionEmpty}"
+                                 reflow="true"                            
+                                 >
+                        <p:column width="100">
+                            <h:outputText value="#{item.fechayhora}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{item.descripcion}"/>
+                        </p:column>
+                        <p:column width="50">
+                            <!--ELIMINAR-->
+                            <p:commandButton id="deleteButton" 
+                                             icon="ui-clear-black" 
+                                             title="#{bundle.Delete}" 
+                                             action="#{notificacionController.destroy}"                                             
+                                             update=":growl,datalist,:navBarForm:notificationText"
+                                             oncomplete="ocultarBadge();">
+                                <f:setPropertyActionListener value="#{item}" target="#{notificacionController.selected}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>                    
+<!--                    <p:commandButton title="pruebaJob" 
+                                     action="#{notificacionController.pruebaJob()}"/>-->                    
+                </h:form>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
