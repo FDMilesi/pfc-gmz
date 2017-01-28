@@ -65,6 +65,7 @@
                         <li><h:link value="Lista de pacientes" outcome="/protected/paciente/List.xhtml"/></li>
                         <li><h:link value="Lista de ordenes" outcome="/protected/ordenMedica/List.xhtml"/></li>
                         <li><h:link value="Notificaciones" outcome="/protected/notificacion/List.xhtml"/></li>
+                        <li><h:link value="Estadísticas" outcome="/protected/estadisticas/Estadisticas.xhtml"/></li>
                         <li><h:link value="Ayuda"/></li>
                         <li>                        
                             <h:commandLink value="Cerrar sesión" type="submit" action="#{httpSessionController.logout}"/>
@@ -95,6 +96,9 @@
                         </h:link></li>
                     <li><h:link value="Listado de Ordenes" outcome="/protected/ordenMedica/List.xhtml">
                             <div class="iconos ui-icon-orden" />                                    
+                        </h:link></li>
+                    <li><h:link value="Estadísticas" outcome="/protected/estadisticas/Estadisticas.xhtml">
+                            <div class="iconos ui-icon-equalizer" />                                    
                         </h:link></li>
                     <li><h:link value="Configuración" outcome="/protected/config/Config.xhtml">
                             <div class="iconos ui-icon-config" />                                    
