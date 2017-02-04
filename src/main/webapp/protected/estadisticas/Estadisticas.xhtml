@@ -22,6 +22,11 @@
                         <p:chart type="line" model="#{estadisticasController.animatedModel1}" style="height:300px;" responsive="true"/>
                     </h:panelGrid>
                 </div>
+                <div class="card shadowEffect">
+                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                        <p:chart type="pie" model="#{estadisticasController.pieModel}" style="width:400px;height:300px" responsive="true"/>
+                    </h:panelGrid>
+                </div>
             </h:form>
 
         </ui:define>

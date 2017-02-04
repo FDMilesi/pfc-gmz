@@ -51,7 +51,7 @@ public class EstadisticasFacade {
                 .setParameter("obraSocial", iapos).getSingleResult()).intValue();
     }
 
-    private int CantidadPacientesPorMesTotal(int mes, int anio) {
+    public int CantidadPacientesPorMesTotal(int mes, int anio) {
 
         int cantidadDiasMes = YearMonth.of(anio, mes + 1).lengthOfMonth();
 
@@ -72,5 +72,11 @@ public class EstadisticasFacade {
 
     public int CantidadPacientesPorMesTodasMenosIapos(int mes, int anio, ObraSocial iapos) {
         return this.CantidadPacientesPorMesTotal(mes, anio) - this.CantidadPacientesPorMesIapos(mes, anio, iapos);
+    }
+    
+    public int CantidadPacientesConObraSocialX(ObraSocial os){
+        return ((Number) getEntityManager()
+                .createQuery("SELECT COUNT(p) FROM Paciente p WHERE p.obraSocial = :obraSocial")
+                .setParameter("obraSocial", os).getSingleResult()).intValue();
     }
 }

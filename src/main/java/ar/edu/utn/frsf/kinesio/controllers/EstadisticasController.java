@@ -16,11 +16,13 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.LineChartSeries;
+import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean
 public class EstadisticasController implements Serializable {
 
     private LineChartModel animatedModel1;
+    private PieChartModel pieModel;
 
     @EJB
     private EstadisticasFacade estadisticasFacade;
@@ -44,14 +46,25 @@ public class EstadisticasController implements Serializable {
         return animatedModel1;
     }
 
+    public PieChartModel getPieModel() {
+        return pieModel;
+    }
+
     private void createAnimatedModels() {
         animatedModel1 = initLinearModel();
         animatedModel1.setTitle("Cantidad de pacientes en los últimos meses");
         animatedModel1.setAnimate(true);
-        animatedModel1.setLegendPosition("se");
+        animatedModel1.setLegendPosition("ne");
         Axis yAxis = animatedModel1.getAxis(AxisType.Y);
         yAxis.setMin(0);
-        yAxis.setMax(50);
+        yAxis.setMax(5);
+        
+        pieModel = initPieModel();
+        pieModel.setTitle("Obras Sociales mas importantes");
+        pieModel.setLegendPosition("e");
+//        pieModel.setFill(false);
+        pieModel.setShowDataLabels(true);
+        pieModel.setDiameter(150);
     }
 
     private LineChartModel initLinearModel() {
@@ -102,6 +115,23 @@ public class EstadisticasController implements Serializable {
 
         model.getAxes().put(AxisType.X, new CategoryAxis("Meses"));
 
+        return model;
+    }
+    
+    private PieChartModel initPieModel(){
+        PieChartModel model = new PieChartModel();
+        ObraSocial iapos = this.getObraSocialFacade().getObraSocialIAPOS();
+        ObraSocial jerarquicos = this.getObraSocialFacade().getObraSocialJerarquicos();
+        ObraSocial sancor = this.getObraSocialFacade().getObraSocialSancor();
+        ObraSocial ospat = this.getObraSocialFacade().getObraSocialOSPAT();
+        ObraSocial uta = this.getObraSocialFacade().getObraSocialUTA();
+        
+        model.set("Iapos", getFacade().CantidadPacientesConObraSocialX(iapos));
+        model.set("Jerarquicos Salud", getFacade().CantidadPacientesConObraSocialX(jerarquicos));
+        model.set("Sancor Salud", getFacade().CantidadPacientesConObraSocialX(sancor));
+        model.set("OSPAT (Pers. del Turf)", getFacade().CantidadPacientesConObraSocialX(ospat));
+        model.set("U.T.A. - O.S.C.T.C.P.", getFacade().CantidadPacientesConObraSocialX(uta));
+        
         return model;
     }
 }
