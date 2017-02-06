@@ -18,20 +18,20 @@
                     </p:breadCrumb>
                 </div>
 
-                <div class="card shadowEffect">
-                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                <div class="ui-g-12 ui-md-7">
+                    <div class="card shadowEffect">
                         <p:chart type="line" model="#{estadisticasController.animatedModel1}" style="height:300px;" responsive="true"/>
-                    </h:panelGrid>
+                    </div>
                 </div>
-                <div class="card shadowEffect">
-                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                <div class="ui-g-12 ui-md-5">
+                    <div class="card shadowEffect">
                         <p:chart type="pie" model="#{estadisticasController.pieModel}" style="width:400px;height:300px" responsive="true"/>
-                    </h:panelGrid>
+                    </div>
                 </div>
-                <div class="card shadowEffect">
-                    <h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+                <div class="ui-g-12 ui-md-12">
+                    <div class="card shadowEffect">
                         <p:chart type="bar" model="#{estadisticasController.barModel}" style="height:300px;" responsive="true"/>
-                    </h:panelGrid>
+                    </div>
                 </div>
             </h:form>
 

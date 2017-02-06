@@ -60,7 +60,7 @@ public class EstadisticasController implements Serializable {
     private void createAnimatedModels() {
         //grafico de lineas
         animatedModel1 = initLinearModel();
-        animatedModel1.setTitle("Cantidad de pacientes en los últimos meses");
+        animatedModel1.setTitle("IAPOS vs Otras Obras Sociales");
         animatedModel1.setAnimate(true);
         animatedModel1.setLegendPosition("ne");
         Axis yAxis = animatedModel1.getAxis(AxisType.Y);
