@@ -121,6 +121,15 @@
                                 <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
                                 <p:confirm header="#{bundle.TratamientoConfirmationHeader}" message="#{bundle.TratamientoConfirmationMessage}" icon="ui-icon-alert" />
                             </p:commandButton>
+                            <!--ADJUNTAR ESTUDIOS-->
+                            <p:button id="estudiosButton" 
+                                      includeViewParams="true" 
+                                      icon="ui-icon-image" 
+                                      title="#{bundle.AdjuntarEstudios}"
+                                      onclick="#{tratamientoController.prepararAdjuntarTratamientos(item)}"
+                                      outcome="#{tratamientoController.redirectToAdjuntarTratamientos()}">
+                                <f:param name="tratamiento" value="#{item.id}" />
+                            </p:button>
                         </p:column>
                     </p:dataTable>
                 </h:form>
