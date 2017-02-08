@@ -306,6 +306,21 @@ body{
 .contenedorIndividualIconos:hover{
     background-color: #039be5;
 }
+.contadorNotificacion{
+    z-index: 1;
+    position: absolute;
+    right: 127px;
+    top: 13px;
+    background-color: #E53935;
+    color: #ffffff;
+    padding: 2px 4px;
+    display: block;
+    font-size: 12px;
+    line-height: 12px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+}
 .iconoHeader{
     width: 32px;
     height: 36px;
