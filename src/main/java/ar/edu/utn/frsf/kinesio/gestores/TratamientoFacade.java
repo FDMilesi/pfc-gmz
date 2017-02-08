@@ -62,7 +62,9 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
     }
     
     public boolean esOSIapos(Paciente paciente){
-        return (paciente.getObraSocial().getId() == 35) ||
+        if(paciente.getObraSocial() == null)
+            return false;
+        else return (paciente.getObraSocial().getId() == 35) ||
                 (paciente.getObraSocial().getId() == 36) ||
                 (paciente.getObraSocial().getId() == 37) ||
                 (paciente.getObraSocial().getId() == 38) ||
