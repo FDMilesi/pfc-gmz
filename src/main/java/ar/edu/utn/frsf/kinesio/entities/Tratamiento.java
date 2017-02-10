@@ -2,7 +2,9 @@ package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -22,6 +25,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "tratamiento")
@@ -34,9 +38,13 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tratamiento.countByPaciente", query = "SELECT count(t) FROM Tratamiento t WHERE t.paciente = :paciente"),
     @NamedQuery(name = "Tratamiento.findByPacienteEnCurso", 
             query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = FALSE"),
-    @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente")})
+    @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente"),
+    @NamedQuery(name = "Tratamiento.findByEnCursoAndNoParticular", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = FALSE and t.particular = FALSE")})
 public class Tratamiento implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamientoid")
+    private List<Estudio> estudioList;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -242,13 +250,9 @@ public class Tratamiento implements Serializable {
     public void setMedicoDerivante(String medicoDerivante) {
         this.medicoDerivante = medicoDerivante;
     }
-
-    public boolean isAccidenteTrabajo() {
-        return accidenteTrabajo;
-    }
-
-    public void setAccidenteTrabajo(boolean accidenteTrabajo) {
-        this.accidenteTrabajo = accidenteTrabajo;
+    
+    public void addEstudio(Estudio e){
+        estudioList.add(e);
     }
 
     @Override
@@ -279,6 +283,23 @@ public class Tratamiento implements Serializable {
             result = result.substring(0, 37)+"...";
         }
         return result;
+    }
+
+    public Boolean getAccidentetrabajo() {
+        return accidenteTrabajo;
+    }
+
+    public void setAccidentetrabajo(Boolean accidenteTrabajo) {
+        this.accidenteTrabajo = accidenteTrabajo;
+    }
+
+    @XmlTransient
+    public List<Estudio> getEstudioList() {
+        return estudioList;
+    }
+
+    public void setEstudioList(List<Estudio> estudioList) {
+        this.estudioList = estudioList;
     }
 
 }

@@ -152,5 +152,5 @@ public class TipoDeTratamiento implements Serializable {
     public String toString() {
         return nombre;
     }
-    
+
 }

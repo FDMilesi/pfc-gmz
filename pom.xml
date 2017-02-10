@@ -67,7 +67,7 @@
             <artifactId>arquillian-junit-container</artifactId>
             <scope>test</scope>
         </dependency>
-        
+   
         <!--GlassFish container para correr Arquillian-->
         <dependency>
             <groupId>org.jboss.arquillian.container</groupId>

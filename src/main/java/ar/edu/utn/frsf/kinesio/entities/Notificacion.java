@@ -6,6 +6,7 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,70 +16,75 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Nacho Gómez
+ * @author Fran
  */
 @Entity
-@Table(name = "obrasocial")
+@Table(name = "notificacion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ObraSocial.findAll", query = "SELECT o FROM ObraSocial o"),
-    @NamedQuery(name = "ObraSocial.findById", query = "SELECT o FROM ObraSocial o WHERE o.id = :id"),
-    @NamedQuery(name = "ObraSocial.findByNombre", query = "SELECT o FROM ObraSocial o WHERE o.nombre = :nombre")})
-public class ObraSocial implements Serializable {
+    @NamedQuery(name = "Notificacion.findAll", query = "SELECT n FROM Notificacion n"),
+    @NamedQuery(name = "Notificacion.findById", query = "SELECT n FROM Notificacion n WHERE n.id = :id"),
+    @NamedQuery(name = "Notificacion.findByDescripcion", query = "SELECT n FROM Notificacion n WHERE n.descripcion = :descripcion"),
+    @NamedQuery(name = "Notificacion.findByFechayhora", query = "SELECT n FROM Notificacion n WHERE n.fechayhora = :fechayhora")})
+public class Notificacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
     @Column(name = "id")
-    private Short id;
+    private Integer id;
+    @Size(max = 150)
+    @Column(name = "descripcion")
+    private String descripcion;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "nombre")
-    private String nombre;
-    @Size(max = 256)
-    @Column(name = "linkautorizacion")
-    private String linkAutorizacion;
+    @Column(name = "fechayhora")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechayhora;
 
-    public ObraSocial() {
+    public Notificacion() {
     }
 
-    public ObraSocial(Short id) {
+    public Notificacion(Integer id) {
         this.id = id;
     }
 
-    public ObraSocial(Short id, String nombre) {
+    public Notificacion(Integer id, Date fechayhora) {
         this.id = id;
-        this.nombre = nombre;
+        this.fechayhora = fechayhora;
     }
 
-    public Short getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public String getLinkAutorizacion() {
-        return linkAutorizacion;
+    public Date getFechayhora() {
+        return fechayhora;
     }
 
-    public void setLinkAutorizacion(String linkAutorizacion) {
-        this.linkAutorizacion = linkAutorizacion;
+    public void setFechayhora(Date fechayhora) {
+        this.fechayhora = fechayhora;
     }
 
     @Override
@@ -91,10 +97,10 @@ public class ObraSocial implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ObraSocial)) {
+        if (!(object instanceof Notificacion)) {
             return false;
         }
-        ObraSocial other = (ObraSocial) object;
+        Notificacion other = (Notificacion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -103,7 +109,7 @@ public class ObraSocial implements Serializable {
 
     @Override
     public String toString() {
-        return nombre;
+        return "ar.edu.utn.frsf.kinesio.entities.Notificacion[ id=" + id + " ]";
     }
-
+    
 }

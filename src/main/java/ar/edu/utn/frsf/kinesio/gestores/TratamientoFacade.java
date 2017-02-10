@@ -52,7 +52,12 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         }
         return lista;
     }
-
+    
+    public List<Tratamiento> getTratamientosEnCursoAndNoParticulares(){
+        return getEntityManager()
+                .createNamedQuery("Tratamiento.findByEnCursoAndNoParticular").getResultList();
+    }
+    
     public Tratamiento initTratamiento(Paciente paciente) {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());
@@ -60,13 +65,15 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         tratamiento.setFinalizado(Boolean.FALSE);
         return tratamiento;
     }
-
-    public boolean esOSIapos(Paciente paciente) {
-        return (paciente.getObraSocial().getId() == 35)
-                || (paciente.getObraSocial().getId() == 36)
-                || (paciente.getObraSocial().getId() == 37)
-                || (paciente.getObraSocial().getId() == 38)
-                || (paciente.getObraSocial().getId() == 39);
+    
+    public boolean esOSIapos(Paciente paciente){
+        if(paciente.getObraSocial() == null)
+            return false;
+        else return (paciente.getObraSocial().getId() == 35) ||
+                (paciente.getObraSocial().getId() == 36) ||
+                (paciente.getObraSocial().getId() == 37) ||
+                (paciente.getObraSocial().getId() == 38) ||
+                (paciente.getObraSocial().getId() == 39);
     }
 
     /**
