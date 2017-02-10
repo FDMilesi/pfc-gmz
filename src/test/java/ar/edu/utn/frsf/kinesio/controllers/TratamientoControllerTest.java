@@ -58,38 +58,38 @@ public class TratamientoControllerTest {
     }
 
     //Lista de items
-//    @Test
-//    public void deberiaCargarPacienteAlConstruirse() {
-//        Paciente pacienteDePrueba = new Paciente("ape", "nom", "3");
-//        context.getExternalContext().getRequestParameterMap().put("paciente", "1");
-//        when(pacienteFacade.find(1)).thenReturn(pacienteDePrueba);
-//        when(tratamientoFacade.getTratamientosByPaciente(pacienteDePrueba)).thenReturn(new ArrayList<Tratamiento>());
-//
-//        tratamientoController.init();
-//        assertNotNull(tratamientoController.getPaciente().getApellido());
-//
-//        assertNotNull(tratamientoController.getItems());//llama al facade
-//        verify(tratamientoFacade).getTratamientosByPaciente(pacienteDePrueba);
-//    }
+    @Test
+    public void deberiaCargarPacienteAlConstruirse() {
+        Paciente pacienteDePrueba = new Paciente("ape", "nom", "3");
+        context.getExternalContext().getRequestParameterMap().put("paciente", "1");
+        when(pacienteFacade.find(1)).thenReturn(pacienteDePrueba);
+        when(tratamientoFacade.getTratamientosByPaciente(pacienteDePrueba)).thenReturn(new ArrayList<Tratamiento>());
 
-//    @Test
-//    public void deberiaNoExplotarAntePacienteNull() {
-//        context.getExternalContext().getRequestParameterMap().put("paciente", "1");
-//        when(pacienteFacade.find(1)).thenReturn(null);//No encuentra el paciente
-//
-//        tratamientoController.init();
-//
-//        assertNull(tratamientoController.getPaciente());
-//        assertEquals(tratamientoController.getItems().size(), 0);//llama al facade
-//        verify(tratamientoFacade).getTratamientosByPaciente(null);
-//
-//    }
+        tratamientoController.init();
+        assertNotNull(tratamientoController.getPaciente().getApellido());
 
-//    @Test
-//    public void deberiaNoExplotarSiFacadeDevuelveNull() {
-//        assertNotNull(tratamientoController.getItems());
-//        verify(tratamientoFacade).getTratamientosByPaciente((Paciente) anyObject());
-//    }
+        assertNotNull(tratamientoController.getItems());//llama al facade
+        verify(tratamientoFacade).getTratamientosByPaciente(pacienteDePrueba);
+    }
+
+    @Test
+    public void deberiaNoExplotarAntePacienteNull() {
+        context.getExternalContext().getRequestParameterMap().put("paciente", "1");
+        when(pacienteFacade.find(1)).thenReturn(null);//No encuentra el paciente
+
+        tratamientoController.init();
+
+        assertNull(tratamientoController.getPaciente());
+        assertEquals(tratamientoController.getItems().size(), 0);//llama al facade
+        verify(tratamientoFacade).getTratamientosByPaciente(null);
+
+    }
+
+    @Test
+    public void deberiaNoExplotarSiFacadeDevuelveNull() {
+        assertNotNull(tratamientoController.getItems());
+        verify(tratamientoFacade).getTratamientosByPaciente((Paciente) anyObject());
+    }
 
     //Operaciones CRUD
     @Test

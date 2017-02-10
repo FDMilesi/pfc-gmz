@@ -71,18 +71,18 @@ public class TratamientoController implements Serializable {
     }
 
     //Métodos de negocio    
-    public boolean esObraSocialIapos(){
+    public boolean esObraSocialIapos() {
         return this.getFacade().esOSIapos(paciente);
     }
-    
+
     public List<Tratamiento> getItems() {
         if (items == null) {
             items = getFacade().getTratamientosByPacienteContandoSesiones(paciente);
         }
         return items;
     }
-    
-    public List<Tratamiento> getTratamientosByPacienteEnCurso(){
+
+    public List<Tratamiento> getTratamientosByPacienteEnCurso() {
         return getFacade().getTratamientosByPacienteEnCurso(paciente);
     }
 
@@ -100,14 +100,14 @@ public class TratamientoController implements Serializable {
         return selected;
     }
 
-    public void prepararConsentimiento(Tratamiento tratamiento){
+    public void prepararConsentimiento(Tratamiento tratamiento) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("tratamientoParaConsentimiento", tratamiento);
     }
-    
-    public String redirectToConsentimiento(){
+
+    public String redirectToConsentimiento() {
         return "/protected/tratamiento/ConsentimientoInformado.xhtml?faces-redirect-true";
     }
-    
+
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoCreated"));
         if (!JsfUtil.isValidationFailed()) {
@@ -120,10 +120,12 @@ public class TratamientoController implements Serializable {
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TratamientoDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
+        if (this.getFacade().puedoEliminarTratamiento(selected)) {
+            persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TratamientoDeleted"));
+            selected = null;
+            items = null;
+        } else {
+            JsfUtil.addWarningMessage("No se permite eliminar el tratamiento. Antes debe eliminar las ordenes médicas asociadas");
         }
     }
 
@@ -136,20 +138,14 @@ public class TratamientoController implements Serializable {
                     getFacade().remove(selected);
                 }
                 JsfUtil.addSuccessMessage(successMessage);
+
             } catch (EJBException ex) {
-                String msg = "";
-                Throwable cause = ex.getCause();
-                if (cause != null) {
-                    msg = cause.getLocalizedMessage();
-                }
-                if (msg.length() > 0) {
-                    JsfUtil.addErrorMessage(msg);
-                } else {
-                    JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                }
+                Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+
             } catch (Exception ex) {
                 Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-                JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             }
         }
     }

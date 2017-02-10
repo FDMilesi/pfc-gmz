@@ -41,7 +41,8 @@ import org.primefaces.model.ScheduleEvent;
             query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE and s.transcurrida = TRUE"),
     @NamedQuery(name = "Sesion.findByAgenda", query = "SELECT s FROM Sesion s WHERE s.agenda = :agenda"),
     @NamedQuery(name = "Sesion.findByTranscurrida", query = "SELECT s FROM Sesion s WHERE s.transcurrida = :transcurrida"),
-    @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta")})
+    @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta"),
+    @NamedQuery(name = "Sesion.findByRangoFechas", query = "SELECT s, d.nombregooglecontacts FROM Sesion s, DatosDeContacto d WHERE d.paciente = s.tratamiento.paciente AND d.desearecibirwhatsapp = TRUE AND s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta AND s.transcurrida = FALSE AND s.cuenta = TRUE")})
 
 public class Sesion implements Serializable, ScheduleEvent {
 

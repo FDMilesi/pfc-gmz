@@ -29,7 +29,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return em;
     }
 
-    public Tratamiento editAndReturn(Tratamiento tratamiento){
+    public Tratamiento editAndReturn(Tratamiento tratamiento) {
         return getEntityManager().merge(tratamiento);
     }
 
@@ -42,7 +42,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
                 .createNamedQuery("Tratamiento.findByPaciente")
                 .setParameter("paciente", paciente).getResultList();
     }
-    
+
     public List<Tratamiento> getTratamientosByPacienteContandoSesiones(Paciente paciente) {
         List<Tratamiento> lista = getEntityManager()
                 .createNamedQuery("Tratamiento.findByPaciente")
@@ -52,7 +52,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         }
         return lista;
     }
-    
+
     public Tratamiento initTratamiento(Paciente paciente) {
         Tratamiento tratamiento = new Tratamiento(paciente);
         tratamiento.setFechaCreacion(new Date());
@@ -60,13 +60,13 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         tratamiento.setFinalizado(Boolean.FALSE);
         return tratamiento;
     }
-    
-    public boolean esOSIapos(Paciente paciente){
-        return (paciente.getObraSocial().getId() == 35) ||
-                (paciente.getObraSocial().getId() == 36) ||
-                (paciente.getObraSocial().getId() == 37) ||
-                (paciente.getObraSocial().getId() == 38) ||
-                (paciente.getObraSocial().getId() == 39);
+
+    public boolean esOSIapos(Paciente paciente) {
+        return (paciente.getObraSocial().getId() == 35)
+                || (paciente.getObraSocial().getId() == 36)
+                || (paciente.getObraSocial().getId() == 37)
+                || (paciente.getObraSocial().getId() == 38)
+                || (paciente.getObraSocial().getId() == 39);
     }
 
     /**
@@ -86,7 +86,7 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         //valido segun las sesiones
         int cantidadSesionesQueCuentan = sesionFacade.countSesionesByTratamientoQueCuentan(tratamiento);
         validaSegunSesiones = cantidadSesionesQueCuentan <= cantidadDeSesiones.intValue();
-        
+
         //Si el tratamiento es por obra social, valido las ordenes.
         if (!tratamiento.getParticular()) {
             validaSegunOrdenes
@@ -95,29 +95,34 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
 
         return validaSegunOrdenes && validaSegunSesiones;
     }
-    
+
     //Valido que la cantidad de sesiones que no transcurrieron sea cero, es decir, que no haya sesiones pendientes.
-    public boolean esValidaCantidadDeSesionesNoTranscurridas(Tratamiento tratamiento){
+    public boolean esValidaCantidadDeSesionesNoTranscurridas(Tratamiento tratamiento) {
         int cantidadSesionesNoTranscurridas = sesionFacade.countSesionesByTratamientoNoTranscurridas(tratamiento);
-        
+
         return cantidadSesionesNoTranscurridas == 0;
     }
-    
-    public boolean esValidaCantidadSesionesCubiertas(Tratamiento tratamiento){
+
+    public boolean esValidaCantidadSesionesCubiertas(Tratamiento tratamiento) {
         return Short.compare(tratamiento.getCantidadDeSesiones(), ordenMedicaFacade.sumatoriaSesionesDeOrdenes(tratamiento)) == 0;
     }
-    
-    public boolean sonValidasTodasLasOrdenes(Tratamiento trat){
+
+    public boolean sonValidasTodasLasOrdenes(Tratamiento trat) {
         return ordenMedicaFacade.estanTodasLasOrdenesAutorizadas(ordenMedicaFacade.getOrdenesByTratamiento(trat));
     }
 
-    public List<Tratamiento> getTratamientosByPacienteEnCurso(Paciente paciente){
+    public List<Tratamiento> getTratamientosByPacienteEnCurso(Paciente paciente) {
         return getEntityManager()
                 .createNamedQuery("Tratamiento.findByPacienteEnCurso")
                 .setParameter("paciente", paciente)
                 .getResultList();
     }
-    
+
+    public boolean puedoEliminarTratamiento(Tratamiento selected) {
+        return ((Number) getEntityManager().createNamedQuery("OrdenMedica.countByTratamiento")
+                .setParameter("tratamiento", selected).getSingleResult()).intValue() == 0;
+    }
+
     /**
      * Método ejecutado antes de que un tratamiento sea persistido
      *

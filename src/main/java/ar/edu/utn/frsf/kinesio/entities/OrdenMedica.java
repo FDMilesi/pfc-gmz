@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OrdenMedica.findByPresentadaalcirculo", query = "SELECT o FROM OrdenMedica o WHERE o.presentadaAlCirculo = :presentadaalcirculo"),
     @NamedQuery(name = "OrdenMedica.findByNumeroafiliadopaciente", query = "SELECT o FROM OrdenMedica o WHERE o.numeroAfiliadoPaciente = :numeroafiliadopaciente"),
     @NamedQuery(name = "OrdenMedica.findByTratamiento", query = "SELECT o FROM OrdenMedica o WHERE o.tratamiento = :tratamiento"),
+    @NamedQuery(name = "OrdenMedica.countByTratamiento", query = "SELECT count(o) FROM OrdenMedica o WHERE o.tratamiento = :tratamiento"),
     @NamedQuery(name = "OrdenMedica.findByAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE"),
     @NamedQuery(name = "OrdenMedica.findByNoAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE"),
     @NamedQuery(name = "OrdenMedica.findByAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE and o.presentadaAlCirculo = :presentada"),

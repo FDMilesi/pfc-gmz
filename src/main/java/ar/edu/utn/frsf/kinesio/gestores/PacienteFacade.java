@@ -36,4 +36,9 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
         return getEntityManager().createNamedQuery("Paciente.autocompletar")
                 .setParameter("query", query+"%").getResultList();
     }
+
+    public boolean puedoEliminarPaciente(Paciente selected) {
+        return ((Number)getEntityManager().createNamedQuery("Tratamiento.countByPaciente")
+                .setParameter("paciente", selected).getSingleResult()).intValue() == 0;
+    }
 }

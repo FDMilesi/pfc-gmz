@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tratamiento.findById", query = "SELECT t FROM Tratamiento t WHERE t.id = :id"),
     @NamedQuery(name = "Tratamiento.findByParticular", query = "SELECT t FROM Tratamiento t WHERE t.particular = :particular"),
     @NamedQuery(name = "Tratamiento.findByFinalizado", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = :finalizado"),
+    @NamedQuery(name = "Tratamiento.countByPaciente", query = "SELECT count(t) FROM Tratamiento t WHERE t.paciente = :paciente"),
     @NamedQuery(name = "Tratamiento.findByPacienteEnCurso", 
             query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = FALSE"),
     @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente")})
@@ -104,9 +105,7 @@ public class Tratamiento implements Serializable {
     /**
      * Representa el número de sesiones que fueron marcadas como
      * Transcurridas=true, es decir, la cantidad de sesiones a las que el
-     * paciente asistió. El valor es calculado luego de que la entidad es
-     * cargada desde la base de datos, mediante un interceptor del evento
-     * PostLoad. Ver los listeners de esta entidad.
+     * paciente asistió. 
      */
     @Transient
     private int sesionesRealizadas;

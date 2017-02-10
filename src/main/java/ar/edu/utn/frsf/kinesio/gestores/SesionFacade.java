@@ -164,6 +164,13 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("agenda", agenda).getResultList();
     }
 
+    public List<Object[]> getSesionesByRangoFechas(Date fechaDesde, Date fechaHasta) {
+        return getEntityManager().createNamedQuery("Sesion.findByRangoFechas")
+                .setParameter("fechaDesde", fechaDesde)
+                .setParameter("fechaHasta", fechaHasta)
+                .getResultList();
+    }
+    
     private void setIconToSesion(Sesion s) {
         if (!s.getCuenta()) {
             styleClassDeLaSesion.append("sesionNoCuenta");
