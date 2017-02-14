@@ -28,8 +28,6 @@ public class OAuthUtil {
     private static final List<String> SCOPES = Arrays.asList("https://www.google.com/m8/feeds/");
     private static final java.io.File DATA_STORE_DIR = new File(Configuracion
             .getInstance().getGoogleContactsProperties().getProperty("googlecontacts.credenciales.path"));
-//            new java.io.File(
-//            System.getProperty("user.home"), ".credentials/otraPrueba");
     private static final String FILE_NAME_CLIENT_SECRETS = Configuracion.getInstance().getGoogleContactsProperties().getProperty("google.api.clienteSecrets.fileName");
 
     private static FileDataStoreFactory DATA_STORE_FACTORY;

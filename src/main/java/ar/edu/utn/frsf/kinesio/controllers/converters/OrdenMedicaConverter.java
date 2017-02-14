@@ -17,6 +17,7 @@ import javax.faces.convert.Converter;
  */
 public class OrdenMedicaConverter implements Converter {
 
+    @Override
     public Object getAsObject(FacesContext facesContext, UIComponent component, String string) {
         if (string == null || string.length() == 0) {
             return null;
@@ -36,6 +37,7 @@ public class OrdenMedicaConverter implements Converter {
         return key;
     }
     
+    @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
         if (object == null) {
             return null;

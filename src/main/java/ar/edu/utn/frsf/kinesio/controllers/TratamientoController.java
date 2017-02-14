@@ -135,7 +135,7 @@ public class TratamientoController implements Serializable {
             selected = null;
             items = null;
         } else {
-            JsfUtil.addWarningMessage("No se permite eliminar el tratamiento. Antes debe eliminar las ordenes médicas asociadas");
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("/Bundle").getString("TratamientoNoSePuedeEliminar"));
         }
     }
 

@@ -29,10 +29,6 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
         return em;
     }
 
-    public Tratamiento editAndReturn(Tratamiento tratamiento) {
-        return getEntityManager().merge(tratamiento);
-    }
-
     public TratamientoFacade() {
         super(Tratamiento.class);
     }

@@ -23,7 +23,7 @@
             <div class="card shadowEffect">
                 <h:form id="ConfigOSForm">
                     <p:focus />
-                    <p:tabView>
+                    <p:tabView dynamic="true">
                         <p:tab title="Códigos de prestación">
                             <div class="ui-g">
                                 <div class="ui-g-12 ui-md-6">
@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="ui-g-12 ui-md-8">
                                         <p:selectBooleanCheckbox id="requiereAutorizacion" value="#{configObraSocialController.currentTipoTratamientoObraSocial.requiereAutorizacion}"                                                    
-                                                     disabled="#{empty configObraSocialController.currentTipoTratamientoObraSocial}"/>
+                                                                 disabled="#{empty configObraSocialController.currentTipoTratamientoObraSocial}"/>
                                     </div>
                                     <div class="ui-g-12">
                                         <p:commandButton value="#{bundle.Save}"
@@ -90,7 +90,22 @@
                                 </div>
                             </div>
                         </p:tab>
-                        <!--<p:tab title="Acá iría otro Tab"></p:tab>-->
+                        <p:tab title="Preferencias de usuario">
+                            <div class="ui-g">
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Recordatorio WhatsApp: " />
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:inputText value="#{userPreferencesController.recordatorioWhatsApp}" />
+                                </div>
+                                <div class="ui-g-12">
+                                    <p:commandButton value="Guardar cambios"
+                                                     update=":growl"
+                                                     actionListener="#{userPreferencesController.guardarCambios()}" 
+                                                     style="float: right;"/>
+                                </div>
+                            </div>
+                        </p:tab>
                     </p:tabView>
                 </h:form>
             </div>

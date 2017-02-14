@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
@@ -19,35 +14,32 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author Nacho Gómez
- */
 @Entity
 @Table(name = "estudio")
-@XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Estudio.findAll", query = "SELECT e FROM Estudio e")
-    , @NamedQuery(name = "Estudio.findById", query = "SELECT e FROM Estudio e WHERE e.id = :id")
-    , @NamedQuery(name = "Estudio.findByNombrearchivo", query = "SELECT e FROM Estudio e WHERE e.nombrearchivo = :nombrearchivo")})
+    @NamedQuery(name = "Estudio.findAll", query = "SELECT e FROM Estudio e"),
+    @NamedQuery(name = "Estudio.findById", query = "SELECT e FROM Estudio e WHERE e.id = :id"),
+    @NamedQuery(name = "Estudio.findByNombrearchivo", query = "SELECT e FROM Estudio e WHERE e.nombrearchivo = :nombrearchivo")})
 public class Estudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 125)
     @Column(name = "nombrearchivo")
     private String nombrearchivo;
+    
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Tratamiento tratamientoid;
+    private Tratamiento tratamiento;
 
     public Estudio() {
     }
@@ -77,12 +69,12 @@ public class Estudio implements Serializable {
         this.nombrearchivo = nombrearchivo;
     }
 
-    public Tratamiento getTratamientoid() {
-        return tratamientoid;
+    public Tratamiento getTratamiento() {
+        return tratamiento;
     }
 
-    public void setTratamientoid(Tratamiento tratamientoid) {
-        this.tratamientoid = tratamientoid;
+    public void setTratamiento(Tratamiento tratamiento) {
+        this.tratamiento = tratamiento;
     }
 
     @Override
@@ -109,5 +101,5 @@ public class Estudio implements Serializable {
     public String toString() {
         return getNombrearchivo();
     }
-    
+
 }

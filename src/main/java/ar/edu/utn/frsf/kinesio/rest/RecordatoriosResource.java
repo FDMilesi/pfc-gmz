@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.prefs.Preferences;
 import javax.ejb.EJB;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -28,6 +29,8 @@ public class RecordatoriosResource {
 
     private static final SimpleDateFormat FORMATO_FECHA_RECORDATORIO = new SimpleDateFormat("dd/MM");
     private static final SimpleDateFormat FORMATO_HORA_RECORDATORIO = new SimpleDateFormat("HH:mm");
+
+    public static final String RECORDATORIO_WHATSAPP_PREFERENCE_KEY = "recordatorioWhatsApp";
     
     public RecordatoriosResource() {
     }
@@ -60,12 +63,16 @@ public class RecordatoriosResource {
 
             //El array contiene primero una sesion y luego un string con el nombre del contacto de google
             List<Object[]> sesiones = sesionFacade.getSesionesByRangoFechas(fechaDesdeDate, fechaHastaDate);
+
+            String mensajeRecordatorio 
+                    = Preferences.userNodeForPackage(this.getClass())
+                            .get(RECORDATORIO_WHATSAPP_PREFERENCE_KEY, "%1$s: recuerde su turno con el Dr. Strange el día %2$s a las %3$s");
             
             for (Object[] itemSesion : sesiones) {
                 listaRecordatorios.add(
                         new Recordatorio(
                                 (String) itemSesion[1], //El nombre de contacto viene el la segunda posicion del array
-                                this.generarMensajeRecordatorio((Sesion)itemSesion[0]))); //La sesion en la primera
+                                this.generarMensajeRecordatorio((Sesion) itemSesion[0], mensajeRecordatorio))); //La sesion en la primera
             }
 
         } catch (ParseException pe) {
@@ -84,13 +91,13 @@ public class RecordatoriosResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public void putJson(Recordatorio content) {
     }
-    
-    private String generarMensajeRecordatorio(Sesion sesion){
+
+    private String generarMensajeRecordatorio(Sesion sesion, String mensaje) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(String.format("%1$s: recuerde su turno con el Dr. Strange el día %2$s a las %3$s",
-                                            sesion.getTratamiento().getPaciente().toString(),
-                                            FORMATO_FECHA_RECORDATORIO.format(sesion.getFechaHoraInicio()),
-                                            FORMATO_HORA_RECORDATORIO.format(sesion.getFechaHoraInicio())));
+        stringBuilder.append(String.format(mensaje,
+                sesion.getTratamiento().getPaciente().toString(),
+                FORMATO_FECHA_RECORDATORIO.format(sesion.getFechaHoraInicio()),
+                FORMATO_HORA_RECORDATORIO.format(sesion.getFechaHoraInicio())));
         return stringBuilder.toString();
     }
 }

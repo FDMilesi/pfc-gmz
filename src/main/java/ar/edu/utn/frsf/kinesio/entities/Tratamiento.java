@@ -25,7 +25,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @Entity
 @Table(name = "tratamiento")
@@ -36,15 +35,12 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tratamiento.findByParticular", query = "SELECT t FROM Tratamiento t WHERE t.particular = :particular"),
     @NamedQuery(name = "Tratamiento.findByFinalizado", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = :finalizado"),
     @NamedQuery(name = "Tratamiento.countByPaciente", query = "SELECT count(t) FROM Tratamiento t WHERE t.paciente = :paciente"),
-    @NamedQuery(name = "Tratamiento.findByPacienteEnCurso", 
+    @NamedQuery(name = "Tratamiento.findByPacienteEnCurso",
             query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = FALSE"),
     @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente"),
     @NamedQuery(name = "Tratamiento.findByEnCursoAndNoParticular", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = FALSE and t.particular = FALSE")})
 public class Tratamiento implements Serializable {
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamientoid")
-    private List<Estudio> estudioList;
-    
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -91,7 +87,7 @@ public class Tratamiento implements Serializable {
     @Size(max = 100)
     @Column(name = "medicoderivante")
     private String medicoDerivante;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "accidentetrabajo")
@@ -110,10 +106,13 @@ public class Tratamiento implements Serializable {
     @JoinColumn(name = "tratamientoasociadoid")
     private Tratamiento tratamientoAsociado;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tratamiento")
+    private List<Estudio> estudioList;
+
     /**
      * Representa el número de sesiones que fueron marcadas como
      * Transcurridas=true, es decir, la cantidad de sesiones a las que el
-     * paciente asistió. 
+     * paciente asistió.
      */
     @Transient
     private int sesionesRealizadas;
@@ -250,8 +249,24 @@ public class Tratamiento implements Serializable {
     public void setMedicoDerivante(String medicoDerivante) {
         this.medicoDerivante = medicoDerivante;
     }
-    
-    public void addEstudio(Estudio e){
+
+    public Boolean getAccidentetrabajo() {
+        return accidenteTrabajo;
+    }
+
+    public void setAccidentetrabajo(Boolean accidenteTrabajo) {
+        this.accidenteTrabajo = accidenteTrabajo;
+    }
+
+    public List<Estudio> getEstudioList() {
+        return estudioList;
+    }
+
+    public void setEstudioList(List<Estudio> estudioList) {
+        this.estudioList = estudioList;
+    }
+
+    public void addEstudio(Estudio e) {
         estudioList.add(e);
     }
 
@@ -277,29 +292,12 @@ public class Tratamiento implements Serializable {
 
     @Override
     public String toString() {
-        String result = ""+tipoDeTratamiento;
-        result += (diagnostico==null)?"":" - "+diagnostico;
+        String result = "" + tipoDeTratamiento;
+        result += (diagnostico == null) ? "" : " - " + diagnostico;
         if (result.length() > 40) {
-            result = result.substring(0, 37)+"...";
+            result = result.substring(0, 37) + "...";
         }
         return result;
-    }
-
-    public Boolean getAccidentetrabajo() {
-        return accidenteTrabajo;
-    }
-
-    public void setAccidentetrabajo(Boolean accidenteTrabajo) {
-        this.accidenteTrabajo = accidenteTrabajo;
-    }
-
-    @XmlTransient
-    public List<Estudio> getEstudioList() {
-        return estudioList;
-    }
-
-    public void setEstudioList(List<Estudio> estudioList) {
-        this.estudioList = estudioList;
     }
 
 }

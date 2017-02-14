@@ -122,7 +122,7 @@ public class PacienteController implements Serializable {
             selected = null;
             items = null;
         } else {
-            JsfUtil.addWarningMessage("No se permite eliminar el paciente. Antes debe eliminar sus tratamientos.");
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("/Bundle").getString("PacienteNoSePuedeEliminar"));
         }
     }
 

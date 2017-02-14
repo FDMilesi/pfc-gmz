@@ -7,6 +7,7 @@ import com.google.api.client.auth.oauth2.AuthorizationCodeFlow;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.gdata.client.contacts.ContactsService;
 import com.google.gdata.data.contacts.ContactEntry;
+import com.google.gdata.data.contacts.GroupMembershipInfo;
 import com.google.gdata.data.extensions.FullName;
 import com.google.gdata.data.extensions.Name;
 import com.google.gdata.data.extensions.PhoneNumber;
@@ -23,7 +24,8 @@ public class GoogleContactsFacade {
     static final String CUENTA_GOOGLE = Configuracion.getInstance().getGoogleContactsProperties().getProperty("googlecontacts.cuenta");
     static final String BASE_GOOGLE_CONTACTS_URL = "https://www.google.com/m8/feeds/contacts/" + CUENTA_GOOGLE + "/full";
     static final String CUENTA_GOOGLE_USER_ID = Configuracion.getInstance().getGoogleContactsProperties().getProperty("googlecontacts.credenciales.userId");
-    
+    static final String ID_MY_CONTACTS_GROUP = "http://www.google.com/m8/feeds/groups/" + CUENTA_GOOGLE + "/base/6";
+
     public GoogleContactsFacade() {
     }
 
@@ -57,10 +59,6 @@ public class GoogleContactsFacade {
 
         ContactsService service = this.initService();
 
-        if (service == null) {
-            return null;
-        }
-
         Name name = new Name();
 
         if (tieneCelular) {
@@ -79,6 +77,7 @@ public class GoogleContactsFacade {
         }
 
         contact.setName(name);
+        contact.addGroupMembershipInfo(new GroupMembershipInfo(false, ID_MY_CONTACTS_GROUP));
 
         ContactEntry createdContact = service.insert(feedUrl, contact);
 

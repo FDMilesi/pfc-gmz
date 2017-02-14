@@ -72,7 +72,7 @@
                                          update=":growl,ordenMedicasTratamientoList" 
                                          disabled="#{(orderItem.autorizada || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
-                            <p:confirm header="#{bundle.OrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
+                            <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />
                         </p:commandButton>
 
                     </p:column>
