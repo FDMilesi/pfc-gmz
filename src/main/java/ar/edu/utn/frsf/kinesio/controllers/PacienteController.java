@@ -3,9 +3,7 @@ package ar.edu.utn.frsf.kinesio.controllers;
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
-import ar.edu.utn.frsf.kinesio.entities.DatosDeContacto;
 import ar.edu.utn.frsf.kinesio.gestores.ABMPacienteFacade;
-import ar.edu.utn.frsf.kinesio.gestores.GoogleContactsFacade;
 import ar.edu.utn.frsf.kinesio.gestores.PacienteFacade;
 import java.io.IOException;
 
@@ -135,48 +133,15 @@ public class PacienteController implements Serializable {
             try {
                 switch (persistAction) {
                     case CREATE:
-                        try {
-                            String[] datosGoogleContact = getABMPacienteFacade().createGoogleContact(selected);
-                            //0 -> nombre contacto, 1 -> id de google
-                            getABMPacienteFacade().create(selected, datosGoogleContact[0], datosGoogleContact[1]);
-
-                        } catch (GoogleContactsFacade.CredencialesNoEncontradasException ex) {
-                            getFacade().create(selected);
-                            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, ex);
-                            JsfUtil.addWarningMessage(ex.getMessage());
-                        }
+                        getFacade().create(selected);
                         break;
 
                     case UPDATE:
-                        DatosDeContacto datosDeContacto = getABMPacienteFacade().getDatosDeContacto(selected);
-
-                        try {
-                            if (datosDeContacto != null) {
-                                String nuevoNombre = getABMPacienteFacade().editGoogleContact(selected, datosDeContacto.getIdgooglecontacts());
-                                getABMPacienteFacade().edit(selected, nuevoNombre);
-                            } else {
-                                String[] datosGoogleContacto = getABMPacienteFacade().createGoogleContact(selected);
-                                getABMPacienteFacade().edit(selected, datosGoogleContacto[0], datosGoogleContacto[1]);
-                            }
-
-                        } catch (GoogleContactsFacade.CredencialesNoEncontradasException ex) {
-                            getFacade().edit(selected);
-                            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, ex);
-                            JsfUtil.addWarningMessage(ex.getMessage());
-                        }
-
+                        getABMPacienteFacade().edit(selected);
                         break;
 
                     case DELETE:
-                        String idGoogleContacts = getABMPacienteFacade().remove(selected);
-
-                        try {
-                            getABMPacienteFacade().removeGoogleContact(idGoogleContacts);
-
-                        } catch (GoogleContactsFacade.CredencialesNoEncontradasException ex) {
-                            Logger.getLogger(this.getClass().getName()).log(Level.WARNING, null, ex);
-                            JsfUtil.addWarningMessage(ex.getMessage());
-                        }
+                        getFacade().remove(selected);
                         break;
                 }
                 JsfUtil.addSuccessMessage(successMessage);

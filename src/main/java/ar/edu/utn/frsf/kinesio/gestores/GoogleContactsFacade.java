@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
+import ar.edu.utn.frsf.kinesio.entities.DatosDeContacto;
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.gestores.util.Configuracion;
 import ar.edu.utn.frsf.kinesio.gestores.util.OAuthUtil;
@@ -16,6 +17,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 
 @Stateless
@@ -25,6 +30,9 @@ public class GoogleContactsFacade {
     static final String BASE_GOOGLE_CONTACTS_URL = "https://www.google.com/m8/feeds/contacts/" + CUENTA_GOOGLE + "/full";
     static final String CUENTA_GOOGLE_USER_ID = Configuracion.getInstance().getGoogleContactsProperties().getProperty("googlecontacts.credenciales.userId");
     static final String ID_MY_CONTACTS_GROUP = "http://www.google.com/m8/feeds/groups/" + CUENTA_GOOGLE + "/base/6";
+
+    @EJB
+    DatosDeContactoFacade datosDeContactoFacade;
 
     public GoogleContactsFacade() {
     }
@@ -52,7 +60,7 @@ public class GoogleContactsFacade {
     }
 
     //Retorna el id de google para el contacto (no el nombre)
-    public String createContact(Paciente paciente, boolean tieneCelular, String contactName) throws MalformedURLException, IOException, ServiceException, CredencialesNoEncontradasException {
+    private String createContact(Paciente paciente, boolean tieneCelular, String contactName) throws MalformedURLException, IOException, ServiceException, CredencialesNoEncontradasException {
         ContactEntry contact = new ContactEntry();
 
         URL feedUrl = new URL(BASE_GOOGLE_CONTACTS_URL);
@@ -140,10 +148,93 @@ public class GoogleContactsFacade {
 
         ContactEntry contacto = service.getEntry(feedUrl, ContactEntry.class);
 
-        contacto.delete();
+        if (contacto != null) {
+            contacto.delete();
+        }
     }
 
-    public String generarNombreContacto(Paciente paciente, boolean tieneCelular) {
+    public String sincronizarContactos() throws CredencialesNoEncontradasException {
+
+        //Primero con los pacientes que no tienen datos
+        List<Paciente> pacientesSinContacto = datosDeContactoFacade.getPacientesSinDatosDeContacto();
+
+        for (Paciente paciente : pacientesSinContacto) {
+
+            boolean tieneCelular = this.pacienteTieneCelular(paciente);
+
+            String nombreContacto = this.generarNombreContacto(paciente, tieneCelular);
+            String idGoogleContact = "";
+
+            try {
+
+                idGoogleContact = this.createContact(paciente, tieneCelular, nombreContacto);
+
+            } catch (IOException | ServiceException ex) {
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
+                throw new EJBException(ex);
+            }
+
+            DatosDeContacto datosContacto = datosDeContactoFacade.initDatosDeContacto(paciente);
+            datosContacto.setNombregooglecontacts(nombreContacto);
+            datosContacto.setDesearecibirwhatsapp(tieneCelular);
+            datosContacto.setIdgooglecontacts(idGoogleContact);
+
+            datosDeContactoFacade.create(datosContacto);
+        }
+
+        //Ahora con los no sincronizados
+        List<DatosDeContacto> datosDeContactoNoSincronizados = datosDeContactoFacade.getDatosDeContactoNoSincronizados();
+        boolean ahoraTieneCelular;
+        for (DatosDeContacto datoDeContacto : datosDeContactoNoSincronizados) {
+
+            ahoraTieneCelular = this.pacienteTieneCelular(datoDeContacto.getPaciente());
+            try {
+
+                this.editContact(datoDeContacto.getPaciente(), datoDeContacto.getIdgooglecontacts(), ahoraTieneCelular);
+
+            } catch (IOException | ServiceException ex) {
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
+                throw new EJBException(ex);
+            }
+
+            datoDeContacto.setSincronizado(true);
+            datosDeContactoFacade.edit(datoDeContacto);
+        }
+
+        //Ahora los eliminados
+        List<DatosDeContacto> eliminados = datosDeContactoFacade.getDatosContactoPacientesEliminados();
+        for (DatosDeContacto eliminado : eliminados) {
+            try {
+
+                this.deleteContact(eliminado.getIdgooglecontacts());
+
+            } catch (IOException | ServiceException ex) {
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
+                throw new EJBException(ex);
+            }
+
+            datosDeContactoFacade.remove(eliminado);
+        }
+
+        String resultado = String.format(
+                "Se sincronizaron %1$d pacientes nuevos, %2$d pacientes editados y %3$d pacientes eliminados", 
+                pacientesSinContacto.size(),
+                datosDeContactoNoSincronizados.size(),
+                eliminados.size());
+        
+        return resultado;
+    }
+
+    private boolean pacienteTieneCelular(Paciente paciente) {
+        if (paciente.getCelular() != null) {
+            if (!paciente.getCelular().isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private String generarNombreContacto(Paciente paciente, boolean tieneCelular) {
         String resultado;
         if (tieneCelular) {
             resultado = paciente.getCelular() + " - " + paciente.getApellido();
@@ -160,5 +251,4 @@ public class GoogleContactsFacade {
         }
 
     }
-
 }

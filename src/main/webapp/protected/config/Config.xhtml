@@ -98,6 +98,15 @@
                                 <div class="ui-g-12 ui-md-8">
                                     <p:inputText value="#{userPreferencesController.recordatorioWhatsApp}" />
                                 </div>
+
+                                <div class="ui-g-12 ui-md-4">
+                                    <p:outputLabel value="Sincronización de contactos" />
+                                </div>
+                                <div class="ui-g-12 ui-md-8">
+                                    <p:commandButton value="Sincronizar ahora"
+                                                     update=":growl"
+                                                     actionListener="#{userPreferencesController.sincronizarContactos()}" />
+                                </div>                               
                                 <div class="ui-g-12">
                                     <p:commandButton value="Guardar cambios"
                                                      update=":growl"
@@ -109,6 +118,11 @@
                     </p:tabView>
                 </h:form>
             </div>
+            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                <p:graphicImage name="/images/material_loading_resize.gif" />
+            </p:dialog>
         </ui:define>
     </ui:composition>
 

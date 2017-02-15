@@ -25,16 +25,33 @@ public class DatosDeContactoFacade extends AbstractFacade<DatosDeContacto> {
     public DatosDeContacto getDatosDeContactoByPaciente(Paciente paciente) {
         List<DatosDeContacto> lista = getEntityManager().createNamedQuery("DatosDeContacto.findByPaciente")
                 .setParameter("paciente", paciente).getResultList();
-        
-        if (!lista.isEmpty())
+
+        if (!lista.isEmpty()) {
             return lista.get(0);
-        else
+        } else {
             return null;
+        }
     }
 
     public DatosDeContacto initDatosDeContacto(Paciente paciente) {
         DatosDeContacto datosContacto = new DatosDeContacto();
         datosContacto.setPaciente(paciente);
+        datosContacto.setSincronizado(true);
         return datosContacto;
+    }
+
+    public List<DatosDeContacto> getDatosDeContactoNoSincronizados() {
+        return getEntityManager().createNamedQuery("DatosDeContacto.findBySincronizado")
+                .setParameter("sincronizado", false).getResultList();
+    }
+
+    public List<Paciente> getPacientesSinDatosDeContacto() {
+        return getEntityManager().createNamedQuery("DatosDeContacto.pacientesSinDatosContacto")
+                .getResultList();
+    }
+
+    public List<DatosDeContacto> getDatosContactoPacientesEliminados() {
+        return getEntityManager().createNamedQuery("DatosDeContacto.DatosContactoPacientesEliminados")
+                .getResultList();
     }
 }

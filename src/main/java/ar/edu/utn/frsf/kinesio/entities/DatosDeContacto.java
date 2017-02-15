@@ -22,6 +22,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DatosDeContacto.findByIdgooglecontacts", query = "SELECT d FROM DatosDeContacto d WHERE d.idgooglecontacts = :idgooglecontacts"),
     @NamedQuery(name = "DatosDeContacto.findByNombregooglecontacts", query = "SELECT d FROM DatosDeContacto d WHERE d.nombregooglecontacts = :nombregooglecontacts"),
     @NamedQuery(name = "DatosDeContacto.findByPaciente", query = "SELECT d FROM DatosDeContacto d WHERE d.paciente = :paciente"),
+    @NamedQuery(name = "DatosDeContacto.findBySincronizado", query = "SELECT d FROM DatosDeContacto d WHERE d.sincronizado = :sincronizado"),
+    @NamedQuery(name = "DatosDeContacto.pacientesSinDatosContacto", query = "SELECT p FROM Paciente p WHERE p NOT IN (SELECT d.paciente FROM DatosDeContacto d)"),
+    @NamedQuery(name = "DatosDeContacto.DatosContactoPacientesEliminados", query = "SELECT d FROM DatosDeContacto d WHERE d.paciente IS NULL"),
     @NamedQuery(name = "DatosDeContacto.findByDesearecibirwhatsapp", query = "SELECT d FROM DatosDeContacto d WHERE d.desearecibirwhatsapp = :desearecibirwhatsapp")})
 public class DatosDeContacto implements Serializable {
 
@@ -31,19 +34,21 @@ public class DatosDeContacto implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Size(max = 100)
     @Column(name = "idgooglecontacts")
     private String idgooglecontacts;
-    
+
     @Size(max = 30)
     @Column(name = "nombregooglecontacts")
     private String nombregooglecontacts;
-    
+
     @Column(name = "desearecibirwhatsapp")
     private Boolean desearecibirwhatsapp;
-    
-    
+
+    @Column(name = "sincronizado")
+    private Boolean sincronizado;
+
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne
     private Paciente paciente;
@@ -95,6 +100,14 @@ public class DatosDeContacto implements Serializable {
         this.paciente = pacienteId;
     }
 
+    public Boolean getSincronizado() {
+        return sincronizado;
+    }
+
+    public void setSincronizado(Boolean sincronizado) {
+        this.sincronizado = sincronizado;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -119,5 +132,5 @@ public class DatosDeContacto implements Serializable {
     public String toString() {
         return "ar.edu.utn.frsf.kinesio.entities.Datodecontacto[ id=" + id + " ]";
     }
-    
+
 }

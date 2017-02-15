@@ -1,4 +1,4 @@
-﻿CREATE TABLE estudio(
+CREATE TABLE estudio(
 id serial,
 tratamientoid integer NOT NULL,
 nombrearchivo varchar(125) NOT NULL,
