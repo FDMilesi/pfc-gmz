@@ -30,12 +30,12 @@ body{
 .sesionTranscurrida{
     background-image: url("#{resource['primefaces-omega2:images/ic_done_white_24px.svg']}") !important;
     background-repeat: no-repeat !important;
-    background-position: right bottom !important;
+    background-position: left bottom !important;
 }
 .sesionNoCuenta{
     background-image: url("#{resource['primefaces-omega2:images/ic_update_white_24px.svg']}") !important;
     background-repeat: no-repeat !important;
-    background-position: right bottom !important;
+    background-position: left bottom !important;
 }
 
 .card {
