@@ -360,3 +360,8 @@ body{
 #CargaMasivaForm .ui-calendar .ui-inputfield{
     width: 60% !important;
 }
+
+/*Caja*/
+.moneyFont{
+    font-family: monospace;
+}

@@ -1,6 +1,6 @@
 CREATE TABLE Notificacion ( 
 	id serial NOT NULL,
-	descripcion varchar(30),
+	descripcion varchar(150),
 	fechayHora timestamp without time zone NOT NULL
 )
 ;

@@ -20,6 +20,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(ar.edu.utn.frsf.kinesio.rest.CORSFilterRecordatorios.class);
         resources.add(ar.edu.utn.frsf.kinesio.rest.RecordatoriosResource.class);
     }
     

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCajaTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <div class="card shadowEffect">
+                <h:form>
+                    <p:breadCrumb >
+                        <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
+                        <p:menuitem value="Movimientos de caja" disabled="true"/>
+                    </p:breadCrumb>
+                </h:form>
+            </div>
+            <div class="card shadowEffect">
+                <h:form id="MovimientosCajaListForm">
+                    <p:dataTable id="datalist" value="#{cajaController.items}"
+                                 var="item"
+                                 widgetVar="tablaCaja"
+                                 selectionMode="single"
+                                 selection="#{cajaController.selected}"
+                                 rowKey="#{item.id}"
+                                 paginator="true"
+                                 paginatorPosition="bottom"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 emptyMessage="#{bundle.ListCajaEmpty}"
+                                 reflow="true"
+                                 >
+                        <f:facet name="header">
+                            <div class="ui-g">
+                                <div class="ui-g-8" style="padding: 0; margin: auto 0;">#{bundle.ListCajaTitle}</div>
+                                <div style="padding: 0 10px 0 0; margin: auto" class="ui-g-2">
+                                    <p:commandButton id="createMovimientoIngreso" icon="ui-icon-plus"
+                                                     value="#{bundle.MovimientoCajaLinkCreate_ingreso}"                                                      
+                                                     actionListener="#{cajaController.prepareCreateIngreso}" 
+                                                     update=":MovimientoCajaCreateForm, :dialogHeader" 
+                                                     resetValues="true"
+                                                     oncomplete="PF('MovimientoCajaCreateDialog').show()"
+                                                     style="width: 100%; float: right;"
+                                                     tabindex="0"
+                                                     />
+                                </div>
+                                <div style="padding: 0 10px 0 0; margin: auto" class="ui-g-2">
+                                    <p:commandButton id="createMovimientoEgreso" icon="ui-icon-remove"
+                                                     value="#{bundle.MovimientoCajaLinkCreate_egreso}"                                                      
+                                                     actionListener="#{cajaController.prepareCreateEgreso}" 
+                                                     update=":MovimientoCajaCreateForm, :dialogHeader" 
+                                                     resetValues="true"
+                                                     oncomplete="PF('MovimientoCajaCreateDialog').show()"
+                                                     style="width: 100%; float: right;"
+                                                     tabindex="1"
+                                                     />
+                                </div>
+                            </div>
+                        </f:facet>
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_fecha}" >
+                            <h:outputText value="#{item.fechayhora}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_concepto}">
+                            <h:outputText value="#{item.concepto.toString()}"/>
+                        </p:column>
+
+<!--                        <p:column headerText="#{bundle.MovimientoCajaTitle_cantidad}">
+                            <h:outputText value="#{item.cantidad}"/>
+                        </p:column>-->
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_descripcion}">
+                            <h:outputText value="#{item.descripcion}"/>                                
+                        </p:column>
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_ingreso}">
+                            <h:outputText value="#{(item.tipomovimiento == cajaController.tipoIngresoAsString) ? item.monto : ''}" styleClass="moneyFont" >
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_egreso}">
+                            <h:outputText value="#{(item.tipomovimiento == cajaController.tipoEgresoAsString) ? item.monto : ''}" styleClass="moneyFont" >
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <p:column headerText="#{bundle.MovimientoCajaTitle_saldo}">
+                            <h:outputText value="#{item.saldo}" styleClass="moneyFont">
+                                <f:convertNumber groupingUsed="true" minFractionDigits="2" />
+                            </h:outputText>
+                        </p:column>
+
+                        <!--                        <p:column headerText="Opciones">
+                                                    <p:commandButton id="editButton" 
+                                                                     resetValues="true" 
+                                                                     icon="ui-icon-pencil" 
+                                                                     title="#{bundle.Edit}" 
+                                                                     update=":PacienteEditForm" 
+                                                                     oncomplete="PF('PacienteEditDialog').show()">
+                                                        <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
+                                                    </p:commandButton>
+                                                    ELIMINAR
+                                                    <p:commandButton id="deleteButton" 
+                                                                     icon="ui-icon-trash" 
+                                                                     title="#{bundle.Delete}" 
+                                                                     action="#{pacienteController.destroy}" 
+                                                                     update=":growl,datalist"
+                                                                     oncomplete="PF('tablaPacientes').clearFilters()">
+                                                        <f:setPropertyActionListener value="#{item}" target="#{pacienteController.selected}" />
+                                                        <p:confirm header="#{bundle.PacienteConfirmationHeader}" message="#{bundle.PacienteConfirmationMessage}" icon="ui-icon-alert" />
+                                                    </p:commandButton>                    
+                                                </p:column>                    -->
+                    </p:dataTable>
+                </h:form>
+            </div>
+            <ui:include src="CreateMovimientoCaja.xhtml"/>
+
+        </ui:define>
+    </ui:composition>
+
+</html>

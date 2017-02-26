@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="MovimientoCajaCreateDlg" 
+                  widgetVar="MovimientoCajaCreateDialog" 
+                  modal="true" 
+                  resizable="false" appendTo="@(body)" 
+                  closeOnEscape="true"
+                  responsive="true"
+                  style="max-width: 450px;"
+                  positionType="absolute"
+                  draggable="false"
+                  >
+            <f:facet name="header">
+                <h:outputText id="dialogHeader" value="#{bundle.CreateMovimientoCajaTitle}: #{cajaController.selected.tipomovimiento}"/>
+            </f:facet>
+            <h:form id="MovimientoCajaCreateForm">
+                <h:panelGroup id="display" rendered="#{cajaController.selected != null}">
+                    <p:focus context="display"/>
+                    <!--TIPO-->
+                    <!--CONCEPTO-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_concepto}" for="concepto" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:selectOneMenu value="#{cajaController.selected.concepto}" id="concepto">
+                            <!--<p:ajax update="particular" event="change"/>-->
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                            <f:selectItems value="#{cajaController.conceptos}"
+                                           var="conceptoItem"
+                                           itemValue="#{conceptoItem}"
+                                           />
+                        </p:selectOneMenu>
+                    </div>
+
+                    <!--VALOR UNITARIO-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_valorunitario}" for="valorunitario" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputNumber id="valorunitario" value="#{cajaController.selected.valorUnitario}">
+                            <p:ajax event="blur" update="monto" />
+                        </p:inputNumber>
+                    </div>
+
+                    <!--CANTIDAD Y MONTO-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_cantidad}" for="cantidad" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:spinner id="cantidad" value="#{cajaController.selected.cantidad}" min="1">
+                            <p:ajax update="monto" process="@this" />
+                        </p:spinner>
+                    </div>
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_monto}"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:outputLabel id="monto" value="#{cajaController.selected.monto}"/>
+                    </div>
+
+                    <!--DESCRIPCION-->
+                    <div class="ui-g-12 ui-md-5">
+                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_descripcion}" for="descripcion" />
+                    </div>
+                    <div class="ui-g-12 ui-md-7">
+                        <p:inputText id="descripcion" value="#{cajaController.selected.descripcion}"/>
+                    </div>
+                    <p:commandButton  id ="btnGuardar"
+                                      action="#{cajaController.create}" 
+                                      value="#{bundle.Save}"
+                                      update="display,:MovimientosCajaListForm:datalist,:growl" 
+                                      oncomplete="handleSubmit(args, 'MovimientoCajaCreateDialog');"
+                                      style="float: right; background-color: #66BB6A;"/>
+                    <p:commandButton id="btnCancear"
+                                     immediate="true" 
+                                     value="#{bundle.Cancel}" 
+                                     onclick="PF('MovimientoCajaCreateDialog').hide()"
+                                     style="float: right; background-color: #E53935;"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+    </ui:composition>
+</html>

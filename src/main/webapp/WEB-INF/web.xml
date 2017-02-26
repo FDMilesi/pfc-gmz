@@ -61,16 +61,33 @@
         <location>/errorPages/Error404.xhtml</location>
     </error-page>
     <!-- Seguridad -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/errorPages/Error403.xhtml</location>
+    </error-page>
     <security-constraint>
-        <display-name>Acceso</display-name>
+        <display-name>Acceso general</display-name>
         <web-resource-collection>
             <web-resource-name>Paginas protegidas</web-resource-name>
             <description/>
             <url-pattern>/faces/protected/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
-            <description>Los kinesiologos del consultorio</description>
-            <role-name>manager</role-name>
+            <description>Páginas que puede ver tanto la secretaria como el dueño del consultorio</description>
+            <role-name>secretaria</role-name>
+            <role-name>admin</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <display-name>Acceso a caja</display-name>
+        <web-resource-collection>
+            <web-resource-name>Funciones de caja</web-resource-name>
+            <description/>
+            <url-pattern>/faces/caja/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <description>Sólo el admin o dueño puede administrar la caja</description>
+            <role-name>admin</role-name>
         </auth-constraint>
     </security-constraint>
     <login-config>
@@ -82,11 +99,11 @@
         </form-login-config>
     </login-config>
     <security-role>
-        <description>kinesiologos que utilicen el sistema</description>
-        <role-name>manager</role-name>
+        <description>Usuarios con permisos restringidos</description>
+        <role-name>secretaria</role-name>
     </security-role>
     <security-role>
-        <description>administradores del sistema</description>
+        <description>Usuario con todos los permisos</description>
         <role-name>admin</role-name>
     </security-role>
     <!--MIME mapping-->

@@ -257,6 +257,7 @@ label.ui-state-error {
 .ui-icon-link { background-position: -240px -112px; }
 .ui-icon-cancel { background-position: 0 -128px; }
 .ui-icon-plus { background-image: url("#{resource['primefaces-omega2:images/ic_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
+.ui-icon-remove { background-image: url("#{resource['primefaces-omega2:images/ic_remove_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
 .ui-person-add {background-image: url("#{resource['primefaces-omega2:images/ic_person_add_white_24px.svg']}") !important; background-size: 100%; background-position: center !important; background-repeat: no-repeat; height: 24px !important; width: 24px !important;}
 .ui-person-add-black{background-image: url("#{resource['primefaces-omega2:images/ic_person_add_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-tratamiento-add{background-image: url("#{resource['primefaces-omega2:images/ic_note_add_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
@@ -281,6 +282,8 @@ label.ui-state-error {
 .ui-icon-help {background-image: url("#{resource['primefaces-omega2:images/ic_help_outline_white_24px.svg']}") !important;}
 .ui-icon-notification {background-image: url("#{resource['primefaces-omega2:images/ic_notifications_none_white_24px.svg']}") !important;}
 .ui-icon-log-out {background-image: url("#{resource['primefaces-omega2:images/ic_power_settings_new_white_24px.svg']}") !important;}
+.ui-icon-caja {background-image: url("#{resource['primefaces-omega2:images/ic_attach_money_black_24px.svg']}") !important;}
+.ui-icon-enviar {background-image: url("#{resource['primefaces-omega2:images/ic_send_white_24px.svg']}") !important;}
 .ui-icon-check {background-image: url("#{resource['primefaces-omega2:images/ic_check_black_24px.svg']}") !important; width: 24px; height: 24px}
 .ui-icon-announcement {background-image: url("#{resource['primefaces-omega2:images/ic_announcement_black_24px.svg']}") !important; width: 24px !important; height: 24px !important}
 .ui-icon-bullet { background-position: -80px -144px; }
@@ -1045,6 +1048,7 @@ label.ui-state-error {
     top: -5px !important;
 }
 /* Spinner - Slider */
+/*
 .ui-fluid .ui-spinner {
     box-sizing: border-box;
 }
@@ -1053,6 +1057,66 @@ label.ui-state-error {
 }
 .ui-fluid .ui-spinner .ui-spinner-button .ui-icon {
     left: 0px !important;
+}
+*/
+.ui-spinner .ui-spinner-input {
+  text-align: left;
+  /*padding: 7px 9px !important;*/
+}
+.ui-spinner .ui-spinner-up {
+  margin: 1px 0px 0px !important;
+}
+.ui-spinner .ui-spinner-down {
+  margin: 0px 0px 1px !important;
+}
+.ui-spinner .ui-spinner-button {
+  width: auto;
+  height: 17px;
+  margin: 2px 3px 2px 0px;
+  border-radius: 0px !important;
+  cursor: pointer;
+}
+.ui-spinner .ui-spinner-button {
+  background-color: transparent !important;
+}
+.ui-spinner .ui-spinner-button.ui-state-hover .ui-button-text,
+.ui-spinner .ui-spinner-button.ui-state-active .ui-button-text {
+  background-color: #e0e0e0 !important;
+}
+.ui-spinner .ui-spinner-up .ui-button-text {
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+  border-bottom: 0px none;
+  background-color: #f5f5f5;
+}
+.ui-spinner .ui-spinner-down .ui-button-text {
+  margin-top: 1px;
+  border-bottom: 0px none;
+  background-color: #f5f5f5;
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+  border-top-left-radius: 0px !important;
+}
+.ui-spinner .ui-spinner-button .ui-button-text {
+  height: 8px;
+  text-align: center;
+  padding: 4px 20px 4px 20px !important;
+}
+.ui-spinner .ui-spinner-up .ui-button-text .ui-icon {
+  background-image: url("#{resource['primefaces-omega2:images/uparrow-navy.svg']}") !important;
+  background-position: center !important;
+  background-size: 100% !important;
+  margin-left: 12px;
+  margin-top: -8px;
+}
+.ui-spinner .ui-spinner-down .ui-button-text .ui-icon {
+  background-image: url("#{resource['primefaces-omega2:images/downarrow-navy.svg']}") !important;
+  background-position: center !important;
+  background-size: 100% !important;
+  margin-left: 12px;
 }
 
 /*Style For DatePicker And Calendar--------------------------------------------------------------------------------------*/
@@ -1454,7 +1518,7 @@ label.ui-state-error {
 }
 
 .ui-dialog .ui-button-text-only{
-    margin: 12px 4px 0 4px !important;
+    margin: 12px 4px 0 4px;
 }
 
 /*Style For Checkbox --------------------------------------------------------------------------------------*/

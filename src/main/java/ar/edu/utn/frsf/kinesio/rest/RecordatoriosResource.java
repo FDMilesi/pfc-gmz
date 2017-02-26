@@ -5,6 +5,7 @@ import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -31,7 +32,9 @@ public class RecordatoriosResource {
     private static final SimpleDateFormat FORMATO_HORA_RECORDATORIO = new SimpleDateFormat("HH:mm");
 
     public static final String RECORDATORIO_WHATSAPP_PREFERENCE_KEY = "recordatorioWhatsApp";
-    
+
+    public static final int DIAS_ANTICIPO_RECORDATORIO = 1;
+
     public RecordatoriosResource() {
     }
 
@@ -44,9 +47,37 @@ public class RecordatoriosResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Recordatorio> getRecordatorios() {
-        List<Recordatorio> lista = new ArrayList<>();
-        lista.add(new Recordatorio("Fernando", "prueba"));
-        return lista;
+        List<Recordatorio> listaRecordatorios = new ArrayList<>();
+
+        //Determino las fechas
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, DIAS_ANTICIPO_RECORDATORIO);
+        calendar.set(Calendar.HOUR_OF_DAY, 1);
+
+        Date fechaDesde = calendar.getTime();
+
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+
+        Date fechaHasta = calendar.getTime();
+
+        //System.out.println("fechas ----> " + fechaDesde + "hasta" + fechaHasta);
+        
+        //El array contiene primero una sesion y luego un string con el nombre del contacto de google
+        List<Object[]> sesiones = sesionFacade.getSesionesByRangoFechas(fechaDesde, fechaHasta);
+
+        String mensajeRecordatorio
+                = Preferences.userNodeForPackage(this.getClass())
+                .get(RECORDATORIO_WHATSAPP_PREFERENCE_KEY, "%1$s: recuerde su turno con el Dr. Strange el día %2$s a las %3$s");
+
+        for (Object[] itemSesion : sesiones) {
+            listaRecordatorios.add(
+                    new Recordatorio(
+                            (String) itemSesion[1], //El nombre de contacto viene el la segunda posicion del array
+                            this.generarMensajeRecordatorio((Sesion) itemSesion[0], mensajeRecordatorio))); //La sesion en la primera
+        }
+
+        return listaRecordatorios;
     }
 
     @GET
@@ -64,10 +95,10 @@ public class RecordatoriosResource {
             //El array contiene primero una sesion y luego un string con el nombre del contacto de google
             List<Object[]> sesiones = sesionFacade.getSesionesByRangoFechas(fechaDesdeDate, fechaHastaDate);
 
-            String mensajeRecordatorio 
+            String mensajeRecordatorio
                     = Preferences.userNodeForPackage(this.getClass())
-                            .get(RECORDATORIO_WHATSAPP_PREFERENCE_KEY, "%1$s: recuerde su turno con el Dr. Strange el día %2$s a las %3$s");
-            
+                    .get(RECORDATORIO_WHATSAPP_PREFERENCE_KEY, "%1$s: recuerde su turno con el Dr. Strange el día %2$s a las %3$s");
+
             for (Object[] itemSesion : sesiones) {
                 listaRecordatorios.add(
                         new Recordatorio(
