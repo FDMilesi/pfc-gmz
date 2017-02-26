@@ -293,9 +293,9 @@ public class Tratamiento implements Serializable {
     @Override
     public String toString() {
         String result = "" + tipoDeTratamiento;
-        result += (diagnostico == null) ? "" : " - " + diagnostico;
-        if (result.length() > 40) {
-            result = result.substring(0, 37) + "...";
+        result += (diagnostico == null) ? "" : "-" + diagnostico;
+        if (result.length() > 30) {
+            result = result.substring(0, 27) + "...";
         }
         return result;
     }
