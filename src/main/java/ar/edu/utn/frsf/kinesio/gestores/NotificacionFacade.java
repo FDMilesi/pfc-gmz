@@ -124,10 +124,15 @@ public class NotificacionFacade extends AbstractFacade<Notificacion> {
     }
 
     private void CrearNotificacion(String descripcion) {
-        Notificacion notificacion = new Notificacion();
-        notificacion.setDescripcion(descripcion);
-        notificacion.setFechayhora(new Date());
+        
+        List<Notificacion> lista = getEntityManager().createNamedQuery("Notificacion.findByDescripcion").setParameter("descripcion", descripcion).getResultList();
+        //creo la notificacion siempre que no exista en la base una notificacion con la misma descripción
+        if (lista.isEmpty()) {
+            Notificacion notificacion = new Notificacion();
+            notificacion.setDescripcion(descripcion);
+            notificacion.setFechayhora(new Date());
 
-        this.create(notificacion);
+            this.create(notificacion);
+        }
     }
 }
