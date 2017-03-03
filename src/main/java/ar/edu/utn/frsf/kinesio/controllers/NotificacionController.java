@@ -72,11 +72,12 @@ public class NotificacionController implements Serializable {
     }
 
     public void destroy() {
-        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionDeleted"));
-        if (!JsfUtil.isValidationFailed()) {
-            selected = null; // Remove selection
-            items = null;    // Invalidate list of items to trigger re-query.
-        }
+        this.getFacade().NotificarSiPacienteDebeOrden();
+//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionDeleted"));
+//        if (!JsfUtil.isValidationFailed()) {
+//            selected = null; // Remove selection
+//            items = null;    // Invalidate list of items to trigger re-query.
+//        }
     }
 
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {

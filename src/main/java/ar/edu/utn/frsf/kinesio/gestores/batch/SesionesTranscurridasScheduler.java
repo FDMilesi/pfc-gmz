@@ -8,7 +8,7 @@ import javax.ejb.Singleton;
 @Singleton
 public class SesionesTranscurridasScheduler {
     
-    @Schedule(hour = "2", minute = "59", second = "59")
+    @Schedule(hour = "02", minute = "59", second = "59")
     public void sesionesTranscurridasJob(){
         BatchRuntime.getJobOperator().start("sesionesTranscurridasJob", new Properties());
         BatchRuntime.getJobOperator().start("notificacionesJob", new Properties());
