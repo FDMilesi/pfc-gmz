@@ -11,7 +11,7 @@
             <h:form id="OrdenTratamientoListForm" 
                     rendered="#{(not empty editTratamientoController.selected.paciente.obraSocial) 
                                 and !editTratamientoController.selected.particular}">           
-                <p:dataTable id="ordenMedicasTratamientoList" value="#{ordenMedicaController.itemsTratamiento}"
+                <p:dataTable id="datalist" value="#{ordenMedicaController.itemsTratamiento}"
                              var="orderItem"
                              selectionMode="single"
                              paginator="true"
@@ -69,7 +69,7 @@
                                          icon="ui-icon-trash"  
                                          title="#{bundle.Delete}" 
                                          action="#{ordenMedicaController.destroy}" 
-                                         update=":growl,ordenMedicasTratamientoList" 
+                                         update=":growl,datalist" 
                                          disabled="#{(orderItem.autorizada || editTratamientoController.selected.finalizado)}">
                             <f:setPropertyActionListener value="#{orderItem}" target="#{ordenMedicaController.selected}" />
                             <p:confirm header="#{bundle.ListOrdenMedicaConfirmationHeader}" message="#{bundle.ListaOrdenMedicaConfirmationMessage}" icon="ui-icon-alert" />

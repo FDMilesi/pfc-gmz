@@ -69,7 +69,7 @@ public class TratamientoControllerTest {
         assertNotNull(tratamientoController.getPaciente().getApellido());
 
         assertNotNull(tratamientoController.getItems());//llama al facade
-        verify(tratamientoFacade).getTratamientosByPaciente(pacienteDePrueba);
+        verify(tratamientoFacade).getTratamientosByPacienteContandoSesiones(pacienteDePrueba);
     }
 
     @Test
@@ -81,14 +81,14 @@ public class TratamientoControllerTest {
 
         assertNull(tratamientoController.getPaciente());
         assertEquals(tratamientoController.getItems().size(), 0);//llama al facade
-        verify(tratamientoFacade).getTratamientosByPaciente(null);
+        verify(tratamientoFacade).getTratamientosByPacienteContandoSesiones(null);
 
     }
 
     @Test
     public void deberiaNoExplotarSiFacadeDevuelveNull() {
         assertNotNull(tratamientoController.getItems());
-        verify(tratamientoFacade).getTratamientosByPaciente((Paciente) anyObject());
+        verify(tratamientoFacade).getTratamientosByPacienteContandoSesiones((Paciente) anyObject());
     }
 
     //Operaciones CRUD
