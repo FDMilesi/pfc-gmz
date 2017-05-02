@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ar.edu.utn.frsf.kinesio.controllers;
 
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
@@ -20,10 +15,6 @@ import javax.ejb.EJBException;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
-/**
- *
- * @author Fran
- */
 @Named(value = "notificacionController")
 @SessionScoped
 public class NotificacionController implements Serializable {
@@ -72,12 +63,11 @@ public class NotificacionController implements Serializable {
     }
 
     public void destroy() {
-        this.getFacade().NotificarSiPacienteDebeOrden();
-//        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionDeleted"));
-//        if (!JsfUtil.isValidationFailed()) {
-//            selected = null; // Remove selection
-//            items = null;    // Invalidate list of items to trigger re-query.
-//        }
+        persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("NotificacionDeleted"));
+        if (!JsfUtil.isValidationFailed()) {
+            selected = null; // Remove selection
+            items = null;    // Invalidate list of items to trigger re-query.
+        }
     }
 
     private void persist(JsfUtil.PersistAction persistAction, String successMessage) {
