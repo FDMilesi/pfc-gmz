@@ -21,7 +21,7 @@
                 <h:panelGroup id="display" rendered="#{listOrdenMedicaController.selected != null}">
                     <p:focus context="display"/>
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.OrdenMedicaLabel_codigoDeAutorizacion}" for="codigoAutorizacion"/>
+                        <p:outputLabel id="lblCodigoAutorizacion" value="#{bundle.OrdenMedicaLabel_codigoDeAutorizacion}" for="codigoAutorizacion"/>
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="codigoAutorizacion" 
@@ -72,12 +72,14 @@
                         <p:outputLabel id="cantidadDeSesiones" value="#{listOrdenMedicaController.selected.cantidadDeSesiones}" />
                     </div>
 
-                    <p:commandButton actionListener="#{listOrdenMedicaController.update()}" 
+                    <p:commandButton id="btnGuardar"
+                                     actionListener="#{listOrdenMedicaController.update()}" 
                                      value="#{bundle.Save}" 
                                      update="display,:ordenMedicaListForm:ordenMedicaDatalist,:growl" 
                                      oncomplete="handleSubmit(args,'OrdenMedicaAutorizarDialog');"
                                      style="float: right; background-color: #66BB6A;"/>
-                    <p:commandButton value="#{bundle.Cancel}" 
+                    <p:commandButton id="btnCancelar"
+                                     value="#{bundle.Cancel}" 
                                      immediate="true" 
                                      onclick="PF('OrdenMedicaAutorizarDialog').hide()"
                                      style="float: right; background-color: #E53935;"/>
