@@ -185,12 +185,13 @@ public class GoogleContactsFacade {
         //Ahora con los no sincronizados
         List<DatosDeContacto> datosDeContactoNoSincronizados = datosDeContactoFacade.getDatosDeContactoNoSincronizados();
         boolean ahoraTieneCelular;
+        String nuevoNombre;
         for (DatosDeContacto datoDeContacto : datosDeContactoNoSincronizados) {
 
             ahoraTieneCelular = this.pacienteTieneCelular(datoDeContacto.getPaciente());
             try {
 
-                this.editContact(datoDeContacto.getPaciente(), datoDeContacto.getIdgooglecontacts(), ahoraTieneCelular);
+                nuevoNombre = this.editContact(datoDeContacto.getPaciente(), datoDeContacto.getIdgooglecontacts(), ahoraTieneCelular);
 
             } catch (IOException | ServiceException ex) {
                 Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
@@ -198,6 +199,7 @@ public class GoogleContactsFacade {
             }
 
             datoDeContacto.setSincronizado(true);
+            datoDeContacto.setNombregooglecontacts(nuevoNombre);
             datosDeContactoFacade.edit(datoDeContacto);
         }
 
