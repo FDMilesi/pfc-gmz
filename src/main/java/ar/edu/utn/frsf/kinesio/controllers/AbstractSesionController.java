@@ -90,7 +90,7 @@ public abstract class AbstractSesionController implements Serializable {
     }
 
     public void calcularNumeroSesion() {
-        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
+        selected.setNumeroDeSesion(this.getFacade().getNumeroDeSesion(selected.getTratamiento(), selected));
     }
 
     protected void persist(PersistAction persistAction, String successMessage) {

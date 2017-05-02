@@ -11,16 +11,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PostLoad;
 
-/**
- *
- */
 @Stateless
 public class SesionFacade extends AbstractFacade<Sesion> {
 
@@ -52,31 +48,53 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         sesion.setTratamiento(tratamiento);
         sesion.setTranscurrida(false);
         sesion.setCuenta(true);
-        sesion.setNumeroDeSesion(this.getSiguienteNumeroDeSesion(tratamiento));
+//        sesion.setNumeroDeSesion(this.getSiguienteNumeroDeSesion(tratamiento));
         return sesion;
     }
 
-    public Short getSiguienteNumeroDeSesion(Tratamiento tratamiento) {
-        return calcularSiguienteNumeroDeSesion(getSesionesByTratamiento(tratamiento));
+    public Short getNumeroDeSesion(Tratamiento tratamiento, Sesion nuevaSesion) {
+        return this.getNumeroDeSesion(getSesionesByTratamiento(tratamiento), nuevaSesion);
     }
 
     /**
-     * Dada una lista de sesiones calcula el número de sesión que le
-     * correspondería a una sesión en caso de ser agregada a la lista. Para ello
-     * toma el número de la última sesión en la lista y le adiciona 1 (uno).
+     * Dada una lista de sesiones y una sesion que está en creación, calcula el
+     * número de sesión que le correspondería a la nueva sesión en caso de
+     * agregarse a la lista ordenadamente.
      *
      * @param sesiones
+     * @param nuevaSesion
      * @return: El número de sesión que tendría la siguiente sesión en la lista.
      */
-    public Short calcularSiguienteNumeroDeSesion(List<Sesion> sesiones) {
-        Short numeroUltimaSesion;
-        if (sesiones.isEmpty()) {
-            numeroUltimaSesion = (short) 0;
-        } else {
-            numeroUltimaSesion = sesiones.get(sesiones.size() - 1).getNumeroDeSesion();
+    public Short getNumeroDeSesion(List<Sesion> sesiones, Sesion nuevaSesion) {
+
+        if (nuevaSesion.getFechaHoraInicio() == null) {
+            return (short) 0;
         }
 
-        return (short) (numeroUltimaSesion + 1);
+        int index = 0;
+        for (Sesion sesion : sesiones) {
+            //Si la nueva sesion se ubica antes de alguna de las ya existentes
+            if (nuevaSesion.getFechaHoraInicio().compareTo(sesion.getFechaHoraInicio()) < 0) {
+                //Retorno su mismo numero
+                return sesion.getNumeroDeSesion();
+            }
+            index++;
+        }
+
+        //Si nunca entro en el if anterior, miro las otras cosas que pueden pasar
+        //Si la lista esta vacía
+        if (index == 0) {
+            return (short) 1;
+        }
+
+        //Si termine el loop en el último elemento (el loop termina en indice ultimo + 1)
+        if (index == sesiones.size()) {
+            //Retorno el numero de la ultima + 1
+            return (short) (sesiones.get(index - 1).getNumeroDeSesion().intValue() + 1);
+        }
+
+        //Sino retorno null porque algo raro hay
+        return null;
     }
 
     /**
@@ -113,30 +131,40 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         if (sesion.getTratamiento().getFinalizado()) {
             throw new EJBException("Error: el tratamiento se encuentra finalizado");
         }
-        
+
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
         this.setSesionStyle(sesion);
-        Sesion retorno = getEntityManager().merge(sesion); 
-        
-        this.recalcularNumerosDeSesion(sesion.getTratamiento());
-        
+        Sesion retorno = getEntityManager().merge(sesion);
+
+        this.recalcularNumerosDeSesion(this.getSesionesByTratamiento(sesion.getTratamiento()));
+
         return retorno;
+    }
+
+    @Override
+    public void remove(Sesion sesion) {
+        super.remove(sesion);
+        //Probar esto
+        this.recalcularNumerosDeSesion(this.getSesionesByTratamiento(sesion.getTratamiento()));
+    }
+
+    private void recalcularNumerosDeSesion(List<Sesion> lista) {
+        int i = 1;
+
+        for (Sesion sesion : lista) {
+            if (sesion.getNumeroDeSesion() == null) {//Si es null
+                sesion.setNumeroDeSesion((short) i);
+            } else if (sesion.getNumeroDeSesion() != (short) i) {//Si no es null pero es distintos
+                sesion.setNumeroDeSesion((short) i);
+            }
+            i++;
+        }
     }
 
     @PostLoad
     void onPostLoad(Sesion s) {
         s.setStartDate((Date) s.getFechaHoraInicio().clone());
         setSesionStyle(s);
-    }
-    
-    private void recalcularNumerosDeSesion(Tratamiento tratamiento){
-        List<Sesion> lista = this.getSesionesByTratamiento(tratamiento);
-        int i = 1;
-        
-        for (Sesion sesion : lista) {
-            sesion.setNumeroDeSesion((short)i);
-            i++;
-        }
     }
 
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
@@ -170,7 +198,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("fechaHasta", fechaHasta)
                 .getResultList();
     }
-    
+
     private void setIconToSesion(Sesion s) {
         if (!s.getCuenta()) {
             styleClassDeLaSesion.append("sesionNoCuenta");
@@ -218,17 +246,16 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     //Métodos para la carga masiva
-    
+    //Crea y guarda las sesiones de carga masiva.
     public List<Sesion> cargaMasivaSesiones(Sesion sesionARepetir, Map<String, Date> diasYHorarios, int diasARepetir) {
         List<Sesion> sesionesCreadas = new ArrayList<>();
         LocalDate diaInicio;
-        if(sesionARepetir.getFechaHoraInicio().before(new Date())){
+        if (sesionARepetir.getFechaHoraInicio().before(new Date())) {
             diaInicio = LocalDate.now();
-        }else{
+        } else {
             diaInicio = sesionARepetir.getFechaHoraInicio().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         }
         List<Date> listaDeFechas = this.getFechasParaCargaMasiva(diasYHorarios, diasARepetir, diaInicio);
-        int siguienteNumeroDeSesion = this.getSiguienteNumeroDeSesion(sesionARepetir.getTratamiento()).intValue();
 
         for (Date fecha : listaDeFechas) {
             Sesion sesion = new Sesion();
@@ -237,16 +264,31 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             sesion.setTranscurrida(false);
             sesion.setCuenta(true);
             sesion.setTratamiento(sesionARepetir.getTratamiento());
-            sesion.setNumeroDeSesion((short) siguienteNumeroDeSesion);
             sesion.setDuracion(sesionARepetir.getDuracion());
             this.setSesionStyle(sesion);
             this.getEntityManager().persist(sesion);
             sesionesCreadas.add(sesion);
-            siguienteNumeroDeSesion++;
         }
+
+        this.recalcularNumerosDeSesion(getSesionesByTratamiento(sesionARepetir.getTratamiento()));
+
         return sesionesCreadas;
     }
 
+    /**
+     * *
+     * Retorna una lista con las fechas (dia y hora) en base a los datos
+     * ingresados por el usuario para la caga masiva. Dada una lista de días de
+     * la semana con un horario asociado (diasYHorarios), una cantidad de fechas
+     * a obtener (diasARepetir) y un día de donde partir, va generarndo las
+     * distintas fechas de las sesiones con el día y la hora solicitados por el
+     * usuario
+     *
+     * @param diasYHorarios
+     * @param diasARepetir
+     * @param diaInicio
+     * @return
+     */
     private List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
         int count = 0;
         int diasFuturos = 1;
@@ -256,9 +298,9 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         while (count < diasARepetir) {
             diaFuturo = diaInicio.plusDays(diasFuturos);
             if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
-                
+
                 listaDeFechas
-                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()), 
+                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
                                 diaFuturo));
                 count++;
             }
@@ -266,8 +308,16 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         }
         return listaDeFechas;
     }
-    
-    //Fusiona la hora de la sesion a repetir con la fecha en que debe repetirse la sesión
+
+    /**
+     * *
+     * Setea a la nuevaFecha el horario horaQueQuiero. Se mantiene el día, mes y
+     * año de nuevaFecha, pero se le coloca la hora y minutos de horaQueQuiero
+     *
+     * @param horaQueQuiero
+     * @param nuevaFecha
+     * @return
+     */
     private Date calcularFechaSesionARepetir(Date horaQueQuiero, LocalDate nuevaFecha) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(horaQueQuiero);

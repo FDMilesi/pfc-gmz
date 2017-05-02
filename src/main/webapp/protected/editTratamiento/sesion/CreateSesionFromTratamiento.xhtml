@@ -23,7 +23,7 @@
                 <p:inputText style="display: none;" validator="#{listSesionController.puedoCrearNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{listSesionController.selected != null}">
                     <div class="ui-g-12">
-                        <p:outputLabel value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
+                        <p:outputLabel id="numeroDeSesion" value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
@@ -32,7 +32,6 @@
                         <p:calendar id="fechaHoraInicio" 
                                     pattern="dd/MM/yyyy HH:mm" 
                                     value="#{listSesionController.selected.fechaHoraInicio}" 
-                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
                                     locale="es"
@@ -40,7 +39,9 @@
                                     timeZone="GMT-3"
                                     minHour="8"
                                     maxHour="21"
-                                    />
+                                    >
+                            <p:ajax event="dateSelect" listener="#{listSesionController.calcularNumeroSesion()}" update="numeroDeSesion" />
+                        </p:calendar>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_agenda}" for="agenda" />
