@@ -365,3 +365,8 @@ body{
 .moneyFont{
     font-family: monospace;
 }
+
+/* Oculto el sort drop down de las tablas reflow (responsibe). El important es necesario */
+.ui-datatable-reflow .ui-reflow-label, .ui-datatable-reflow .ui-reflow-dropdown{
+    display: none !important;
+}
