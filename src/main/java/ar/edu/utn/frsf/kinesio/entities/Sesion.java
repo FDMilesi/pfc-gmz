@@ -30,6 +30,7 @@ import org.primefaces.model.ScheduleEvent;
     @NamedQuery(name = "Sesion.findById", query = "SELECT s FROM Sesion s WHERE s.idSesion = :id"),
     @NamedQuery(name = "Sesion.findByNumeroDeSesion", query = "SELECT s FROM Sesion s WHERE s.numeroDeSesion = :numeroDeSesion"),
     @NamedQuery(name = "Sesion.findByFechaHoraInicio", query = "SELECT s FROM Sesion s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
+    @NamedQuery(name = "Sesion.countByRangoFechaHoraInicio", query = "SELECT COUNT(s) FROM Sesion s WHERE s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
     @NamedQuery(name = "Sesion.findByTratamiento", query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento ORDER BY s.fechaHoraInicio"),
     @NamedQuery(name = "Sesion.findByTratamientoQueCuentan",
             query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),

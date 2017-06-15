@@ -20,6 +20,11 @@ import javax.persistence.PostLoad;
 @Stateless
 public class SesionFacade extends AbstractFacade<Sesion> {
 
+    public static final int ERROR_EDIT_SESION_FECHA_ANTERIOR = 1;
+    public static final int ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO = 2;
+    public static final int ERROR_FECHA_SESION_FERIADO = 3;
+    public static final int ERROR_EXCEDE_TOPE_SESIONES_ANIO = 4;
+
     @PersistenceContext(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
     private EntityManager em;
 
@@ -97,6 +102,34 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return null;
     }
 
+    public int validarCreacionSesion(Sesion sesion, Tratamiento tratamiento) {
+
+        if (!puedoAgregarSesion(tratamiento)) {
+            return ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO;
+        }
+
+        if (esDiaFeriado(sesion.getFechaHoraInicio())) {
+            return ERROR_FECHA_SESION_FERIADO;
+        }
+
+        return 0;
+    }
+
+    public int validarFechaEdicionSesion(Sesion sesion, Date nuevaFecha) {
+        
+        if (!nuevaFecha.equals(sesion.getFechaHoraInicio())) {
+            if (nuevaFecha.before(new Date())) {
+                return ERROR_EDIT_SESION_FECHA_ANTERIOR;
+            }
+        }
+        
+        if (esDiaFeriado(nuevaFecha)) {
+            return ERROR_FECHA_SESION_FERIADO;
+        }
+        
+        return 0;
+    }
+
     /**
      * Valida si puede agregarse a un tratamiento una sesión más. La validación
      * se hace típicamente ante la creación de una sesión, o a partir de la
@@ -104,7 +137,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      *
      * @param tratamiento
      * @return
-     */
+     */ 
     public boolean puedoAgregarSesion(Tratamiento tratamiento) {
         return this.puedoAgregarSesiones(tratamiento, 1);
     }
@@ -192,7 +225,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("agenda", agenda).getResultList();
     }
 
-    public List<Object[]> getSesionesByRangoFechas(Date fechaDesde, Date fechaHasta) {
+    public List<Object[]> getSesionesYContactoByRangoFechas(Date fechaDesde, Date fechaHasta) {
         return getEntityManager().createNamedQuery("Sesion.findByRangoFechas")
                 .setParameter("fechaDesde", fechaDesde)
                 .setParameter("fechaHasta", fechaHasta)
@@ -290,19 +323,28 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      * @return
      */
     private List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
-        int count = 0;
+        int cantDiasAgregados = 0;
         int diasFuturos = 1;
         LocalDate diaFuturo;
         List<Date> listaDeFechas = new ArrayList<>();
 
-        while (count < diasARepetir) {
+        while (cantDiasAgregados < diasARepetir) {
             diaFuturo = diaInicio.plusDays(diasFuturos);
+            
+            //Si es un día de la semana de los seleccionados
             if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
-
-                listaDeFechas
+                
+                //Cheuqeo si el dia es feriado. Tengo que pasar de LocalDate a Date
+                if (esDiaFeriado(Date.from(diaFuturo.atStartOfDay(ZoneId.systemDefault()).toInstant()))){
+                    //La logica es: saltear el dia si es feriado.
+                    //Si se desea cambiar la logica ponerla aqui
+                } else {
+                    //Si no es feriado lo agrego y sumo uno a la cuenta de dias agregados
+                    listaDeFechas
                         .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
                                 diaFuturo));
-                count++;
+                    cantDiasAgregados++;
+                }
             }
             diasFuturos++;
         }
@@ -325,5 +367,22 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         int minutos = cal.get(Calendar.MINUTE);
         LocalDateTime ldt = nuevaFecha.atTime(hora, minutos);
         return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private List<Date> listaFeriadosAsDateList() {
+        return getEntityManager().createNamedQuery("Diaferiado.findAllDates").getResultList();
+    }
+
+    private boolean esDiaFeriado(Date date) {
+        //Al date que me llega lo paso a calendar, le seteo el time a cero y 
+        //luego veo si esta en lista de feriados
+        Calendar calendarInstance = Calendar.getInstance();
+        calendarInstance.setTime(date);
+        calendarInstance.set(Calendar.HOUR_OF_DAY, 0);
+        calendarInstance.set(Calendar.MINUTE, 0);
+        calendarInstance.set(Calendar.SECOND, 0);
+        calendarInstance.set(Calendar.MILLISECOND, 0);
+
+        return this.listaFeriadosAsDateList().contains(calendarInstance.getTime());
     }
 }

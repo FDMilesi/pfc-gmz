@@ -23,7 +23,7 @@
             </f:facet>
             <h:form id="SesionCreateForm">
                 <p:focus for="paciente" />
-                <p:inputText style="display: none;" validator="#{agendaSesionController.puedoCrearNuevaSesion}"/>
+                <p:inputText style="display: none;" validator="#{agendaSesionController.validarCreacionNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{agendaSesionController.selected != null}">
                     <div class="ui-g-12 ui-md-3">
                         <p:outputLabel value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
@@ -39,7 +39,9 @@
                                     timeZone="GMT-3"
                                     minHour="8"
                                     maxHour="21"
-                                    />
+                                    >
+                            <p:ajax event="dateSelect" listener="#{agendaSesionController.calcularNumeroSesion()}" update="numeroDeSesion" />
+                        </p:calendar>
                     </div>
                     <div class="ui-g-12 ui-md-3">
                         <p:outputLabel value="#{bundle.SesionLabel_paciente}" for="paciente" />

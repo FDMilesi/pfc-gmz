@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -49,7 +48,7 @@ public class ListSesionController extends AbstractSesionController implements Se
     public void setItems(List<Sesion> items) {
         this.items = items;
     }
-    
+
     public Tratamiento getTratamientoEnEdicion() {
         return tratamientoEnEdicion;
     }
@@ -78,11 +77,8 @@ public class ListSesionController extends AbstractSesionController implements Se
         }
     }
 
-    public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
-        }
+    public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
+        this.validarCreacionNuevaSesion(facesContext, componente, value, this.getTratamientoEnEdicion());
     }
 
     //Comunicación entre controllers e inicializaciones de selected

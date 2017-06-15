@@ -1,6 +1,6 @@
 package ar.edu.utn.frsf.kinesio.controllers.converters;
 
-import ar.edu.utn.frsf.kinesio.controllers.SesionController;
+import ar.edu.utn.frsf.kinesio.controllers.AgendaSesionController;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,7 +17,7 @@ public class SesionConverter implements Converter {
         if (value == null || value.length() == 0) {
             return null;
         }
-        SesionController controller = (SesionController) facesContext.getApplication().getELResolver().
+        AgendaSesionController controller = (AgendaSesionController) facesContext.getApplication().getELResolver().
                 getValue(facesContext.getELContext(), null, "sesionController");
         return controller.getSesion(getKey(value));
     }

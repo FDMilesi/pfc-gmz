@@ -64,7 +64,7 @@ public class RecordatoriosResource {
         //System.out.println("fechas ----> " + fechaDesde + "hasta" + fechaHasta);
         
         //El array contiene primero una sesion y luego un string con el nombre del contacto de google
-        List<Object[]> sesiones = sesionFacade.getSesionesByRangoFechas(fechaDesde, fechaHasta);
+        List<Object[]> sesiones = sesionFacade.getSesionesYContactoByRangoFechas(fechaDesde, fechaHasta);
 
         String mensajeRecordatorio
                 = Preferences.userNodeForPackage(this.getClass())
@@ -93,7 +93,7 @@ public class RecordatoriosResource {
             Date fechaHastaDate = ISODateFormat.parse(fechaHasta);
 
             //El array contiene primero una sesion y luego un string con el nombre del contacto de google
-            List<Object[]> sesiones = sesionFacade.getSesionesByRangoFechas(fechaDesdeDate, fechaHastaDate);
+            List<Object[]> sesiones = sesionFacade.getSesionesYContactoByRangoFechas(fechaDesdeDate, fechaHastaDate);
 
             String mensajeRecordatorio
                     = Preferences.userNodeForPackage(this.getClass())

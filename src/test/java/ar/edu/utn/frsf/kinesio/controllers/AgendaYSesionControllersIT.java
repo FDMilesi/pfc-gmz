@@ -37,7 +37,7 @@ public class AgendaYSesionControllersIT {
     AgendaController agendaController;
     @Inject
     @TestQualifier
-    SesionController sesionController;
+    AgendaSesionController sesionController;
 
     private final FacesContext context;
 

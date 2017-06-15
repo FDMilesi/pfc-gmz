@@ -11,7 +11,6 @@ import javax.inject.Named;
 import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -19,7 +18,7 @@ import javax.inject.Inject;
 
 @Named("agendaSesionController")
 @ViewScoped
-public class SesionController extends AbstractSesionController implements Serializable {
+public class AgendaSesionController extends AbstractSesionController implements Serializable {
 
     /* Eventos para comunicar controladores */
     @Inject
@@ -29,7 +28,7 @@ public class SesionController extends AbstractSesionController implements Serial
     @Inject
     Event<SesionEliminadaEvento> sesionEliminadaEvento;
 
-    public SesionController() {
+    public AgendaSesionController() {
     }
 
     //Métodos de negocio
@@ -53,11 +52,11 @@ public class SesionController extends AbstractSesionController implements Serial
         }
     }
 
-    public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (selected.getTratamiento() != null && !getFacade().puedoAgregarSesion(selected.getTratamiento())) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
-        }
+    public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
+        //Valido sólo si se selecciono un tratamiento para la sesion
+        //La validacion de tratamiento required se hace en el campo tratamiento
+        if (selected.getTratamiento() != null)
+            this.validarCreacionNuevaSesion(facesContext, componente, value, selected.getTratamiento());
     }
 
     public void editSesion(@Observes AgendaController.VerSesionEvento evento) {

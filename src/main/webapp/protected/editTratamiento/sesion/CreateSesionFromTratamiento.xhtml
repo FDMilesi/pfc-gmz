@@ -20,7 +20,7 @@
                   draggable="false"
                   >
             <h:form id="SesionCreateForm">
-                <p:inputText style="display: none;" validator="#{listSesionController.puedoCrearNuevaSesion}"/>
+                <p:inputText style="display: none;" validator="#{listSesionController.validarCreacionNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{listSesionController.selected != null}">
                     <div class="ui-g-12">
                         <p:outputLabel id="numeroDeSesion" value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
