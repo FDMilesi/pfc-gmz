@@ -1,0 +1,7 @@
+CREATE TABLE diaferiado
+(
+  id smallserial not null,
+  dia timestamp without time zone,
+  descripcion character varying(30),
+  CONSTRAINT diaferiado_pkey PRIMARY KEY (id)
+)
