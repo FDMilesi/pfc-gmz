@@ -65,6 +65,11 @@ public class CargaMasivaController implements Serializable {
             JsfUtil.addErrorMessage("No se pueden agregar sesiones. "
                     + String.format("El tratamiento posee un tope de %s sesiones", selected.getTratamiento().getCantidadDeSesiones()));
         }
+        if (this.getFacade().superaCantidadSesionesEnElAnioCargaMasiva(selected.getTratamiento(), (int)valor)) {
+            ((UIInput) componente).setValid(false);
+            JsfUtil.addErrorMessage("Se alcanzó el tope de sesiones en el año. Seleccione un numero menor de 'Veces a repetir'");        
+        }
+        
     }
 
     public void guardarCargaMasiva() {

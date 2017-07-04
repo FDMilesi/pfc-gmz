@@ -3,14 +3,20 @@ package ar.edu.utn.frsf.kinesio.gestores;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
+import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,6 +40,11 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     protected EntityManager getEntityManager() {
         return em;
     }
+
+    @EJB
+    OrdenMedicaFacade ordenMedicaFacade;
+    @EJB
+    private TipoTratamientoObraSocialFacade tipoTratamientoObraSocialFacade;
 
     public SesionFacade() {
         super(Sesion.class);
@@ -112,21 +123,42 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             return ERROR_FECHA_SESION_FERIADO;
         }
 
+        if (!tratamiento.getParticular()) {
+            if (this.superaCantidadSesionesEnElAnio(tratamiento)) {
+                return ERROR_EXCEDE_TOPE_SESIONES_ANIO;
+            }
+        }
+
+        return 0;
+    }
+    
+    public int validarSesionCuentaTrue(Sesion sesion, Tratamiento tratamiento) {
+
+        if (!puedoAgregarSesion(tratamiento)) {
+            return ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO;
+        }
+
+        if (!tratamiento.getParticular()) {
+            if (this.superaCantidadSesionesEnElAnio(tratamiento)) {
+                return ERROR_EXCEDE_TOPE_SESIONES_ANIO;
+            }
+        }
+
         return 0;
     }
 
     public int validarFechaEdicionSesion(Sesion sesion, Date nuevaFecha) {
-        
+
         if (!nuevaFecha.equals(sesion.getFechaHoraInicio())) {
             if (nuevaFecha.before(new Date())) {
                 return ERROR_EDIT_SESION_FECHA_ANTERIOR;
             }
         }
-        
+
         if (esDiaFeriado(nuevaFecha)) {
             return ERROR_FECHA_SESION_FERIADO;
         }
-        
+
         return 0;
     }
 
@@ -137,7 +169,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      *
      * @param tratamiento
      * @return
-     */ 
+     */
     public boolean puedoAgregarSesion(Tratamiento tratamiento) {
         return this.puedoAgregarSesiones(tratamiento, 1);
     }
@@ -157,6 +189,48 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         //Si la cantiad de sesiones que cuentan más la cantiadad que deseo agregar es menor o igual a 
         //la cantidad seteada en el tratamiento, retorno true
         return Short.compare(cantidadQueCuentanMasUno, tratamiento.getCantidadDeSesiones()) <= 0;
+    }
+
+    private boolean superaCantidadSesionesEnElAnio(Tratamiento tratamiento) {
+        return this.superaCantidadSesionesEnElAnioCargaMasiva(tratamiento, 1);
+    }
+    
+    public boolean superaCantidadSesionesEnElAnioCargaMasiva(Tratamiento tratamiento, int vecesARepetir) {
+        TipoTratamientoObraSocial tipoTratamientoObraSocial = this.tipoTratamientoObraSocialFacade.find(new TipoTratamientoObraSocialPK(tratamiento.getTipoDeTratamiento().getId(), tratamiento.getPaciente().getObraSocial().getId()));
+
+        int resultado = this.cantidadSesionesEnElAnio(tratamiento.getPaciente());
+
+        return (resultado + vecesARepetir) > (int) tipoTratamientoObraSocial.getTopeSesionesAño();
+    }
+
+    /***
+     * Calcula el restante de las sesiones en el año para tratamientos no particulares
+     * @param tratamiento
+     * @return 
+     */
+    public int sesionesRestantesEnElAnio(Tratamiento tratamiento) {
+        TipoTratamientoObraSocial tipoTratamientoObraSocial = this.tipoTratamientoObraSocialFacade.find(new TipoTratamientoObraSocialPK(tratamiento.getTipoDeTratamiento().getId(), tratamiento.getPaciente().getObraSocial().getId()));
+        int sesionesTotalesDisponibles = tipoTratamientoObraSocial.getTopeSesionesAño();
+        int sesionesRealizadas = this.cantidadSesionesEnElAnio(tratamiento.getPaciente());
+
+        return sesionesTotalesDisponibles - sesionesRealizadas;
+    }
+
+    public int cantidadSesionesEnElAnio(Paciente paciente) {
+        LocalDate ldDesde = LocalDate.now().with(TemporalAdjusters.firstDayOfYear());
+        LocalDate ldHasta = LocalDate.now().with(TemporalAdjusters.lastDayOfYear());
+
+        Date fechaDesde = Date.from(ldDesde.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date fechaHasta = Date.from(ldHasta.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+        Object obj = getEntityManager()
+                .createNamedQuery("Sesion.countByPacientePorAnio")
+                .setParameter("paciente", paciente)
+                .setParameter("fechaDesde", fechaDesde)
+                .setParameter("fechaHasta", fechaHasta)
+                .getSingleResult();
+
+        return ((Number) obj).intValue();
     }
 
     public Sesion editAndReturn(Sesion sesion) {
@@ -330,19 +404,19 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
         while (cantDiasAgregados < diasARepetir) {
             diaFuturo = diaInicio.plusDays(diasFuturos);
-            
+
             //Si es un día de la semana de los seleccionados
             if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
-                
+
                 //Cheuqeo si el dia es feriado. Tengo que pasar de LocalDate a Date
-                if (esDiaFeriado(Date.from(diaFuturo.atStartOfDay(ZoneId.systemDefault()).toInstant()))){
+                if (esDiaFeriado(Date.from(diaFuturo.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
                     //La logica es: saltear el dia si es feriado.
                     //Si se desea cambiar la logica ponerla aqui
                 } else {
                     //Si no es feriado lo agrego y sumo uno a la cuenta de dias agregados
                     listaDeFechas
-                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
-                                diaFuturo));
+                            .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
+                                    diaFuturo));
                     cantDiasAgregados++;
                 }
             }

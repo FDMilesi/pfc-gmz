@@ -37,7 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OrdenMedica.findByAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE"),
     @NamedQuery(name = "OrdenMedica.findByNoAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE"),
     @NamedQuery(name = "OrdenMedica.findByAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE and o.presentadaAlCirculo = :presentada"),
-    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE and o.presentadaAlCirculo = :presentada")})
+    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE and o.presentadaAlCirculo = :presentada"),
+    @NamedQuery(name = "OrdenMedica.sumaCantidadSesionesEnElAnio", query = "SELECT coalesce(SUM(o.cantidadDeSesiones), 0) FROM OrdenMedica o WHERE o.tratamiento.paciente = :paciente AND o.fechaCreacion BETWEEN :fechaAnioInicio AND :fechaAnioFin")})
+
+//https://stackoverflow.com/questions/10295347/jpa-typedquery-sometimes-returns-null-instead-of-noresultexception
 public class OrdenMedica implements Serializable {
 
     private static final long serialVersionUID = 1L;

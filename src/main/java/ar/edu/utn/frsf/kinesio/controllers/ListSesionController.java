@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -68,11 +70,22 @@ public class ListSesionController extends AbstractSesionController implements Se
      */
     public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
         boolean cuenta = (boolean) checkBoxValue;
+        
         //Si ahora cuenta y antes no contaba
         if (cuenta && !getContaba()) {
-            if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
-                ((UISelectBoolean) componente).setValid(false);
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+            int resultadoValidacion = getFacade().validarSesionCuentaTrue(selected, tratamientoEnEdicion);
+
+            switch (resultadoValidacion) {
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+                    break;
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_ANIO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorTotalSesionesEnElAnio"));
+                    break;
+                //Si todo va ok no invalido el componente
+                case 0:;
             }
         }
     }

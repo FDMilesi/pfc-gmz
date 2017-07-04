@@ -6,7 +6,9 @@ import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.gestores.util.FiltroOrdenMedica;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -196,6 +198,30 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
             return (short) 0;
         }
 
+    }
+    
+    /***
+     * Este metodo no se esta siendo invocado por nadie (esta al pedo) <<<----------------------------------------------------
+     * @param paciente
+     * @return 
+     */
+    public int cantidadSesionesEnElAnio(Paciente paciente){
+        Calendar fechaDesde = Calendar.getInstance(); 
+        fechaDesde.set(Calendar.MONTH, 0);
+        fechaDesde.set(Calendar.DAY_OF_MONTH, 1);
+        fechaDesde.set(Calendar.HOUR_OF_DAY, 0);
+        fechaDesde.set(Calendar.MINUTE, 0);
+        fechaDesde.set(Calendar.SECOND, 0);
+        fechaDesde.set(Calendar.MILLISECOND, 0);
+
+        Object obj = getEntityManager()
+                    .createNamedQuery("OrdenMedica.sumaCantidadSesionesEnElAnio")
+                    .setParameter("paciente", paciente)
+                    .setParameter("fechaAnioInicio", fechaDesde.getTime())
+                    .setParameter("fechaAnioFin", new Date())
+                    .getSingleResult();
+        
+        return ((Number)obj).intValue();
     }
 
     public void marcarOrdenesComoPresentadas(List<OrdenMedica> listaOrdenes) {
