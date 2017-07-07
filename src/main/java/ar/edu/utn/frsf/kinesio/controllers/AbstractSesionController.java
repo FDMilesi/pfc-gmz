@@ -72,6 +72,10 @@ public abstract class AbstractSesionController implements Serializable {
                 ((UIInput) componente).setValid(false);
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorCreacionSesionDiaFeriado"));
                 break;
+            case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_ANIO:
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorTotalSesionesEnElAnio"));
+                break;
             //Si todo va ok no invalido el componente
             case 0:;
         }
