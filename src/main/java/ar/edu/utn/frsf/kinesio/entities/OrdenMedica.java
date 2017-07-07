@@ -70,17 +70,19 @@ public class OrdenMedica implements Serializable {
     private String numeroAfiliadoPaciente;
 
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id")
+    @NotNull
     @ManyToOne(optional = false)
     private ObraSocial obraSocial;
 
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
+    @NotNull
     @ManyToOne(optional = false)
     private Tratamiento tratamiento;
-    
+
     @Column(name = "fechaautorizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaAutorizacion;
-    
+
     @Column(name = "autorizada")
     private Boolean autorizada;
 
@@ -160,7 +162,7 @@ public class OrdenMedica implements Serializable {
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
     }
-    
+
     public Date getFechaAutorizacion() {
         return fechaAutorizacion;
     }
@@ -168,7 +170,7 @@ public class OrdenMedica implements Serializable {
     public void setFechaAutorizacion(Date fechaAutorizacion) {
         this.fechaAutorizacion = fechaAutorizacion;
     }
-    
+
     public Boolean getAutorizada() {
         return autorizada;
     }

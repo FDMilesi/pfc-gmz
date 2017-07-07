@@ -187,6 +187,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     }
 
     @Override
+    @Deprecated
     public void setId(String string) {
     }
 

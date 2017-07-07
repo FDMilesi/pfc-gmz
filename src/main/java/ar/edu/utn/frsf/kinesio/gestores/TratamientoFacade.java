@@ -127,6 +127,10 @@ public class TratamientoFacade extends AbstractFacade<Tratamiento> {
                 .setParameter("tratamiento", selected).getSingleResult()).intValue() == 0;
     }
 
+    protected void setEm(EntityManager em) {
+        this.em = em;
+    }
+
     @Override
     public void create(Tratamiento tratamiento) {
         if (!tratamiento.getTipoDeTratamiento().isCubiertoPorObraSocial()) {

@@ -42,12 +42,28 @@ public class MovimientoCajaFacade extends AbstractFacade<MovimientoCaja> {
         //Tengo que buscar el ultimo saldo
         List<MovimientoCaja> movimientos = getMovimientosByCaja(movimiento.getCaja());
 
+        this.calcularNuevoSaldoOnCreate(movimiento, movimientos);
+
+        super.create(movimiento);
+    }
+
+    /**
+     * *
+     * Setea al movimiento pasado como parámetro el valor que le corresponde en
+     * el saldo. La lista de movimientos debe estar ordenada según la fecha de
+     * los movimientos en forma descendente
+     *
+     * @param movimiento Movimiento al cual se le va a calcular el saldo
+     * @param totalMovimientos Lista ordenada descendentemente del total de
+     * movimientos de la caja
+     */
+    protected void calcularNuevoSaldoOnCreate(MovimientoCaja movimiento, List<MovimientoCaja> totalMovimientos) {
         BigDecimal saldoAnterior;
 
-        if (movimientos.isEmpty()) { //Si no hay movimientos el saldo inicial es cero
+        if (totalMovimientos.isEmpty()) { //Si no hay movimientos el saldo inicial es cero
             saldoAnterior = BigDecimal.ZERO;
         } else {
-            saldoAnterior = movimientos.get(0).getSaldo();
+            saldoAnterior = totalMovimientos.get(0).getSaldo();
         }
 
         if (movimiento.getTipomovimiento().equals(MovimientoCaja.TipoMovimiento.EGRESO.name())) {
@@ -55,8 +71,6 @@ public class MovimientoCajaFacade extends AbstractFacade<MovimientoCaja> {
         } else {
             movimiento.setSaldo(saldoAnterior.add(movimiento.getMonto()));
         }
-
-        super.create(movimiento);
     }
 
     //Los retorna ordenados

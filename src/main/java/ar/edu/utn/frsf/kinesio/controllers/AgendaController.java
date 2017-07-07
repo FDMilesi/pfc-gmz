@@ -62,6 +62,10 @@ public class AgendaController implements Serializable {
         return ejbFacade;
     }
 
+    protected void setSesionFacade(SesionFacade sesionFacade) {
+        this.sesionFacade = sesionFacade;
+    }
+
     public List<Agenda> getItemsAvailableSelectOne() {
         if (items == null) {
             items = getFacade().findAll();

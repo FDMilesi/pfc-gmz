@@ -1,4 +1,4 @@
-package ar.edu.utn.frsf.kinesio.controllers.adaptadores;
+package ar.edu.utn.frsf.kinesio.test.util;
 
 import static java.lang.annotation.ElementType.*;
 import java.lang.annotation.Retention;

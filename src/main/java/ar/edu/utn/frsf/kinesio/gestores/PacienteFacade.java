@@ -18,7 +18,7 @@ public class PacienteFacade extends AbstractFacade<Paciente> {
         return em;
     }
 
-    public void setEm(EntityManager em) {
+    protected void setEm(EntityManager em) {
         this.em = em;
     }
 

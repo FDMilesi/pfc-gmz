@@ -35,6 +35,10 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return em;
     }
 
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
     public SesionFacade() {
         super(Sesion.class);
     }
@@ -116,17 +120,17 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     }
 
     public int validarFechaEdicionSesion(Sesion sesion, Date nuevaFecha) {
-        
+
         if (!nuevaFecha.equals(sesion.getFechaHoraInicio())) {
             if (nuevaFecha.before(new Date())) {
                 return ERROR_EDIT_SESION_FECHA_ANTERIOR;
             }
         }
-        
+
         if (esDiaFeriado(nuevaFecha)) {
             return ERROR_FECHA_SESION_FERIADO;
         }
-        
+
         return 0;
     }
 
@@ -137,7 +141,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      *
      * @param tratamiento
      * @return
-     */ 
+     */
     public boolean puedoAgregarSesion(Tratamiento tratamiento) {
         return this.puedoAgregarSesiones(tratamiento, 1);
     }
@@ -181,7 +185,15 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         this.recalcularNumerosDeSesion(this.getSesionesByTratamiento(sesion.getTratamiento()));
     }
 
-    private void recalcularNumerosDeSesion(List<Sesion> lista) {
+    /**
+     * *
+     * Configura la numeración de las sesiones según su orden cronológico. Para
+     * su correcto funcionamiento la lista de sesiones ya debe estar ordenada
+     * por fecha
+     *
+     * @param lista ordenada por fecha de sesiones
+     */
+    protected void recalcularNumerosDeSesion(List<Sesion> lista) {
         int i = 1;
 
         for (Sesion sesion : lista) {
@@ -322,7 +334,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
      * @param diaInicio
      * @return
      */
-    private List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
+    protected List<Date> getFechasParaCargaMasiva(Map<String, Date> diasYHorarios, int diasARepetir, LocalDate diaInicio) {
         int cantDiasAgregados = 0;
         int diasFuturos = 1;
         LocalDate diaFuturo;
@@ -330,19 +342,19 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
         while (cantDiasAgregados < diasARepetir) {
             diaFuturo = diaInicio.plusDays(diasFuturos);
-            
+
             //Si es un día de la semana de los seleccionados
             if (diasYHorarios.containsKey(diaFuturo.getDayOfWeek().name())) {
-                
+
                 //Cheuqeo si el dia es feriado. Tengo que pasar de LocalDate a Date
-                if (esDiaFeriado(Date.from(diaFuturo.atStartOfDay(ZoneId.systemDefault()).toInstant()))){
+                if (esDiaFeriado(Date.from(diaFuturo.atStartOfDay(ZoneId.systemDefault()).toInstant()))) {
                     //La logica es: saltear el dia si es feriado.
                     //Si se desea cambiar la logica ponerla aqui
                 } else {
                     //Si no es feriado lo agrego y sumo uno a la cuenta de dias agregados
                     listaDeFechas
-                        .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
-                                diaFuturo));
+                            .add(this.calcularFechaSesionARepetir(diasYHorarios.get(diaFuturo.getDayOfWeek().name()),
+                                    diaFuturo));
                     cantDiasAgregados++;
                 }
             }
@@ -369,7 +381,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         return Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
     }
 
-    private List<Date> listaFeriadosAsDateList() {
+    protected List<Date> listaFeriadosAsDateList() {
         return getEntityManager().createNamedQuery("Diaferiado.findAllDates").getResultList();
     }
 

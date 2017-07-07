@@ -147,7 +147,7 @@ public abstract class AbstractSesionController implements Serializable {
     }
 
     //seters para testing
-    public void setFacade(SesionFacade sesionFacade) {
+    protected void setFacade(SesionFacade sesionFacade) {
         this.ejbFacade = sesionFacade;
     }
 

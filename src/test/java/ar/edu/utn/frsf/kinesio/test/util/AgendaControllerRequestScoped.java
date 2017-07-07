@@ -1,13 +1,10 @@
-package ar.edu.utn.frsf.kinesio.controllers.adaptadores;
+package ar.edu.utn.frsf.kinesio.test.util;
 
 import ar.edu.utn.frsf.kinesio.controllers.AgendaController;
 import javax.enterprise.context.RequestScoped;
 
-/**
- *
- */
 @TestQualifier
 @RequestScoped
-public class AgendaControllerHijo extends AgendaController{
+public class AgendaControllerRequestScoped extends AgendaController{
     
 }

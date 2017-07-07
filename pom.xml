@@ -82,12 +82,12 @@
             <scope>provided</scope>
         </dependency>
         <!--Motor de BD Derby para pruebas de persistencia-->
-        <dependency>
+<!--        <dependency>
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>10.12.1.1</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <!--Google Contacts-->
         <dependency>
             <groupId>com.google.gdata</groupId>
@@ -192,12 +192,12 @@
         <testResources>
             <testResource>
                 <directory>${basedir}/src/main/resources/</directory>
-                <!--                <includes>
+                <includes>
                     <include>**/*.properties</include>
                 </includes>
                 <excludes>
                     <exclude>**/*.xml</exclude>
-                </excludes>-->
+                </excludes>
             </testResource>
             <testResource>
                 <directory>${basedir}/src/test/resources/</directory>

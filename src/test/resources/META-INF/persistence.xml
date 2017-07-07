@@ -1,14 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="integration" transaction-type="RESOURCE_LOCAL">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>ar.edu.utn.frsf.kinesio.entities.Paciente</class>
-    <class>ar.edu.utn.frsf.kinesio.entities.ObraSocial</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
-    <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:testDB;create=true"/>
-      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
-    </properties>
-  </persistence-unit>
+    <persistence-unit name="integration" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>ar.edu.utn.frsf.kinesio.entities.Paciente</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.ObraSocial</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.Tratamiento</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.TipoDeTratamiento</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.Especialidad</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.Estudio</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.Agenda</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.OrdenMedica</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.Sesion</class>
+        <class>ar.edu.utn.frsf.kinesio.entities.DatosDeContacto</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:testDB;create=true"/>
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+            <property name="eclipselink.ddl-generation" value="create-tables"/>
+        </properties>
+    </persistence-unit>
 </persistence>

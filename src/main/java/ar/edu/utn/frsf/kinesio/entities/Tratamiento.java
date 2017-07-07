@@ -93,6 +93,7 @@ public class Tratamiento implements Serializable {
     @Column(name = "accidentetrabajo")
     private boolean accidenteTrabajo;
 
+    @NotNull
     @JoinColumn(name = "pacienteid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Paciente paciente;
