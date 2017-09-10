@@ -23,7 +23,7 @@
                     <p:focus context="display"/>
                     <!--APELLIDO-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_apellido}" for="apellido" />
+                        <p:outputLabel id="apellidoLabel" value="#{bundle.PacienteLabel_apellido}" for="apellido" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="apellido" 
@@ -32,7 +32,7 @@
 
                     <!--NOMBRE-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_nombre}" for="nombre" />
+                        <p:outputLabel id="nombreLabel" value="#{bundle.PacienteLabel_nombre}" for="nombre" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="nombre" 
@@ -41,14 +41,14 @@
 
                     <!--TELEFONOS-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_telefono}" for="telefono" />
+                        <p:outputLabel id="telefonoLabel" value="#{bundle.PacienteLabel_telefono}" for="telefono" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="telefono" 
                                      value="#{pacienteController.selected.telefono}" /> 
                     </div>
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.PacienteLabel_celular}" for="celular" />
+                        <p:outputLabel id="celularLabel" value="#{bundle.PacienteLabel_celular}" for="celular" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="celular" 
@@ -56,14 +56,14 @@
                     </div>
 
                     <!--BOTONES-->                    
-                    <p:commandButton  action="#{pacienteController.create()}" 
+                    <p:commandButton  id="guardarPacienteButton" action="#{pacienteController.create()}" 
                                       value="#{bundle.Save}"
                                       update="display,:SesionCreateForm,:growl" 
                                       oncomplete="handleSubmit(args,'PacienteCreateCargaRapidaDialog');"
                                       style="float: right; background-color: #66BB6A;">
                         <f:setPropertyActionListener value="#{pacienteController.selected}" target="#{tratamientoController.paciente}"/>
                     </p:commandButton>
-                    <p:commandButton immediate="true" 
+                    <p:commandButton id="cancelarPacienteButton" immediate="true" 
                                      value="#{bundle.Cancel}" 
                                      onclick="PF('PacienteCreateCargaRapidaDialog').hide()"
                                      style="float: right; background-color: #E53935;"/>

@@ -24,7 +24,7 @@
                     <p:focus />
                     <!--      TIPO DE TRATAMIENTO         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
+                        <p:outputLabel id="tipoTratamientoLabel" value="#{bundle.TratamientoLabel_tipoDeTratamiento}" for="tipoDeTratamiento" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:selectOneMenu id="tipoDeTratamiento"
@@ -39,7 +39,7 @@
                     </div>
                     <!--      CANTIDAD DE SESIONES         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
+                        <p:outputLabel id="cantidadDeSesionesLabel" value="#{bundle.TratamientoLabel_cantidadDeSesiones}" for="cantidadDeSesiones" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="cantidadDeSesiones" 
@@ -61,21 +61,21 @@
                     </div>
                     <!--      DIAGNOSTICO         -->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
+                        <p:outputLabel id="diagnosticoLabel" value="#{bundle.TratamientoLabel_diagnostico}" for="diagnostico" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="diagnostico" value="#{tratamientoController.selected.diagnostico}" />
                     </div>
                     
                     <!--    BOTONES     -->
-                    <p:commandButton actionListener="#{tratamientoController.create}" 
+                    <p:commandButton id="guardarTratamientoButton" actionListener="#{tratamientoController.create}" 
                                      value="#{bundle.Save}" 
                                      update="display,:SesionCreateForm,:growl" 
                                      oncomplete="handleSubmit(args,'TratamientoCreateCargaRapidaDialog');"
                                      style="float: right; background-color: #66BB6A;">
                         <f:setPropertyActionListener value="#{tratamientoController.selected}" target="#{agendaSesionController.selected.tratamiento}"/>
                     </p:commandButton>
-                    <p:commandButton immediate="true" 
+                    <p:commandButton id="cancelarTratamientoButton" immediate="true" 
                                      value="#{bundle.Cancel}" 
                                      onclick="PF('TratamientoCreateCargaRapidaDialog').hide()"
                                      style="float: right; background-color: #E53935;"/>

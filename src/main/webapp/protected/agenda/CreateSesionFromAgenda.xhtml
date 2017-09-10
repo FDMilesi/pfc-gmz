@@ -26,7 +26,7 @@
                 <p:inputText style="display: none;" validator="#{agendaSesionController.puedoCrearNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{agendaSesionController.selected != null}">
                     <div class="ui-g-12 ui-md-3">
-                        <p:outputLabel value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
+                        <p:outputLabel id="fechaLabel" value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                     </div>
                     <div class="ui-g-12 ui-md-9">
                         <p:calendar id="fechaHoraInicio" 
@@ -42,7 +42,7 @@
                                     />
                     </div>
                     <div class="ui-g-12 ui-md-3">
-                        <p:outputLabel value="#{bundle.SesionLabel_paciente}" for="paciente" />
+                        <p:outputLabel id="pacienteLabel" value="#{bundle.SesionLabel_paciente}" for="paciente" />
                     </div>
                     <div class="ui-g-10 ui-md-7">
                         <p:autoComplete id="paciente"
@@ -86,7 +86,7 @@
                     <!--FIN CARGA RÁPIDA PACIENTE-->
 
                     <div class="ui-g-12 ui-md-3">
-                        <p:outputLabel value="#{bundle.SesionLabel_tratamiento}" for="tratamientoSeleccion" />
+                        <p:outputLabel id="tratamientoLabel" value="#{bundle.SesionLabel_tratamiento}" for="tratamientoSeleccion" />
                     </div>
                     <div class="ui-g-10 ui-md-7">
                         <p:selectOneMenu id="tratamientoSeleccion" widgetVar="tratamientoSeleccion" value="#{agendaSesionController.selected.tratamiento}">
@@ -117,13 +117,13 @@
                     <!--FIN CARGA RÁPIDA TRATAMIENTO-->
 
                     <!--Botones del dialog-->
-                    <p:commandButton actionListener="#{agendaSesionController.createFromAgenda}"
+                    <p:commandButton id="guardarButton" actionListener="#{agendaSesionController.createFromAgenda}"
                                      value="#{bundle.Save}"
                                      update=":growl"
                                      oncomplete="PF('agenda').update(); handleSubmit(args,'SesionCreateDialog');"
                                      style="float: right; background-color: #66BB6A;"
                                      />
-                    <p:commandButton value="#{bundle.Cancel}" 
+                    <p:commandButton id="cancelarButton" value="#{bundle.Cancel}" 
                                      immediate="true" 
                                      onclick="PF('SesionCreateDialog').hide()"
                                      style="float: right; background-color: #E53935;"

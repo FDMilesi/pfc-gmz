@@ -26,14 +26,14 @@
                         <p:outputLabel value="#{bundle.TratamientoLabel_paciente}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:outputLabel value="#{listSesionController.selected.tratamiento.paciente.toString()}"/>
+                        <p:outputLabel id="pacienteLblEditSesion" value="#{listSesionController.selected.tratamiento.paciente.toString()}"/>
                     </div>
                     <!--tratamiento-->
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:outputLabel value="#{listSesionController.selected.tratamiento.toString()}"/>
+                        <p:outputLabel id="tratamientoLblEditSesion" value="#{listSesionController.selected.tratamiento.toString()}"/>
                     </div>
                     <!--numero de sesion-->
                     <div class="ui-g-12 ui-md-4">
@@ -49,14 +49,14 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <!--<p:selectBooleanCheckbox value="#{listSesionController.selected.transcurrida}"/>-->
-                        <p:outputLabel value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
+                        <p:outputLabel id="transcurridaLblEditSesion" value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_cuenta}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox 
+                        <p:selectBooleanCheckbox id="cuentaLblEditSesion"
                             value="#{listSesionController.selected.cuenta}"
                             validator="#{listSesionController.puedoSetearCuentaTrue}"/>
                     </div>
@@ -66,7 +66,7 @@
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:calendar id="fechaHoraInicio" 
-                                    pattern="dd/MM/yyyy HH:mm" 
+                                    pattern="dd/MM/yyyy HH:mm:ss" 
                                     value="#{listSesionController.selected.fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
@@ -80,13 +80,15 @@
                                     />
                     </div>
                 </h:panelGroup>
-                <p:commandButton actionListener="#{listSesionController.update}" 
+                <p:commandButton id="guardarBtnEditSesion"
+                                 actionListener="#{listSesionController.update}" 
                                  value="#{bundle.Save}" 
                                  update="display,:SesionListForm:datalist,:growl" 
                                  oncomplete="handleSubmit(args, 'SesionEditDialog');"
                                  style="float: right; background-color: #66BB6A;"
                                  />
-                <p:commandButton value="REPETIR SESIÓN" 
+                <p:commandButton id="repetirBtnEditSesion"
+                                 value="REPETIR SESIÓN" 
                                  title="Permite repetir esta sesión en días futuros"
                                  resetValues="true"
                                  update=":CargaMasivaForm" 
@@ -95,7 +97,8 @@
                                  >
                     <f:setPropertyActionListener value="#{listSesionController.selected}" target="#{cargaMasivaController.selected}" />
                 </p:commandButton>
-                <p:commandButton value="#{bundle.Cancel}" 
+                <p:commandButton id="cancelarBtnEditSesion"
+                                 value="#{bundle.Cancel}" 
                                  immediate="true" 
                                  onclick="PF('SesionEditDialog').hide();"
                                  style="float: right; background-color: #E53935;"

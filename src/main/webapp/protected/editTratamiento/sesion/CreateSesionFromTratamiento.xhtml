@@ -23,10 +23,10 @@
                 <p:inputText style="display: none;" validator="#{listSesionController.puedoCrearNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{listSesionController.selected != null}">
                     <div class="ui-g-12">
-                        <p:outputLabel value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
+                        <p:outputLabel id="numeroLblCreateSesion" value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
                     </div>
                     <div class="ui-g-12 ui-md-4">
-                        <p:outputLabel value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
+                        <p:outputLabel id="fechaLabel" value="#{bundle.SesionLabel_fechaHoraInicio}" for="fechaHoraInicio" />
                     </div>
                     <div class="ui-g-12 ui-md-8">
                         <p:calendar id="fechaHoraInicio" 
@@ -52,13 +52,15 @@
                                            itemValue="#{agendaItem}"/>
                         </p:selectOneMenu>
                     </div>
-                    <p:commandButton actionListener="#{listSesionController.create}" 
+                    <p:commandButton id="guardarBtnCreateSesion"
+                                     actionListener="#{listSesionController.create}" 
                                      value="#{bundle.Save}" 
                                      update="display,:SesionListForm:datalist,:growl" 
                                      oncomplete="handleSubmit(args,'SesionCreateDialog');"
                                      style="float: right; background-color: #66BB6A;"
                                      />
-                    <p:commandButton value="#{bundle.Cancel}" 
+                    <p:commandButton id="cancelarBtnCreateSesion"
+                                     value="#{bundle.Cancel}" 
                                      onclick="PF('SesionCreateDialog').hide()" 
                                      immediate="true"
                                      style="float: right; background-color: #E53935;"

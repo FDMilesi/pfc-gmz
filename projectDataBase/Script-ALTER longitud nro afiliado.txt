@@ -1,7 +1,0 @@
-ALTER TABLE paciente
-   ALTER COLUMN nroafiliadoos TYPE character varying(20);
-   
-ALTER TABLE ordenmedica
-   ALTER COLUMN numeroafiliadopaciente TYPE character varying(20);
-   
-   

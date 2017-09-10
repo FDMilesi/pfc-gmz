@@ -26,7 +26,7 @@
                     <!--TIPO-->
                     <!--CONCEPTO-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_concepto}" for="concepto" />
+                        <p:outputLabel id="conceptoLabel" value="#{bundle.MovimientoCajaLabel_concepto}" for="concepto" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:selectOneMenu value="#{cajaController.selected.concepto}" id="concepto">
@@ -41,7 +41,7 @@
 
                     <!--VALOR UNITARIO-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_valorunitario}" for="valorunitario" />
+                        <p:outputLabel id="precioPorUnidadLabel" value="#{bundle.MovimientoCajaLabel_valorunitario}" for="valorunitario" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputNumber id="valorunitario" value="#{cajaController.selected.valorUnitario}">
@@ -67,7 +67,7 @@
 
                     <!--DESCRIPCION-->
                     <div class="ui-g-12 ui-md-5">
-                        <p:outputLabel value="#{bundle.MovimientoCajaLabel_descripcion}" for="descripcion" />
+                        <p:outputLabel id="descripcionLabel" value="#{bundle.MovimientoCajaLabel_descripcion}" for="descripcion" />
                     </div>
                     <div class="ui-g-12 ui-md-7">
                         <p:inputText id="descripcion" value="#{cajaController.selected.descripcion}"/>

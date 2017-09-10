@@ -1,2 +1,0 @@
-ALTER TABLE public.tratamiento
-   ADD COLUMN accidentetrabajo boolean NOT NULL DEFAULT FALSE;

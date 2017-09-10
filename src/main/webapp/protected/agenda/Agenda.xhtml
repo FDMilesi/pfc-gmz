@@ -41,6 +41,18 @@
                                 update=":growl"
                                 oncomplete="PF('agenda').update();"/>
                     </p:schedule>
+                    <div style="display: none;">  <!--  Remove style for automated tests run -->
+                        <p:inputText id="sesionDateHiddenInput" 
+                                     value="#{agendaController.selectedTime}"/>
+                        <p:commandButton id="createSesionFromAgendaHiddenBtn"
+                                         actionListener="#{agendaController.prepareCreateSesionAutomatedTest()}"
+                                         value="#{bundle.Save}"
+                                         update=":SesionCreateForm, :growl, :PacienteCreateCargaRapidaForm"
+                                         oncomplete="PF('SesionCreateDialog').show();"
+                                         style="float: right; background-color: #66BB6A;"
+                                         resetValues="true"
+                                         />
+                        </div>
                 </div>
             </h:form>
             <ui:include src="CreateSesionFromAgenda.xhtml"/>

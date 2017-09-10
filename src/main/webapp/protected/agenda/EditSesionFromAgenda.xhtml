@@ -26,14 +26,14 @@
                         <p:outputLabel value="#{bundle.TratamientoLabel_paciente}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:outputLabel value="#{agendaSesionController.selected.tratamiento.paciente.toString()}"/>
+                        <p:outputLabel id="pacienteLblEditSesion" value="#{agendaSesionController.selected.tratamiento.paciente.toString()}"/>
                     </div>
                     <!--tratamiento-->
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_tratamiento}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:link style="font-size: 12pt"
+                        <p:link id="tratamientoLblEditSesion" style="font-size: 12pt"
                                 value="#{agendaSesionController.selected.tratamiento.toString()}"
                                 includeViewParams="true" 
                                 outcome="/protected/editTratamiento/EditTratamiento.xhtml?faces-redirect=true">
@@ -55,14 +55,14 @@
                     <div class="ui-g-12 ui-md-8">
 <!--                        <p:selectBooleanCheckbox disabled="#{agendaSesionController.selected.transcurrida}"
                                                  value="#{agendaSesionController.selected.transcurrida}"/>-->
-                        <p:outputLabel value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
+                        <p:outputLabel id="transcurridaLblEditSesion" value="#{agendaSesionController.selected.transcurrida?'Si':'No'}"/>
                     </div>
                     <!--cuenta-->
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_cuenta}"/>
                     </div>
                     <div class="ui-g-12 ui-md-8">
-                        <p:selectBooleanCheckbox 
+                        <p:selectBooleanCheckbox id="cuentaCheckBox"
                             value="#{agendaSesionController.selected.cuenta}"
                             validator="#{agendaSesionController.puedoSetearCuentaTrue}"/>
                     </div>
@@ -87,14 +87,14 @@
                     </div>
 
                     <!--guardar-->
-                    <p:commandButton actionListener="#{agendaSesionController.updateFromAgenda}" 
+                    <p:commandButton id="guardarBtnEditSesion" actionListener="#{agendaSesionController.updateFromAgenda}" 
                                      value="#{bundle.Save}" 
                                      update=":growl" 
                                      oncomplete="handleSubmit(args, 'SesionEditDialog'); PF('agenda').update()"
                                      style="float: right; background-color: #66BB6A;"
                                      />
                     <!--carga masica-->
-                    <p:commandButton value="REPETIR SESIÓN" 
+                    <p:commandButton id="repetirBtnEditSesion" value="REPETIR SESIÓN" 
                                      title="Permite repetir esta sesión en días futuros"
                                      resetValues="true"
                                      update=":CargaMasivaForm" 
@@ -104,7 +104,7 @@
                         <f:setPropertyActionListener value="#{agendaSesionController.selected}" target="#{cargaMasivaController.selected}" />
                     </p:commandButton>
                     <!--eliminar-->
-                    <p:commandButton value="#{bundle.Delete}" 
+                    <p:commandButton id="eliminarBtnEditSesion" value="#{bundle.Delete}" 
                                      actionListener="#{agendaSesionController.destroyFromAgenda}" 
                                      oncomplete="PF('SesionEditDialog').hide();PF('agenda').update()"
                                      update=":growl"
