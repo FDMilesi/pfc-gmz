@@ -3,6 +3,7 @@ package ar.edu.utn.frsf.kinesio.controllers;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
+import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
@@ -57,18 +58,47 @@ public abstract class AbstractSesionController implements Serializable {
         return contaba;
     }
 
-    //Métodos de negocio
-    //No se puede reprogramar una sesion a una fecha anterior a la actual.
-    public void validarFecha(FacesContext facesContext, UIComponent componente, Object valor) {
-        if (!valor.equals(selected.getFechaHoraInicio())) {
-            Date fechaModificada = (Date) valor;
-            if (fechaModificada.before(new Date())) {
+    //Validan el form de creación de sesion
+    public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value, Tratamiento tratamiento) {
+        
+        int resultadoValidacion = getFacade().validarCreacionSesion(selected, tratamiento);
+        
+        switch (resultadoValidacion){
+            case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO:
                 ((UIInput) componente).setValid(false);
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditSesion_fechaReprogramadaValidacion"));
-            }
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+                break;
+            case SesionFacade.ERROR_FECHA_SESION_FERIADO:
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorCreacionSesionDiaFeriado"));
+                break;
+            case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_ANIO:
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorTotalSesionesEnElAnio"));
+                break;
+            //Si todo va ok no invalido el componente
+            case 0:;
         }
     }
+    
+    //Es llamado desde las paginas de edit de sesion
+    public void validarEdicionFecha(FacesContext facesContext, UIComponent componente, Object valor) {
+        int resultadoValidacion = getFacade().validarFechaEdicionSesion(selected, (Date) valor);
 
+        switch (resultadoValidacion){
+            case SesionFacade.ERROR_FECHA_SESION_FERIADO:
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorCreacionSesionDiaFeriado"));
+                break;
+            case SesionFacade.ERROR_EDIT_SESION_FECHA_ANTERIOR:
+                ((UIInput) componente).setValid(false);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("ErrorEdicionSesionFechaAnterior"));
+                break;
+            //Si todo va ok no invalido el componente
+            case 0:;
+        }
+    }
+    
     /**
      * Antes de mostrar el dialog de edición de una sesión, guardo la fecha que
      * tenía y guarso el valor del boolean 'cuenta'. Esto me sirve para luego
@@ -90,7 +120,7 @@ public abstract class AbstractSesionController implements Serializable {
     }
 
     public void calcularNumeroSesion() {
-        selected.setNumeroDeSesion(this.getFacade().getSiguienteNumeroDeSesion(selected.getTratamiento()));
+        selected.setNumeroDeSesion(this.getFacade().getNumeroDeSesion(selected.getTratamiento(), selected));
     }
 
     protected void persist(PersistAction persistAction, String successMessage) {
@@ -121,7 +151,7 @@ public abstract class AbstractSesionController implements Serializable {
     }
 
     //seters para testing
-    public void setFacade(SesionFacade sesionFacade) {
+    protected void setFacade(SesionFacade sesionFacade) {
         this.ejbFacade = sesionFacade;
     }
 

@@ -79,7 +79,7 @@ public class AdjuntarEstudiosController implements Serializable {
         if (selected != null) {
             return estudiosFolder + "/" + this.selected.getNombrearchivo();
         } else {
-            return ""; //TODO: poner un placeholder, aunque sean una img blanca
+            return estudiosFolder + "/img_placeholder.png";
         }
     }
 

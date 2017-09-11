@@ -14,8 +14,17 @@ DROP TABLE movimientocaja;
 DROP TABLE caja;
 DROP TABLE concepto;
 DROP TABLE notificacion;
+DROP TABLE diaferiado;
 
 -------- CREACION DE LAS TABLAS ----------
+CREATE TABLE diaferiado
+(
+  id smallserial not null,
+  dia timestamp without time zone,
+  descripcion character varying(30),
+  CONSTRAINT diaferiado_pkey PRIMARY KEY (id)
+);
+
 CREATE TABLE notificacion
 (
   id serial NOT NULL,

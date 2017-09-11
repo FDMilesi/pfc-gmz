@@ -30,6 +30,7 @@ import org.primefaces.model.ScheduleEvent;
     @NamedQuery(name = "Sesion.findById", query = "SELECT s FROM Sesion s WHERE s.idSesion = :id"),
     @NamedQuery(name = "Sesion.findByNumeroDeSesion", query = "SELECT s FROM Sesion s WHERE s.numeroDeSesion = :numeroDeSesion"),
     @NamedQuery(name = "Sesion.findByFechaHoraInicio", query = "SELECT s FROM Sesion s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
+    @NamedQuery(name = "Sesion.countByRangoFechaHoraInicio", query = "SELECT COUNT(s) FROM Sesion s WHERE s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
     @NamedQuery(name = "Sesion.findByTratamiento", query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento ORDER BY s.fechaHoraInicio"),
     @NamedQuery(name = "Sesion.findByTratamientoQueCuentan",
             query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
@@ -42,6 +43,8 @@ import org.primefaces.model.ScheduleEvent;
     @NamedQuery(name = "Sesion.findByAgenda", query = "SELECT s FROM Sesion s WHERE s.agenda = :agenda"),
     @NamedQuery(name = "Sesion.findByTranscurrida", query = "SELECT s FROM Sesion s WHERE s.transcurrida = :transcurrida"),
     @NamedQuery(name = "Sesion.findByCuenta", query = "SELECT s FROM Sesion s WHERE s.cuenta = :cuenta"),
+    @NamedQuery(name = "Sesion.countByPacientePorAnio",
+            query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento.paciente = :paciente and s.cuenta = TRUE and s.tratamiento.particular = false and s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
     @NamedQuery(name = "Sesion.findByRangoFechas", query = "SELECT s, d.nombregooglecontacts FROM Sesion s, DatosDeContacto d WHERE d.paciente = s.tratamiento.paciente AND d.desearecibirwhatsapp = TRUE AND s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta AND s.transcurrida = FALSE AND s.cuenta = TRUE")})
 
 public class Sesion implements Serializable, ScheduleEvent {
@@ -186,6 +189,7 @@ public class Sesion implements Serializable, ScheduleEvent {
     }
 
     @Override
+    @Deprecated
     public void setId(String string) {
     }
 

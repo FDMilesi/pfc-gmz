@@ -109,7 +109,8 @@
                                       icon="ui-icon-announcement" 
                                       title="#{bundle.Consentimiento}"
                                       onclick="#{tratamientoController.prepararConsentimiento(item)}"
-                                      outcome="#{tratamientoController.redirectToConsentimiento()}">
+                                      outcome="#{tratamientoController.redirectToConsentimiento()}"
+                                      disabled="true" >
                                 <f:param name="tratamiento" value="#{item.id}" />
                             </p:button>
                             <!--ELIMINAR-->

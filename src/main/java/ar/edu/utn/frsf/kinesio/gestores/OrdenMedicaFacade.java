@@ -6,7 +6,9 @@ import ar.edu.utn.frsf.kinesio.entities.OrdenMedica;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocial;
 import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.gestores.util.FiltroOrdenMedica;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -54,17 +56,17 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
 
         return orden;
     }
-    
-    private void setearObraSocial(OrdenMedica orden, Tratamiento tratamiento){
+
+    private void setearObraSocial(OrdenMedica orden, Tratamiento tratamiento) {
         if (tratamiento.getAccidentetrabajo()) {
             ObraSocial iaposAccidenteTrabajo = this.obraSocialFacade.getObraSocialIAPOSAccidenteTrabajo();
             orden.setObraSocial(iaposAccidenteTrabajo);
-        }
-        else
+        } else {
             orden.setObraSocial(tratamiento.getPaciente().getObraSocial());
+        }
     }
-    
-    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial){
+
+    public boolean necesitaAutorizacion(TipoDeTratamiento tipoDeTratamiento, ObraSocial obraSocial) {
         TipoTratamientoObraSocial tipoTratamientoObraSocial = this.getTipoTratamientoObraSocialFacade()
                 .find(new TipoTratamientoObraSocialPK(tipoDeTratamiento.getId(), obraSocial.getId()));
 
@@ -124,7 +126,7 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
                     + "WHERE om.obraSocial = :obraSocialExcluida "
                     + "and om.tratamiento.tipoDeTratamiento = :tipoDeTratamientoExcluido) ";
         }
-        
+
         //SETEO LOS PARAMETROS
         Query query = getEntityManager().createQuery(pqlQuery);
 
@@ -147,11 +149,11 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         if (filtro.getObraSocial() != null) {
             query.setParameter("obraSocial", filtro.getObraSocial());
         }
-        
+
         if (filtro.getTipoDeTratamiento() != null) {
             query.setParameter("tipoDeTratamiento", filtro.getTipoDeTratamiento());
         }
-        
+
         if (filtro.getObraSocialExcluida() != null && filtro.getObraSocial() == null) {
             query.setParameter("obraSocialExcluida", filtro.getObraSocialExcluida());
             query.setParameter("tipoDeTratamientoExcluido", filtro.getTipoDeTratamientoExcluido());
@@ -197,6 +199,30 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         }
 
     }
+    
+    /***
+     * Este metodo no se esta siendo invocado por nadie (esta al pedo) <<<----------------------------------------------------
+     * @param paciente
+     * @return 
+     */
+    public int cantidadSesionesEnElAnio(Paciente paciente){
+        Calendar fechaDesde = Calendar.getInstance(); 
+        fechaDesde.set(Calendar.MONTH, 0);
+        fechaDesde.set(Calendar.DAY_OF_MONTH, 1);
+        fechaDesde.set(Calendar.HOUR_OF_DAY, 0);
+        fechaDesde.set(Calendar.MINUTE, 0);
+        fechaDesde.set(Calendar.SECOND, 0);
+        fechaDesde.set(Calendar.MILLISECOND, 0);
+
+        Object obj = getEntityManager()
+                    .createNamedQuery("OrdenMedica.sumaCantidadSesionesEnElAnio")
+                    .setParameter("paciente", paciente)
+                    .setParameter("fechaAnioInicio", fechaDesde.getTime())
+                    .setParameter("fechaAnioFin", new Date())
+                    .getSingleResult();
+        
+        return ((Number)obj).intValue();
+    }
 
     public void marcarOrdenesComoPresentadas(List<OrdenMedica> listaOrdenes) {
         for (OrdenMedica orden : listaOrdenes) {
@@ -205,4 +231,11 @@ public class OrdenMedicaFacade extends AbstractFacade<OrdenMedica> {
         }
     }
 
+    protected void setEm(EntityManager em) {
+        this.em = em;
+    }
+    
+    protected void setObraSocialFacade(ObraSocialFacade obraSocialFacade){
+        this.obraSocialFacade = obraSocialFacade;
+    }
 }

@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +50,7 @@ public class ListSesionController extends AbstractSesionController implements Se
     public void setItems(List<Sesion> items) {
         this.items = items;
     }
-    
+
     public Tratamiento getTratamientoEnEdicion() {
         return tratamientoEnEdicion;
     }
@@ -69,20 +70,28 @@ public class ListSesionController extends AbstractSesionController implements Se
      */
     public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
         boolean cuenta = (boolean) checkBoxValue;
+        
         //Si ahora cuenta y antes no contaba
         if (cuenta && !getContaba()) {
-            if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
-                ((UISelectBoolean) componente).setValid(false);
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+            int resultadoValidacion = getFacade().validarSesionCuentaTrue(selected, tratamientoEnEdicion);
+
+            switch (resultadoValidacion) {
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+                    break;
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_ANIO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorTotalSesionesEnElAnio"));
+                    break;
+                //Si todo va ok no invalido el componente
+                case 0:;
             }
         }
     }
 
-    public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (!getFacade().puedoAgregarSesion(this.getTratamientoEnEdicion())) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
-        }
+    public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
+        this.validarCreacionNuevaSesion(facesContext, componente, value, this.getTratamientoEnEdicion());
     }
 
     //Comunicación entre controllers e inicializaciones de selected

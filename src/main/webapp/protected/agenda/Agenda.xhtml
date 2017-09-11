@@ -84,6 +84,15 @@
 
                 mediaMatchMDListener(mediaMatchMD);
                 mediaMatchMD.addListener(mediaMatchMDListener);
+                
+                //No usada. No funciona ok
+                function scheduleExtender(){
+                    var fullCal = $('#AgendaForm\\:schedule_container');
+                    fullCal.fullCalendar({
+                        dayRender: function (date, cell) { cell.css("background-color", "green"); }
+                    });
+                }
+                
             </script>
         </ui:define>
     </ui:composition>

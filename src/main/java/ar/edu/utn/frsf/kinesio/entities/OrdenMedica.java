@@ -37,7 +37,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "OrdenMedica.findByAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE"),
     @NamedQuery(name = "OrdenMedica.findByNoAutorizadas", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE"),
     @NamedQuery(name = "OrdenMedica.findByAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = TRUE and o.presentadaAlCirculo = :presentada"),
-    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE and o.presentadaAlCirculo = :presentada")})
+    @NamedQuery(name = "OrdenMedica.findByNoAutorizadasyPresentacion", query = "SELECT o FROM OrdenMedica o WHERE o.autorizada = FALSE and o.presentadaAlCirculo = :presentada"),
+    @NamedQuery(name = "OrdenMedica.sumaCantidadSesionesEnElAnio", query = "SELECT coalesce(SUM(o.cantidadDeSesiones), 0) FROM OrdenMedica o WHERE o.tratamiento.paciente = :paciente AND o.fechaCreacion BETWEEN :fechaAnioInicio AND :fechaAnioFin")})
+
+//https://stackoverflow.com/questions/10295347/jpa-typedquery-sometimes-returns-null-instead-of-noresultexception
 public class OrdenMedica implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -70,17 +73,19 @@ public class OrdenMedica implements Serializable {
     private String numeroAfiliadoPaciente;
 
     @JoinColumn(name = "obrasocialid", referencedColumnName = "id")
+    @NotNull
     @ManyToOne(optional = false)
     private ObraSocial obraSocial;
 
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
+    @NotNull
     @ManyToOne(optional = false)
     private Tratamiento tratamiento;
-    
+
     @Column(name = "fechaautorizacion")
     @Temporal(TemporalType.DATE)
     private Date fechaAutorizacion;
-    
+
     @Column(name = "autorizada")
     private Boolean autorizada;
 
@@ -160,7 +165,7 @@ public class OrdenMedica implements Serializable {
     public void setTratamiento(Tratamiento tratamiento) {
         this.tratamiento = tratamiento;
     }
-    
+
     public Date getFechaAutorizacion() {
         return fechaAutorizacion;
     }
@@ -168,7 +173,7 @@ public class OrdenMedica implements Serializable {
     public void setFechaAutorizacion(Date fechaAutorizacion) {
         this.fechaAutorizacion = fechaAutorizacion;
     }
-    
+
     public Boolean getAutorizada() {
         return autorizada;
     }

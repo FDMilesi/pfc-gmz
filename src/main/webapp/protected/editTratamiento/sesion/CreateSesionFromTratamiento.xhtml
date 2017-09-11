@@ -20,7 +20,7 @@
                   draggable="false"
                   >
             <h:form id="SesionCreateForm">
-                <p:inputText style="display: none;" validator="#{listSesionController.puedoCrearNuevaSesion}"/>
+                <p:inputText style="display: none;" validator="#{listSesionController.validarCreacionNuevaSesion}"/>
                 <h:panelGroup id="display" rendered="#{listSesionController.selected != null}">
                     <div class="ui-g-12">
                         <p:outputLabel id="numeroLblCreateSesion" value="#{bundle.SesionLabel_numeroDeSesion} #{listSesionController.selected.numeroDeSesion}" />
@@ -32,7 +32,6 @@
                         <p:calendar id="fechaHoraInicio" 
                                     pattern="dd/MM/yyyy HH:mm" 
                                     value="#{listSesionController.selected.fechaHoraInicio}" 
-                                    title="#{bundle.EditSesionTitle_fechaHoraInicio}" 
                                     showOn="button" 
                                     showButtonPanel="true"
                                     locale="es"
@@ -40,7 +39,9 @@
                                     timeZone="GMT-3"
                                     minHour="8"
                                     maxHour="21"
-                                    />
+                                    >
+                            <p:ajax event="dateSelect" listener="#{listSesionController.calcularNumeroSesion()}" update="numeroLblCreateSesion" />
+                        </p:calendar>
                     </div>
                     <div class="ui-g-12 ui-md-4">
                         <p:outputLabel value="#{bundle.SesionLabel_agenda}" for="agenda" />

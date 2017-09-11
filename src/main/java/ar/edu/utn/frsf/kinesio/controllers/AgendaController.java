@@ -4,12 +4,12 @@ import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,6 +36,9 @@ public class AgendaController implements Serializable {
 
     @EJB
     AgendaFacade ejbFacade;
+    @EJB
+    SesionFacade sesionFacade;
+
     List<Agenda> items;
     Agenda selected;
 
@@ -46,22 +49,26 @@ public class AgendaController implements Serializable {
     Event<VerSesionEvento> verSesionEvento;
     @Inject
     Event<ModificarSesionEvento> modificarSesionEvento;
-    
+
     private String horaActual;
     private String selectedTime;
 
     @PostConstruct
-    public void init(){
+    public void init() {
         int horaActualInt = LocalDateTime.now().getHour();
         horaActual = horaActualInt + ":00:00";
     }
-    
+
     public AgendaController() {
     }
 
     //Getters y Setters
     private AgendaFacade getFacade() {
         return ejbFacade;
+    }
+
+    protected void setSesionFacade(SesionFacade sesionFacade) {
+        this.sesionFacade = sesionFacade;
     }
 
     public List<Agenda> getItemsAvailableSelectOne() {
@@ -87,7 +94,7 @@ public class AgendaController implements Serializable {
     }
 
     //Métodos de negocio
-    public String getHoraActual(){        
+    public String getHoraActual() {
         return this.horaActual;
     }
 
@@ -111,24 +118,37 @@ public class AgendaController implements Serializable {
     public void moverSesion(ScheduleEntryMoveEvent event) {
         String scheduleEventId = event.getScheduleEvent().getId();
         Sesion sesion = (Sesion) getSelected().getEvent(scheduleEventId);
-        //si quiero mover una sesión a una fecha anterior a la actual
-        if (event.getScheduleEvent().getStartDate().before(new Date())) {
-            //deshago los cambios del move y aviso al usuario
-            //vuelvo a setear fechaYHoraInicio, generando que tambien se resetee startDate
-            sesion.setFechaHoraInicio(sesion.getFechaHoraInicio());
-            sesion.setEndDate(null);//fuerzo a recalcular endDate
-            getSelected().updateEvent(sesion);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorAlMoverFecha"));
-        } else {//sino, le comunico al sesionController para q guarde los cambios de fecha
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesionUpdate", sesion);
-            modificarSesionEvento.fire(new ModificarSesionEvento(event.getScheduleEvent().getStartDate()));
+
+        int resultadoValidacion = sesionFacade.validarFechaEdicionSesion(sesion, event.getScheduleEvent().getStartDate());
+
+        switch (resultadoValidacion) {
+            case SesionFacade.ERROR_EDIT_SESION_FECHA_ANTERIOR:
+                //deshago los cambios del move y aviso al usuario
+                //vuelvo a setear fechaYHoraInicio, generando que tambien se resetee startDate
+                sesion.setFechaHoraInicio(sesion.getFechaHoraInicio());
+                sesion.setEndDate(null);//fuerzo a recalcular endDate
+                getSelected().updateEvent(sesion);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorMoverSesionFechaAnterior"));
+                break;
+            case SesionFacade.ERROR_FECHA_SESION_FERIADO:
+                //deshago los cambios del move y aviso al usuario
+                sesion.setFechaHoraInicio(sesion.getFechaHoraInicio());
+                sesion.setEndDate(null);//fuerzo a recalcular endDate
+                getSelected().updateEvent(sesion);
+                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorCreacionSesionDiaFeriado"));
+                break;
+            case 0:
+                //si todo esta OK, le comunico al sesionController para q guarde los cambios de fecha
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesionUpdate", sesion);
+                modificarSesionEvento.fire(new ModificarSesionEvento(event.getScheduleEvent().getStartDate()));
+                break;
         }
     }
 
     public void prepareCreateSesion(SelectEvent selectEvent) {
         Date date = (Date) selectEvent.getObject();
         if (date.before(new Date())) {
-            JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("WarningSesionEnFechaAnterior"));
+            JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("WarningCreacionSesionEnFechaAnterior"));
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", selected);
         sesionInicializadaEvento.fire(new SesionInicializadaEvento(date));
@@ -150,17 +170,17 @@ public class AgendaController implements Serializable {
         }
     }
 
-    public void agregarSesion(@Observes SesionController.SesionCreadaEvento evento) {
+    public void agregarSesion(@Observes AgendaSesionController.SesionCreadaEvento evento) {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         getSelected().addEvent(sesion);
     }
 
-    public void modificarSesion(@Observes SesionController.SesionModificadaEvento evento) {
+    public void modificarSesion(@Observes AgendaSesionController.SesionModificadaEvento evento) {
         Sesion sesion = (Sesion) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("sesion");
         getSelected().updateEvent(sesion);
     }
 
-    public void eliminarSesion(@Observes SesionController.SesionEliminadaEvento evento) {
+    public void eliminarSesion(@Observes AgendaSesionController.SesionEliminadaEvento evento) {
         getSelected().deleteEvent(getSelected().getEvent(evento.getIdSesionEliminada()));
     }
 

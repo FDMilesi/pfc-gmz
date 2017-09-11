@@ -4,6 +4,7 @@ import ar.edu.utn.frsf.kinesio.entities.Sesion;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
+import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -19,7 +20,7 @@ import javax.inject.Inject;
 
 @Named("agendaSesionController")
 @ViewScoped
-public class SesionController extends AbstractSesionController implements Serializable {
+public class AgendaSesionController extends AbstractSesionController implements Serializable {
 
     /* Eventos para comunicar controladores */
     @Inject
@@ -29,7 +30,7 @@ public class SesionController extends AbstractSesionController implements Serial
     @Inject
     Event<SesionEliminadaEvento> sesionEliminadaEvento;
 
-    public SesionController() {
+    public AgendaSesionController() {
     }
 
     //Métodos de negocio
@@ -44,20 +45,31 @@ public class SesionController extends AbstractSesionController implements Serial
      */
     public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
         boolean cuenta = (boolean) checkBoxValue;
+        
         //Si ahora cuenta y antes no contaba
         if (cuenta && !getContaba()) {
-            if (!getFacade().puedoAgregarSesion(selected.getTratamiento())) {
-                ((UISelectBoolean) componente).setValid(false);
-                JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+            int resultadoValidacion = getFacade().validarSesionCuentaTrue(selected, selected.getTratamiento());
+
+            switch (resultadoValidacion) {
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_TRATAMIENTO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
+                    break;
+                case SesionFacade.ERROR_EXCEDE_TOPE_SESIONES_ANIO:
+                    ((UIInput) componente).setValid(false);
+                    JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("ErrorTotalSesionesEnElAnio"));
+                    break;
+                //Si todo va ok no invalido el componente
+                case 0:;
             }
         }
     }
 
-    public void puedoCrearNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
-        if (selected.getTratamiento() != null && !getFacade().puedoAgregarSesion(selected.getTratamiento())) {
-            ((UIInput) componente).setValid(false);
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("Bundle").getString("EditSesion_validacionTopeDeSesiones"));
-        }
+    public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
+        //Valido sólo si se selecciono un tratamiento para la sesion
+        //La validacion de tratamiento required se hace en el campo tratamiento
+        if (selected.getTratamiento() != null)
+            this.validarCreacionNuevaSesion(facesContext, componente, value, selected.getTratamiento());
     }
 
     public void editSesion(@Observes AgendaController.VerSesionEvento evento) {

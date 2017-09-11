@@ -20,21 +20,43 @@
 
                 <div class="ui-g-12 ui-md-7">
                     <div class="card shadowEffect">
-                        <p:chart type="line" model="#{estadisticasController.animatedModel1}" style="height:300px;" responsive="true"/>
+                        <p:chart type="line" 
+                                 model="#{estadisticasController.animatedModel1}" 
+                                 style="height:300px;" 
+                                 responsive="true"
+                                 widgetVar="graficoOSPorMes" />
                     </div>
                 </div>
                 <div class="ui-g-12 ui-md-5">
                     <div class="card shadowEffect">
-                        <p:chart type="pie" model="#{estadisticasController.pieModel}" style="width:400px;height:300px" responsive="true"/>
+                        <p:chart type="pie" 
+                                 model="#{estadisticasController.pieModel}" 
+                                 style="width:400px;height:300px" 
+                                 responsive="true"
+                                 widgetVar="graficoOSMasImportantes"/>
                     </div>
                 </div>
                 <div class="ui-g-12 ui-md-12">
                     <div class="card shadowEffect">
-                        <p:chart type="bar" model="#{estadisticasController.barModel}" style="height:300px;" responsive="true"/>
+                        <p:chart type="bar" 
+                                 model="#{estadisticasController.barModel}" 
+                                 style="height:300px;" 
+                                 responsive="true"
+                                 widgetVar="graficoPacientesPorMes"/>
                     </div>
                 </div>
             </h:form>
 
+            <script>
+                window.onload = function () {
+                    //Reseteo la escala de los ejes "y" de los graficos de lineas y barras
+                    //Se utiliza el nombre del widgetVar
+                    PrimeFaces.widgets.graficoPacientesPorMes.plot.axes.yaxis.resetScale();
+                    PrimeFaces.widgets.graficoPacientesPorMes.plot.replot();
+                    PrimeFaces.widgets.graficoOSPorMes.plot.axes.yaxis.resetScale();
+                    PrimeFaces.widgets.graficoOSPorMes.plot.replot();
+                };
+            </script>
         </ui:define>
     </ui:composition>
 </html>
