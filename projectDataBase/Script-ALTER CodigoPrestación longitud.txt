@@ -1,2 +1,0 @@
-ALTER TABLE public.tipotratamientoobrasocial
-   ALTER COLUMN codigodeprestacion TYPE character varying(30);

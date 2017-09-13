@@ -7,10 +7,14 @@ import ar.edu.utn.frsf.kinesio.gestores.AgendaFacade;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.event.Event;
@@ -47,6 +51,7 @@ public class AgendaController implements Serializable {
     Event<ModificarSesionEvento> modificarSesionEvento;
 
     private String horaActual;
+    private String selectedTime;
 
     @PostConstruct
     public void init() {
@@ -93,6 +98,14 @@ public class AgendaController implements Serializable {
         return this.horaActual;
     }
 
+    public String getSelectedTime() {
+        return selectedTime;
+    }
+
+    public void setSelectedTime(String selectedTime) {
+        this.selectedTime = selectedTime;
+    }
+    
     public void mostrarSesion(SelectEvent selectEvent) {
         //En este caso el scheduleEvent que devuelve la vista no contiene toda la info necesaria. Por eso es necesario 
         //buscarlo nuevamente en la lista de sesiones con el getEvent()
@@ -139,6 +152,22 @@ public class AgendaController implements Serializable {
         }
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", selected);
         sesionInicializadaEvento.fire(new SesionInicializadaEvento(date));
+    }
+    
+    public void prepareCreateSesionAutomatedTest() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        if(selectedTime!=null){
+            try {
+                Date selectedTimeDate = sdf.parse(selectedTime);
+                if (selectedTimeDate.before(new Date())) {
+                    JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("WarningSesionEnFechaAnterior"));
+                }
+                FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("agenda", selected);
+                sesionInicializadaEvento.fire(new SesionInicializadaEvento(selectedTimeDate));
+            } catch (ParseException ex) {
+                Logger.getLogger(AgendaController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void agregarSesion(@Observes AgendaSesionController.SesionCreadaEvento evento) {

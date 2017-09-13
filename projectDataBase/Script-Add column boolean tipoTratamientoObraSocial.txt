@@ -1,2 +1,0 @@
-ALTER TABLE public.tipotratamientoobrasocial
-  ADD COLUMN requiereautorizacion boolean NOT NULL DEFAULT TRUE;
