@@ -38,32 +38,28 @@
     <!-- Páginas de error -->
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
-        <location>/errorPages/Error404.xhtml</location>
+        <location>/faces/errorPages/OtrosErrores.xhtml</location>
     </error-page>
     <error-page>
         <error-code>404</error-code>
-        <location>/errorPages/Error404.xhtml</location>
+        <location>/faces/errorPages/Error404.xhtml</location>
     </error-page>
     <error-page>
         <error-code>400</error-code>
-        <location>/errorPages/Error404.xhtml</location>
+        <location>/faces/errorPages/OtrosErrores.xhtml</location>
     </error-page>
     <error-page>
         <error-code>401</error-code>
-        <location>/errorPages/Error404.xhtml</location>
-    </error-page>
-    <error-page>
-        <error-code>401</error-code>
-        <location>/errorPages/Error404.xhtml</location>
+        <location>/faces/errorPages/OtrosErrores.xhtml</location>
     </error-page>
     <error-page>
         <error-code>500</error-code>
-        <location>/errorPages/Error404.xhtml</location>
+        <location>/faces/errorPages/OtrosErrores.xhtml</location>
     </error-page>
     <!-- Seguridad -->
     <error-page>
         <error-code>403</error-code>
-        <location>/errorPages/Error403.xhtml</location>
+        <location>/faces/errorPages/Error403.xhtml</location>
     </error-page>
     <security-constraint>
         <display-name>Acceso general</display-name>
