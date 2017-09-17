@@ -2658,6 +2658,18 @@ hr.ui-widget-header {
     background-image: url("#{resource['primefaces-omega:images/ui-icons_ffffff_256x240.png']}");
 }
 
+.ui-growl-image-info{
+    background: url("#{resource['primefaces-omega2:images/ic_info_outline_white_36px.svg']}") no-repeat !important;
+}
+
+.ui-growl-image-warn{
+    background: url("#{resource['primefaces-omega2:images/ic_warning_white_36px.svg']}") no-repeat !important;
+}
+
+.ui-growl-image-error{
+    background: url("#{resource['primefaces-omega2:images/ic_highlight_off_white_36px.svg']}") no-repeat !important;
+}
+
 /* Shadow */
 .ui-shadow {
     -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.3) !important; 
