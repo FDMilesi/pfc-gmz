@@ -76,6 +76,9 @@
                                          ? bundle.TratamientoEstado_finalizado
                                          : bundle.TratamientoEstado_enCurso}"/>
                         </p:column>
+                        <p:column headerText="#{bundle.TratamientoTitle_sesionesAFavor}">
+                            <h:outputText value="#{(not item.sesionesAFavorUsadas)? item.sesionesAFavor : '0'}"/>
+                        </p:column>
 <!--                        <p:column headerText="#{bundle.TratamientoTitle_ordenes}">
                             <h:outputText value="-"/>
                         </p:column>                    -->
@@ -88,13 +91,13 @@
                         <!--OPCIONES-->
                         <p:column headerText="Opciones" style="float: none;" styleClass="ui-md-3">
                             <!--VER-->
-<!--                            <p:commandButton id="viewButton"   
-                                             icon="ui-icon-search" 
-                                             title="#{bundle.View}" 
-                                             update=":TratamientoViewForm" 
-                                             oncomplete="PF('TratamientoViewDialog').show()">
-                                <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
-                            </p:commandButton>-->
+                            <!--                            <p:commandButton id="viewButton"   
+                                                                         icon="ui-icon-search" 
+                                                                         title="#{bundle.View}" 
+                                                                         update=":TratamientoViewForm" 
+                                                                         oncomplete="PF('TratamientoViewDialog').show()">
+                                                            <f:setPropertyActionListener value="#{item}" target="#{tratamientoController.selected}" />
+                                                        </p:commandButton>-->
                             <!--MODIFICAR-->
                             <p:button id="editButton" 
                                       includeViewParams="true" 

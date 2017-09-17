@@ -6,6 +6,7 @@ import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,16 +26,22 @@ public class EditTratamientoController implements Serializable {
     @EJB
     private TratamientoFacade ejbFacade;
     private Tratamiento selected;
-
+    private List<Tratamiento> tratamientosConSesionesAFavor;
+    
     @PostConstruct
     protected void init() {
         selected = (Tratamiento) JsfUtil.getObjectFromRequestParameter(
                 "tratamiento",
                 FacesContext.getCurrentInstance().getApplication().createConverter(Tratamiento.class),
                 null);
-        //En caso que el paciente no tenga seteada la obra social y esté editando
-        //un tratamiento no particular, emito un mensaje acerca de la creación de ordenes medicas.
+        
         if (selected != null) {
+            //Cargo los tratamientos que tienen sesiones a favor
+            tratamientosConSesionesAFavor = getFacade().getTratamientosConSesionesAFavor(selected);
+
+            //En caso que el paciente no tenga seteada la obra social y esté editando
+            //un tratamiento no particular, emito un mensaje acerca de la creación de ordenes medicas.
+        
             if (selected.getPaciente().getObraSocial() == null && !selected.getParticular()) {
                 JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("EditTratamiento_obraSocialNoSeteada"));
             }
@@ -51,6 +58,14 @@ public class EditTratamientoController implements Serializable {
 
     public void setSelected(Tratamiento selected) {
         this.selected = selected;
+    }
+
+    public List<Tratamiento> getTratamientosConSesionesAFavor() {
+        return tratamientosConSesionesAFavor;
+    }
+
+    public void setTratamientosConSesionesAFavor(List<Tratamiento> tratamientosConSesionesAFavor) {
+        this.tratamientosConSesionesAFavor = tratamientosConSesionesAFavor;
     }
 
     private TratamientoFacade getFacade() {
@@ -83,7 +98,7 @@ public class EditTratamientoController implements Serializable {
                 ((UIInput) componente).setValid(false);
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_EstanTodasLasOrdenesAutorizadasValidacion"));
             }
-            if (!getFacade().esValidaCantidadSesionesCubiertas(selected)) {
+            if (!getFacade().esValidaCantidadSesionesCubiertasAlFinalizar(selected)) {
                 ((UIInput) componente).setValid(false);
                 JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("EditTratamiento_CantidadDeSesionesCubiertasValidacion"));
             }
@@ -93,7 +108,7 @@ public class EditTratamientoController implements Serializable {
             }
         }
     }
-
+    
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoUpdated"));
     }

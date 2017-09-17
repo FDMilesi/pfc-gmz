@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Tratamiento.countByPaciente", query = "SELECT count(t) FROM Tratamiento t WHERE t.paciente = :paciente"),
     @NamedQuery(name = "Tratamiento.findByPacienteEnCurso",
             query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = FALSE"),
+    @NamedQuery(name = "Tratamiento.tratmientosConSesionesAFavor",
+            query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente and t.finalizado = TRUE and t.sesionesAFavor > 0 and t.tipoDeTratamiento = :tipoDeTratamiento and t.sesionesAFavorUsadas = FALSE"),
     @NamedQuery(name = "Tratamiento.findByPaciente", query = "SELECT t FROM Tratamiento t WHERE t.paciente = :paciente"),
     @NamedQuery(name = "Tratamiento.findByEnCursoAndNoParticular", query = "SELECT t FROM Tratamiento t WHERE t.finalizado = FALSE and t.particular = FALSE")})
 public class Tratamiento implements Serializable {
@@ -271,6 +273,10 @@ public class Tratamiento implements Serializable {
         estudioList.add(e);
     }
 
+    public String toStringSesionesAFavor(){
+        return "(" + this.sesionesAFavor.toString() + ") " + this.toString();
+    }
+    
     @Override
     public int hashCode() {
         int hash = 0;
