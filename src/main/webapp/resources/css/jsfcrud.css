@@ -89,6 +89,15 @@ body{
     .ui-datatable .ui-datatable-header .ui-button .ui-button-text{
         display: none !important;
     }
+    
+    /*Para que se vea bien el file uploader en el celu*/
+    .ui-fileupload-content .ui-progressbar{
+        width: 0 !important;
+        height: 0 !important;
+    }
+    .ui-fileupload-files td{
+        padding: 2px !important;
+    }
 }
 
 /*Se centran verticalmente el icono material de los botones con iconos y texto en los headers de las tablas*/

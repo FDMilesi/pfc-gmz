@@ -41,7 +41,6 @@ public class EditTratamientoController implements Serializable {
 
             //En caso que el paciente no tenga seteada la obra social y esté editando
             //un tratamiento no particular, emito un mensaje acerca de la creación de ordenes medicas.
-        
             if (selected.getPaciente().getObraSocial() == null && !selected.getParticular()) {
                 JsfUtil.addWarningMessage(ResourceBundle.getBundle("Bundle").getString("EditTratamiento_obraSocialNoSeteada"));
             }
@@ -146,5 +145,9 @@ public class EditTratamientoController implements Serializable {
             }
         }
     }
-
+    
+    //seters para testing
+    public void setFacade(TratamientoFacade tratamientoFacade) {
+        this.ejbFacade = tratamientoFacade;
+    }
 }

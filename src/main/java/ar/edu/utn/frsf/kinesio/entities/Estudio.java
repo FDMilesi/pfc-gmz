@@ -24,19 +24,19 @@ import javax.validation.constraints.Size;
 public class Estudio implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 125)
     @Column(name = "nombrearchivo")
     private String nombrearchivo;
-    
+
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Tratamiento tratamiento;
@@ -99,7 +99,11 @@ public class Estudio implements Serializable {
 
     @Override
     public String toString() {
-        return getNombrearchivo();
+        if (getNombrearchivo().length() > 25) {
+            return getNombrearchivo().substring(0, 24);
+        } else {
+            return getNombrearchivo();
+        }
     }
 
 }
