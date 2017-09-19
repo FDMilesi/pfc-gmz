@@ -8,7 +8,7 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ListOrdenTitle}"></h:outputText>
+            <h:outputText value="CONSENTIMIENTO INFORMADO"></h:outputText>
         </ui:define>
 
         <ui:define name="body">
@@ -133,6 +133,9 @@
                 </h:form>
 
                 <h:form id="printExit" class="hiddenIfNotPrint showedOnPrint">
+                    <br/>
+                    <br/>
+                    <br/>
                     <p:outputLabel value="#{bundle.ConsentimientoInformado_apellidoYNombre}" class="labelOnPrint"/>
                     <p:outputLabel id="nombreApellidoLabel" value="#{consentimientoInformadoController.nombreApellido}" />
                     <br/>
