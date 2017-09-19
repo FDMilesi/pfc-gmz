@@ -12,195 +12,212 @@
         </ui:define>
 
         <ui:define name="body">
-            <h:form id="printInput" class="hiddenOnPrint">
-                <div class="card shadowEffect">
+            <div class="card shadowEffect">
+                <h:form>
                     <p:breadCrumb >
                         <p:menuitem value="Home" url="/faces/protected/agenda/Agenda.xhtml" />
                         <p:menuitem value="Pacientes" url="../paciente/List.xhtml"  />
                         <p:menuitem value="Tratamientos de #{consentimientoInformadoController.tratamiento.paciente.nombre}" disabled="true"/>
                     </p:breadCrumb>
-                </div>
-   
-                <div style="padding: 5px 0">#{bundle.ConsentimientoInformado_Title}               
-                        <p:commandButton value="Preparar Impresión" update=":printExit" />
-                        <p:commandButton value="Imprimir..." type="button" icon="ui-icon-print" >
+                </h:form>
+            </div>
+
+            <div class="card shadowEffect">
+                <h:form id="printInput" class="hiddenOnPrint">
+                    <div style="padding: 15px 0;font-family: 'roboto_condensedbold'; font-size: 20px">#{bundle.ConsentimientoInformado_Title}               
+                        <p:commandButton value="Preparar Impresión" update=":printExit" style="float: right"/>
+                        <p:commandButton value="Imprimir..." type="button" icon="ui-icon-print" style="float: right">
                             <p:printer target="printExit" />
                         </p:commandButton>
-                </div>
-                
-                <p:panelGrid columns="2">
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_apellidoYNombre}"/>
-                    <p:inputText id="nombreAppellidoInput" value="#{consentimientoInformadoController.nombreApellido}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_domicilio}" />
-                    <p:inputText id="domicilioInput" value="#{consentimientoInformadoController.domicilio}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_localidad}" />
-                    <p:inputText id="localidadInput" value="#{consentimientoInformadoController.localidad}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_fechaDeNacimiento}" />
-                    <p:inputText id="fechaNacimientoInput" value="#{consentimientoInformadoController.fechaNacimiento}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_lugar}" />
-                    <p:inputText id="estadoCivilInput" value="#{consentimientoInformadoController.estadoCivil}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_tipoDoc}" />
-                    <p:inputText id="tipoDocumentoInput" value="#{consentimientoInformadoController.tipoDocumento}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_numeroDoc}" />
-                    <p:inputText id="numeroDocumentoInput" value="#{consentimientoInformadoController.numeroDocumento}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_profesionalDerivante}" />
-                    <p:inputText id="profesionalDerivanteInput" value="#{consentimientoInformadoController.profesionalDerivante}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_matriculaProfesional}" />
-                    <p:inputText id="numeroMatriculaProfesionalInput" value="#{consentimientoInformadoController.numeroMatriculaProfesional}" /> 
-                    
-                    <p:outputLabel style="width: 50%;" value="Fecha de la Orden Médica:" />
-                    <p:inputText id="fechaOrdenMedicaInput" value="#{consentimientoInformadoController.fechaOrdenMedica}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_obraSocial}" />
-                    <p:inputText id="obraSocialInput" value="#{consentimientoInformadoController.obraSocial}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="Fecha de Autorización:" />
-                    <p:inputText id="fechaAutorizacionInput" value="#{consentimientoInformadoController.fechaAutorizacion}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_cobertura}" />
-                    <p:inputText id="coberturaInput" value="#{consentimientoInformadoController.cobertura}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_diagnostico}" />
-                    <p:inputText id="diagnosticoIngresoInput" value="#{consentimientoInformadoController.diagnosticoIngreso}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_contraindicaciones}" />
-                    <p:inputText id="contraindicacionesInput" value="#{consentimientoInformadoController.contraindicaciones}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="Antecedentes Personales:" />
-                    <p:inputTextarea id="antecedentesPersonalesInput" value="#{consentimientoInformadoController.antecedentesPersonales}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="Determinación de Agentes a Aplicar (Art. 14 Ley 10.392):" />
-                    <p:inputTextarea id="agentesAplicarInput" value="#{consentimientoInformadoController.agentesAplicar}" />
-                    
-                    <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_cantidadSesiones}" />
-                    <p:inputText id="cantidadSesionesPrevistasInput" value="#{consentimientoInformadoController.cantidadSesionesPrevistas}" />
-                    
-                </p:panelGrid>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_consentimiento}" />
-                
-                <p:panelGrid columns="2">    
-                    <p:outputLabel value="#{bundle.ConsentimientoInformado_evaluacionEgreso}" />
-                    <p:inputTextarea id="evaluacionAlEgresoInput" value="#{consentimientoInformadoController.evaluacionAlEgreso}" />
-                    
-                    <p:outputLabel value="Alta Provisoria:" />
-                    <p:selectOneButton id="altaProvisoriaSelect" value="#{consentimientoInformadoController.altaProvisoria}">
-                        <f:selectItem itemLabel="Si" itemValue="true" />
-                        <f:selectItem itemLabel="No" itemValue="false" />
-                    </p:selectOneButton>
-                    
-                    <p:outputLabel value="Fecha Alta Provisoria:" />
-                    <p:calendar id="fechaAltaProvisoriaInput" 
+                    </div>
+                    <div style="margin-top: 30px">
+                        
+                        <p:panelGrid columns="2"
+                                     columnClasses="headerReport,headerReport">
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_apellidoYNombre}"/>
+                            <p:inputText id="nombreAppellidoInput" value="#{consentimientoInformadoController.nombreApellido}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_domicilio}" />
+                            <p:inputText id="domicilioInput" value="#{consentimientoInformadoController.domicilio}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_localidad}" />
+                            <p:inputText id="localidadInput" value="#{consentimientoInformadoController.localidad}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_fechaDeNacimiento}" />
+                            <p:inputText id="fechaNacimientoInput" value="#{consentimientoInformadoController.fechaNacimiento}">
+                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                            </p:inputText>
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_lugar}" />
+                            <p:inputText id="estadoCivilInput" value="#{consentimientoInformadoController.estadoCivil}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_tipoDoc}" />
+                            <p:inputText id="tipoDocumentoInput" value="#{consentimientoInformadoController.tipoDocumento}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_numeroDoc}" />
+                            <p:inputText id="numeroDocumentoInput" value="#{consentimientoInformadoController.numeroDocumento}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_profesionalDerivante}" />
+                            <p:inputText id="profesionalDerivanteInput" value="#{consentimientoInformadoController.profesionalDerivante}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_matriculaProfesional}" />
+                            <p:inputText id="numeroMatriculaProfesionalInput" value="#{consentimientoInformadoController.numeroMatriculaProfesional}" /> 
+
+                            <p:outputLabel style="width: 50%;" value="Fecha de la Orden Médica:" />
+                            <p:inputText id="fechaOrdenMedicaInput" value="#{consentimientoInformadoController.fechaOrdenMedica}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_obraSocial}" />
+                            <p:inputText id="obraSocialInput" value="#{consentimientoInformadoController.obraSocial}" />
+
+                            <p:outputLabel style="width: 50%;" value="Fecha de Autorización:" />
+                            <p:inputText id="fechaAutorizacionInput" value="#{consentimientoInformadoController.fechaAutorizacion}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_cobertura}" />
+                            <p:inputText id="coberturaInput" value="#{consentimientoInformadoController.cobertura}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_diagnostico}" />
+                            <p:inputText id="diagnosticoIngresoInput" value="#{consentimientoInformadoController.diagnosticoIngreso}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_contraindicaciones}" />
+                            <p:inputText id="contraindicacionesInput" value="#{consentimientoInformadoController.contraindicaciones}" />
+
+                            <p:outputLabel style="width: 50%;" value="Antecedentes Personales:" />
+                            <p:inputTextarea id="antecedentesPersonalesInput" value="#{consentimientoInformadoController.antecedentesPersonales}" />
+
+                            <p:outputLabel style="width: 50%;" value="Determinación de Agentes a Aplicar (Art. 14 Ley 10.392):" />
+                            <p:inputTextarea id="agentesAplicarInput" value="#{consentimientoInformadoController.agentesAplicar}" />
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_cantidadSesiones}" />
+                            <p:inputText id="cantidadSesionesPrevistasInput" value="#{consentimientoInformadoController.cantidadSesionesPrevistas}" />
+
+                        </p:panelGrid>
+                        <br/>
+                        <p:outputLabel value="#{bundle.ConsentimientoInformado_consentimiento}" />
+                        <br/>
+                        <br/>
+                        <p:panelGrid columns="2"
+                                     columnClasses="headerReport,headerReport">    
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_evaluacionEgreso}" />
+                            <p:inputTextarea id="evaluacionAlEgresoInput" value="#{consentimientoInformadoController.evaluacionAlEgreso}" />
+
+                            <p:outputLabel style="width: 50%;" value="Alta Provisoria:" />
+                            <p:selectOneButton id="altaProvisoriaSelect" value="#{consentimientoInformadoController.altaProvisoria}">
+                                <f:selectItem itemLabel="Si" itemValue="true" />
+                                <f:selectItem itemLabel="No" itemValue="false" />
+                            </p:selectOneButton>
+
+                            <p:outputLabel style="width: 50%;" value="Fecha Alta Provisoria:" />
+                            <p:calendar id="fechaAltaProvisoriaInput" 
                                         pattern="dd/MM/yyyy HH:mm:ss" 
                                         value="#{consentimientoInformadoController.fechaAltaProvisoria}" 
                                         locale="es"
                                         timeZone="GMT-3"
                                         />
-                    
-                    <p:outputLabel value="#{bundle.ConsentimientoInformado_altaDefinitiva}" />
-                    <p:selectOneButton id="altaDefinitivaSelect" value="#{consentimientoInformadoController.altaDefinitiva}">
-                        <f:selectItem itemLabel="Si" itemValue="true" />
-                        <f:selectItem itemLabel="No" itemValue="false" />
-                    </p:selectOneButton>
-                    
-                    <p:outputLabel value="#{bundle.ConsentimientoInformado_fechaAltaDefinitiva}" />
-                    <p:calendar id="fechaAltaDefinitivaInput" 
-                        pattern="dd/MM/yyyy HH:mm:ss" 
-                        value="#{consentimientoInformadoController.fechaAltaDefinitiva}" 
-                        locale="es"
-                        timeZone="GMT-3"
-                        />
-                    
-                </p:panelGrid>
-            </h:form>
-            
-            <h:form id="printExit" class="hiddenIfNotPrint showedOnPrint">
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_apellidoYNombre}" class="labelOnPrint" />
-                <p:outputLabel id="nombreApellidoLabel" value="#{consentimientoInformadoController.nombreApellido}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_domicilio}" class="labelOnPrint"/>
-                <p:outputLabel id="domicilioLabel" value="#{consentimientoInformadoController.domicilio}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_localidad}" class="labelOnPrint"/>
-                <p:outputLabel id="localidadLabel" value="#{consentimientoInformadoController.localidad}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_fechaDeNacimiento}" class="labelOnPrint"/>
-                <p:outputLabel id="fechaNacimientoLabel" value="#{consentimientoInformadoController.fechaNacimiento}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_lugar}" class="labelOnPrint"/>
-                <p:outputLabel id="estadoCivilLabel" value="#{consentimientoInformadoController.estadoCivil}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_tipoDoc}" class="labelOnPrint"/>
-                <p:outputLabel id="tipoDocumentoLabel" value="#{consentimientoInformadoController.tipoDocumento}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_numeroDoc}" class="labelOnPrint"/>
-                <p:outputLabel id="numeroDocumentoLabel" value="#{consentimientoInformadoController.numeroDocumento}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_profesionalDerivante}" class="labelOnPrint"/>
-                <p:outputLabel id="profesionalDerivanteLavel" value="#{consentimientoInformadoController.profesionalDerivante}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_matriculaProfesional}" class="labelOnPrint"/>
-                <p:outputLabel id="numeroMatriculaProfesionalLabel" value="#{consentimientoInformadoController.numeroMatriculaProfesional}" /> 
-                <br/>
-                <p:outputLabel value="Fecha de la Orden Médica:" class="labelOnPrint"/>
-                <p:outputLabel id="fechaOrdenMedicaLabel" value="#{consentimientoInformadoController.fechaOrdenMedica}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_obraSocial}" class="labelOnPrint"/>
-                <p:outputLabel id="obraSocialLabel" value="#{consentimientoInformadoController.obraSocial}" />
-                <br/>
-                <p:outputLabel value="Fecha de Autorización:" class="labelOnPrint"/>
-                <p:outputLabel id="fechaAutorizacionLabel" value="#{consentimientoInformadoController.fechaAutorizacion}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_cobertura}" class="labelOnPrint"/>
-                <p:outputLabel id="coberturaLabel" value="#{consentimientoInformadoController.cobertura}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_diagnostico}" class="labelOnPrint"/>
-                <p:outputLabel id="diagnosticoIngresoLabel" value="#{consentimientoInformadoController.diagnosticoIngreso}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_contraindicaciones}" class="labelOnPrint"/>
-                <p:outputLabel id="contraindicacionesLabel" value="#{consentimientoInformadoController.contraindicaciones}" />
-                <br/>
-                <p:outputLabel value="Antecedentes Personales:" class="labelOnPrint"/>
-                <p:outputLabel id="antecedentesPersonalesLabel" value="#{consentimientoInformadoController.antecedentesPersonales}" />
-                <br/>
-                <p:outputLabel value="Determinación de Agentes a Aplicar (Art. 14 Ley 10.392):" class="labelOnPrint"/>
-                <p:outputLabel id="agentesAplicarLabel" value="#{consentimientoInformadoController.agentesAplicar}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_cantidadSesiones}" class="labelOnPrint"/>
-                <p:outputLabel id="cantidadSesionesPrevistasLabel" value="#{consentimientoInformadoController.cantidadSesionesPrevistas}" />
-                <br/>
-                <p:outputLabel class="labelOnPrint" value="#{bundle.ConsentimientoInformado_consentimiento}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_evaluacionEgreso}" class="labelOnPrint"/>
-                <p:outputLabel id="evaluacionAlEgresoLabel" value="#{consentimientoInformadoController.evaluacionAlEgreso}" />
-                <br/>
-                <p:outputLabel value="Alta Provisoria" class="labelOnPrint"/>
-                <p:outputLabel id="altaProvisoriaLabel" value="#{consentimientoInformadoController.altaProvisoria}" />
-                <br/>
-                <p:outputLabel value="Fecha de Alta Provisoria" class="labelOnPrint"/>
-                <p:outputLabel id="fechaAltaProvisoriaLabel" value="#{consentimientoInformadoController.fechaAltaProvisoria}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_altaDefinitiva}" class="labelOnPrint"/>
-                <p:outputLabel id="altaDefinitivaLabel" value="#{consentimientoInformadoController.altaDefinitiva}" />
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_fechaAltaDefinitiva}" class="labelOnPrint"/>
-                <p:outputLabel id="fechaAltaDefinitivaLabel" value="#{consentimientoInformadoController.fechaAltaDefinitiva}" />                
-                <br/>
-                <br/>
-                <br/>
-                <br/>
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_firmaPaciente}" class="labelOnPrint" />
-                <p:outputLabel value="#{bundle.ConsentimientoInformado_profesional}" class="labelOnPrint" />
-                
-            </h:form>
-            
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_altaDefinitiva}" />
+                            <p:selectOneButton id="altaDefinitivaSelect" value="#{consentimientoInformadoController.altaDefinitiva}">
+                                <f:selectItem itemLabel="Si" itemValue="true" />
+                                <f:selectItem itemLabel="No" itemValue="false" />
+                            </p:selectOneButton>
+
+                            <p:outputLabel style="width: 50%;" value="#{bundle.ConsentimientoInformado_fechaAltaDefinitiva}" />
+                            <p:calendar id="fechaAltaDefinitivaInput" 
+                                        pattern="dd/MM/yyyy HH:mm:ss" 
+                                        value="#{consentimientoInformadoController.fechaAltaDefinitiva}" 
+                                        locale="es"
+                                        timeZone="GMT-3"
+                                        />
+
+                        </p:panelGrid>
+                    </div>
+                </h:form>
+
+                <h:form id="printExit" class="hiddenIfNotPrint showedOnPrint">
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_apellidoYNombre}" class="labelOnPrint"/>
+                    <p:outputLabel id="nombreApellidoLabel" value="#{consentimientoInformadoController.nombreApellido}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_domicilio}" class="labelOnPrint"/>
+                    <p:outputLabel id="domicilioLabel" value="#{consentimientoInformadoController.domicilio}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_localidad}" class="labelOnPrint"/>
+                    <p:outputLabel id="localidadLabel" value="#{consentimientoInformadoController.localidad}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_fechaDeNacimiento}" class="labelOnPrint"/>
+                    <p:outputLabel id="fechaNacimientoLabel" value="#{consentimientoInformadoController.fechaNacimiento}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </p:outputLabel>
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_lugar}" class="labelOnPrint"/>
+                    <p:outputLabel id="estadoCivilLabel" value="#{consentimientoInformadoController.estadoCivil}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_tipoDoc}" class="labelOnPrint"/>
+                    <p:outputLabel id="tipoDocumentoLabel" value="#{consentimientoInformadoController.tipoDocumento}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_numeroDoc}" class="labelOnPrint"/>
+                    <p:outputLabel id="numeroDocumentoLabel" value="#{consentimientoInformadoController.numeroDocumento}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_profesionalDerivante}" class="labelOnPrint"/>
+                    <p:outputLabel id="profesionalDerivanteLavel" value="#{consentimientoInformadoController.profesionalDerivante}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_matriculaProfesional}" class="labelOnPrint"/>
+                    <p:outputLabel id="numeroMatriculaProfesionalLabel" value="#{consentimientoInformadoController.numeroMatriculaProfesional}" /> 
+                    <br/>
+                    <p:outputLabel value="Fecha de la Orden Médica:" class="labelOnPrint"/>
+                    <p:outputLabel id="fechaOrdenMedicaLabel" value="#{consentimientoInformadoController.fechaOrdenMedica}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_obraSocial}" class="labelOnPrint"/>
+                    <p:outputLabel id="obraSocialLabel" value="#{consentimientoInformadoController.obraSocial}" />
+                    <br/>
+                    <p:outputLabel value="Fecha de Autorización:" class="labelOnPrint"/>
+                    <p:outputLabel id="fechaAutorizacionLabel" value="#{consentimientoInformadoController.fechaAutorizacion}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_cobertura}" class="labelOnPrint"/>
+                    <p:outputLabel id="coberturaLabel" value="#{consentimientoInformadoController.cobertura}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_diagnostico}" class="labelOnPrint"/>
+                    <p:outputLabel id="diagnosticoIngresoLabel" value="#{consentimientoInformadoController.diagnosticoIngreso}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_contraindicaciones}" class="labelOnPrint"/>
+                    <p:outputLabel id="contraindicacionesLabel" value="#{consentimientoInformadoController.contraindicaciones}" />
+                    <br/>
+                    <p:outputLabel value="Antecedentes Personales:" class="labelOnPrint"/>
+                    <p:outputLabel id="antecedentesPersonalesLabel" value="#{consentimientoInformadoController.antecedentesPersonales}" />
+                    <br/>
+                    <p:outputLabel value="Determinación de Agentes a Aplicar (Art. 14 Ley 10.392):" class="labelOnPrint"/>
+                    <p:outputLabel id="agentesAplicarLabel" value="#{consentimientoInformadoController.agentesAplicar}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_cantidadSesiones}" class="labelOnPrint"/>
+                    <p:outputLabel id="cantidadSesionesPrevistasLabel" value="#{consentimientoInformadoController.cantidadSesionesPrevistas}" />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel class="labelOnPrint" value="#{bundle.ConsentimientoInformado_consentimiento}" />
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_evaluacionEgreso}" class="labelOnPrint"/>
+                    <p:outputLabel id="evaluacionAlEgresoLabel" value="#{consentimientoInformadoController.evaluacionAlEgreso}" />
+                    <br/>
+                    <p:outputLabel value="Alta Provisoria" class="labelOnPrint"/>
+                    <p:outputLabel id="altaProvisoriaLabel" value="#{consentimientoInformadoController.altaProvisoria? 'Si':'No'}" />
+                    <br/>
+                    <p:outputLabel value="Fecha de Alta Provisoria" class="labelOnPrint"/>
+                    <p:outputLabel id="fechaAltaProvisoriaLabel" value="#{consentimientoInformadoController.fechaAltaProvisoria}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_altaDefinitiva}" class="labelOnPrint"/>
+                    <p:outputLabel id="altaDefinitivaLabel" value="#{consentimientoInformadoController.altaDefinitiva? 'Si':'No'}" />
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_fechaAltaDefinitiva}" class="labelOnPrint"/>
+                    <p:outputLabel id="fechaAltaDefinitivaLabel" value="#{consentimientoInformadoController.fechaAltaDefinitiva}" />                
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_firmaPaciente}" class="labelOnPrint" />
+                    <p:outputLabel value="#{bundle.ConsentimientoInformado_profesional}" class="labelOnPrint" />
+
+                </h:form>
+            </div>
         </ui:define>
     </ui:composition>
 

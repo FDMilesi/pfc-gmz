@@ -106,6 +106,7 @@ body{
     }
     .labelOnPrint{
         font-weight: bold;
+        padding-right: 5px;
     }
     .showedOnPrint {
         visibility: visible;
