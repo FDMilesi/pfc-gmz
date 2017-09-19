@@ -82,6 +82,27 @@
                                          validator="#{editTratamientoController.validarCantidadDeSesiones}" 
                                          disabled="#{editTratamientoController.selected.finalizado}"/>
                         </div>
+                        <!--      SESIONES A FAVOR      -->
+                        <div class="ui-g-12 ui-md-4 ui-lg-2">
+                            <p:outputLabel id="usarSesionesAFavorLbl" value="#{bundle.TratamientoLabel_usaSesiones}" for="tratamientosConSesionesAFavor" />
+                        </div>
+                        <div class="ui-g-12 ui-md-8 ui-lg-4">
+                            <p:selectOneMenu id="tratamientosConSesionesAFavor"
+                                             value="#{editTratamientoController.selected.tratamientoAsociado}"
+                                             rendered="#{empty editTratamientoController.selected.tratamientoAsociado}"
+                                             disabled="#{editTratamientoController.selected.finalizado or editTratamientoController.selected.particular}">
+                                <!--<p:ajax update="particular" event="change"/>-->
+                                <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/> 
+                                <f:selectItems value="#{editTratamientoController.tratamientosConSesionesAFavor}"
+                                               var="tratamientoConSesionesAFavor"
+                                               itemValue="#{tratamientoConSesionesAFavor}"
+                                               itemLabel="#{tratamientoConSesionesAFavor.toStringSesionesAFavor()}"
+                                               />
+                            </p:selectOneMenu>
+                            <p:outputLabel value="#{editTratamientoController.selected.tratamientoAsociado.toStringSesionesAFavor()}" 
+                                           id="tratamientoAsociado"
+                                           rendered="#{not empty editTratamientoController.selected.tratamientoAsociado}"/>
+                        </div>
                         <div class="ui-g-12 ui-md-4 ui-lg-2">
                             <p:outputLabel value="#{bundle.TratamientoLabel_observaciones}" for="observaciones" />
                         </div>

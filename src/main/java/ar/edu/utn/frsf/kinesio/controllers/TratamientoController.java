@@ -4,10 +4,15 @@ import ar.edu.utn.frsf.kinesio.entities.Tratamiento;
 import ar.edu.utn.frsf.kinesio.entities.Paciente;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil;
 import ar.edu.utn.frsf.kinesio.controllers.util.JsfUtil.PersistAction;
+import ar.edu.utn.frsf.kinesio.entities.Estudio;
 import ar.edu.utn.frsf.kinesio.gestores.TratamientoFacade;
+import ar.edu.utn.frsf.kinesio.gestores.util.Configuracion;
+import java.io.File;
 import java.io.IOException;
 
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -128,10 +133,25 @@ public class TratamientoController implements Serializable {
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("TratamientoUpdated"));
     }
+    
+    private void deleteEstudiosFromFileSystem(List<Estudio> estudioList){
+        
+        String baseDirectory = Configuracion.getInstance().getEstudiosProperties().getProperty("deltagestion.estudios.path")
+                    + Configuracion.getInstance().getEstudiosProperties().getProperty("deltagestion.estudios.folder");
+        
+        for(Estudio e : estudioList){
+            try {
+                Files.delete(Paths.get(baseDirectory + File.separatorChar + e.getNombrearchivo()));
+            } catch (IOException ex) {
+                Logger.getLogger(TratamientoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
 
     public void destroy() {
         if (this.getFacade().puedoEliminarTratamiento(selected)) {
             persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("TratamientoDeleted"));
+            deleteEstudiosFromFileSystem(selected.getEstudioList());
             selected = null;
             items = null;
         } else {

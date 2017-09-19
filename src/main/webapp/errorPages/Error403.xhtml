@@ -1,19 +1,28 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>Error</title>
         <style>
             .errorContainer{
-                font: 15px/22px arial, sans-serif;
+                width: 200px;
+                margin: 0 auto;
             }
         </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
     </h:head>
-    <h:body>
+    <h:body >
         <div class="errorContainer">
-            <p><b>Error 403</b></p>
-            <p>Usuario no autorizado</p>
+            <img width="200" height="200" src="#{resource['primefaces-omega2:images/ic_security_black_24px.svg']}"></img>
+            <div style="text-align: center;">
+                <p:outputLabel style="font-size: 20pt !important;">Acceso denegado</p:outputLabel>
+            </div>
+            <p:separator />
+            <p:outputLabel>El usuario no posee los permisos necesarios</p:outputLabel> <br></br>
+            <p:link value="Ir a la Agenda" outcome="/protected/agenda/Agenda.xhtml" />
         </div>
     </h:body>
 </html>

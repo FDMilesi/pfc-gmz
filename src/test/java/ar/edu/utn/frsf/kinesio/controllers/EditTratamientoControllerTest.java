@@ -76,7 +76,9 @@ public class EditTratamientoControllerTest {
     public void deberiaInicializarseYNoAdvertir() {
         context.getExternalContext().getRequestParameterMap().put("tratamiento", "1");
         when(tratamientoFacade.find(1)).thenReturn(tratamientoDePrueba);
-
+        when(tratamientoFacade.getTratamientosConSesionesAFavor(tratamientoDePrueba)).thenReturn(null);
+        editTratamientoController.setFacade(tratamientoFacade);
+        
         //Un tratamiento no particular y con el paciente con OS no deberia advertir
         //sobre la ausencia de la obra social
         tratamientoDePrueba.setParticular(false);
@@ -91,6 +93,8 @@ public class EditTratamientoControllerTest {
     public void deberiaInicializarseYAdvertir() {
         context.getExternalContext().getRequestParameterMap().put("tratamiento", "1");
         when(tratamientoFacade.find(1)).thenReturn(tratamientoDePrueba);
+        when(tratamientoFacade.getTratamientosConSesionesAFavor(tratamientoDePrueba)).thenReturn(null);
+        editTratamientoController.setFacade(tratamientoFacade);
 
         //Un tratamiento no particular y con el paciente SIN OS deberia advertir
         tratamientoDePrueba.setParticular(false);

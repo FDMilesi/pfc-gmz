@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.prefs.Preferences;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
@@ -135,7 +136,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
         return 0;
     }
-    
+
     public int validarSesionCuentaTrue(Sesion sesion, Tratamiento tratamiento) {
 
         if (!puedoAgregarSesion(tratamiento)) {
@@ -198,23 +199,45 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     private boolean superaCantidadSesionesEnElAnio(Tratamiento tratamiento) {
         return this.superaCantidadSesionesEnElAnioCargaMasiva(tratamiento, 1);
     }
-    
+
     public boolean superaCantidadSesionesEnElAnioCargaMasiva(Tratamiento tratamiento, int vecesARepetir) {
         TipoTratamientoObraSocial tipoTratamientoObraSocial = this.tipoTratamientoObraSocialFacade.find(new TipoTratamientoObraSocialPK(tratamiento.getTipoDeTratamiento().getId(), tratamiento.getPaciente().getObraSocial().getId()));
-
+        
+        int sesionesTotalesDisponibles;
+        //Si no existe la relacion tomo el valor por defecto
+        if (tipoTratamientoObraSocial == null) {
+            sesionesTotalesDisponibles = Preferences
+                    .userNodeForPackage(this.getClass())
+                    .getInt(TipoTratamientoObraSocialFacade.DEFAULT_TOPE_SESIONES_ANIO_PREFERENCE_KEY, 25);
+        } else {
+            sesionesTotalesDisponibles = (int) tipoTratamientoObraSocial.getTopeSesionesAño();
+        }
+        
         int resultado = this.cantidadSesionesEnElAnio(tratamiento.getPaciente());
 
-        return (resultado + vecesARepetir) > (int) tipoTratamientoObraSocial.getTopeSesionesAño();
+        return (resultado + vecesARepetir) > sesionesTotalesDisponibles;
     }
 
-    /***
-     * Calcula el restante de las sesiones en el año para tratamientos no particulares
+    /**
+     * *
+     * Calcula el restante de las sesiones en el año para tratamientos no
+     * particulares
+     *
      * @param tratamiento
-     * @return 
+     * @return
      */
     public int sesionesRestantesEnElAnio(Tratamiento tratamiento) {
         TipoTratamientoObraSocial tipoTratamientoObraSocial = this.tipoTratamientoObraSocialFacade.find(new TipoTratamientoObraSocialPK(tratamiento.getTipoDeTratamiento().getId(), tratamiento.getPaciente().getObraSocial().getId()));
-        int sesionesTotalesDisponibles = tipoTratamientoObraSocial.getTopeSesionesAño();
+        int sesionesTotalesDisponibles;
+        //Si no existe la relacion tomo el valor por defecto
+        if (tipoTratamientoObraSocial == null) {
+            sesionesTotalesDisponibles = Preferences
+                    .userNodeForPackage(this.getClass())
+                    .getInt(TipoTratamientoObraSocialFacade.DEFAULT_TOPE_SESIONES_ANIO_PREFERENCE_KEY, 25);
+        } else {
+            sesionesTotalesDisponibles = (int) tipoTratamientoObraSocial.getTopeSesionesAño();
+        }
+
         int sesionesRealizadas = this.cantidadSesionesEnElAnio(tratamiento.getPaciente());
 
         return sesionesTotalesDisponibles - sesionesRealizadas;
