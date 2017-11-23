@@ -222,6 +222,13 @@ public class ConsentimientoInformadoController implements Serializable {
     public boolean isAltaProvisoria() {
         return altaProvisoria;
     }
+    
+//    public String altaProvisoriaToString(){
+//        if (this.altaProvisoria)
+//            return "Si";
+//        else
+//            return "No";
+//    }
 
     public void setAltaProvisoria(boolean altaProvisoria) {
         this.altaProvisoria = altaProvisoria;
@@ -258,8 +265,4 @@ public class ConsentimientoInformadoController implements Serializable {
     public void setCobertura(String cobertura) {
         this.cobertura = cobertura;
     }
-
-    
-    
-
 }
