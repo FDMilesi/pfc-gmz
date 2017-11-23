@@ -13,7 +13,6 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
-import javax.faces.component.UISelectBoolean;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -45,7 +44,7 @@ public class AgendaSesionController extends AbstractSesionController implements 
      */
     public void puedoSetearCuentaTrue(FacesContext facesContext, UIComponent componente, Object checkBoxValue) {
         boolean cuenta = (boolean) checkBoxValue;
-        
+
         //Si ahora cuenta y antes no contaba
         if (cuenta && !getContaba()) {
             int resultadoValidacion = getFacade().validarSesionCuentaTrue(selected, selected.getTratamiento());
@@ -68,8 +67,9 @@ public class AgendaSesionController extends AbstractSesionController implements 
     public void validarCreacionNuevaSesion(FacesContext facesContext, UIComponent componente, Object value) {
         //Valido sólo si se selecciono un tratamiento para la sesion
         //La validacion de tratamiento required se hace en el campo tratamiento
-        if (selected.getTratamiento() != null)
+        if (selected.getTratamiento() != null) {
             this.validarCreacionNuevaSesion(facesContext, componente, value, selected.getTratamiento());
+        }
     }
 
     public void editSesion(@Observes AgendaController.VerSesionEvento evento) {
@@ -98,8 +98,6 @@ public class AgendaSesionController extends AbstractSesionController implements 
     public void updateFromAgenda() {
         this.resetearCuenta();
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SesionUpdated"));
-        //ahora se llama a setFechaHoraInicio para que setee starDate a la sesion, de modo que la Agenda se actualice
-        selected.setFechaHoraInicio(selected.getFechaHoraInicio());
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("sesion", selected);
         sesionModificadaEvento.fire(new SesionModificadaEvento());
     }
@@ -107,7 +105,7 @@ public class AgendaSesionController extends AbstractSesionController implements 
     public void destroyFromAgenda() {
         if (!selected.getTranscurrida()) {
             persist(PersistAction.DELETE, ResourceBundle.getBundle("/Bundle").getString("SesionDeleted"));
-            String sesionId = selected.getId();
+            Integer sesionId = selected.getIdSesion();
             if (!JsfUtil.isValidationFailed()) {
                 selected = null; // Remove selection
                 sesionEliminadaEvento.fire(new SesionEliminadaEvento(sesionId));
@@ -133,21 +131,21 @@ public class AgendaSesionController extends AbstractSesionController implements 
 
     public class SesionEliminadaEvento {
 
-        private String idSesionEliminada;
+        private Integer idSesionEliminada;
 
         public SesionEliminadaEvento() {
 
         }
 
-        public SesionEliminadaEvento(String idSesionEliminada) {
+        public SesionEliminadaEvento(Integer idSesionEliminada) {
             this.idSesionEliminada = idSesionEliminada;
         }
 
-        public String getIdSesionEliminada() {
+        public Integer getIdSesionEliminada() {
             return idSesionEliminada;
         }
 
-        public void setIdSesionEliminada(String idSesionEliminada) {
+        public void setIdSesionEliminada(Integer idSesionEliminada) {
             this.idSesionEliminada = idSesionEliminada;
         }
     }

@@ -1,7 +1,6 @@
 package ar.edu.utn.frsf.kinesio.gestores;
 
 import ar.edu.utn.frsf.kinesio.entities.MovimientoCaja;
-import com.sun.imageio.plugins.common.BogusColorSpace;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;

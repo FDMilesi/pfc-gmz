@@ -1,5 +1,6 @@
 package ar.edu.utn.frsf.kinesio.controllers;
 
+import ar.edu.utn.frsf.kinesio.controllers.util.SesionScheduleEventModel;
 import ar.edu.utn.frsf.kinesio.entities.Agenda;
 import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import ar.edu.utn.frsf.kinesio.test.util.AgendaControllerRequestScoped;
@@ -103,8 +104,11 @@ public class AgendaYSesionControllersIT {
         Agenda agenda = mock(Agenda.class);
         Sesion testSesion = new Sesion();
         testSesion.setIdSesion(1);
-        testSesion.setStartDate(new Date());
-        when(agenda.getEvent("1")).thenReturn(testSesion);
+        testSesion.setFechaHoraInicio(new Date());
+        
+        SesionScheduleEventModel testEvent = new SesionScheduleEventModel(testSesion);
+        
+        when(agendaController.getEvent("1")).thenReturn(testEvent);
 
         //SesionFacade mock. Supongo que valida bien (retorna 0 de error code)
         SesionFacade sesionFacadeMock = mock(SesionFacade.class);
@@ -113,7 +117,7 @@ public class AgendaYSesionControllersIT {
 
         //Mockeo Evento de move
         ScheduleEntryMoveEvent moveEvent = mock(ScheduleEntryMoveEvent.class);
-        when(moveEvent.getScheduleEvent()).thenReturn(testSesion);
+        when(moveEvent.getScheduleEvent()).thenReturn(testEvent);
         agendaController.setSesionFacade(sesionFacadeMock);
         agendaController.setSelected(agenda);
         sesionController.setFacade(sesionFacadeMock);
@@ -132,7 +136,8 @@ public class AgendaYSesionControllersIT {
 
         Sesion testSesion = new Sesion();
         testSesion.setIdSesion(1);
-
+        SesionScheduleEventModel testEvent = new SesionScheduleEventModel(testSesion);
+        
         //SesionFacade mock. Supongo que valida bien (retorna 0 de error code)
         SesionFacade sesionFacadeMock = mock(SesionFacade.class);
         when(sesionFacadeMock.editAndReturn(anyObject())).thenReturn(testSesion);
@@ -142,12 +147,12 @@ public class AgendaYSesionControllersIT {
 
         //Agenda mock
         Agenda agenda = mock(Agenda.class);
-        doNothing().when(agenda).addEvent(anyObject());
+        doNothing().when(agendaController).addEvent(anyObject());
         agendaController.setSelected(agenda);
 
         //Ejecuto la prueba
         sesionController.createFromAgenda();
-        verify(agenda).addEvent(testSesion);
+        verify(agendaController).addEvent(testEvent);
     }
 
     @Test
@@ -159,6 +164,8 @@ public class AgendaYSesionControllersIT {
         testSesion.setCuenta(Boolean.TRUE);
         testSesion.setFechaHoraInicio(new Date());
 
+        SesionScheduleEventModel testEvent = new SesionScheduleEventModel(testSesion);
+        
         SesionFacade sesionFacadeMock = mock(SesionFacade.class);
         when(sesionFacadeMock.validarFechaEdicionSesion(anyObject(), anyObject())).thenReturn(0);
         when(sesionFacadeMock.editAndReturn(anyObject())).thenReturn(testSesion);
@@ -168,13 +175,13 @@ public class AgendaYSesionControllersIT {
 
         //Agenda mock
         Agenda agenda = mock(Agenda.class);
-        doNothing().when(agenda).updateEvent(anyObject());
+        doNothing().when(agendaController).updateEvent(anyObject());
         agendaController.setSelected(agenda);
 
         //Ejecuto la prueba
         sesionController.antesDeEditar();
         sesionController.updateFromAgenda();
-        verify(agenda).updateEvent(testSesion);
+        verify(agendaController).updateEvent(testEvent);
     }
 
     @Test
@@ -186,6 +193,8 @@ public class AgendaYSesionControllersIT {
         testSesion.setTranscurrida(Boolean.FALSE);
         testSesion.setFechaHoraInicio(new Date());
 
+        SesionScheduleEventModel testEvent = new SesionScheduleEventModel(testSesion);
+        
         SesionFacade sesionFacadeMock = mock(SesionFacade.class);
         doNothing().when(sesionFacadeMock).remove(anyObject());
         sesionController.setFacade(sesionFacadeMock);
@@ -194,12 +203,12 @@ public class AgendaYSesionControllersIT {
 
         //Agenda mock
         Agenda agenda = mock(Agenda.class);
-        when(agenda.getEvent("3")).thenReturn(testSesion);
-        when(agenda.deleteEvent(anyObject())).thenReturn(Boolean.TRUE);
+        when(agendaController.getEvent("3")).thenReturn(testEvent);
+        when(agendaController.deleteEvent(anyObject())).thenReturn(Boolean.TRUE);
         agendaController.setSelected(agenda);
 
         //Ejecuto la prueba
         sesionController.destroyFromAgenda();
-        verify(agenda).deleteEvent(testSesion);
+        verify(agendaController).deleteEvent(testEvent);
     }
 }

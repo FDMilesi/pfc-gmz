@@ -163,23 +163,29 @@ public class GoogleContactsFacade {
             boolean tieneCelular = this.pacienteTieneCelular(paciente);
 
             String nombreContacto = this.generarNombreContacto(paciente, tieneCelular);
-            String idGoogleContact = "";
+            String idGoogleContact;
 
             try {
 
                 idGoogleContact = this.createContact(paciente, tieneCelular, nombreContacto);
 
+                DatosDeContacto datosContacto = datosDeContactoFacade.initDatosDeContacto(paciente);
+                datosContacto.setNombregooglecontacts(nombreContacto);
+                datosContacto.setDesearecibirwhatsapp(tieneCelular);
+                datosContacto.setIdgooglecontacts(idGoogleContact);
+
+                datosDeContactoFacade.create(datosContacto);
+                
             } catch (IOException | ServiceException ex) {
-                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
-                throw new EJBException(ex);
+                StringBuilder msjError = new StringBuilder("Error al sincronizar paciente sin dato de contacto. ");
+                msjError.append("Paciente: ");
+                msjError.append(paciente.toString());
+                msjError.append(". idPaciente: ");
+                msjError.append(paciente.getId());
+                msjError.append(". nombreContacto: ");
+                msjError.append(nombreContacto);
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, msjError.toString(), ex);
             }
-
-            DatosDeContacto datosContacto = datosDeContactoFacade.initDatosDeContacto(paciente);
-            datosContacto.setNombregooglecontacts(nombreContacto);
-            datosContacto.setDesearecibirwhatsapp(tieneCelular);
-            datosContacto.setIdgooglecontacts(idGoogleContact);
-
-            datosDeContactoFacade.create(datosContacto);
         }
 
         //Ahora con los no sincronizados
@@ -187,35 +193,50 @@ public class GoogleContactsFacade {
         boolean ahoraTieneCelular;
         String nuevoNombre;
         for (DatosDeContacto datoDeContacto : datosDeContactoNoSincronizados) {
-
-            ahoraTieneCelular = this.pacienteTieneCelular(datoDeContacto.getPaciente());
             try {
 
+                ahoraTieneCelular = this.pacienteTieneCelular(datoDeContacto.getPaciente());
+                
                 nuevoNombre = this.editContact(datoDeContacto.getPaciente(), datoDeContacto.getIdgooglecontacts(), ahoraTieneCelular);
 
+                datoDeContacto.setSincronizado(true);
+                datoDeContacto.setNombregooglecontacts(nuevoNombre);
+                datosDeContactoFacade.edit(datoDeContacto);
+                
             } catch (IOException | ServiceException ex) {
-                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
-                throw new EJBException(ex);
-            }
+                StringBuilder msjError = new StringBuilder("Error al sincronizar paciente des-sincronizado. ");
+                msjError.append("DatoDeContactoId: ");
+                msjError.append(datoDeContacto.getId());
+                msjError.append(". NombreContacto: ");
+                msjError.append(datoDeContacto.getNombregooglecontacts());
+                if (datoDeContacto.getPaciente() != null){
+                    msjError.append(". Paciente: ");
+                    msjError.append(datoDeContacto.getPaciente().toString());
+                    msjError.append(". idPaciente: ");
+                    msjError.append(datoDeContacto.getPaciente().getId());
+                }
 
-            datoDeContacto.setSincronizado(true);
-            datoDeContacto.setNombregooglecontacts(nuevoNombre);
-            datosDeContactoFacade.edit(datoDeContacto);
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, msjError.toString(), ex);
+            }
         }
 
         //Ahora los eliminados
         List<DatosDeContacto> eliminados = datosDeContactoFacade.getDatosContactoPacientesEliminados();
         for (DatosDeContacto eliminado : eliminados) {
             try {
-
+                
                 this.deleteContact(eliminado.getIdgooglecontacts());
-
+                datosDeContactoFacade.remove(eliminado);
+                
             } catch (IOException | ServiceException ex) {
-                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, null, ex);
-                throw new EJBException(ex);
-            }
+                StringBuilder msjError = new StringBuilder("Error al sincronizar paciente eliminado. ");
+                msjError.append("DatoDeContactoId: ");
+                msjError.append(eliminado.getId());
+                msjError.append(". NombreContacto: ");
+                msjError.append(eliminado.getNombregooglecontacts());
 
-            datosDeContactoFacade.remove(eliminado);
+                Logger.getLogger(GoogleContactsFacade.class.getName()).log(Level.SEVERE, msjError.toString(), ex);
+            }
         }
 
         String resultado = String.format(

@@ -6,10 +6,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-/**
- *
- *
- */
 @Stateless
 public class AgendaFacade extends AbstractFacade<Agenda> {
 
@@ -28,9 +24,10 @@ public class AgendaFacade extends AbstractFacade<Agenda> {
         super(Agenda.class);
     }
 
+    @Deprecated
     public Agenda getAgenda() {
         Agenda agenda = this.find((short) 1);
-        agenda.setSesiones(sesionFacade.getSesionesByAgenda(agenda));
+        //agenda.setSesiones(sesionFacade.getSesionesByAgenda(agenda));
         return agenda;
     }
 

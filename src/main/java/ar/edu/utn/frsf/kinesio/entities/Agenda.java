@@ -1,7 +1,6 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.primefaces.model.ScheduleEvent;
-import org.primefaces.model.ScheduleModel;
 
 @Entity
 @Table(name = "agenda")
@@ -27,7 +24,7 @@ import org.primefaces.model.ScheduleModel;
     @NamedQuery(name = "Agenda.findById", query = "SELECT a FROM Agenda a WHERE a.id = :id"),
     @NamedQuery(name = "Agenda.findByProfesional", query = "SELECT a FROM Agenda a WHERE a.profesional = :profesional")})
 
-public class Agenda implements Serializable, ScheduleModel {
+public class Agenda implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -109,64 +106,6 @@ public class Agenda implements Serializable, ScheduleModel {
     @Override
     public String toString() {
         return this.profesional;
-    }
-
-    @Override
-    public void addEvent(ScheduleEvent se) {
-        sesiones.add((Sesion) se);
-    }
-
-    @Override
-    public boolean deleteEvent(ScheduleEvent se) {
-        return sesiones.remove((Sesion) se);
-    }
-
-    @Override
-    public List<ScheduleEvent> getEvents() {
-        return new ArrayList<>(sesiones);
-    }
-
-    @Override
-    public ScheduleEvent getEvent(String id) {
-        for (ScheduleEvent event : sesiones) {
-            if (event.getId().equals(id)) {
-                return event;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public void updateEvent(ScheduleEvent se) {
-        int index = -1;
-
-        for (int i = 0; i < sesiones.size(); i++) {
-            if (sesiones.get(i).getId().equals(se.getId())) {
-                index = i;
-
-                break;
-            }
-        }
-
-        if (index >= 0) {
-            sesiones.set(index, (Sesion) se);
-        }
-    }
-
-    @Override
-    public int getEventCount() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean isEventLimit() {
-        return false;
     }
 
 }

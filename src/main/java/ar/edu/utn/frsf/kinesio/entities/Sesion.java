@@ -1,11 +1,9 @@
 package ar.edu.utn.frsf.kinesio.entities;
 
-import ar.edu.utn.frsf.kinesio.gestores.SesionFacade;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,13 +14,11 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import org.primefaces.model.ScheduleEvent;
 
 @Entity
-@EntityListeners(SesionFacade.class)
+//@EntityListeners(SesionFacade.class)
 @Table(name = "sesion")
 @XmlRootElement
 @NamedQueries({
@@ -31,6 +27,7 @@ import org.primefaces.model.ScheduleEvent;
     @NamedQuery(name = "Sesion.findByNumeroDeSesion", query = "SELECT s FROM Sesion s WHERE s.numeroDeSesion = :numeroDeSesion"),
     @NamedQuery(name = "Sesion.findByFechaHoraInicio", query = "SELECT s FROM Sesion s WHERE s.fechaHoraInicio = :fechaHoraInicio"),
     @NamedQuery(name = "Sesion.countByRangoFechaHoraInicio", query = "SELECT COUNT(s) FROM Sesion s WHERE s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
+    @NamedQuery(name = "Sesion.findSesionesByAgendaYRangoFechas", query = "SELECT s FROM Sesion s WHERE s.agenda = :agenda AND s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
     @NamedQuery(name = "Sesion.findByTratamiento", query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento ORDER BY s.fechaHoraInicio"),
     @NamedQuery(name = "Sesion.findByTratamientoQueCuentan",
             query = "SELECT s FROM Sesion s WHERE s.tratamiento = :tratamiento and s.cuenta = TRUE"),
@@ -47,9 +44,10 @@ import org.primefaces.model.ScheduleEvent;
             query = "SELECT COUNT(s) FROM Sesion s WHERE s.tratamiento.paciente = :paciente and s.cuenta = TRUE and s.tratamiento.particular = false and s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta"),
     @NamedQuery(name = "Sesion.findByRangoFechas", query = "SELECT s, d.nombregooglecontacts FROM Sesion s, DatosDeContacto d WHERE d.paciente = s.tratamiento.paciente AND d.desearecibirwhatsapp = TRUE AND s.fechaHoraInicio BETWEEN :fechaDesde AND :fechaHasta AND s.transcurrida = FALSE AND s.cuenta = TRUE")})
 
-public class Sesion implements Serializable, ScheduleEvent {
+public class Sesion implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -81,15 +79,6 @@ public class Sesion implements Serializable, ScheduleEvent {
     @JoinColumn(name = "tratamientoid", referencedColumnName = "id")
     @ManyToOne
     private Tratamiento tratamiento;
-
-    @Transient
-    private Date endDate;
-
-    @Transient
-    private Date startDate;
-
-    @Transient
-    private String styleClass;
 
     public Sesion() {
     }
@@ -144,7 +133,6 @@ public class Sesion implements Serializable, ScheduleEvent {
 
     public void setFechaHoraInicio(Date fechaHoraInicio) {
         this.fechaHoraInicio = fechaHoraInicio;
-        startDate = (Date) fechaHoraInicio.clone();
     }
 
     public Agenda getAgenda() {
@@ -187,71 +175,4 @@ public class Sesion implements Serializable, ScheduleEvent {
     public String toString() {
         return "Sesion[ id=" + idSesion + " ]";
     }
-
-    @Override
-    @Deprecated
-    public void setId(String string) {
-    }
-
-    @Override
-    public Object getData() {
-        return null;
-    }
-
-    @Override
-    public String getTitle() {
-        return tratamiento.getPaciente().toString();
-    }
-
-    @Override
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    @Override
-    public Date getEndDate() {
-        if (endDate == null) {
-            Long t = startDate.getTime();
-            endDate = new Date(t + (duracion * 60000));
-        }
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    @Override
-    public boolean isAllDay() {
-        return false;
-    }
-
-    @Override
-    public String getStyleClass() {
-        return this.styleClass;
-    }
-
-    public void setStyleClass(String styleClass) {
-        this.styleClass = styleClass;
-    }
-
-    @Override
-    public boolean isEditable() {
-        return !transcurrida;
-    }
-
-    @Override
-    public String getDescription() {
-        return "merca";
-    }
-
-    @Override
-    public String getId() {
-        return String.valueOf(idSesion);
-    }
-
 }

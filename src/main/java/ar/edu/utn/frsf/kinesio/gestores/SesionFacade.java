@@ -9,7 +9,6 @@ import ar.edu.utn.frsf.kinesio.entities.TipoTratamientoObraSocialPK;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.temporal.TemporalAdjuster;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -22,7 +21,6 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PostLoad;
 
 @Stateless
 public class SesionFacade extends AbstractFacade<Sesion> {
@@ -34,8 +32,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
 
     @PersistenceContext(unitName = "ar.edu.utn.frsf_kinesio_war_1.0-SNAPSHOTPU")
     private EntityManager em;
-
-    private StringBuilder styleClassDeLaSesion;
 
     @Override
     protected EntityManager getEntityManager() {
@@ -267,7 +263,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
         }
 
         sesion.setDuracion(sesion.getTratamiento().getTipoDeTratamiento().getDuracion());
-        this.setSesionStyle(sesion);
         Sesion retorno = getEntityManager().merge(sesion);
 
         this.recalcularNumerosDeSesion(this.getSesionesByTratamiento(sesion.getTratamiento()));
@@ -278,7 +273,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
     @Override
     public void remove(Sesion sesion) {
         super.remove(sesion);
-        //Probar esto
         this.recalcularNumerosDeSesion(this.getSesionesByTratamiento(sesion.getTratamiento()));
     }
 
@@ -301,12 +295,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             }
             i++;
         }
-    }
-
-    @PostLoad
-    void onPostLoad(Sesion s) {
-        s.setStartDate((Date) s.getFechaHoraInicio().clone());
-        setSesionStyle(s);
     }
 
     public List<Sesion> getSesionesByTratamiento(Tratamiento tratamiento) {
@@ -334,6 +322,13 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .setParameter("agenda", agenda).getResultList();
     }
 
+    public List<Sesion> getSesionesByAgendaYRango(Agenda agenda, Date fechaDesde, Date fechaHasta) {
+        return getEntityManager().createNamedQuery("Sesion.findSesionesByAgendaYRangoFechas")
+                .setParameter("fechaDesde", fechaDesde)
+                .setParameter("fechaHasta", fechaHasta)
+                .setParameter("agenda", agenda).getResultList();
+    }
+    
     public List<Object[]> getSesionesYContactoByRangoFechas(Date fechaDesde, Date fechaHasta) {
         return getEntityManager().createNamedQuery("Sesion.findByRangoFechas")
                 .setParameter("fechaDesde", fechaDesde)
@@ -341,47 +336,7 @@ public class SesionFacade extends AbstractFacade<Sesion> {
                 .getResultList();
     }
 
-    private void setIconToSesion(Sesion s) {
-        if (!s.getCuenta()) {
-            styleClassDeLaSesion.append("sesionNoCuenta");
-        } else if (s.getTranscurrida()) {
-            styleClassDeLaSesion.append("sesionTranscurrida");
-        }
-    }
-
-    private void colorearSesion(Sesion s) {
-        switch (s.getTratamiento().getTipoDeTratamiento().getId()) {
-            case 1:
-                styleClassDeLaSesion.append("fisiokinesioterapia");
-                break;
-            case 2:
-                styleClassDeLaSesion.append("kinesioterapiaRespiratoria");
-                break;
-            case 3:
-                styleClassDeLaSesion.append("drenajeLinfatico");
-                break;
-            case 4:
-                styleClassDeLaSesion.append("rehabilitacionNeurologica");
-                break;
-            case 5:
-                styleClassDeLaSesion.append("esteticaElectrodos");
-                break;
-            case 6:
-                styleClassDeLaSesion.append("esteticaMasajes");
-                break;
-            case 7:
-                styleClassDeLaSesion.append("gimnasiaTerapeutica");
-                break;
-        }
-    }
-
-    private void setSesionStyle(Sesion s) {
-        this.styleClassDeLaSesion = new StringBuilder();
-        colorearSesion(s);
-        styleClassDeLaSesion.append(" ");
-        setIconToSesion(s);
-        s.setStyleClass(styleClassDeLaSesion.toString());
-    }
+    
 
     public void marcarSesionesTranscurridas() {
         em.createQuery("UPDATE Sesion s SET s.transcurrida = TRUE WHERE s.transcurrida = FALSE and s.fechaHoraInicio < CURRENT_TIMESTAMP").executeUpdate();
@@ -407,7 +362,6 @@ public class SesionFacade extends AbstractFacade<Sesion> {
             sesion.setCuenta(true);
             sesion.setTratamiento(sesionARepetir.getTratamiento());
             sesion.setDuracion(sesionARepetir.getDuracion());
-            this.setSesionStyle(sesion);
             this.getEntityManager().persist(sesion);
             sesionesCreadas.add(sesion);
         }

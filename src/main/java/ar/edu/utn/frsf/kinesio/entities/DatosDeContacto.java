@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "DatosDeContacto.findByIdgooglecontacts", query = "SELECT d FROM DatosDeContacto d WHERE d.idgooglecontacts = :idgooglecontacts"),
     @NamedQuery(name = "DatosDeContacto.findByNombregooglecontacts", query = "SELECT d FROM DatosDeContacto d WHERE d.nombregooglecontacts = :nombregooglecontacts"),
     @NamedQuery(name = "DatosDeContacto.findByPaciente", query = "SELECT d FROM DatosDeContacto d WHERE d.paciente = :paciente"),
-    @NamedQuery(name = "DatosDeContacto.findBySincronizado", query = "SELECT d FROM DatosDeContacto d WHERE d.sincronizado = :sincronizado"),
+    @NamedQuery(name = "DatosDeContacto.findBySincronizado", query = "SELECT d FROM DatosDeContacto d WHERE d.sincronizado = :sincronizado and d.paciente IS NOT NULL"),
     @NamedQuery(name = "DatosDeContacto.pacientesSinDatosContacto", query = "SELECT p FROM Paciente p WHERE p NOT IN (SELECT d.paciente FROM DatosDeContacto d)"),
     @NamedQuery(name = "DatosDeContacto.DatosContactoPacientesEliminados", query = "SELECT d FROM DatosDeContacto d WHERE d.paciente IS NULL"),
     @NamedQuery(name = "DatosDeContacto.findByDesearecibirwhatsapp", query = "SELECT d FROM DatosDeContacto d WHERE d.desearecibirwhatsapp = :desearecibirwhatsapp")})
