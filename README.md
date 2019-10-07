@@ -1,4 +1,7 @@
 # pfc-gmz
+
+REPO MIGRADO A AZURE DEVOPS
+
 Notas:
 
 ALTER TABLE public.tratamiento
